@@ -1,1 +1,7 @@
 venv
+django/db.sqlite3
+*/__pycache__/
+django/blog/migrations/0*.py
+django/blog/__pycache__/
+django/blog/migrations/__pycache__/
+django/mysite/__pycache__/
