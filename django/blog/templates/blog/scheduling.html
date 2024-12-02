@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Schedule Creation</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<div id="background-container">
+    <!-- Header Section -->
+    <header>
+        <!--navigation bar with logo and etc-->
+        <p>navigation bar</p>
+    </header>
+  <!-- Recurring and One-Time Toggle -->
+  <div class="toggle-container">
+    <button id="weekly-btn" class="toggle-btn active">Weekly</button>
+    <button id="one-time-btn" class="toggle-btn">One-Time</button>
+  </div>
+
+  <!-- Form Section -->
+  <div id="form-container">
+    <!-- Recurring Form -->
+    <form id="recurring-form" class="schedule-form active">
+      <h2>Schedule Weekly Recurring Event</h2>
+      <label><input type="text" name="event-name" placeholder="Event Name: "></label>
+      <label><input type="text" name="location" placeholder="Location/Video Call URL:"></label>     
+      <label for="start-time" style="display: inline-block; margin-right: 10px; font-size: 10; color: grey;">Start Time:
+        <input type="datetime-local" name="start-time" style="display: inline-block;"></label>
+        </br>
+        <label for="end-time" style="display: inline-block; margin-right: 10px; font-size: 10; color: grey;">End Time:
+            <input type="datetime-local" name="end-time" style="display: inline-block;"></label>
+      <label><input type="number" name="participants" placeholder="Number of Participants Allowed: "></label>
+      <label>Time Slot Length: </br>
+        <select name="slot-length">
+            <option value="slot-length-1">15 minutes</option>
+            <option value="slot-length-2">30 minutes</option>
+            <option value="slot-length-3">45 minutes</option>
+            <option value="slot-length-4">1 hour</option>
+            <option value="slot-length-5">NA</option>
+        </select>
+      </label>
+      <label>Calendar: </br>
+        <select name="calendar">
+            <!-- to be dynmaic depending on the calendar options eg. COMP307 OH calendar-->
+          <option value="calendar-1">Calendar 1</option>
+          <option value="calendar-2">Calendar 2</option>
+        </select>
+      </label>
+      <label><textarea name="notes" placeholder="Notes/Attachments: "></textarea></label>
+      <button type="reset" class="reset-btn">Reset</button>
+      <button type="submit" class="save-btn">Save</button>
+    </form>
+
+    <!-- One-Time Form -->
+    <form id="one-time-form" class="schedule-form">
+      <h2>Schedule One-Time Event</h2>
+      <label><input type="text" name="event-name" placeholder="Event Name: "></label>
+      <label><input type="text" name="location" placeholder="Location/Video Call URL:"></label>     
+      <label for="start-time" style="display: inline-block; margin-right: 10px; font-size: 10; color: grey;">Start Time:
+        <input type="datetime-local" name="start-time" style="display: inline-block;"></label>
+        </br>
+        <label for="end-time" style="display: inline-block; margin-right: 10px; font-size: 10; color: grey;">End Time:
+            <input type="datetime-local" name="end-time" style="display: inline-block;"></label>
+      <label><input type="number" name="participants" placeholder="Number of Participants Allowed: "></label>
+      <label>Time Slot Length: </br>
+        <select name="slot-length">
+            <option value="slot-length-1">15 minutes</option>
+            <option value="slot-length-2">30 minutes</option>
+            <option value="slot-length-3">45 minutes</option>
+            <option value="slot-length-4">1 hour</option>
+            <option value="slot-length-5">NA</option>
+        </select>
+      </label>
+      <label>Calendar: </br>
+        <select name="calendar">
+            <!-- to be dynmaic depending on the calendar options eg. COMP307 OH calendar-->
+          <option value="calendar-1">Calendar 1</option>
+          <option value="calendar-2">Calendar 2</option>
+        </select>
+      </label>
+      <label><textarea name="notes" placeholder="Notes/Attachments: "></textarea></label>
+      <button type="reset" class="reset-btn">Reset</button>
+      <button type="submit" class="save-btn">Save</button>
+    </form>
+  </div>
+</div>
+
+  <!-- Confirmation Pop-Up Modal -->
+<div id="confirmation-popup" class="modal">
+    <div class="modal-content">
+    <span class="close-btn" id="close-popup">&times;</span>
+    <p>Slot Scheduled! <br> A confirmation email has been sent to: <span id="email-display">[Email]</span></p>
+    <p>Information: <span id="popup-info">[Event details go here]</span></p>
+    <p>Link to Share: <span id="link-display">[Link]</span></p>
+    <button id="copy-link" class="modal-btn">Copy Link</button>
+    <button id="return-home" class="modal-btn">Home</button>
+    </div>
+</div> 
+  
+
+  <script src="scripts.js"></script>
+</body>
+</html>
