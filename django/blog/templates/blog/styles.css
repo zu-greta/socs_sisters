@@ -3,12 +3,17 @@ body {
     font-family: 'Inter', Helvetica, sans-serif;
     background-color: #ffffff;
     color: #000;
-    padding: 20px;
+    margin: 0;
   }
 
   #background-container.disabled {
     pointer-events: none;
     opacity: 0.5; 
+  }
+
+  #background-container {
+    padding: 30px;
+    margin: auto;
   }
   
   /* Toggle Buttons */
@@ -88,6 +93,33 @@ body {
     font: 16px/26px 'Inter', sans-serif;
     position: relative;
   }
+
+  #nav-bar {
+    position: sticky;
+    top: 0;
+    overflow: hidden;
+    background-color: #ae0e1d;
+  }
+
+  #nav-bar a {
+    float: left;
+    display: block;
+    color: #ffffff;
+    text-align: center;
+    padding: 14px;
+    text-decoration: none;
+  }
+
+  #nav-bar a:hover {
+    background-color: #ed1b2f;
+    color: #ffffff;
+  }
+  
+  #nav-bar a.active {
+    background-color: #ed1b2f;
+    color: white;
+  }
+  
   
   label {
     display: block;
