@@ -1,11 +1,10 @@
-{% load static %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Schedule Creation</title>
-  <link rel="stylesheet" href="{% static 'styles.css' %}">
+  <link rel="stylesheet" href="styles.css">
 </head>
 <body>
     <!--navigation bar with logo and etc-->
@@ -14,29 +13,8 @@
         <a href="#">PLACEHOLDER!</a>
         <a href="#">PLACEHOLDER!</a>
     </div>
-
-    <div id="schedule-content">
-      <h2>Scheduled Events FOR TESTING DATABASE ONLY</h2>
-      {% if schedules %}
-          <ul>
-            {% for schedule in schedules %}
-              <li>
-                <strong>Title:</strong> {{ schedule.title }} <br>
-                <strong>Author:</strong> {{ schedule.author }} <br>
-                <strong>Created Date:</strong> {{ schedule.created_date|date:"F j, Y, g:i a" }} <br>
-                <strong>Details:</strong> {{ schedule.text }}
-              </li>
-              <hr>
-            {% endfor %}
-          </ul>
-      {% else %}
-          <p>No events scheduled yet.</p>
-      {% endif %}
-    </div>
     
 <div id="background-container">
-    
-    
   <!-- Recurring and One-Time Toggle -->
   <div class="toggle-container">
     <button id="weekly-btn" class="toggle-btn active">Weekly</button>
@@ -46,9 +24,7 @@
   <!-- Form Section -->
   <div id="form-container">
     <!-- Recurring Form -->
-    <form id="recurring-form" class="schedule-form active" onsubmit="return validationForm()" methods="post">
-      {% csrf_token %}
-      {{ form.as_p }}
+    <form id="recurring-form" class="schedule-form active" onsubmit="return validationForm()">
       <h2>Schedule Weekly Recurring Event</h2>
       <label><input type="text" name="event-name" placeholder="Event Name: "></label>
       <label><input type="text" name="location" placeholder="Location/Video Call URL:"></label>     
@@ -124,8 +100,7 @@
     <button id="return-home" class="modal-btn">Home</button>
     </div>
 </div> 
-  
 
-  <script src="{% static 'scripts.js' %}"></script>
+  <script src="scripts.js"></script>
 </body>
 </html>
