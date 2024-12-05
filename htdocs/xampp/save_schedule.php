@@ -22,10 +22,22 @@ if (!$db) {
     $notes = $_POST['notes'];
 
     // Prepare the SQL statement to insert the data into the SCHEDULEEVENTS table
-    $sql = "INSERT INTO SCHEDULEEVENTS (NAME, LOCATION, STARTDATE, ENDDATE, PARTICIPANTS, SLOT, CALENDAR, NOTES)
-            VALUES ('$name', '$location', '$start_time', '$end_time', '$participants', '$slot', '$calendar', '$notes')";
+    // $sql = "INSERT INTO SCHEDULEEVENTS (NAME, LOCATION, STARTDATE, ENDDATE, PARTICIPANTS, SLOT, CALENDAR, NOTES)
+    //         VALUES ('$name', '$location', '$start_time', '$end_time', '$participants', '$slot', '$calendar', '$notes')";
 
-    $ret = $db->exec($sql);
+    $stmt = $db->prepare('INSERT INTO SCHEDULEEVENTS (NAME, LOCATION, STARTDATE, ENDDATE, PARTICIPANTS, SLOT, CALENDAR, NOTES) VALUES (?, ?, ?, ?, ?, ?, ?, ?)');
+    $stmt->bindValue(1, $name, SQLITE3_TEXT);
+    $stmt->bindValue(2, $location, SQLITE3_TEXT);
+    $stmt->bindValue(3, $start_time, SQLITE3_TEXT);
+    $stmt->bindValue(4, $end_time, SQLITE3_TEXT);
+    $stmt->bindValue(5, $participants, SQLITE3_INTEGER);
+    $stmt->bindValue(6, $slot, SQLITE3_INTEGER);
+    $stmt->bindValue(7, $calendar, SQLITE3_TEXT);
+    $stmt->bindValue(8, $notes, SQLITE3_TEXT);
+    //$stmt->execute();
+
+    //$ret = $db->exec($sql);
+    $ret = $stmt->execute();
     if (!$ret) {
         echo $db->lastErrorMsg();
     } else {

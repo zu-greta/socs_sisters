@@ -13,7 +13,7 @@
 
    $sql =<<<EOF
       CREATE TABLE SCHEDULEEVENTS
-      (ID INT PRIMARY KEY     NOT NULL,
+      (ID INT PRIMARY KEY     AUTOINCREMENT,
       NAME           TEXT    NOT NULL,
       LOCATION      TEXT    NOT NULL,
       STARTDATE      TEXT    NOT NULL,

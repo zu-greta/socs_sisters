@@ -30,9 +30,34 @@ document.addEventListener("DOMContentLoaded", () => {
       if (!validationForm()) {
         return; // Stop if the form is invalid
       }
+
+      // Retrieve form inputs
+      const eventName = document.getElementById('name').value;
+      const location = document.getElementById('location').value;
+      const startTime = document.getElementById('start_time').value;
+      const endTime = document.getElementById('end_time').value;
+      const participants = document.getElementById('participants').value;
+      const slot = document.getElementById('slot').value;
+      const calendar = document.getElementById('calendar').value;
+      const notes = document.getElementById('notes').value;
+
       popup.style.display = "block";
-      const popupInfo = document.getElementById("popup-info");
-      popupInfo.textContent = "[event informations go here]";
+      // const popupInfo = document.getElementById("popup-info");
+      // popupInfo.textContent = "[event informations go here]";
+      // Populate the popup-info div
+      const popupInfo = document.getElementById('popup-info');
+      popupInfo.innerHTML = `
+        <p><strong>Event Name:</strong> ${eventName}</p>
+        <p><strong>Location:</strong> ${location}</p>
+        <p><strong>Start Time:</strong> ${startTime}</p>
+        <p><strong>End Time:</strong> ${endTime}</p>
+        <p><strong>Participants:</strong> ${participants}</p>
+        <p><strong>Slot:</strong> ${slot}</p>
+        <p><strong>Calendar:</strong> ${calendar}</p>
+        <p><strong>Notes:</strong> ${notes}</p>
+      `;
+      const popup = document.querySelector('.confirmation-popup');
+      popup.classList.add('visible');
     });
   });
 
@@ -125,7 +150,7 @@ document.addEventListener("DOMContentLoaded", () => {
     window.location.href = "/home";
   });
   
-    document.getElementById("copy-link").addEventListener("click", () => {
-      alert("Link copied to clipboard!");
-    });
+    // document.getElementById("copy-link").addEventListener("click", () => {
+    //   alert("Link copied to clipboard!");
+    // });
   });
