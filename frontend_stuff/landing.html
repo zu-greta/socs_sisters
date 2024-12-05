@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Landing Page</title>
+    <style>
+
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px;
+            border-bottom: 1px solid #ddd;
+        }
+
+        header img {
+            height: 50px;
+        }
+
+        header h1 {
+            margin: 0;
+            font-size: 1.5rem;
+        }
+
+        nav {
+            display: flex;
+            gap: 10px;
+        }
+
+        nav button {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        nav button:first-child {
+            background-color: #ddd;
+        }
+
+        nav button:last-child {
+            color: white;
+        }
+
+        main {
+            text-align: center;
+            padding: 50px 20px;
+        }
+
+        main h2 {
+            font-size: 2rem;
+            margin-bottom: 10px;
+        }
+
+        main p {
+            font-size: 1rem;
+            color: #555;
+        }
+
+        main button {
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            margin-top: 20px;
+            cursor: pointer;
+        }
+
+        footer {
+            background-color: #f0f0f0;
+            padding: 20px 10px;
+        }
+
+        footer .footer-icons {
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+        }
+
+        footer .icon-container {
+            text-align: center;
+        }
+
+        footer .icon-container img {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+        }
+
+        footer .icon-container p {
+            margin-top: 10px;
+            font-size: 0.9rem;
+            color: #555;
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div style="display: flex; align-items: center; gap: 10px;">
+            <img src="png/logo.png" alt="Logo">
+            <h1>SOC-cessful Schedule</h1>
+        </div>
+        <nav>
+            <button onclick="window.location.href='login.html'">Log In</button>
+            <button onclick="window.location.href='register.html'">Register</button>
+        </nav>
+    </header>
+
+    <main>
+        <h2>Insert Long Slogan Here</h2>
+        <p>Still slogan</p>
+        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur gravida, quam et ullamcorper semper.</p>
+        <button onclick="window.location.href='register.html'">Register</button>
+    </main>
+
+    <footer>
+        <div class="footer-icons">
+            <div class="icon-container">
+                <img src="png/placeholder.png" alt="Icon 1">
+                <p>Text about using URLs to book appointments, for anyone</p>
+            </div>
+            <div class="icon-container">
+                <img src="png/placeholder.png" alt="Icon 2">
+                <p>Text about having to be a member to create a schedule</p>
+            </div>
+            <div class="icon-container">
+                <img src="png/placeholder.png" alt="Icon 3">
+                <p>Text about having to be a member to send requests</p>
+            </div>
+        </div>
+    </footer>
+
+</body>
+</html>

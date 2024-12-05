@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Poll Creation Page</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f9f9f9;
+        }
+        .container {
+            max-width: 600px;
+            margin: 20px auto;
+            padding: 20px;
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+        }
+        h1 {
+            text-align: center;
+        }
+        label {
+            font-weight: bold;
+            margin-top: 10px;
+        }
+        select, input, button, textarea {
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            box-sizing: border-box;
+        }
+        .button-container {
+            display: flex;
+            justify-content: space-between;
+        }
+        .poll-url {
+            margin-top: 20px;
+            padding: 10px;
+            background-color: #e9e9e9;
+            border-radius: 5px;
+        }
+        .hidden {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Create a Meeting Poll</h1>
+        <form id="pollForm">
+            <label for="poll-title">Poll Title</label>
+            <input type="text" id="poll-title" placeholder="Enter poll title (e.g., Project Discussion Meeting)" required>
+
+            <label for="poll-dates">Select Dates</label>
+            <input type="date" id="poll-dates" required>
+
+            <label for="poll-times">Select Start Time</label>
+            <select id="poll-times" required>
+                <!-- Populated dynamically -->
+            </select>
+
+            <label for="meeting-length">Meeting Length (minutes)</label>
+            <select id="meeting-length" required>
+                <option value="15">15 minutes</option>
+                <option value="30">30 minutes</option>
+                <option value="45">45 minutes</option>
+                <option value="60">60 minutes</option>
+            </select>
+
+            <div class="button-container">
+                <button type="button" onclick="addDateAndTime()">Add Date & Time</button>
+            </div>
+
+            <label for="poll-summary">Available Slots</label>
+            <textarea id="poll-summary" rows="5" readonly></textarea>
+
+            <button type="button" onclick="generatePollURL()">Generate Poll URL</button>
+        </form>
+
+        <div id="poll-result" class="hidden">
+            <h2>Poll Created!</h2>
+            <p>Your poll URL:</p>
+            <div class="poll-url" id="poll-url"></div>
+            <button onclick="copyToClipboard()">Copy URL</button>
+        </div>
+    </div>
+
+    <script>
+        const availableSlots = []; // Stores the list of available dates and times
+    
+        // Populate the time dropdown with values ending in 0 or 5 between 8:00 AM and 9:00 PM
+        function populateTimeDropdown() {
+            const timeDropdown = document.getElementById('poll-times');
+            const startTime = new Date(0, 0, 0, 8, 0); // Start at 8:00 AM
+            const endTime = new Date(0, 0, 0, 21, 0); // End at 9:00 PM
+    
+            while (startTime <= endTime) {
+                const hours = startTime.getHours().toString().padStart(2, "0");
+                const minutes = startTime.getMinutes().toString().padStart(2, "0");
+                const timeString = `${hours}:${minutes}`;
+                const option = document.createElement("option");
+                option.value = timeString;
+                option.textContent = formatTimeAMPM(hours, minutes);
+                timeDropdown.appendChild(option);
+                startTime.setMinutes(startTime.getMinutes() + 5); // Increment by 5 minutes
+            }
+        }
+    
+        // Format time in AM/PM format
+        function formatTimeAMPM(hours, minutes) {
+            const hour = parseInt(hours);
+            const ampm = hour >= 12 ? "PM" : "AM";
+            const formattedHour = hour % 12 === 0 ? 12 : hour % 12; // Convert 24-hour to 12-hour format
+            return `${formattedHour}:${minutes} ${ampm}`;
+        }
+    
+        populateTimeDropdown(); // Populate the dropdown on page load
+    
+        function addDateAndTime() {
+            const dateInput = document.getElementById('poll-dates');
+            const timeInput = document.getElementById('poll-times');
+            const lengthInput = document.getElementById('meeting-length');
+            const summaryField = document.getElementById('poll-summary');
+    
+            const selectedDate = dateInput.value;
+            const selectedStartTime = timeInput.value; // Directly from dropdown
+            const meetingLength = parseInt(lengthInput.value);
+    
+            if (!selectedDate || !selectedStartTime) {
+                alert("Please select both a date and a start time.");
+                return;
+            }
+    
+            // Calculate end time
+            const [startHours, startMinutes] = selectedStartTime.split(":").map(Number);
+            const startDateTime = new Date(0, 0, 0, startHours, startMinutes);
+            startDateTime.setMinutes(startDateTime.getMinutes() + meetingLength);
+    
+            const endHours = startDateTime.getHours().toString().padStart(2, "0");
+            const endMinutes = startDateTime.getMinutes().toString().padStart(2, "0");
+            const endTime = `${endHours}:${endMinutes}`;
+    
+            const formattedStartTime = formatTimeAMPM(startHours, startMinutes);
+            const formattedEndTime = formatTimeAMPM(endHours, endMinutes);
+            const dateTimeSlot = `${selectedDate}: ${formattedStartTime} - ${formattedEndTime}`;
+            availableSlots.push(dateTimeSlot);
+    
+            summaryField.value = availableSlots.join("\n");
+    
+            dateInput.value = ""; // Reset the date picker
+            timeInput.value = ""; // Reset the time picker
+            lengthInput.value = "15"; // Reset the meeting length
+        }
+    
+        function generatePollURL() {
+            if (availableSlots.length === 0) {
+                alert("Please add at least one date and time slot before generating the poll URL.");
+                return;
+            }
+    
+            const pollTitle = document.getElementById('poll-title').value;
+    
+            if (!pollTitle) {
+                alert("Please provide a title for the poll.");
+                return;
+            }
+    
+            // Generate a unique poll URL
+            const uniqueID = Math.random().toString(36).substr(2, 9); // Random unique ID
+            const pollURL = `https://example.com/poll/${uniqueID}`;
+    
+            // Show the poll URL
+            document.getElementById('poll-url').innerText = pollURL;
+            document.getElementById('poll-result').classList.remove('hidden');
+        }
+    
+        function copyToClipboard() {
+            const pollURLField = document.getElementById('poll-url');
+            navigator.clipboard.writeText(pollURLField.innerText).then(() => {
+                alert("Poll URL copied to clipboard!");
+            });
+        }
+    </script>
+    
+</body>
+</html>
