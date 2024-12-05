@@ -30,13 +30,30 @@
       <h2>Schedule Weekly Recurring Event</h2>
       <label><input type="text" name="name" required placeholder="Event Name: "></label>
       <label><input type="text" name="location" required placeholder="Location/Video Call URL:"></label>     
+      <!-- day of the week: choose from monday to sunday buttons which days of the week it happens on each week -->
+      <label style="display: block; justify-content: center;">Days of the Week: </br>
+        <!-- center these and make it prettier! -->
+        <input type="checkbox" name="day" value="monday">Monday
+        <input type="checkbox" name="day" value="tuesday">Tuesday
+        <input type="checkbox" name="day" value="wednesday">Wednesday
+        <input type="checkbox" name="day" value="thursday">Thursday
+        <input type="checkbox" name="day" value="friday">Friday
+        <input type="checkbox" name="day" value="saturday">Saturday
+        <input type="checkbox" name="day" value="sunday">Sunday
+      </label>
+       <!-- time of the day for all the days selected -->
       <label for="start_time" style="display: inline-block; margin-right: 10px; font-size: 10; color: grey;">Start Time:
-        <input type="datetime-local" name="start_time" style="display: inline-block;" required></label>
-        </br>
+        <input type="time" name="start_time" style="display: inline-block;" required></label>
         <label for="end_time" style="display: inline-block; margin-right: 10px; font-size: 10; color: grey;">End Time:
-            <input type="datetime-local" name="end_time" style="display: inline-block;" required></label>
+            <input type="time" name="end_time" style="display: inline-block;" required></label>
+      <!-- start day and end day of the month -->
+       </br>
+      <label for="start_date" style="display: inline-block; margin-right: 10px; font-size: 10; color: grey;">Start Date:
+        <input type="date" name="start_date" style="display: inline-block;" required></label>
+        <label for="end_date" style="display: inline-block; margin-right: 10px; font-size: 10; color: grey;">End Date:
+            <input type="date" name="end_date" style="display: inline-block;" required></label>
       <label><input type="number" name="participants" required placeholder="Number of Participants Allowed: "></label>
-      <label>Time Slot Length: </br>
+      <label>Length of each meeting: </br>
         <select name="slot">
             <option value="slot-length-1">15 minutes</option>
             <option value="slot-length-2">30 minutes</option>
