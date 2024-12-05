@@ -99,6 +99,7 @@ body {
     top: 0;
     overflow: hidden;
     background-color: #ae0e1d;
+    z-index: 9999;
   }
 
   #nav-bar a {
@@ -133,6 +134,11 @@ body {
     width: 90%;
     padding: 8px;
     margin-top: 5px;
+  }
+
+  /* recurring form taking half the page */
+  #recurring-form, #one-time-form, #calendar-container {
+    width: 50%;
   }
   
   /* Modal Background */

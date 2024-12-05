@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Schedule Creation</title>
   <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 </head>
 <body>
     <!--navigation bar with logo and etc-->
@@ -23,17 +24,19 @@
 
   <!-- Form Section -->
   <div id="form-container">
+
     <!-- Recurring Form -->
-    <form id="recurring-form" class="schedule-form active" onsubmit="return validationForm()">
+    <form id="recurring-form" class="schedule-form active" action="save_schedule.php" method="POST" onsubmit="return validationForm()">
+      {% csrf_token %}
       <h2>Schedule Weekly Recurring Event</h2>
-      <label><input type="text" name="event-name" placeholder="Event Name: "></label>
-      <label><input type="text" name="location" placeholder="Location/Video Call URL:"></label>     
+      <label><input type="text" name="event-name" required placeholder="Event Name: "></label>
+      <label><input type="text" name="location" required placeholder="Location/Video Call URL:"></label>     
       <label for="start-time" style="display: inline-block; margin-right: 10px; font-size: 10; color: grey;">Start Time:
-        <input type="datetime-local" name="start-time" style="display: inline-block;"></label>
+        <input type="datetime-local" name="start-time" style="display: inline-block;" required></label>
         </br>
         <label for="end-time" style="display: inline-block; margin-right: 10px; font-size: 10; color: grey;">End Time:
-            <input type="datetime-local" name="end-time" style="display: inline-block;"></label>
-      <label><input type="number" name="participants" placeholder="Number of Participants Allowed: "></label>
+            <input type="datetime-local" name="end-time" style="display: inline-block;" required></label>
+      <label><input type="number" name="participants" required placeholder="Number of Participants Allowed: "></label>
       <label>Time Slot Length: </br>
         <select name="slot-length">
             <option value="slot-length-1">15 minutes</option>
@@ -100,6 +103,45 @@
     <button id="return-home" class="modal-btn">Home</button>
     </div>
 </div> 
+<script>
+  // JavaScript to get the event details from the URL and display them in the confirmation popup
+  window.onload = function() {
+      // Check if the page URL has the query parameters
+      const urlParams = new URLSearchParams(window.location.search);
+  
+      // Get event details from the URL
+      const eventName = urlParams.get('event_name');
+      const location = urlParams.get('location');
+      const startTime = urlParams.get('start_time');
+      const endTime = urlParams.get('end_time');
+      const participants = urlParams.get('participants');
+      const slot = urlParams.get('slot');
+      const calendar = urlParams.get('calendar');
+      const notes = urlParams.get('notes');
+  
+      // If event details are present, display them in the modal
+      if (eventName && location && startTime && endTime && participants && slot && calendar && notes) {
+          document.getElementById('popup-info').innerText = `
+              Event: ${eventName}
+              \nLocation: ${location}
+              \nStart Time: ${startTime}
+              \nEnd Time: ${endTime}
+              \nParticipants: ${participants}
+              \nSlot Length: ${slot} minutes
+              \nCalendar: ${calendar}
+              \nNotes: ${notes}
+          `;
+  
+          // Display the confirmation popup
+          document.getElementById('confirmation-popup').style.display = "block";
+      }
+  };
+  
+  // Close the confirmation popup when the user clicks the close button
+  document.getElementById('close-popup').onclick = function() {
+      document.getElementById('confirmation-popup').style.display = "none";
+  }
+  </script>
 
   <script src="scripts.js"></script>
 </body>
