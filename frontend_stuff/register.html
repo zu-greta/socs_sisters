@@ -104,26 +104,26 @@
                 Already have an account? 
                 <a href="login.html" class="terms-link">Log in</a>
             </p>
-            <form class="form-container">
+            <form class="form-container" action="../database_stuff/register.php" method="POST" onsubmit="return validateForm()">
                 <label for="email">Email:</label>
-                <input type="email" id="email" name="email">
-
+                <input type="email" id="email" name="email" required>
+            
                 <label for="username">Username:</label>
-                <input type="text" id="username" name="username">
-
+                <input type="text" id="username" name="username" required>
+            
                 <div class="flex-row">
                     <div class="half-width">
                         <label for="firstname">First Name:</label>
-                        <input type="text" id="firstname" name="firstname">
+                        <input type="text" id="firstname" name="firstname" required>
                     </div>
                     <div class="half-width" style="margin-left: 10px;">
                         <label for="lastname">Last Name:</label>
-                        <input type="text" id="lastname" name="lastname">
+                        <input type="text" id="lastname" name="lastname" required>
                     </div>
                 </div>
-
+            
                 <label for="password">Password:</label>
-                <input type="password" id="password" name="password" oninput="checkPassword()">
+                <input type="password" id="password" name="password" oninput="checkPassword()" required>
                 <p class="subtext">● Use 10 or more characters
                     <span id="password-check-length" class="checkmark">✔</span>
                 </p>
@@ -133,18 +133,19 @@
                 <p class="subtext">● At least one alphabetical character
                     <span id="password-check-alpha" class="checkmark">✔</span>
                 </p>
-
+            
                 <label for="confirmpassword">Confirm Password:</label>
-                <input type="password" id="confirmpassword" name="confirmpassword">
-
+                <input type="password" id="confirmpassword" name="confirmpassword" required>
+            
                 <p class="subtext">
                     By creating an account, you agree to the 
                     <a href="terms.html" class="terms-link">Terms of Use</a> and 
                     <a href="privacy.html" class="terms-link">Privacy Policy</a>.
                 </p>
-
-                <button type="button" class="register-button" onclick="redirectToLogin()">Register</button>
+            
+                <button type="submit" class="register-button">Register</button>
             </form>
+            
         </div>
 
         <!-- Right Section -->
@@ -156,56 +157,7 @@
             </p>
         </div>
     </div>
+    <script src="js/register.js"></script>
 
-    <script>
-        function checkPassword() {
-            const passwordField = document.getElementById('password');
-            const passwordCheckLength = document.getElementById('password-check-length');
-            const passwordCheckNumber = document.getElementById('password-check-number');
-            const passwordCheckAlpha = document.getElementById('password-check-alpha');
-            const registerButton = document.querySelector('.register-button');
-    
-            const value = passwordField.value;
-    
-            let lengthValid = false;
-            let numberValid = false;
-            let alphaValid = false;
-    
-            // Check for length of 10 or more
-            if (value.length >= 10) {
-                passwordCheckLength.style.visibility = 'visible';
-                lengthValid = true;
-            } else {
-                passwordCheckLength.style.visibility = 'hidden';
-            }
-    
-            // Check for at least one number
-            if (/\d/.test(value)) {
-                passwordCheckNumber.style.visibility = 'visible';
-                numberValid = true;
-            } else {
-                passwordCheckNumber.style.visibility = 'hidden';
-            }
-    
-            // Check for at least one alphabetical character
-            if (/[a-zA-Z]/.test(value)) {
-                passwordCheckAlpha.style.visibility = 'visible';
-                alphaValid = true;
-            } else {
-                passwordCheckAlpha.style.visibility = 'hidden';
-            }
-    
-        }
-    
-        function redirectToLogin() {
-            /* extra checks with backend for duplicate email is needed*/
-
-
-
-            // alert('Registration successful! Redirecting...');
-            window.location.href = "login.html";
-        }
-    </script>
-    
 </body>
 </html>
