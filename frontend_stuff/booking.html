@@ -1,0 +1,407 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Booking Page</title>
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      background-color: #f9f9f9;
+    }
+    
+    .container {
+      width: 87%;
+      margin: 50px auto;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+      background-color: #fff;
+      display: flex;
+      position: relative;
+    }
+
+    .left-bar {
+      width: 15%;
+      padding: 20px;
+      border-right: 1px solid #ccc;
+      text-align: center;
+    }
+    .profile-pic {
+      width: 100px;
+      height: 100px;
+      border-radius: 50%;
+      margin: 0 auto 10px;
+      background-color: #ddd;
+    }
+
+    .middle-section {
+      flex: 1;
+      padding: 20px;
+    }
+    .schedule {
+      height: 500px;
+      border: none;
+      border-radius: 8px;
+      padding: 10px;
+    }
+    .schedule-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 10px;
+    }
+    .schedule-header h3 {
+      margin: 0;
+    }
+    .week-navigation {
+      display: flex;
+      gap: 10px;
+    }
+    .week-navigation button {
+      padding: 5px 10px;
+      border: none;
+      border-radius: 4px;
+      background-color: white;
+      color: #424242;
+      cursor: pointer;
+      font-size: 14px;
+    }
+    .week-navigation button:hover {
+      color: #ed1b2f;
+    }
+    .calendar {
+      display: grid;
+      grid-template-columns: 100px repeat(5, 1fr); /* Fixed width for the time column */
+      grid-auto-rows: 50px; /* Uniform height for rows */
+      gap: 1px; /* Creates spacing between grid cells */
+      background-color: white;
+    }
+    .calendar div {
+      background-color: #fff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border: 0.5px solid #ccc;
+      font-size: 14px;
+    }
+    .calendar .time {
+      grid-column: 1; /* Ensure times occupy only the first column */
+      background-color: #f0f0f0;
+      font-weight: bold;
+    }
+    .calendar .day {
+      background-color: #e9ecef;
+      font-weight: bold;
+    }
+    .calendar .time-slot {
+      cursor: pointer;
+      border-radius: 4px;
+    }
+    .calendar .group {
+      background-color: #ed1b2f;
+      color: #fff;
+    }
+    .calendar .one-on-one {
+      background: repeating-linear-gradient(45deg, #ed1b2f, #ed1b2f 5px, transparent 3px, transparent 8px);
+      color: #fff;
+    }
+
+    .right-bar {
+      width: 20%;
+      padding: 20px;
+      border-left: 1px solid #ccc;
+    }
+    .form-section {
+      width:87%;
+      margin-left: 75px; /* THIS IS A TEMPORARY FIZ*/
+      display: flex;
+      flex-direction: column;
+      padding: 20px;
+    }
+    .form-section .input-container {
+      display: flex;
+      width: 100%;
+      justify-content: space-between;
+      gap: 10px; 
+      margin-bottom: 10px;
+    }
+    .form-section input {
+      flex: 1; 
+      padding: 10px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+    }
+
+    .buttons {
+      display: flex;
+      justify-content: flex-end;
+      gap: 10px; /* Adds space between buttons */
+      margin-top: 20px;
+    }
+    .buttons button {
+      padding: 8px 20px;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+    .buttons .book {
+      background-color: #ed1b2f;
+      border: 3px solid #ed1b2f;
+      color: white;
+    }
+    .buttons .book:hover {
+      background-color: #ae0e1d;
+      border: 3px solid #ae0e1d;
+      transition: 0.2s;
+    }
+    .buttons .alternative {
+      background-color: white;
+      border: 3px solid #e4e4e4;
+      color: #424242;
+    }
+    .buttons .alternative:hover {
+      background-color: #e4e4e4;
+      border: 3px solid #e4e4e4;
+      color: #424242;
+      transition: 0.2s;
+    }
+
+    .close-button {
+      position: absolute;
+      top: 10px;
+      right: 15px;
+      font-size: 20px;
+      cursor: pointer;
+    }
+
+    .iframe-modal {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0, 0, 0, 0.7);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      z-index: 100;
+    }
+
+    .iframe-frame {
+      background-color: #fff;
+      border-radius: 8px;
+      width: 400px;
+      height: 300px;
+      position: relative;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .iframe-content {
+      width: 100%;
+      height: 100%;
+      border: none;
+    }
+
+    .iframe-done-button {
+      background-color: #ed1b2f;
+      color: white;
+      border: none;
+      padding: 10px 20px;
+      cursor: pointer;
+      border-radius: 4px;
+      position: absolute;
+      bottom: 10px;
+    }
+
+    .iframe-done-button:hover {
+      background-color: #ae0e1d;
+    }
+  </style>
+  </head>
+  <body>
+    <div class="container">
+      <div class="left-bar">
+        <h3>Event Name</h3>
+        <div class="profile-pic"></div>
+        <p>Name: Faculty</p>
+        <p>Role: Professor</p>
+        <p>Duration: 30 min</p>
+        <p>Location: Room 101</p>
+      </div>
+      <div class="middle-section">
+        <div class="schedule">
+          <div class="schedule-header">
+            <h3>Month Day - Month Day</h3>
+            <div class="week-navigation">
+              <button class="prev-week">&lt</button>
+              <button class="next-week">&gt</button>
+            </div>
+          </div>
+          <div class="calendar">
+            <div></div>
+            <div class="day">Monday</div>
+            <div class="day">Tuesday</div>
+            <div class="day">Wednesday</div>
+            <div class="day">Thursday</div>
+            <div class="day">Friday</div>
+            <div class="time">8:00 AM</div>
+            <div class="time-slot group"></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div class="time">9:00 AM</div>
+            <div></div>
+            <div class="time-slot one-on-one"></div>
+            <div></div>
+            <div></div>
+            <div></div>
+          </div>
+        </div>
+        
+      </div>
+      <div class="right-bar">
+        <h3>Monday, Nov 6</h3>
+        <p>How many people are you booking for?</p>
+        <select>
+          <option>1</option>
+          <option>2</option>
+          <option>3</option>
+        </select>
+        <p>Available Times:</p>
+        <button>8:30</button>
+        <button>9:00</button>
+        <button>11:00</button>
+      </div>
+      <span class="close-button">&times;</span>
+    </div>
+
+    <div class="form-section">
+      <div class="input-container">
+        <input type="text" placeholder="Your Name *">
+        <input type="email" placeholder="Your Email *">
+      </div>
+      <div class="buttons">
+        <button class="alternative">Request a Time</button>
+        <button class="book">Book</button>
+      </div>
+    </div>  
+
+    <script>
+      // Placeholder JavaScript for the Booking Page
+      document.addEventListener("DOMContentLoaded", function () {
+        // Handle week navigation
+        const prevWeekButton = document.querySelector(".prev-week");
+        const nextWeekButton = document.querySelector(".next-week");
+        const scheduleHeader = document.querySelector(".schedule-header h3");
+
+        prevWeekButton.addEventListener("click", () => {
+          alert("Navigate to the previous week");
+          // Placeholder: Update the scheduleHeader text or fetch new data.
+        });
+
+        nextWeekButton.addEventListener("click", () => {
+          alert("Navigate to the next week");
+          // Placeholder: Update the scheduleHeader text or fetch new data.
+        });
+
+        // Handle time-slot click events
+        const timeSlots = document.querySelectorAll(".time-slot");
+
+        timeSlots.forEach((slot) => {
+          slot.addEventListener("click", () => {
+            alert(`You selected: ${slot.textContent.trim()}`);
+            // Placeholder: Handle time slot selection logic.
+          });
+        });
+
+        // Handle booking confirmation
+        const bookButton = document.querySelector(".buttons .book");
+
+        function showConfirmationIframe(appointmentDetails) {
+          // Check if the iframe modal already exists
+          let iframeModal = document.querySelector(".iframe-modal");
+          if (!iframeModal) {
+            // Create the iframe modal element
+            iframeModal = document.createElement("div");
+            iframeModal.classList.add("iframe-modal");
+            iframeModal.innerHTML = `
+              <div class="iframe-frame">
+                <iframe src="confirmation.html" frameborder="0" class="iframe-content"></iframe>
+                <button class="iframe-done-button">Done</button>
+              </div>
+            `;
+            document.body.appendChild(iframeModal);
+
+            // Add event listener for the Done button
+            iframeModal.querySelector(".iframe-done-button").addEventListener("click", () => {
+              iframeModal.style.display = "none";
+            });
+          }
+
+          // Show the iframe modal
+          iframeModal.style.display = "block";
+
+          // Optionally pass data to the iframe via URL parameters
+          const iframe = iframeModal.querySelector(".iframe-content");
+          const urlParams = new URLSearchParams({
+            person: appointmentDetails.person,
+            time: appointmentDetails.time,
+            date: appointmentDetails.date,
+          });
+          iframe.src = `confirmation.html?${urlParams.toString()}`;
+        }
+
+        // Example usage
+        document.querySelector(".buttons .book").addEventListener("click", () => {
+          const appointmentDetails = {
+            person: "Dr. Smith",
+            time: "10:00 AM to 11:00 AM",
+            date: "December 10, 2024"
+          };
+          showConfirmationIframe(appointmentDetails);
+        });
+
+
+        // Handle alternative button
+        const alternativeButton = document.querySelector(".buttons .alternative");
+
+        alternativeButton.addEventListener("click", () => {
+          alert("Redirecting to request-time page...");
+          // Placeholder: Redirect to another page.
+          window.location.href = "request-time.html"; // Replace with the actual URL.
+        });
+
+        // Handle close button
+        const closeButton = document.querySelector(".close-button");
+
+        closeButton.addEventListener("click", () => {
+          alert("Close the booking modal");
+          // Placeholder: Hide or close the booking container.
+        });
+
+        // Handle the dropdown selection
+        const peopleDropdown = document.querySelector("select");
+
+        peopleDropdown.addEventListener("change", (event) => {
+          alert(`You selected ${event.target.value} people`);
+          // Placeholder: Update logic based on the selected number of people.
+        });
+
+        // Handle available times button clicks
+        const availableTimeButtons = document.querySelectorAll(".right-bar button");
+
+        availableTimeButtons.forEach((button) => {
+          button.addEventListener("click", () => {
+            alert(`You selected the time: ${button.textContent}`);
+            // Placeholder: Highlight selected time or process booking.
+          });
+        });
+      });
+
+    </script>
+  </body>
+</html>
