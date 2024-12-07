@@ -4,7 +4,7 @@ body {
   font-family: 'Inter', 'Helvetica Neue', sans-serif;
 }
 
-header, h1, .logo-name {
+header, h1, button, .logo-name {
   font-family: 'Work Sans', 'Montserrat', Arial, sans-serif; 
 }
 
@@ -13,35 +13,43 @@ header, h1, .logo-name {
   font-weight: bold;
 }
 
-.btn {
+button {
   border-radius: 6px;
   font-size: 0.9em;
   cursor: pointer;
   transition: background-color 0.2s ease, color 0.2s ease;
 }
 
-.btn-primary {
+button.primary {
   background-color: #ae0e1d;
   border: none;
   color: white;
   width: 110px;
 }
 
-.btn-primary:hover {
+button.primary:hover {
   background-color: #ed1b2f;
 }
 
-.btn-secondary {
+button.primary:hover {
   background-color: transparent;
   border: 3px solid #e4e4e4;
   color: #424242;
   width: 110px;
 }
 
-.btn-secondary:hover {
+button.primary:hover:hover {
   background-color: #e4e4e4;
   border: 3px solid #e4e4e4;
   color: #424242;
 }
+
+/* disabled button for when fields are not filled */
+button:disabled {
+  background-color: #ddd;
+  color: #aaa;
+  cursor: not-allowed;
+}
+
 
 
