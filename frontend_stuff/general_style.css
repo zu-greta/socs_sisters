@@ -1,10 +1,10 @@
 @import url('https://fonts.googleapis.com/css2?family=Work+Sans:wght@400;600&family=Montserrat:wght@400;600&family=Inter:wght@400;600&family=Arial&display=swap');
-body {
+body, p, button, form {
   margin: 0;
   font-family: 'Inter', 'Helvetica Neue', sans-serif;
 }
 
-header, h1, button, .logo-name {
+header, h1, h2, .logo-name {
   font-family: 'Work Sans', 'Montserrat', Arial, sans-serif; 
 }
 
@@ -14,6 +14,7 @@ header, h1, button, .logo-name {
 }
 
 button {
+  font-weight: 500 ;
   border-radius: 6px;
   font-size: 0.9em;
   cursor: pointer;
