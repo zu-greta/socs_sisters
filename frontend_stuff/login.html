@@ -146,12 +146,12 @@
             <img src="png/logo.png" alt="SOC-cessful Schedule Logo">
             <h2>Login to your Account</h2>
             <p>Check your upcoming schedules with us!</p>
-            <form>
+            <form method="POST" action="private_pages_redirection/login.php"> <!-- GRETA: TESTING THE PHP PRIVATE PAGE THINGY -->
                 <label for="username">Username:</label>
-                <input type="text" id="username" name="username" placeholder="Enter your username">
+                <input type="text" id="username" name="username" placeholder="Enter your username" required>
 
                 <label for="password">Password:</label>
-                <input type="password" id="password" name="password" placeholder="Enter your password">
+                <input type="password" id="password" name="password" placeholder="Enter your password" required>
 
 
                 <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 15px;">
@@ -173,7 +173,9 @@
     <script>
         function redirectToDashboard() {
             // Redirect user to the dashboard page after login
-            window.location.href = "dashboard.html";
+            //window.location.href = "dashboard.html";
+            // GRETA: TESTING THE PHP PRIVATE PAGE THINGY
+            window.location.href = "private_pages_redirection/schedule_sessioncheck.php";
         }
     </script>
 
