@@ -16,3 +16,4 @@ frontend_stuff/*.env
 Thumbs.db
 *.tmp
 *.bak
+.DS_Store
