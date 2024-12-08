@@ -3,6 +3,7 @@
 <html lang="en">
 <head>
     <title>Register Page</title>
+    <link rel="stylesheet" href="general_style.css">
     <style>
         /* Common Styles */
         body {
@@ -62,17 +63,19 @@
             margin-bottom: 15px; /* Keeps consistent spacing below */
         }
         .terms-link {
-            color: #007BFF;
+            color: #ae0e1d;
             text-decoration: none;
         }
-        .register-button {
+
+        .terms-link:hover {
+            color: #ed1b2f;
+            text-decoration: none;
+        }
+
+        button{box-sizing: border-box; }
+
+        button.primary {
             width: 100%;
-            padding: 10px;
-            background-color: #ccc;
-            color: white;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
         }
         .right-section img {
             width: 100px;
@@ -124,16 +127,16 @@
             
                 <label for="password">Password:</label>
                 <input type="password" id="password" name="password" oninput="checkPassword()" required>
-                <p class="subtext">● Use 10 or more characters
-                    <span id="password-check-length" class="checkmark">✔</span>
+                <p class="subtext">&#8226;  Use 10 or more characters
+                    <span id="password-check-length" class="checkmark">&#10004;</span>
                 </p>
-                <p class="subtext">● At least one number
-                    <span id="password-check-number" class="checkmark">✔</span>
+                <p class="subtext">&#8226;  At least one number
+                    <span id="password-check-number" class="checkmark">&#10004;</span>
                 </p>
-                <p class="subtext">● At least one alphabetical character
-                    <span id="password-check-alpha" class="checkmark">✔</span>
+                <p class="subtext">&#8226;  At least one alphabetical character
+                    <span id="password-check-alpha" class="checkmark">&#10004;</span>
                 </p>
-            
+                
                 <label for="confirmpassword">Confirm Password:</label>
                 <input type="password" id="confirmpassword" name="confirmpassword" required>
             
@@ -142,8 +145,10 @@
                     <a href="terms.html" class="terms-link">Terms of Use</a> and 
                     <a href="privacy.html" class="terms-link">Privacy Policy</a>.
                 </p>
-            
-                <button type="submit" class="register-button">Register</button>
+
+                <!-- Initially disabled, primary class is applied dynamically -->
+                <button type="submit" class="primary" id="register-button" disabled>Register</button>
+
             </form>
             
         </div>
@@ -157,7 +162,59 @@
             </p>
         </div>
     </div>
-    <script src="js/register.js"></script>
+    <script>
+        function checkPassword() {
+        const passwordField = document.getElementById('password');
+        const passwordCheckLength = document.getElementById('password-check-length');
+        const passwordCheckNumber = document.getElementById('password-check-number');
+        const passwordCheckAlpha = document.getElementById('password-check-alpha');
+        const registerButton = document.getElementById('register-button');
 
+        const value = passwordField.value;
+
+        let lengthValid = false;
+        let numberValid = false;
+        let alphaValid = false;
+
+        // Check for length of 10 or more
+        if (value.length >= 10) {
+            passwordCheckLength.style.visibility = 'visible';
+            lengthValid = true;
+        } else {
+            passwordCheckLength.style.visibility = 'hidden';
+        }
+
+        // Check for at least one number
+        if (/\d/.test(value)) {
+            passwordCheckNumber.style.visibility = 'visible';
+            numberValid = true;
+        } else {
+            passwordCheckNumber.style.visibility = 'hidden';
+        }
+
+        // Check for at least one alphabetical character
+        if (/[a-zA-Z]/.test(value)) {
+            passwordCheckAlpha.style.visibility = 'visible';
+            alphaValid = true;
+        } else {
+            passwordCheckAlpha.style.visibility = 'hidden';
+        }
+
+        // Enable or disable the register button based on password validity
+        if (lengthValid && numberValid && alphaValid) {
+            registerButton.disabled = false;
+            registerButton.classList.add('primary');  // Add the primary class for styling
+            registerButton.classList.remove('secondary');  // Ensure it's not the secondary class
+        } else {
+            registerButton.disabled = true;
+            registerButton.classList.remove('primary');  // Remove the primary class
+            registerButton.classList.add('secondary');  // Add the secondary class for styling
+        }
+
+        return lengthValid && numberValid && alphaValid;
+    }
+    </script>
+    <script source="js/register.js"></script>
+    
 </body>
 </html>

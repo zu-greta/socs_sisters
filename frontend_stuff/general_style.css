@@ -14,7 +14,7 @@ header, h1, h2, h3, .logo-name {
 }
 
 button {
-  padding: 10px;
+  padding: 10px 20px;
   font-weight: 500 ;
   border-radius: 5px;
   font-size: 0.9em;
@@ -27,8 +27,6 @@ button.primary {
   background-color: #ae0e1d;
   border: none;
   color: white;
-  border-radius: 5px;
-  padding: 10px 20px;
 }
 
 button.primary:hover {
@@ -39,13 +37,10 @@ button.secondary {
   background-color: transparent;
   border: 3px solid #e4e4e4;
   color: #424242;
-  border-radius: 5px;
-  padding: 4px 7px;
 }
 
 button.secondary:hover {
   background-color: #e4e4e4;
-  border: 3px solid #e4e4e4;
   color: #424242;
 }
 
