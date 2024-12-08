@@ -55,11 +55,3 @@ button:disabled {
   color: #aaa;
   cursor: not-allowed;
 }
-
-
-/* disabled button for when fields are not filled */
-button:disabled {
-  background-color: #ddd;
-  color: #aaa;
-  cursor: not-allowed;
-}
