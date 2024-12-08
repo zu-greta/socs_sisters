@@ -122,8 +122,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 $slot['max_people'],
                 $slot['url']   
             ]);
-        }
 
+        }
 
         // the pop up message modal should be displayed now over the schedule page
         $eventDetails = [

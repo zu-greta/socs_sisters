@@ -19,9 +19,9 @@ $_SESSION['user_id'] = 1;
 if (!isset($_SESSION['user_id'])) {
     // Redirect to the login page if not authenticated
     //print the session iD
-    echo "Session ID: " . session_id();
-    echo "User ID: " . $_SESSION['user_id'];
-    //header("Location: ../login.html");
+    //  echo "Session ID: " . session_id();
+    //  echo "User ID: " . $_SESSION['user_id'];
+    header("Location: ../login.html");
     exit;
 }
 else {
