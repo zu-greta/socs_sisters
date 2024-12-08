@@ -18,7 +18,7 @@
 
         /* Left Section */
         .left-section {
-            flex: 4;
+            flex: 3;
             background-color: #f9f9f9;
             display: flex;
             flex-direction: column;
@@ -47,13 +47,17 @@
 
         /* Right Section */
         .right-section {
-            flex: 3 ;
-            background-color: #f9f9f9;
+            flex: 2;
             display: flex;
             flex-direction: column;
             justify-content: flex-start;
             align-items: center;
-            padding: 150px 0px;
+            padding: 70px 0px;    
+        }
+
+        .right-section img {
+            width: 80px;
+            margin-bottom: 20px;
         }
 
         .right-section h2 {
@@ -65,35 +69,13 @@
             color: #555;
         }
 
-        .right-content {
-            width: 80%;
-            max-width: 350px;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            padding: 20px;
-            background-color: #fff;
-            border-radius: 8px;
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-            position: relative; /* To position child elements like the logo */
-        }
-
-        .right-content img {
-            width: 80px; 
-            height: auto; 
-            position: absolute;
-            top: -55px; /* Adjust this to control the distance from the top of the container */
-            left: 50%; /* Centers the image horizontally */
-            transform: translateX(-50%); /* Ensures the image is perfectly centered */
-        }
-
-        .right-content h2 {
-            margin-top: 60px; /* Added space for the logo above */
-            text-align: center;
+        .right-section > * {
+            margin-bottom: 15px; /* space between login and create an account */
         }
 
         form {
-            width: 100%;
+            width: 80%;
+            max-width: 300px;            
         }
 
         form label {
@@ -129,7 +111,7 @@
         .flex-container input[type="checkbox"] {
             margin-right: 5px;       
             margin-top: 0.1rem;
-        }
+         }
 
         .flex-container a {
             color: #ed1b2f;
@@ -169,33 +151,29 @@
 
         <!-- Right Section -->
         <div class="right-section">
-            <!-- Right Content Container -->
-            <div class="right-content">
-                <img src="png/logo.png" alt="SOC-cessful Schedule Logo">
-                <h2>Log In to your Account</h2>
-                <p color:#424242>Check your upcoming schedules with us!</p>
+            <img src="png/logo.png" alt="SOC-cessful Schedule Logo">
+            <h2>Log In to your Account</h2>
+            <p color:#424242>Check your upcoming schedules with us!</p>
+            <form method="POST" action="private_pages_redirection/login.php"> <!-- GRETA: TESTING THE PHP PRIVATE PAGE THINGY -->
+                <label for="username">Username:</label>
+                <input type="text" id="username" name="username" placeholder="Enter your username" required>
 
-                <form method="POST" action="private_pages_redirection/login.php"> <!-- GRETA: TESTING THE PHP PRIVATE PAGE THINGY -->
-                    <label for="username">Username:</label>
-                    <input type="text" id="username" name="username" placeholder="Enter your username" required>
+                <label for="password">Password:</label>
+                <input type="password" id="password" name="password" placeholder="Enter your password" required>
 
-                    <label for="password">Password:</label>
-                    <input type="password" id="password" name="password" placeholder="Enter your password" required>
-
-                    <div class="flex-container">
-                        <label>
-                            <input type="checkbox" name="remember"> Remember Me
-                        </label>
-                        <a href="#">Forgot Password?</a>
-                    </div>
-                    
-                    <button type="button" class="primary" onclick="redirectToDashboard()">Login</button>
-                </form>
+                <div class="flex-container">
+                    <label>
+                        <input type="checkbox" name="remember"> Remember Me
+                    </label>
+                    <a href="#">Forgot Password?</a>
+                </div>
                 
-                <p class="bottom-text">
-                    Not Registered Yet? <a href="register.html">Create an account</a>
-                </p>
-            </div>
+                <button type="button" class="primary" onclick="redirectToDashboard()">Login</button>
+            </form>
+            <hr>
+            <p class="bottom-text">
+                Not Registered Yet? <a href="register.html">Create an account</a>
+            </p>
         </div>
     </div>
 

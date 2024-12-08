@@ -4,7 +4,7 @@ body, p, button, form {
   font-family: 'Inter', 'Helvetica Neue', sans-serif;
 }
 
-header, h1, h2, .logo-name {
+header, h1, h2, h3, .logo-name {
   font-family: 'Work Sans', 'Montserrat', Arial, sans-serif; 
 }
 
