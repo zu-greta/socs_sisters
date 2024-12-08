@@ -34,6 +34,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         ]);
 
         echo "Registration successful!";
+        // Redirect to the protected page - THIS WILL BE THE MEMBER DASHBOARD
+        header("Location: index.html");
     } catch (PDOException $e) {
         echo "Error: " . $e->getMessage();
     }

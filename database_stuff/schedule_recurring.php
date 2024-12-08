@@ -1,4 +1,21 @@
 <?php
+session_start();
+$creatorId = $_SESSION['user_id'];
+try {
+    $database = new PDO('sqlite:ssDB.sq3');
+    $database->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+    $stmt = $database->prepare("SELECT * FROM Users WHERE user_id = ?");
+    $stmt->execute([$creatorId]);
+    $userinfo = $stmt->fetchAll(PDO::FETCH_ASSOC);
+    if (count($userinfo) === 0) {
+        echo json_encode(['success' => false, 'error' => 'User not found']);
+        exit;
+    }
+    $creatorEmail = $userinfo[0]['email'];
+} catch (PDOException $e) {
+    echo json_encode(['success' => false, 'error' => 'Database error: ' . $e->getMessage()]);
+    exit;
+}
 // validate everything and then insert into the database
 // first calculate the different slots for the event. if one-time simply (enddate-startdate)/duration for the number of slots and then 
 // create the slots going with startdate + i*duration for i=0 to number of slots. 
@@ -20,12 +37,22 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $slotDuration = $_POST['slot'] ?? '';
     $calendar = $_POST['calendar'] ?? '';
     $notes = $_POST['notes'] ?? '';
-    $creatorId = 1; //TODO: Assuming logged-in user, replace with actual user ID !!!!! 
+    $creatorId = 1; //TODO: Assuming logged-in user, replace with actual user ID !!!!!
+
+    $link = "https://example.com/scheduling/event?name=" . urlencode($name); // Placeholder for now
+    
 
     // For recurring events, also capture additional details
     $startDate = $_POST['start_date'] ?? '';
     $endDate = $_POST['end_date'] ?? '';
-    $days = isset($_POST['days']) ? explode(',', $_POST['days']) : []; 
+    //$days = isset($_POST['days']) ? explode(',', $_POST['days']) : []; 
+    $days = isset($_POST['day']) ? $_POST['day'] : [];
+
+    // if (empty($days)) {
+    //     echo 'No days selected.';
+    // } else {
+    //     echo 'Selected days: ' . implode(', ', $days);
+    // } 
 
     
     // Validate required fields
@@ -33,14 +60,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         echo json_encode(['success' => false, 'error' => 'Please fill in all required fields for recurring events']);
         exit;
     }
-    // TODO: Ensure start date is before end date - BUT ALLOW SAME DAY EVENTS - CHECK TIMES
-    if (strtotime($startDate) >= strtotime($endDate)) {
-        echo json_encode(['success' => false, 'error' => 'Start date must be before end date']);
-        exit;
-    }
-    // TODO: Validate the start and end times 
-
-    
 
     // Convert dates and times to DateTime objects
     $startDateObj = new DateTime($startDate);
@@ -50,59 +69,51 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     $startDateObj = new DateTime($startDate . ' ' . $startTime); // Combine date and time
     $endDateObj = new DateTime($endDate . ' ' . $endTime); // Combine date and time
-
+    // TODO: Ensure start date is before end date - BUT ALLOW SAME DAY EVENTS - CHECK TIMES
+    // if ($startDateObj >= $endDateObj) {
+    //     echo json_encode(['success' => false, 'error' => 'Start date must be before end date']);
+    //     exit;
+    // }
+    
 
     // TODO: For recurring events, find all occurrences of the selected days - THE LOGIC HERE NEEDS TO CHANGE
     $slots = [];
-    $interval = new DateInterval('PT' . $slotDuration . 'M'); // Slot duration in minutes (P = period, T = time)
+    $currentDate = clone $startDateObj;
+    $duration = new DateInterval('PT' . $slotDuration . 'M');
 
-    // Start slot with the combined date and time
-    $currentSlotStart = clone $startDateObj;
-    $currentSlotEnd = clone $startDateObj; // Use the same start time for end time, will be modified later
+    // Loop through each day in the range
+    while ($currentDate <= $endDateObj) {
+        // Get the current day of the week (e.g., Monday, Tuesday)
+        $dayOfWeek = $currentDate->format('l');
 
-    while ($currentSlotStart < $endDateObj) {
-        // Create the slot for the one-time event
-        $slots[] = [
-            'start_date' => $currentSlotStart->format('Y-m-d'),
-            'start_time' => $currentSlotStart->format('H:i:s'),
-            'end_date' => $currentSlotEnd->format('Y-m-d'),
-            'end_time' => $currentSlotEnd->format('H:i:s'),
-            'duration' => $slotDuration,
-            'event_name' => $name,
-            'note' => $notes,
-            'location' => $location,
-            'max_people' => $participants,
-            'creator_id' => $creatorId
-        ];
-
-        // Move to the next slot
-        $currentSlotStart->add($interval);
-        $currentSlotEnd->add($interval);
+        // Check if the current day matches one of the selected days
+        if (in_array($dayOfWeek, $days)) {
+            // Calculate the number of slots for the current day
+            $dayStart = clone $startTimeObj; // Use the provided start time
+            $dayEnd = clone $endTimeObj; // Use the provided end time
+            //numslots = (endDateObj - startDateObj / duration)
+            $numSlots = ($dayStart->diff($dayEnd)->h * 60 + $dayStart->diff($dayEnd)->i) / $slotDuration;
+            // Generate slots for the current day
+            for ($i = 0; $i < $numSlots; $i++) {
+                $slots[] = [
+                    'start_date' => $currentDate->format('Y-m-d'), // Use the current date
+                    'start_time' => $startTimeObj->format('H:i:s'), 
+                    'end_date' => $currentDate->format('Y-m-d'), // Same day as start
+                    'end_time' => $currentDate->add($duration)->format('H:i:s'), // Add duration to start time
+                    'duration' => $slotDuration, // Duration in minutes
+                    'event_name' => $name, // Event name
+                    'note' => $notes, // Event notes
+                    'location' => $location, // Event location
+                    'max_people' => $participants, // Max people allowed
+                    'creator_id' => $creatorId, // Creator ID
+                    'url' => $link // Event link
+                ];
+            }
+        }
+        // Move to the next day
+        $currentDate->modify('+1 day');
     }
 
-    // Loop over all days from start to end date and find the requested days
-    // $slots = [];
-    // $currentDate = clone $startDateObj;
-    // while ($currentDate <= $endDateObj) {
-    //     // Check if current day matches one of the selected days
-    //     $dayOfWeek = $currentDate->format('l'); // e.g., Monday, Tuesday, etc.
-    //     if (in_array($dayOfWeek, $days)) {
-    //         // Create the slot for the recurring event
-    //         $slots[] = [
-    //             'start_date' => $currentDate->format('Y-m-d'),
-    //             'start_time' => $startTimeObj->format('H:i:s'),
-    //             'end_date' => $currentDate->format('Y-m-d'),
-    //             'end_time' => $endTimeObj->format('H:i:s'),
-    //             "slotDuration" => $slotDuration,
-    //             'event_name' => $name,
-    //             'note' => $notes,
-    //             'location' => $location,
-    //             'max_people' => $participants,
-    //             'creator_id' => $creatorId
-    //         ];
-    //     }
-    //     $currentDate->modify('+1 day'); // Move to the next day
-    // }
 
     // Insert each slot into the database
     try {
@@ -115,9 +126,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             "INSERT INTO Events (creator_id, start_date, end_date, duration, start_time, end_time, event_name, note, location, max_people, url)
             VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)"
         );
-
-        // Assign the URL value FOR TESTING ONLY - ACTUALLY GENERATE ONE
-        $url_placeholder = "URLTEST"; 
 
         //Insert each slot
         foreach ($slots as $slot) {
@@ -132,7 +140,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 $slot['note'], 
                 $slot['location'], 
                 $slot['max_people'],
-                $url_placeholder    // Placeholder for now
+                $slot['url']
             ]);
         }
 
@@ -148,8 +156,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             "calendar" => $calendar,
             "notes" => $notes,
             "creator_id" => $creatorId,
-            "email" => "EMAILTEST", // Placeholder for now - get the user's email from the database
-            "link" => "URLTEST", // Placeholder for now
+            "email" => $creatorEmail, 
+            "link" => $link, 
             "start_date" => $startDate,
             "end_date" => $endDate,
             "days" => $days,
