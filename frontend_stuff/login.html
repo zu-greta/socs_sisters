@@ -8,61 +8,10 @@
         body {
             height: 100vh;
             display: flex;
-        }
-
-        .container {
-            display: flex;
-            width: 100%;
-            height: 100%;
-        }
-
-        /* Left Section */
-        .left-section {
-            flex: 4;
-            background-color: #f9f9f9;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            padding: 20px;
-        }
-
-        .left-section img {
-            width: 60%;
-            max-width: 300px;
-        }
-
-        .left-section h3 {
-            margin: 20px 0;
-            font-size: 1.5rem;
-            text-align: center;
-        }
-
-        .left-section p {
-            text-align: center;
-            font-size: 0.9rem;
-            color: #555;
-            max-width: 80%;
-        }
-
-        /* Right Section */
-        .right-section {
-            flex: 3 ;
-            background-color: #f9f9f9;
-            display: flex;
-            flex-direction: column;
-            justify-content: flex-start;
-            align-items: center;
-            padding: 150px 0px;
-        }
-
-        .right-section h2 {
-            margin-bottom: 10px;
-        }
-
-        .right-section p {
-            margin-bottom: 20px;
-            color: #555;
+            justify-content: center; /* Horizontally center */
+            align-items: center;     /* Vertically center */
+            margin: 0;               /* Remove default margin */
+            background-color: #f9f9f9; /* Optional: to give a background color */
         }
 
         .right-content {
@@ -75,7 +24,7 @@
             background-color: #fff;
             border-radius: 8px;
             box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-            position: relative; /* To position child elements like the logo */
+            position: relative;
         }
 
         .right-content img {
@@ -103,7 +52,7 @@
 
         form input {
             width: 100%;
-            color:black;
+            color: black;
             padding: 10px;
             margin-bottom: 15px;
             border: 1px solid #ccc;
@@ -156,54 +105,36 @@
 </head>
 <body>
 
-    <div class="container">
-        <!-- Left Section -->
-        <div class="left-section">
-            <img src="png/placeholder.png" alt="Skeleton">
-            <h3>Student-favorite Tool of 2024 &#128175; </h3>
-            <p color:#424242>
-                "SOC-cessful Schedule is much a life changer for my teaching career." <br>
-                &#8211;  Prof. Joseph Vybhial
-            </p>
-        </div>
+    <div class="right-content">
+        <img src="png/logo.png" alt="SOC-cessful Schedule Logo">
+        <h2>Log In to your Account</h2>
+        <p color:#424242>Check your upcoming schedules with us!</p>
 
-        <!-- Right Section -->
-        <div class="right-section">
-            <!-- Right Content Container -->
-            <div class="right-content">
-                <img src="png/logo.png" alt="SOC-cessful Schedule Logo">
-                <h2>Log In to your Account</h2>
-                <p color:#424242>Check your upcoming schedules with us!</p>
+        <form method="POST" action="private_pages_redirection/login.php">
+            <label for="username">Username:</label>
+            <input type="text" id="username" name="username" placeholder="Enter your username" required>
 
-                <form method="POST" action="private_pages_redirection/login.php"> <!-- GRETA: TESTING THE PHP PRIVATE PAGE THINGY -->
-                    <label for="username">Username:</label>
-                    <input type="text" id="username" name="username" placeholder="Enter your username" required>
+            <label for="password">Password:</label>
+            <input type="password" id="password" name="password" placeholder="Enter your password" required>
 
-                    <label for="password">Password:</label>
-                    <input type="password" id="password" name="password" placeholder="Enter your password" required>
-
-                    <div class="flex-container">
-                        <label>
-                            <input type="checkbox" name="remember"> Remember Me
-                        </label>
-                        <a href="#">Forgot Password?</a>
-                    </div>
-                    
-                    <button type="button" class="primary" onclick="redirectToDashboard()">Login</button>
-                </form>
-                
-                <p class="bottom-text">
-                    Not Registered Yet? <a href="register.html">Create an account</a>
-                </p>
+            <div class="flex-container">
+                <label>
+                    <input type="checkbox" name="remember"> Remember Me
+                </label>
+                <a href="#">Forgot Password?</a>
             </div>
-        </div>
+            
+            <button type="button" class="primary" onclick="redirectToDashboard()">Login</button>
+        </form>
+        
+        <p class="bottom-text">
+            Not Registered Yet? <a href="register.html">Create an account</a>
+        </p>
     </div>
 
     <script>
         function redirectToDashboard() {
             // Redirect user to the dashboard page after login
-            //window.location.href = "dashboard.html";
-            // GRETA: TESTING THE PHP PRIVATE PAGE THINGY
             window.location.href = "private_pages_redirection/schedule_sessioncheck.php";
         }
     </script>
