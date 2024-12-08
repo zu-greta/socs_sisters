@@ -22,6 +22,8 @@
             flex-direction: column;
             justify-content: center;
             padding: 40px;
+            margin-top: -40px; /* Move the left section's content higher */
+
         }
         .right-section {
             display: flex;
@@ -69,10 +71,11 @@
         }
         input {
             width: 100%;
-            padding: 10px 0;
+            padding: 12px;
             margin-bottom: 15px;
             border: 1px solid #ccc;
             border-radius: 5px;
+            box-sizing: border-box;  
         }
         .half-width {
             width: calc(50% - 10px); /* Adjusts for spacing */
@@ -102,11 +105,11 @@
             text-decoration: none;
         }
 
-        button{box-sizing: border-box; }
-
-        button.primary {
+        button{
             width: 100%;
+            border: none;
         }
+
         .right-section img {
             width: 100px;
             margin-bottom: 20px;
@@ -200,6 +203,7 @@
         const passwordCheckNumber = document.getElementById('password-check-number');
         const passwordCheckAlpha = document.getElementById('password-check-alpha');
         const registerButton = document.getElementById('register-button');
+        const confirmPasswordField = document.getElementById('confirmpassword');
 
         const value = passwordField.value;
 
@@ -232,17 +236,16 @@
         }
 
         // Enable or disable the register button based on password validity
-        if (lengthValid && numberValid && alphaValid) {
+        if (lengthValid && numberValid && alphaValid){
             registerButton.disabled = false;
             registerButton.classList.add('primary');  // Add the primary class for styling
-            registerButton.classList.remove('secondary');  // Ensure it's not the secondary class
         } else {
             registerButton.disabled = true;
             registerButton.classList.remove('primary');  // Remove the primary class
-            registerButton.classList.add('secondary');  // Add the secondary class for styling
         }
 
         return lengthValid && numberValid && alphaValid;
+
     }
     </script>
     <script source="js/register.js"></script>
