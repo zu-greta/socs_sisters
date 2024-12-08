@@ -90,7 +90,6 @@
         }
 
         .bottom-text {
-            margin-top: 20px;
             font-size: 0.9rem;
             color: #555;
             text-align: center;
@@ -99,6 +98,28 @@
         .bottom-text a {
             color: #ed1b2f;
             text-decoration: none;
+        }
+
+        /* "OR" line style */
+        .or-line {
+            font-family: 'Work Sans', 'Montserrat', Arial, sans-serif;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 100%;
+            margin: 30px 0 15px 0;
+        }
+
+        .or-line::before, .or-line::after {
+            content: "";
+            flex: 1;
+            border-top: 1px solid #424242;
+        }
+
+        .or-line span {
+            margin: 0 5px;
+            font-size: 1rem;
+            color: #424242;
         }
 
     </style>
@@ -126,7 +147,12 @@
             
             <button type="button" class="primary" onclick="redirectToDashboard()">Login</button>
         </form>
-        
+
+        <!-- OR Line -->
+        <div class="or-line">
+            <span>OR</span>
+        </div>
+
         <p class="bottom-text">
             Not Registered Yet? <a href="register.html">Create an account</a>
         </p>
