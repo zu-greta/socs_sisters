@@ -1,9 +1,12 @@
 <?php
+
+//USER GUIDE: run in browser http://localhost/comp307/socs_sisters/database_stuff/db_creation.php to create the database and tables - itll clean it up and create a new one without any data
+
 try {
 
 
     // Connect to SQLite database (creates the file if it doesn't exist)
-    $database = new PDO('sqlite:ssDB.sq3'); // Correct way to instantiate PDO for SQLite
+    $database = new PDO('sqlite:ssDB.sq3'); 
 
     // Enable exceptions for errors
     $database->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
