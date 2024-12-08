@@ -22,7 +22,7 @@ button {
   transition: background-color 0.2s ease, color 0.2s ease;
 }
 
-button.primary {
+
 button.primary {
   background-color: #ae0e1d;
   border: none;
@@ -32,11 +32,9 @@ button.primary {
 }
 
 button.primary:hover {
-button.primary:hover {
   background-color: #ed1b2f;
 }
 
-button.secondary {
 button.secondary {
   background-color: transparent;
   border: 3px solid #e4e4e4;
@@ -45,7 +43,6 @@ button.secondary {
   padding: 4px 7px;
 }
 
-button.secondary:hover {
 button.secondary:hover {
   background-color: #e4e4e4;
   border: 3px solid #e4e4e4;
