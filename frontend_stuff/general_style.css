@@ -8,6 +8,16 @@ header, h1, h2, h3, .logo-name {
   font-family: 'Work Sans', 'Montserrat', Arial, sans-serif; 
 }
 
+header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background-color: white;
+  width: 100%;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  padding: 11px 0;
+}
+
 .logo-name {
   font-size: 1.2em;
   font-weight: bold;
@@ -21,7 +31,6 @@ button {
   cursor: pointer;
   transition: background-color 0.2s ease, color 0.2s ease;
 }
-
 
 button.primary {
   background-color: #ae0e1d;

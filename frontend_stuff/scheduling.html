@@ -1,3 +1,25 @@
+<!-- PRIVATE PAGE not sure if this is needed here
+<?php
+session_start();
+
+if (!session_id()) {
+  echo "Session failed to start.";
+  exit;
+} else {
+  echo "Session started successfully. ID: " . session_id();
+}
+
+echo '<pre>';
+print_r($_SESSION);
+echo '</pre>';
+
+//Check if the user is logged in
+if (!isset($_SESSION['user_id'])) {
+    // Redirect to the login page if not authenticated
+    header("Location: login.html");
+    exit;
+}
+?> -->
 <!DOCTYPE html>
 <html lang="en">
     <head>
@@ -181,6 +203,7 @@
             <a href="#">PLACEHOLDER!</a>
             <a href="#">PLACEHOLDER!</a>
             <a href="#">PLACEHOLDER!</a>
+            <a href="../database_stuff/logout.php" style="float:right">Logout</a>
         </div>
 
         <div id="background-container">
@@ -199,13 +222,13 @@
                 <!-- day of the week: choose from monday to sunday buttons which days of the week it happens on each week -->
                 <label style="display: block; justify-content: center;">Days of the Week: </br>
                     <!-- center these and make it prettier! -->
-                    <input type="checkbox" name="day" value="monday">Monday
-                    <input type="checkbox" name="day" value="tuesday">Tuesday
-                    <input type="checkbox" name="day" value="wednesday">Wednesday
-                    <input type="checkbox" name="day" value="thursday">Thursday
-                    <input type="checkbox" name="day" value="friday">Friday
-                    <input type="checkbox" name="day" value="saturday">Saturday
-                    <input type="checkbox" name="day" value="sunday">Sunday
+                    <input type="checkbox" name="day[]" value="Monday">Monday
+                    <input type="checkbox" name="day[]" value="Tuesday">Tuesday
+                    <input type="checkbox" name="day[]" value="Wednesday">Wednesday
+                    <input type="checkbox" name="day[]" value="Thursday">Thursday
+                    <input type="checkbox" name="day[]" value="Friday">Friday
+                    <input type="checkbox" name="day[]" value="Saturday">Saturday
+                    <input type="checkbox" name="day[]" value="Sunday">Sunday
                 </label>
                 <!-- time of the day for all the days selected -->
                 <label for="start_time" style="display: inline-block; margin-right: 10px; font-size: 10; color: grey;">Start Time:
@@ -285,19 +308,21 @@
             </div>
         </div> 
 
-        <!--TODO: add link generation - copy from keyus poll page!-->
         <!--TODO: send the email???-->
 
         <script>
             document.forms['recurring-form'].addEventListener('submit', (event) => {
             event.preventDefault();
-            // TODO do something here to show user that form is being submitted
+            // Show loading message or disable form to indicate submission
+            document.getElementById('recurring-form').querySelector('.save-btn').innerText = 'Submitting...';
+            document.getElementById('recurring-form').querySelector('.save-btn').disabled = true;
+
             fetch(event.target.action, {
                 method: 'POST',
                 body: new URLSearchParams(new FormData(event.target)) // event.target is the form
             }).then((response) => {
                 if (!response.ok) {
-                throw new Error(`HTTP error! Status: ${response.status}`);
+                    throw new Error(`HTTP error! Status: ${response.status}`);
                 }
                 return response.json(); // or response.text() or whatever the server sends
             }).then((body) => {
@@ -318,20 +343,26 @@
                         \nNotes: ${event.notes}
                     `;
                     document.getElementById("email-display").innerText = event.email;
-                    document.getElementById("link-display").value = event.link; // TODO: Set the link to share
+                    document.getElementById("link-display").innerText = body.eventDetails.link; 
                     // Show the modal
                     document.getElementById("confirmation-popup").style.display = "block";
                 }
             }).catch((error) => {
                 // TODO handle error
                 console.log("Error:", error); 
-                alert(error);
-            });
+                alert('An error occurred while scheduling the event.');
+            }).finally(() => {
+            // Re-enable the button after submission is complete
+            document.getElementById('recurring-form').querySelector('.save-btn').innerText = 'Save';
+            document.getElementById('recurring-form').querySelector('.save-btn').disabled = false;
+        });
         });
 
         document.forms['one-time-form'].addEventListener('submit', (event) => {
             event.preventDefault();
-            // TODO do something here to show user that form is being submitted
+            // Show loading message or disable form to indicate submission
+            document.getElementById('one-time-form').querySelector('.save-btn').innerText = 'Submitting...';
+            document.getElementById('one-time-form').querySelector('.save-btn').disabled = true;
             fetch(event.target.action, {
                 method: 'POST',
                 body: new URLSearchParams(new FormData(event.target)) // event.target is the form
@@ -356,7 +387,7 @@
                         \nNotes: ${event.notes}
                     `;
                     document.getElementById("email-display").innerText = event.email;
-                    document.getElementById("link-display").value = event.link; // TODO: Set the link to share
+                    document.getElementById("link-display").innerText = event.link; 
                     // Show the modal
                     document.getElementById("confirmation-popup").style.display = "block";
                 }
@@ -364,7 +395,11 @@
                 // TODO handle error
                 console.log("Error:", error); 
                 alert(error);
-            });
+            }).finally(() => {
+            // Re-enable the button after submission is complete
+            document.getElementById('one-time-form').querySelector('.save-btn').innerText = 'Save';
+            document.getElementById('one-time-form').querySelector('.save-btn').disabled = false;
+        });
         });
 
         //Close the confirmation popup
@@ -387,7 +422,7 @@
             document.getElementById("recurring-form").classList.remove("active");
         });
 
-        //TODO: Copy Link Button
+        //TODO: Copy Link Button - might be errors???
         document.getElementById("copy-link").addEventListener("click", function() {
             var copyText = document.getElementById("link-display");
             copyText.select();
@@ -400,6 +435,21 @@
         document.getElementById("return-home").addEventListener("click", function() {
             window.location.href = "index.html";
         });
+    
+        function copyToClipboard() {
+            const eventURLField = document.getElementById('link-display');
+            const linkText = eventURLField.innerText;
+
+            console.log("Copying text: ", linkText);
+
+            navigator.clipboard.writeText(linkText).then(() => {
+                alert("Event URL copied to clipboard!");
+            }).catch((error) => {
+                console.error("Error copying text: ", error);
+                alert("Failed to copy event URL to clipboard.");
+            });
+        }
+        document.getElementById("copy-link").addEventListener("click", copyToClipboard);
     </script>
     </body>
 </html>
