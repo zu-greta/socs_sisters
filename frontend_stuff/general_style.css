@@ -15,7 +15,35 @@ header {
   background-color: white;
   width: 100%;
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-  padding: 11px 0;
+  padding: 11px 10px;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+.nav-container {
+  /*background-color: black ;*/
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  max-width: 1400px; /*Adjust if needed*/
+  margin: 0 auto;
+  height: 44px;
+}
+
+.logo-link {
+  display: flex;
+  align-items: center;
+  text-decoration: none;
+  color: #424242;
+}
+
+.nav-logo-img {
+  width: 50px;
+  height: auto;
+  object-fit: contain;
+  margin-right: 10px;
 }
 
 .logo-name {
@@ -24,22 +52,23 @@ header {
 }
 
 button {
-  padding: 10px 20px;
+  padding: 10px 30px;
   font-weight: 500 ;
-  border-radius: 5px;
+  border-radius: 6px;
   font-size: 0.9em;
   cursor: pointer;
-  transition: background-color 0.2s ease, color 0.2s ease;
+  transition: 0.2s ease;
 }
 
 button.primary {
   background-color: #ae0e1d;
-  border: none;
+  border: 3px solid #ae0e1d;
   color: white;
 }
 
 button.primary:hover {
   background-color: #ed1b2f;
+  border: 3px solid #ed1b2f;
 }
 
 button.secondary {
@@ -55,6 +84,7 @@ button.secondary:hover {
 
 /* disabled button for when fields are not filled */
 button:disabled {
+  border: 3px solid #ddd;
   background-color: #ddd;
   color: #aaa;
   cursor: not-allowed;
