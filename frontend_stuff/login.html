@@ -1,3 +1,9 @@
+<!-- 
+ TODO: 
+ - Add script that lets our backend know that the user is signed in
+ - Add "Remember Me" logic
+- Add "Forgot Password" logic
+ -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -14,20 +20,20 @@
             background-color: #f9f9f9; /* Optional: to give a background color */
         }
 
-        .right-content {
+        .content {
             width: 80%;
             max-width: 350px;
             display: flex;
             flex-direction: column;
             align-items: center;
-            padding: 20px;
+            padding: 30px 40px;
             background-color: #fff;
             border-radius: 8px;
             box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
             position: relative;
         }
 
-        .right-content img {
+        .content img {
             width: 80px; 
             height: auto; 
             position: absolute;
@@ -36,9 +42,15 @@
             transform: translateX(-50%); /* Ensures the image is perfectly centered */
         }
 
-        .right-content h2 {
-            margin-top: 60px; /* Added space for the logo above */
+        .content h2 {
+            margin: 30px 0 10px 0 ;
             text-align: center;
+        }
+
+        .signin-msg{
+            font-size: 0.8rem;
+            color:#424242;
+            margin-bottom: 30px;
         }
 
         form {
@@ -47,17 +59,24 @@
 
         form label {
             display: block;
-            margin-bottom: 5px;
+            margin-bottom: 8px;
         }
 
         form input {
             width: 100%;
             color: black;
-            padding: 10px;
-            margin-bottom: 15px;
+            padding: 12px;
+            margin-bottom: 18px; /* Adjusted for error message spacing */
             border: 1px solid #ccc;
             border-radius: 5px;
             box-sizing: border-box;  
+        }
+
+        form .error-message {
+            color: red;
+            font-size: 0.8rem;
+            margin-bottom: 15px;
+            display: none; /* Hidden by default */
         }
 
         /* "Remember Me" and "Forgot Password?" */
@@ -81,8 +100,12 @@
         }
 
         .flex-container a {
-            color: #ed1b2f;
+            color: #ae0e1d;
             text-decoration: none;
+        }
+
+        .flex-container a:hover {
+            color: #ed1b2f;
         }
 
         button.primary {
@@ -96,8 +119,12 @@
         }
 
         .bottom-text a {
-            color: #ed1b2f;
+            color: #ae0e1d;
             text-decoration: none;
+        }
+
+        .bottom-text a:hover{
+            color: #ed1b2f;
         }
 
         /* "OR" line style */
@@ -126,17 +153,19 @@
 </head>
 <body>
 
-    <div class="right-content">
+    <div class="content">
         <img src="png/logo.png" alt="SOC-cessful Schedule Logo">
-        <h2>Log In to your Account</h2>
-        <p color:#424242>Check your upcoming schedules with us!</p>
+        <h2>Log into your Account</h2>
+        <p class="signin-msg">Sign in to access your dashboard</p>
 
         <form method="POST" action="private_pages_redirection/login.php">
             <label for="username">Username:</label>
             <input type="text" id="username" name="username" placeholder="Enter your username" required>
+            <div class="error-message" id="username-error">You must fill out this field.</div>
 
             <label for="password">Password:</label>
             <input type="password" id="password" name="password" placeholder="Enter your password" required>
+            <div class="error-message" id="password-error">You must fill out this field.</div>
 
             <div class="flex-container">
                 <label>
@@ -159,10 +188,35 @@
     </div>
 
     <script>
+        // Function to redirect user to the dashboard
         function redirectToDashboard() {
-            // Redirect user to the dashboard page after login
             window.location.href = "private_pages_redirection/schedule_sessioncheck.php";
         }
+
+        // Add event listeners for validation
+        const usernameInput = document.getElementById('username');
+        const passwordInput = document.getElementById('password');
+        const usernameError = document.getElementById('username-error');
+        const passwordError = document.getElementById('password-error');
+
+        function validateInput(input, errorElement) {
+            input.addEventListener('blur', () => {
+                if (input.value.trim() === '') {
+                    errorElement.style.display = 'block';
+                } else {
+                    errorElement.style.display = 'none';
+                }
+            });
+
+            input.addEventListener('input', () => {
+                if (input.value.trim() !== '') {
+                    errorElement.style.display = 'none';
+                }
+            });
+        }
+
+        validateInput(usernameInput, usernameError);
+        validateInput(passwordInput, passwordError);
     </script>
 
 </body>
