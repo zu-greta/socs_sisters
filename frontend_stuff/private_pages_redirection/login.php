@@ -16,8 +16,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         // Set session variable TO GENEREATE A SESSION ID ????
         $_SESSION['user_id'] = 1; // Set a test user ID
         session_write_close(); 
-        // Redirect to the protected page - THIS WILL BE THE LANDING PAGE
-        header("Location: schedule_sessioncheck.php");
+        // Redirect to the protected page - THIS WILL BE THE dashboard PAGE
+        header("Location: dashboard_sessioncheck.php");
         exit;
     } else {
         $_SESSION['user_id'] = 1; // Set a test user ID

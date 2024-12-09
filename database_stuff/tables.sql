@@ -32,11 +32,12 @@ CREATE TABLE Events (
 CREATE TABLE Bookings (
     booking_id INTEGER PRIMARY KEY AUTOINCREMENT, -- Primary Key
     slot_id INTEGER NOT NULL, -- Foreign Key referencing Events(slot_id)
-    booked_by INTEGER NOT NULL, -- Foreign Key referencing Users(user_id)
+    booked_by_id INTEGER, -- Foreign Key referencing Users(user_id)
+    booked_by_email TEXT NOT NULL, -- Email of the person who booked the slot
     num_people INTEGER NOT NULL DEFAULT 1,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     FOREIGN KEY (slot_id) REFERENCES Events(slot_id),
-    FOREIGN KEY (booked_by) REFERENCES Users(user_id)
+    FOREIGN KEY (booked_by_id) REFERENCES Users(user_id)
 );
 
 -- Create Time Requests Table

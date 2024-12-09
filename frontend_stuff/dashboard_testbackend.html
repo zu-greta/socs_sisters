@@ -5,7 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Member Dashboard</title>
     <link rel="stylesheet" href="general_style.css">
-
     <style>
         /* Side Navigation Bar */
         .sidenav {
@@ -35,75 +34,86 @@
         .sidenav a.active:hover{
             background-color: #ed1b2f;
         }
+
+        /* Export button */
+        #export-btn {
+            width: auto;
+            float: right;
+            margin-right: 0px;
+            margin-top: 15px
+        }
+
         /* Table */
-        .history-table, 
-        .history-table th, 
-        .history-table td {
+        .upcoming-table, 
+        .upcoming-table th, 
+        .upcoming-table td {
             border: 1px solid #424242;
             border-collapse: collapse;
             padding: 8px 16px;
             text-align: left;
         }
+        /* #details-btn,
+        #modify-btn,
+        #cancel-btn {
+            width: auto;
+            padding: 4px 7px;
+            margin: 3px 0px;
+        } */
 
         /* for popup */
         .event-details-popup {
-        display: none;
-        position: fixed;
-        z-index: 1000;
-        left: 0;
-        top: 0;
-        width: 100%;
-        height: 100%;
-        overflow: auto;
-        background-color: rgba(0, 0, 0, 0.5); 
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgba(0, 0, 0, 0.5); 
         }
 
         /* popup content */
         .event-details-popup-content{
-        background-color: white;
-        margin: 10% auto;
-        padding: 40px 60px 100px 60px;
-        border: 1px solid #888;
-        width: 50%;
-        max-width: 800px;
-        position: relative;
-        border-radius: 5px;
-
+            background-color: white;
+            margin: 10% auto;
+            padding: 40px 60px 100px 60px;
+            border: 1px solid #888;
+            width: 50%;
+            max-width: 800px;
+            position: relative;
+            border-radius: 5px;
         }
 
         /* close button */
         .close {
-        position: absolute;
-        top: 0px;
-        right: 20px;
-        color: black;
-        font-size: 50px;
-        /* font-weight: bold; */
-        cursor: pointer;
-        z-index: 1002;
+            position: absolute;
+            top: 0px;
+            right: 20px;
+            color: black;
+            font-size: 50px;
+            cursor: pointer;
+            z-index: 1002;
         }
 
         .close:hover, .close:focus {
-        color: #424242;
-        text-decoration: none;
-        cursor: pointer;
+            color: #424242;
+            text-decoration: none;
+            cursor: pointer;
         }
 
         .event-details-table, 
         .event-details-table td {
-        padding: 7px 0px;
-        font-size: 17px;
-        border: none;
-        border-collapse: collapse;
+            padding: 7px 0px;
+            font-size: 17px;
+            border: none;
+            border-collapse: collapse;
         }
 
         .popup-buttons {
-        float: right;
+            float: right;
         }
-
-
     </style>
-
 </head>
 <body>
     <!-- Navigation Bar -->
@@ -111,6 +121,7 @@
         <a href="#">PLACEHOLDER!</a>
         <a href="#">PLACEHOLDER!</a>
         <a href="#">PLACEHOLDER!</a>
+        <a href="../database_stuff/logout.php" style="float:right">Logout</a>
     </div>
 
     <div id="background-container">
@@ -123,21 +134,21 @@
             <!-- Sidebar -->
             <div class="sidenav">
                 <h2>My Account</h2>
-                <a href="dashboard.html">Upcoming</a>
-                <a href="#" class="active">History</a>
+                <a href="#" class="active">Upcoming</a>
+                <a href="history.html">History</a>
                 <a href="preferences.html">Preferences</a>
             </div>
-            <!-- History -->
-            <div id="history" style="float:right; width:80%; padding: 15px 25px 15px 0px">
-                <h2 style="display:inline-block">Past Bookings by me</h2>
-                <!-- <button class="subscribe-btn">Subscribe to your calendar</button> -->
-                <table class="history-table" id="history-table" style="width:100%">
+            <!-- Upcoming Made by me -->
+            <div id="upcoming" style="float:right; width:80%; padding: 15px 25px 15px 0px">
+                <h2 style="display:inline-block">Upcoming Bookings by me</h2>
+                <button class="primary" id="export-btn">Export to your calendar</button>
+                <table class="upcoming-table" id="upcoming-table" style="width: 100%">
                     <colgroup>
-                        <col style="width: 27%;">
+                        <col style="width: 25%;">
+                        <col style="width: 18%;">
+                        <col style="width: 19%;">
+                        <col style="width: 15%;">
                         <col style="width: 23%;">
-                        <col style="width: 21%;">
-                        <col style="width: 20%;">
-                        <col style="width: 9%;">
                       </colgroup>
                     <tr>
                         <th>Event Name</th>
@@ -147,17 +158,20 @@
                         <th></th>
                     </tr>
                 </table>
+            </br>
+                <button class="primary" id="scheduling-btn">Add new booking</button>
             </div>
-            <div id="history-others" style="float:right; width:80%; padding: 15px 25px 15px 0px">
-                <h2 style="display:inline-block">Past Bookings by others</h2>
-                <!-- <button class="subscribe-btn">Subscribe to your calendar</button> -->
-                <table class="history-table" id="history-table-others" style="width:100%">
+            <!-- Upcoming Made by others i am attending -->
+            <div id="upcoming" style="float:right; width:80%; padding: 15px 25px 15px 0px">
+                <h2 style="display:inline-block">Upcoming Bookings Scheduled</h2>
+                <button class="primary" id="export-btn">Export to your calendar</button>
+                <table class="upcoming-table" id="upcoming-table-others" style="width: 100%">
                     <colgroup>
-                        <col style="width: 27%;">
+                        <col style="width: 25%;">
+                        <col style="width: 18%;">
+                        <col style="width: 19%;">
+                        <col style="width: 15%;">
                         <col style="width: 23%;">
-                        <col style="width: 21%;">
-                        <col style="width: 20%;">
-                        <col style="width: 9%;">
                       </colgroup>
                     <tr>
                         <th>Event Name</th>
@@ -188,11 +202,11 @@
             .then(response => response.json())
             .then(data => {
                 if (data.success) {
-                    const upcomingTable = document.getElementById("history-table-others");
-                    const pastEventsOthers = data.bookedPastEvents;
+                    const upcomingTable = document.getElementById("upcoming-table-others");
+                    const upcomingEventsOthers = data.bookedUpcomingEvents;
 
                     //populate the table
-                    pastEventsOthers.forEach(event => {
+                    upcomingEventsOthers.forEach(event => {
                         let newRow = upcomingTable.insertRow(-1);
                         let eventNameCell = newRow.insertCell(0);
                         let dateCell = newRow.insertCell(1);
@@ -255,11 +269,11 @@
             .then(response => response.json())
             .then(data => {
                 if (data.success) {
-                    const upcomingTable = document.getElementById("history-table");
-                    const pastEvents = data.pastEvents;
+                    const upcomingTable = document.getElementById("upcoming-table");
+                    const upcomingEvents = data.upcomingEvents;
 
                     //populate the table
-                    pastEvents.forEach(event => {
+                    upcomingEvents.forEach(event => {
                         let newRow = upcomingTable.insertRow(-1);
                         let eventNameCell = newRow.insertCell(0);
                         let dateCell = newRow.insertCell(1);
@@ -316,69 +330,82 @@
         })
     </script>
     <script>
-    // populate that table
-    let historyTable = document.getElementById("history-table");
-    for(let i = 0; i < 5; i++){
-        let newRow = historyTable.insertRow(-1);
-        let eventNameCell = newRow.insertCell(0);
-        let dateCell = newRow.insertCell(1);
-        let hostCell = newRow.insertCell(2);;
-        let locationCell = newRow.insertCell(3);
-        let tableButtonsCell = newRow.insertCell(4);
+        // populate upcoming table
+        let upcomingTable = document.getElementById("upcoming-table");
+        for(let i = 0; i < 5; i++){
+            let newRow = upcomingTable.insertRow(-1);
+            let eventNameCell = newRow.insertCell(0);
+            let dateCell = newRow.insertCell(1);
+            let hostCell = newRow.insertCell(2);
+            let locationCell = newRow.insertCell(3);
+            let tableButtonsCell = newRow.insertCell(4);
 
-        // get these values from db
-        let eventName = "Placeholder event ".concat(i.toString());
-        let date = "December ".concat(i.toString(), ", 2024 2:00 PM - 3:00 PM");
-        let host = "Placeholder host ".concat(i.toString());
-        let location = "Placeholder location ".concat(i.toString());
-        let notes = "Notes ".concat(i.toString());
-        let eventURL = "https://randomurl".concat(i.toString());
+            // get these values from db
+            let eventName = "Placeholder event ".concat(i.toString());
+            let date = "December ".concat(i.toString(), ", 2024 2:00 PM - 3:00 PM");
+            let host = "Placeholder host ".concat(i.toString());
+            let location = "Placeholder location ".concat(i.toString());
+            let notes = "Notes ".concat(i.toString());
+            let eventURL = "https://randomurl".concat(i.toString());
 
-        eventNameCell.innerHTML = eventName;
-        dateCell.innerHTML = date;
-        hostCell.innerHTML = host;
-        locationCell.innerHTML = location;
+            eventNameCell.innerHTML = eventName;
+            dateCell.innerHTML = date;
+            hostCell.innerHTML = host;
+            locationCell.innerHTML = location;
 
-        // add event buttons to each entry
-        let eventDetailsPopupID = `event-details-popup-${i}`;
-        tableButtonsCell.innerHTML = `
-            <button class="secondary" onclick="showDetailsPopup('${eventDetailsPopupID}')">Details</button>
-            <!-- Event Details Popup -->
-            <div id="event-details-popup-${i}" class="event-details-popup">
-                <div class="event-details-popup-content">
-                    <span class="close" onclick="closeDetailsPopup('${eventDetailsPopupID}')">&times;</span>
-                    <h1>${eventName}</h1>
-                    <h3>${date}</h3>
-                    <table class="event-details-table" style="width:50%">
-                        <colgroup>
-                            <col style="width: 35%;">
-                            <col style="width: 65%;">
-                            </colgroup>
-                        <tr>
-                            <td>Host</td>
-                            <td>${host}</td>
-                        </tr>
-                        <tr>
-                            <td>Location</td>
-                            <td>${location}</td>
-                        </tr>
-                        <tr>
-                            <td>Notes</td>
-                            <td>${notes}</td>
-                        </tr>
-                        <tr>
-                            <td>Event URL</td>
-                            <td>${eventURL}</td>
-                        </tr>
-                    </table>   
+            // add event action buttons to each entry
+            let eventDetailsPopupID = `event-details-popup-${i}`;
+            tableButtonsCell.innerHTML = `
+                <button class="secondary" onclick="showDetailsPopup('${eventDetailsPopupID}')">Details</button>
+                <div id="event-details-popup-${i}" class="event-details-popup">
+                    <div class="event-details-popup-content">
+                        <span class="close" onclick="closeDetailsPopup('${eventDetailsPopupID}')">&times;</span>
+                        <h1>${eventName}</h1>
+                        <h3>${date}</h3>
+                        <table class="event-details-table" style="width:50%">
+                            <colgroup>
+                                <col style="width: 35%;">
+                                <col style="width: 65%;">
+                                </colgroup>
+                            <tr>
+                                <td>Host</td>
+                                <td>${host}</td>
+                            </tr>
+                            <tr>
+                                <td>Location</td>
+                                <td>${location}</td>
+                            </tr>
+                            <tr>
+                                <td>Notes</td>
+                                <td>${notes}</td>
+                            </tr>
+                            <tr>
+                                <td>Event URL</td>
+                                <td>${eventURL}</td>
+                            </tr>
+                        </table>   
+                        <div>
+                            <button class="primary">Modify booking</button>   
+                            <button class="primary">Cancel booking</button>    
+                        </div>
+                    </div>
                 </div>
-            </div>
-        `
+
+                <button class="secondary">Modify</button>
+
+                <button class="secondary">Cancel</button>
+            `
+        }
+    </script>
+    <script>
+        // redirects to the scheduling page
+        document.getElementById("scheduling-btn").onclick = function(){
+            window.location.href = "private_pages_redirection/schedule_sessioncheck.php";
         }
     </script>
     <script>
         document.addEventListener('DOMContentLoaded', function() {
-            fetch('../database_stuff/preferences.php')
+            fetch('../database_stuff/dashboard.php')
             .then(response => response.json())
             .then(data => {
                 if (data.success) {
