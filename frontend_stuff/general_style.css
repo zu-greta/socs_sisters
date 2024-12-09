@@ -1,10 +1,10 @@
 @import url('https://fonts.googleapis.com/css2?family=Work+Sans:wght@400;600&family=Montserrat:wght@400;600&family=Inter:wght@400;600&family=Arial&display=swap');
-body, p, button, form {
+body, p, h3, button, form {
   margin: 0;
   font-family: 'Inter', 'Helvetica Neue', sans-serif;
 }
 
-header, h1, h2, h3, .logo-name {
+header, h1, h2, .logo-name {
   font-family: 'Work Sans', 'Montserrat', Arial, sans-serif; 
 }
 
@@ -15,7 +15,7 @@ header {
   background-color: white;
   width: 100%;
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-  padding: 11px 10px;
+  padding: 11px;
 }
 
 * {
@@ -23,12 +23,12 @@ header {
 }
 
 .nav-container {
-  /*background-color: black ;*/
+  /*background-color: black  ;*/
   display: flex;
   justify-content: space-between;
   width: 100%;
-  max-width: 1400px; /*Adjust if needed*/
   margin: 0 auto;
+  margin-left: 10px;
   height: 44px;
 }
 
@@ -40,7 +40,7 @@ header {
 }
 
 .nav-logo-img {
-  width: 50px;
+  width: 40px;
   height: auto;
   object-fit: contain;
   margin-right: 10px;
@@ -79,7 +79,7 @@ button.secondary {
 
 button.secondary:hover {
   background-color: #e4e4e4;
-  color: #ae0e1d;
+  color: #424242;
 }
 
 /* disabled button for when fields are not filled */
