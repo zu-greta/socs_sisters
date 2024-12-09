@@ -84,8 +84,8 @@ button.secondary:hover {
 
 /* disabled button for when fields are not filled */
 button:disabled {
-  border: 3px solid #ddd;
-  background-color: #ddd;
+  border: 3px solid #e4e4e4;
+  background-color: #e4e4e4;
   color: #aaa;
   cursor: not-allowed;
 }

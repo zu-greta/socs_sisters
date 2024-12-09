@@ -198,13 +198,19 @@ if (!isset($_SESSION['user_id'])) {
         </style>
     </head>
     <body>
-        <!--navigation bar with logo and etc-->
-        <div id="nav-bar">
-            <a href="#">PLACEHOLDER!</a>
-            <a href="#">PLACEHOLDER!</a>
-            <a href="#">PLACEHOLDER!</a>
-            <a href="../database_stuff/logout.php" style="float:right">Logout</a>
-        </div>
+        <header>
+            <div class="nav-container">
+                <a href="/" class="logo-link">
+                    <img src="png/logo.png" alt="Logo" class="nav-logo-img">
+                    <span class="logo-name">SOC-cessful Schedule</span>
+                </a>
+    
+                <div class="nav-buttons">
+                    <button id="loginLink" type="button" class="secondary">Log In</button>
+                    <button id="registerLink" type="button" class="primary">Register</button>
+                </div>
+            </div>
+        </header>
 
         <div id="background-container">
             <!-- Recurring and One-Time Toggle -->
