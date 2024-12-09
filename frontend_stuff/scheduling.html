@@ -198,19 +198,13 @@ if (!isset($_SESSION['user_id'])) {
         </style>
     </head>
     <body>
-        <header>
-            <div class="nav-container">
-                <a href="/" class="logo-link">
-                    <img src="png/logo.png" alt="Logo" class="nav-logo-img">
-                    <span class="logo-name">SOC-cessful Schedule</span>
-                </a>
-    
-                <div class="nav-buttons">
-                    <button id="loginLink" type="button" class="secondary">Log In</button>
-                    <button id="registerLink" type="button" class="primary">Register</button>
-                </div>
-            </div>
-        </header>
+        <!--navigation bar with logo and etc-->
+        <div id="nav-bar">
+            <a href="#">PLACEHOLDER!</a>
+            <a href="#">PLACEHOLDER!</a>
+            <a href="#">PLACEHOLDER!</a>
+            <a href="../database_stuff/logout.php" style="float:right">Logout</a>
+        </div>
 
         <div id="background-container">
             <!-- Recurring and One-Time Toggle -->
@@ -439,7 +433,7 @@ if (!isset($_SESSION['user_id'])) {
 
         // Return Home Button
         document.getElementById("return-home").addEventListener("click", function() {
-            window.location.href = "index.html";
+            window.location.href = "private_pages_redirection/dashboard_sessioncheck.php";
         });
     
         function copyToClipboard() {
