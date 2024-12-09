@@ -89,3 +89,10 @@ button:disabled {
   color: #aaa;
   cursor: not-allowed;
 }
+
+button:disabled:hover {
+  border: 3px solid #e4e4e4;
+  background-color: #e4e4e4;
+  color: #aaa;
+  cursor: not-allowed;
+}
