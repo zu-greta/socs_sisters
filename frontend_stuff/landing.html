@@ -5,7 +5,6 @@
     <title>Landing Page</title>
     <link rel="stylesheet" href="general_style.css">
     <style>
-
         main {
             box-sizing: border-box;
             width: 100%;
@@ -13,10 +12,9 @@
             padding: 50px 70px 30px;
         }
 
-        .main-container{
-            max-width: 1000px; /*Adjust if needed*/
+        .main-container {
+            max-width: 1000px;
             width: 100%;
-            /*background-color: #555;*/
             margin: 80px auto;
         }
 
@@ -31,27 +29,39 @@
             margin-bottom: 45px;
         }
 
-        footer {
+        .features {
+            box-sizing: border-box;
+            width: 100%;
+            text-align: left;
+            padding: 50px 70px 30px;
             background-color: #f0f0f0;
         }
 
-        footer .footer-icons {
+        .features-container {
+            max-width: 1260px;
+            width: 100%;
+            margin: 10px auto;
+        }
+
+        .features-icons {
             display: flex;
-            justify-content: space-around;
-            align-items: center;
+            justify-content: space-between; /* Ensures even spacing between items */
+            align-items: flex-start; /* Aligns items to the top */
         }
 
-        footer .icon-container {
-            text-align: center;
+        .icon-container {
+            flex: 1; /* Distributes containers evenly */
+            max-width: 30%; /* Adjust width to fit within row */
+            text-align: left; /* Aligns text to the left */
         }
 
-        footer .icon-container img {
+        .icon-container img {
             width: 50px;
             height: 50px;
             border-radius: 50%;
         }
 
-        footer .icon-container p {
+        .icon-container p {
             margin-top: 10px;
             font-size: 0.9rem;
             color: #555;
@@ -69,35 +79,45 @@
             </a>
 
             <div class="nav-buttons">
-                <!-- default nav buttons for logged-out state -->
                 <button id="loginLink" type="button" class="secondary">Log In</button>
                 <button id="registerLink" type="button" class="primary">Register</button>
             </div>
+        </div>
     </header>
 
     <main>
         <div class="main-container">
             <h2>Insert Long Slogan Here Insert Long Slogan Here </h2>
-            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur gravida, quam et ullamcorper semper.</p>
+            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur gravida, quam et ullamcorper semper.
+            </p>
             <button onclick="window.location.href='register.html'" class="primary">Register</button>
         </div>
     </main>
 
-    <footer>
-        <div class="footer-icons">
-            <div class="icon-container">
-                <img src="png/placeholder.png" alt="Icon 1">
-                <p>Text about using URLs to book appointments, for anyone</p>
-            </div>
-            <div class="icon-container">
-                <img src="png/placeholder.png" alt="Icon 2">
-                <p>Text about having to be a member to create a schedule</p>
-            </div>
-            <div class="icon-container">
-                <img src="png/placeholder.png" alt="Icon 3">
-                <p>Text about having to be a member to send requests</p>
+    <div class="features">
+        <div class="features-container">
+            <div class="features-icons">
+                <div class="icon-container">
+                    <img src="png/placeholder.png" alt="Icon 1">
+                    <p>
+                        Text about using URLs to book appointments, for anyone. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus dignissim sapien a arcu lacinia vulputate. Fusce dapibus, nibh vel facilisis maximus, lectus metus sollicitudin ligula, sed pharetra tellus enim id nisl. Integer bibendum leo id ornare porttitor. Sed sit amet mauris pretium tortor ornare semper eu nec lorem. Suspendisse tempor egestas tortor vel vestibulum.
+                    </p>
+                </div>
+                <div class="icon-container">
+                    <img src="png/placeholder.png" alt="Icon 2">
+                    <p>
+                        Text about having to be a member to create a schedule. Maecenas elementum nunc nec erat tincidunt, eu posuere massa porttitor. Nam tempor, lacus vel ornare dapibus, velit massa malesuada risus, in placerat nisi ex consectetur velit. Vivamus posuere lectus velit, sit amet placerat magna convallis a. Duis in ligula vel libero finibus dictum et sit amet metus. In faucibus ligula quam, vitae suscipit nibh feugiat vitae. 
+                    </p>
+                </div>
+                <div class="icon-container">
+                    <img src="png/placeholder.png" alt="Icon 3">
+                    <p>
+                        Text about having to be a member to send requests. Cras posuere facilisis diam, eu convallis lacus rutrum vitae. Pellentesque sit amet semper eros, suscipit finibus neque. Nullam ac commodo erat, quis porttitor leo. Nulla accumsan, lorem quis tempor accumsan, felis enim commodo ipsum, vitae ullamcorper augue diam eget nulla. Donec at arcu mauris. 
+                    </p>
+                </div>
             </div>
         </div>
-    </footer>
+    </div>
 </body>
+
 </html>

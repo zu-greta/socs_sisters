@@ -79,7 +79,7 @@ button.secondary {
 
 button.secondary:hover {
   background-color: #e4e4e4;
-  color: #424242;
+  color: #ae0e1d;
 }
 
 /* disabled button for when fields are not filled */
