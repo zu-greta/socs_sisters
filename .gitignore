@@ -1,5 +1,4 @@
 # For database_stuff
-database_stuff/*.sql
 database_stuff/*.db
 database_stuff/*.sq3
 database_stuff/*.env
