@@ -1,43 +1,55 @@
 <?php
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $email = $_POST['email'];
-    $username = $_POST['username'];
-    $firstname = $_POST['firstname'];
-    $lastname = $_POST['lastname'];
-    $password = $_POST['password'];
 
-    // Validate fields and hash password
-    if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
-        die("Invalid email format");
-    }
-    /*
-    if (strlen($password) < 10 || !preg_match('/\d/', $password) || !preg_match('/[a-zA-Z]/', $password)) {
-        die("Password does not meet criteria");
-    }*/
-
-    
-
+if ($_SERVER["REQUEST_METHOD"] === "POST") {
+    $email = trim($_POST["email"]);
+    $username = trim($_POST["username"]);
+    $fname = trim($_POST["firstname"]);
+    $lname = trim($_POST["lastname"]);
+    $password = trim($_POST["password"]);
     $passwordHash = password_hash($password, PASSWORD_DEFAULT);
 
-    // Save to database
     try {
+        // Connect to the database
         $database = new PDO('sqlite:ssDB.sq3');
         $database->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
+        // Check if the email already exists
+        $checkStmt = $database->prepare("SELECT COUNT(*) FROM Users WHERE email = :email");
+        $checkStmt->execute([':email' => $email]);
+        $emailExists = $checkStmt->fetchColumn() > 0;
+
+        if ($emailExists) {
+            // Redirect back to the registration page with a pop-up
+            echo "<script>
+                alert('The email is already registered. Please use a different email.');
+                window.location.href = '../frontend_stuff/register.html';
+            </script>";
+            exit();
+        }
+
+        // If email is not registered, insert the new user
         $stmt = $database->prepare("INSERT INTO Users (fname, lname, username, email, password_hash) VALUES (:fname, :lname, :username, :email, :password_hash)");
         $stmt->execute([
-            ':fname' => $firstname,
-            ':lname' => $lastname,
+            ':fname' => $fname,
+            ':lname' => $lname,
             ':username' => $username,
             ':email' => $email,
             ':password_hash' => $passwordHash
         ]);
 
-        echo "Registration successful!";
-        // Redirect to the protected page - THIS WILL BE THE MEMBER DASHBOARD
-        header("Location: index.html");
+        // Registration successful, redirect to login page
+        echo "<script>
+            alert('Registration successful! Please log in.');
+            window.location.href = '../frontend_stuff/login.html';
+        </script>";
+        exit();
     } catch (PDOException $e) {
-        echo "Error: " . $e->getMessage();
+        // Handle database errors
+        echo "<script>
+            alert('Error: " . addslashes($e->getMessage()) . "');
+            window.location.href = '../frontend_stuff/register.html';
+        </script>";
+        exit();
     }
-    }
+}
 ?>

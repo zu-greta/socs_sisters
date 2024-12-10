@@ -1,58 +1,77 @@
+document.addEventListener("DOMContentLoaded", function () {
+    const emailField = document.getElementById("email");
+    const usernameField = document.getElementById("username");
+    const firstNameField = document.getElementById("firstname");
+    const lastNameField = document.getElementById("lastname");
+    const passwordField = document.getElementById("password");
+    const confirmPasswordField = document.getElementById("confirmpassword");
+    const registerButton = document.getElementById("register-button");
 
-function checkPassword() {
-    const passwordField = document.getElementById('password');
-    const passwordCheckLength = document.getElementById('password-check-length');
-    const passwordCheckNumber = document.getElementById('password-check-number');
-    const passwordCheckAlpha = document.getElementById('password-check-alpha');
-
-    const value = passwordField.value;
-
-    let lengthValid = false;
-    let numberValid = false;
-    let alphaValid = false;
-
-    // Check for length of 10 or more
-    if (value.length >= 10) {
-        passwordCheckLength.style.visibility = 'visible';
-        lengthValid = true;
-    } else {
-        passwordCheckLength.style.visibility = 'hidden';
+    function validateEmail() {
+        const email = emailField.value;
+        return /@(mcgill\.ca|mail\.mcgill\.ca)$/.test(email);
     }
 
-    // Check for at least one number
-    if (/\d/.test(value)) {
-        passwordCheckNumber.style.visibility = 'visible';
-        numberValid = true;
-    } else {
-        passwordCheckNumber.style.visibility = 'hidden';
+    function validatePassword() {
+        const password = passwordField.value;
+        const lengthValid = password.length >= 10;
+        const numberValid = /\d/.test(password);
+        const alphaValid = /[a-zA-Z]/.test(password);
+
+        return lengthValid && numberValid && alphaValid;
     }
 
-    // Check for at least one alphabetical character
-    if (/[a-zA-Z]/.test(value)) {
-        passwordCheckAlpha.style.visibility = 'visible';
-        alphaValid = true;
-    } else {
-        passwordCheckAlpha.style.visibility = 'hidden';
+    function validateFields() {
+        const errors = [];
+
+        // Check email
+        if (!emailField.value) {
+            errors.push("Email field cannot be empty.");
+        } else if (!validateEmail()) {
+            errors.push("Email must end with @mcgill.ca or @mail.mcgill.ca.");
+        }
+
+        // Check username
+        if (!usernameField.value) {
+            errors.push("Username field cannot be empty.");
+        }
+
+        // Check first name
+        if (!firstNameField.value) {
+            errors.push("First name field cannot be empty.");
+        }
+
+        // Check last name
+        if (!lastNameField.value) {
+            errors.push("Last name field cannot be empty.");
+        }
+
+        // Check password
+        if (!passwordField.value) {
+            errors.push("Password field cannot be empty.");
+        } else if (!validatePassword()) {
+            errors.push(
+                "Password must have at least 10 characters, one number, and one alphabetical letter."
+            );
+        }
+
+        // Check confirm password
+        if (!confirmPasswordField.value) {
+            errors.push("Confirm password field cannot be empty.");
+        } else if (passwordField.value !== confirmPasswordField.value) {
+            errors.push("Passwords do not match.");
+        }
+
+        return errors;
     }
 
-    return lengthValid && numberValid && alphaValid;
-}
+    // Handle form submission
+    document.querySelector("form").addEventListener("submit", function (event) {
+        const errors = validateFields();
 
-function validateForm() {
-    const password = document.getElementById('password').value;
-    const confirmPassword = document.getElementById('confirmpassword').value;
-
-    // Ensure password meets criteria
-    if (!checkPassword()) {
-        alert('Password does not meet the criteria.');
-        return false;
-    }
-
-    // Ensure passwords match
-    if (password !== confirmPassword) {
-        alert('Passwords do not match.');
-        return false;
-    }
-
-    return true; // Allow form submission
-}
+        if (errors.length > 0) {
+            event.preventDefault(); // Prevent form submission
+            alert("The following errors were found:\n\n" + errors.join("\n"));
+        }
+    });
+});

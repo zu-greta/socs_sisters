@@ -96,7 +96,7 @@
             const timeDropdown = document.getElementById('poll-times');
             const startTime = new Date(0, 0, 0, 8, 0); // Start at 8:00 AM
             const endTime = new Date(0, 0, 0, 21, 0); // End at 9:00 PM
-    
+
             while (startTime <= endTime) {
                 const hours = startTime.getHours().toString().padStart(2, "0");
                 const minutes = startTime.getMinutes().toString().padStart(2, "0");
@@ -108,15 +108,17 @@
                 startTime.setMinutes(startTime.getMinutes() + 5); // Increment by 5 minutes
             }
         }
+
     
         // Format time in AM/PM format
         function formatTimeAMPM(hours, minutes) {
             const hour = parseInt(hours);
             const ampm = hour >= 12 ? "PM" : "AM";
             const formattedHour = hour % 12 === 0 ? 12 : hour % 12; // Convert 24-hour to 12-hour format
-            return `${formattedHour}:${minutes} ${ampm}`;
+            const formattedMinutes = minutes.toString().padStart(2, "0"); // Ensure two-digit minutes
+            return `${formattedHour}:${formattedMinutes} ${ampm}`;
         }
-    
+
         populateTimeDropdown(); // Populate the dropdown on page load
     
         function addDateAndTime() {
@@ -155,35 +157,14 @@
             lengthInput.value = "15"; // Reset the meeting length
         }
     
-        function generatePollURL() {
-            if (availableSlots.length === 0) {
-                alert("Please add at least one date and time slot before generating the poll URL.");
-                return;
-            }
-    
-            const pollTitle = document.getElementById('poll-title').value;
-    
-            if (!pollTitle) {
-                alert("Please provide a title for the poll.");
-                return;
-            }
-    
-            // Generate a unique poll URL
-            const uniqueID = Math.random().toString(36).substr(2, 9); // Random unique ID
-            const pollURL = `https://example.com/poll/${uniqueID}`;
-    
-            // Show the poll URL
-            document.getElementById('poll-url').innerText = pollURL;
-            document.getElementById('poll-result').classList.remove('hidden');
-        }
-    
         function copyToClipboard() {
             const pollURLField = document.getElementById('poll-url');
             navigator.clipboard.writeText(pollURLField.innerText).then(() => {
                 alert("Poll URL copied to clipboard!");
             });
         }
+
     </script>
-    
+    <script src="js/create_poll.js"></script>
 </body>
 </html>

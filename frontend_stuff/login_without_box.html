@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Login Page</title>
+    <link rel="stylesheet" href="general_style.css">
+    <style>
+        /* General */
+        body {
+            height: 100vh;
+            display: flex;
+        }
+
+        .container {
+            display: flex;
+            width: 100%;
+            height: 100%;
+        }
+
+        /* Left Section */
+        .left-section {
+            flex: 3;
+            background-color: #f9f9f9;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .left-section img {
+            width: 60%;
+            max-width: 300px;
+        }
+
+        .left-section h3 {
+            margin: 20px 0;
+            font-size: 1.5rem;
+            text-align: center;
+        }
+
+        .left-section p {
+            text-align: center;
+            font-size: 0.9rem;
+            color: #555;
+            max-width: 80%;
+        }
+
+        /* Right Section */
+        .right-section {
+            flex: 2;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-start;
+            align-items: center;
+            padding: 70px 0px;    
+        }
+
+        .right-section img {
+            width: 80px;
+            margin-bottom: 20px;
+        }
+
+        .right-section h2 {
+            margin-bottom: 10px;
+        }
+
+        .right-section p {
+            margin-bottom: 20px;
+            color: #555;
+        }
+
+        .right-section > * {
+            margin-bottom: 15px; /* space between login and create an account */
+        }
+
+        form {
+            width: 80%;
+            max-width: 300px;            
+        }
+
+        form label {
+            display: block;
+            margin-bottom: 5px;
+        }
+
+        form input {
+            width: 100%;
+            color:black;
+            padding: 10px;
+            margin-bottom: 15px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            box-sizing: border-box;  
+        }
+
+        /* "Remember Me" and "Forgot Password?" */
+        .flex-container {
+            display: flex;
+            margin-bottom: 8px;
+            align-items: flex-start;  /* Align items to the top */
+            justify-content: space-between;
+            font-size: 0.8rem;
+            white-space: nowrap;       /* Prevent wrapping */
+        }
+
+        .flex-container label {
+            display: flex;
+            align-items: flex-start;  
+        }
+
+        .flex-container input[type="checkbox"] {
+            margin-right: 5px;       
+            margin-top: 0.1rem;
+         }
+
+        .flex-container a {
+            color: #ed1b2f;
+            text-decoration: none;
+        }
+
+        button.primary {
+            width: 100%;
+        }
+
+        .bottom-text {
+            margin-top: 20px;
+            font-size: 0.9rem;
+            color: #555;
+            text-align: center;
+        }
+
+        .bottom-text a {
+            color: #ed1b2f;
+            text-decoration: none;
+        }
+
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <!-- Left Section -->
+        <div class="left-section">
+            <img src="png/placeholder.png" alt="Skeleton">
+            <h3>Student-favorite Tool of 2024 &#128175; </h3>
+            <p color:#424242>
+                "SOC-cessful Schedule is much a life changer for my teaching career." <br>
+                &#8211;  Prof. Joseph Vybhial
+            </p>
+        </div>
+
+        <!-- Right Section -->
+        <div class="right-section">
+            <img src="png/logo.png" alt="SOC-cessful Schedule Logo">
+            <h2>Log In to your Account</h2>
+            <p color:#424242>Check your upcoming schedules with us!</p>
+            <form method="POST" action="private_pages_redirection/login.php"> <!-- GRETA: TESTING THE PHP PRIVATE PAGE THINGY -->
+                <label for="username">Username:</label>
+                <input type="text" id="username" name="username" placeholder="Enter your username" required>
+
+                <label for="password">Password:</label>
+                <input type="password" id="password" name="password" placeholder="Enter your password" required>
+
+                <div class="flex-container">
+                    <label>
+                        <input type="checkbox" name="remember"> Remember Me
+                    </label>
+                    <a href="#">Forgot Password?</a>
+                </div>
+                
+                <button type="button" class="primary" onclick="redirectToDashboard()">Login</button>
+            </form>
+            <hr>
+            <p class="bottom-text">
+                Not Registered Yet? <a href="register.html">Create an account</a>
+            </p>
+        </div>
+    </div>
+
+    <script>
+        function redirectToDashboard() {
+            // Redirect user to the dashboard page after login
+            //window.location.href = "dashboard.html";
+            // GRETA: TESTING THE PHP PRIVATE PAGE THINGY
+            window.location.href = "private_pages_redirection/schedule_sessioncheck.php";
+        }
+    </script>
+
+</body>
+</html>

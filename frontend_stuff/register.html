@@ -3,6 +3,7 @@
 <html lang="en">
 <head>
     <title>Register Page</title>
+    <link rel="stylesheet" href="general_style.css">
     <style>
         /* Common Styles */
         body {
@@ -21,14 +22,46 @@
             flex-direction: column;
             justify-content: center;
             padding: 40px;
+            margin-top: -40px; /* Move the left section's content higher */
+
         }
         .right-section {
             display: flex;
             flex-direction: column;
             justify-content: center;
             align-items: center;
-            background-color: #f9f9f9;
+            background-color: #ae0e1d;
+            color: white;
         }
+        
+        .header-container {
+            justify-content: center;
+            width: 70%; /* Ensures it scales properly */
+            margin: 0 auto; /* Centers the container within the parent */
+
+        }
+
+        .header-container h1 {
+            font-size: 1.8rem; 
+            line-height: 1.2;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .header-container .center-text {
+            font-size: 0.9  rem; 
+            color: #424242;
+            text-align: center; 
+            margin-bottom: 15px;
+        }
+
+        .form-container {
+            justify-content: left;
+            max-width: 400px; /* Same width as .header-container for alignment */
+            width: 100%;
+            margin: 0 auto;
+        }
+
         .form-container {
             max-width: 400px;
         }
@@ -38,10 +71,11 @@
         }
         input {
             width: 100%;
-            padding: 10px;
+            padding: 12px;
             margin-bottom: 15px;
             border: 1px solid #ccc;
             border-radius: 5px;
+            box-sizing: border-box;  
         }
         .half-width {
             width: calc(50% - 10px); /* Adjusts for spacing */
@@ -56,24 +90,26 @@
             gap: 10px; /* Adds consistent spacing between fields */
         }
         .subtext {
-            font-size: 0.9rem;
+            font-size: 0.7rem;
             color: #555;
             margin-top: -10px; /* Adjusts spacing closer to the previous field */
             margin-bottom: 15px; /* Keeps consistent spacing below */
         }
         .terms-link {
-            color: #007BFF;
+            color: #ae0e1d;
             text-decoration: none;
         }
-        .register-button {
-            width: 100%;
-            padding: 10px;
-            background-color: #ccc;
-            color: white;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
+
+        .terms-link:hover {
+            color: #ed1b2f;
+            text-decoration: none;
         }
+
+        button{
+            width: 100%;
+            border: none;
+        }
+
         .right-section img {
             width: 100px;
             margin-bottom: 20px;
@@ -99,65 +135,68 @@
     <div class="container">
         <!-- Left Section -->
         <div class="left-section">
-            <h1>Welcome to the SOC-cessful Schedule Community</h1>
-            <p class="subtext">
-                Already have an account? 
-                <a href="login.html" class="terms-link">Log in</a>
-            </p>
-            <form class="form-container" action="../database_stuff/register.php" method="POST" onsubmit="return validateForm()">
-                <label for="email">Email:</label>
-                <input type="email" id="email" name="email" required>
-            
-                <label for="username">Username:</label>
-                <input type="text" id="username" name="username" required>
-            
-                <div class="flex-row">
-                    <div class="half-width">
-                        <label for="firstname">First Name:</label>
-                        <input type="text" id="firstname" name="firstname" required>
+            <div class="header-container">
+                <h1>Welcome to the SOC-cessful Schedule Community</h1>
+                <p class="center-text">
+                    Already have an account? 
+                    <a href="login.html" class="terms-link">Log in</a>
+                </p>
+                <form class="form-container" action="../database_stuff/register.php" method="POST" onsubmit="return validateForm()">
+                    <label for="email">Email:</label>
+                    <input type="email" id="email" name="email" placeholder="user@mcgill.ca or user@mail.mcgill.ca" required>
+                
+                    <label for="username">Username:</label>
+                    <input type="text" id="username" name="username" required>
+                
+                    <div class="flex-row">
+                        <div class="half-width">
+                            <label for="firstname">First Name:</label>
+                            <input type="text" id="firstname" name="firstname" required>
+                        </div>
+                        <div class="half-width" style="margin-left: 10px;">
+                            <label for="lastname">Last Name:</label>
+                            <input type="text" id="lastname" name="lastname" required>
+                        </div>
                     </div>
-                    <div class="half-width" style="margin-left: 10px;">
-                        <label for="lastname">Last Name:</label>
-                        <input type="text" id="lastname" name="lastname" required>
-                    </div>
-                </div>
-            
-                <label for="password">Password:</label>
-                <input type="password" id="password" name="password" oninput="checkPassword()" required>
-                <p class="subtext">● Use 10 or more characters
-                    <span id="password-check-length" class="checkmark">✔</span>
-                </p>
-                <p class="subtext">● At least one number
-                    <span id="password-check-number" class="checkmark">✔</span>
-                </p>
-                <p class="subtext">● At least one alphabetical character
-                    <span id="password-check-alpha" class="checkmark">✔</span>
-                </p>
-            
-                <label for="confirmpassword">Confirm Password:</label>
-                <input type="password" id="confirmpassword" name="confirmpassword" required>
-            
-                <p class="subtext">
-                    By creating an account, you agree to the 
-                    <a href="terms.html" class="terms-link">Terms of Use</a> and 
-                    <a href="privacy.html" class="terms-link">Privacy Policy</a>.
-                </p>
-            
-                <button type="submit" class="register-button">Register</button>
-            </form>
-            
+                
+                    <label for="password">Password:</label>
+                    <input type="password" id="password" name="password" oninput="checkPassword()" required>
+                    <p class="subtext">&#8226;  Use 10 or more characters
+                        <span id="password-check-length" class="checkmark">&#10004;</span>
+                    </p>
+                    <p class="subtext">&#8226;  At least one number
+                        <span id="password-check-number" class="checkmark">&#10004;</span>
+                    </p>
+                    <p class="subtext">&#8226;  At least one alphabetical character
+                        <span id="password-check-alpha" class="checkmark">&#10004;</span>
+                    </p>
+                    
+                    <label for="confirmpassword">Confirm Password:</label>
+                    <input type="password" id="confirmpassword" name="confirmpassword" required>
+                
+                    <p class="subtext">
+                        By creating an account, you agree to the 
+                        <a href="terms.html" class="terms-link">Terms of Use</a> and 
+                        <a href="privacy.html" class="terms-link">Privacy Policy</a>.
+                    </p>
+
+                    <!-- Initially disabled, primary class is applied dynamically -->
+                    <button type="submit" class="primary" id="register-button">Register</button>
+
+                </form>
+            </div>
         </div>
 
         <!-- Right Section -->
         <div class="right-section">
             <img src="png/logo.png" alt="SOC-cessful Schedule Logo">
             <h2>SOC-cessful Schedule</h2>
-            <p>
+            <p style="color:white;">
                 SOC-cessful Schedule is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s.
             </p>
         </div>
     </div>
     <script src="js/register.js"></script>
-
+    
 </body>
 </html>

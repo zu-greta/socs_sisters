@@ -1,0 +1,312 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Member Dashboard</title>
+    <link rel="stylesheet" href="general_style.css">
+    <style>
+        /* Side Navigation Bar */
+        .sidenav {
+            width: 14%;
+            float: left;
+            z-index: 1;
+            top: 20px;
+            left: 10px;
+            padding: 15px 0px 15px 25px;
+        }
+        .sidenav a {
+            margin-top: -1px;
+            margin-bottom: -1px;
+            padding: 8px 8px 8px 16px;
+            text-decoration: none;
+            display: block;
+            color: black;
+            border: 1px solid #424242; 
+        }
+        .sidenav a:hover {
+            background-color: #ebebeb;
+        }
+        .sidenav a.active {
+            background-color: #ae0e1d;
+            color: white;
+        }
+        .sidenav a.active:hover{
+            background-color: #ed1b2f;
+        }
+
+        [type=text] {
+            width: 100%;
+            padding: 10px;
+            margin: 5px 0px 15px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+
+        /* change password popup */
+        .change-password-popup {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgba(0, 0, 0, 0.5); 
+            }
+
+        /* popup content */
+        .change-password-popup-content {
+            background-color: white;
+            margin: 10% auto;
+            padding: 80px 90px 100px 60px;
+            border: 1px solid #888;
+            width: 50%;
+            max-width: 800px;
+            position: relative;
+            border-radius: 5px;
+
+            }
+
+        /* close button */
+        .close {
+            position: absolute;
+            top: 0px;
+            right: 20px;
+            color: black;
+            font-size: 50px;
+            /* font-weight: bold; */
+            cursor: pointer;
+            z-index: 1002;
+        }
+
+        .close:hover, .close:focus {
+            color: #424242;
+            text-decoration: none;
+            cursor: pointer;
+        }
+
+        /* Modal Background */
+        .modal {
+            display: none; /* Hidden by default */
+            position: fixed;
+            z-index: 1001; /* Higher than the overlay */
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.6); /* Semi-transparent background */
+        }
+
+        /* Modal Content Box */
+        .modal-content {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background-color: #ffffff;
+            padding: 20px;
+            border-radius: 10px;
+            width: 80%;
+            max-width: 400px;
+            text-align: center;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+        }
+
+        body.modal-open {
+            overflow: hidden;
+        } 
+
+
+    </style>
+</head>
+<body>
+    <!-- Navigation Bar -->
+    <div id="nav-bar">
+        <a href="#">PLACEHOLDER!</a>
+        <a href="#">PLACEHOLDER!</a>
+        <a href="#">PLACEHOLDER!</a>
+    </div>
+
+    <div id="background-container">
+        <!-- Welcome message -->
+        <div id="welcome-message">
+            <h1 style="text-align:center">Welcome, <span id="fname"></span>!</h1>
+        </div>
+        <!-- Page content -->
+        <div id="main-container">
+            <!-- Sidebar -->
+            <div class="sidenav">
+                <h2>My Account</h2>
+                <a href="dashboard.html">Upcoming</a>
+                <a href="history.html">History</a>
+                <a href="#" class="active">Preferences</a>
+            </div>
+            <!-- Preferences -->
+            <div style="float:right; width:80%; padding: 15px 25px 15px 0px">
+                <!--display the current account info--> <!--TODO MAKE THIS LOOK NIVER PLZ-->
+                <h2>Account Preferences</h2>
+                <h4>Contact Information</h4>
+                <p style="font-weight: bold;">First Name: <span id="firstname" style="font-weight: lighter;"></span></p>
+                <!--button to change the firstname-->
+                <button type="button" class="primary" onclick="showChangeFirstnamePopup()">Change first name</button>
+                <p style="font-weight: bold;">Last Name: <span id="lastname" style="font-weight: lighter;"></span></p>
+                <button type="button" class="primary" onclick="showChangeLastnamePopup()">Change last name</button>
+                <p style="font-weight: bold;">Email: <span id="email" style="font-weight: lighter;"></span></p>
+                
+
+                <form id="preferences">
+                    <h2>Account Preferences</h2>
+                    <h4>Contact Information</h4>
+                    <label for="first-name">First Name (required)
+                        <input type="text" id="first-name" placeholder="John"></label>
+                    <label for="last-name">Last Name (required)
+                        <input type="text" name="last-name" placeholder="Smith"></label>
+                    <label for="email">Email (required)
+                        <input type="text" name="email" placeholder="john.smith@mail.mcgill.ca"></label>
+                    <button type="button" class="primary" onclick="showChangePasswordPopup()">Change password</button>
+                    <!-- change firstname popup -->
+                    <div id="change-firstname-popup" class="change-password-popup">
+                        <div class="change-password-popup-content">
+                            <span class="close" onclick="closeChangeFirstnamePopup()">&times;</span>
+                            <form id="change-firstname" method="POST" action="../database_stuff/fnamechange.php">
+                                <label for="ffirstname">New First Name
+                                    <input type="text" name="ffirstname"></label>
+                                <button type="submit" class="primary">Save change</button>
+                            </form>
+                        </div>
+                    </div>
+                    <!-- change lastname popup -->
+                    <div id="change-lastname-popup" class="change-password-popup">
+                        <div class="change-password-popup-content">
+                            <span class="close" onclick="closeChangeLastnamePopup()">&times;</span>
+                            <form id="change-lastname" method="POST" action="../database_stuff/lnamechange.php">
+                                <label for="lname">New Last Name
+                                    <input type="text" name="lname"></label>
+                                <button type="submit" class="primary">Save change</button>
+                            </form>
+                        </div>
+                    </div>
+                    <!-- change password popup -->
+                    <div id="change-password-popup" class="change-password-popup">
+                        <div class="change-password-popup-content">
+                            <span class="close" onclick="closeChangePasswordPopup()">&times;</span>
+                            <form id="change-password" method="POST" action="../database_stuff/passwordchange.php">
+                                <label for="current-password">Current Password
+                                    <input type="text" name="current-password"></label>
+                                <label for="new-password">New Password
+                                    <input type="text" name="new-password"></label>
+                                <label for="reenter-new-password">Re-Enter New Password
+                                    <input type="text" name="reenter-new-password"></label>
+                                <button type="submit" class="primary">Save password</button>
+                            </form>
+                        </div>
+                    </div>
+                    <h4>Notifications & Reminders</h4>
+                    <input type="checkbox" id="event-notifs" name="event-notifs" value="" >
+                    <label for="event-notifs" > Email notifications of cancelled and rescheduled events</label><br><br>
+                    <input type="checkbox" id="event-reminder" name="event-reminder" value="">
+                    <label for="event-reminder"> Email reminder 2 days before event</label><br><br>
+                    <button type="submit" class="primary">Save preferences</button>
+                </form>
+            </div>
+        </div>
+    </div>
+    <!-- Confirmation Pop-Up Modal-->
+    <div id="confirmation-popup" class="modal">
+        <div class="modal-content">
+        <span class="close" id="close-popup">&times;</span>
+        <h2>Password Changed SOC-Sessfully!</h2>
+        </div>
+    </div> 
+
+    <script>
+        function showChangePasswordPopup() {
+            document.getElementById("change-password-popup").style.display = 'block';
+
+            const popup_content = document.getElementById("change-password-popup-content");
+            // get the form with id="change-password" from the popup
+            const form = popup_content.querySelector("#change-password");
+            form.addEventListener('submit', handlePasswordChange);
+
+        }
+
+        function closeChangePasswordPopup(){
+            document.getElementById("change-password-popup").style.display = 'none';
+        }
+
+        function showChangeFirstnamePopup() {
+            document.getElementById("change-firstname-popup").style.display = 'block';
+        }
+        function closeChangeFirstnamePopup() {
+            document.getElementById("change-firstname-popup").style.display = 'none';
+        }
+        function showChangeLastnamePopup() {
+            document.getElementById("change-lastname-popup").style.display = 'block';
+        }
+        function closeChangeLastnamePopup() {
+            document.getElementById("change-lastname-popup").style.display = 'none';
+        }
+    </script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            fetch('../database_stuff/preferences.php')
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    console.log("Response received");
+                    // populate first name
+                    document.getElementById("fname").innerHTML = data.userDetails.userFname;
+                    document.getElementById("firstname").innerHTML = data.userDetails.userFname;
+                    document.getElementById("lastname").innerHTML = data.userDetails.userLname;
+                    document.getElementById("email").innerHTML = data.userDetails.userEmail;
+                } else {
+                    console.log(data.error);
+                    alert("An error occurred. Please try again later.");
+                }
+            })
+            .catch((error) => {
+                console.error('Error:', error);
+                alert("An error occurred while fetching. Please try again later.");
+            });
+        });
+
+        //PASSWORD CHANGE NEEDS TO BE FIXED - THE LOGIC WOULD BE THE SAME FOR CHANGING NAME AND EMAIL!
+        // + MAKE SURE TO DO EXTRA CHECKS FOR UNIQUE EMAILS AND USERNAMES... + HIDE THE PASSWORD AS U TYPE
+    //     document.addEventListener('DOMContentLoaded', function() {
+    //     function handlePasswordChange(event) {    //password change form submission
+    //         event.preventDefault();
+    //         const form = event.target;
+    //         fetch(form.action, {
+    //             method: 'POST',
+    //             body: new URLSearchParams(new FormData(form)) // event.target is the form
+    //         }).then((response) => {
+    //             if (!response.ok) {
+    //                 throw new Error(`HTTP error! Status: ${response.status}`);
+    //             }
+    //             return response.json(); 
+    //         }).then((body) => {
+    //             console.log("Response received for password change");
+    //             if (body.success) {
+    //                 console.log("Password changed successfully");
+    //                 // Show the modal
+    //                 document.getElementById("confirmation-popup").style.display = "block";
+    //             }
+    //         }).catch((error) => {
+    //             // TODO handle error
+    //             console.log("Error:", error); 
+    //             alert('An error occurred while changing the password.');
+    //         });
+
+    //         //Close the confirmation popup
+    //         document.getElementById("close-popup").onclick = function () {
+    //             document.getElementById("confirmation-popup").style.display = "none";
+    //     };}
+    // })
+
+    </script>
+
+
+</body>
+</html>

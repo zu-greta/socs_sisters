@@ -330,7 +330,7 @@
             iframeModal.classList.add("iframe-modal");
             iframeModal.innerHTML = `
               <div class="iframe-frame">
-                <iframe src="confirmation.html" frameborder="0" class="iframe-content"></iframe>
+                <iframe src="booking-confirmation.html" frameborder="0" class="iframe-content"></iframe>
                 <button class="iframe-done-button">Done</button>
               </div>
             `;
@@ -352,7 +352,7 @@
             time: appointmentDetails.time,
             date: appointmentDetails.date,
           });
-          iframe.src = `confirmation.html?${urlParams.toString()}`;
+          iframe.src = `booking-confirmation.html?${urlParams.toString()}`;
         }
 
         // Example usage

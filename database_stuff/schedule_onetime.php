@@ -21,10 +21,8 @@ try {
 // create the slots going with startdate + i*duration for i=0 to number of slots. 
 // if recurring, then check the start and end dates, if recurring every monday from startdate to enddate then find all mondays 
 // in that range and then create slots for each monday.
-
 // for all slots created, insert into the database
 
-//temp code FIGURE OUT CALCULATIONS 
 
 // Handle POST request to schedule recurring or one-time events
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
@@ -37,9 +35,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $slotDuration = $_POST['slot'] ?? '';
     $calendar = $_POST['calendar'] ?? '';
     $notes = $_POST['notes'] ?? '';
-    //$creatorId = 1; //TODO: Assuming logged-in user, replace with actual user ID !!!!! 
 
-    $link = "https://example.com/scheduling/event?name=" . urlencode($name); // Placeholder for now
+    $link = "https://example.com/scheduling/event?creator_id=" . urlencode($creatorId); // TODO replace with actual link
     
 
     //TODO: CHECK Y TIME CANNOT BE VALIDATED
@@ -60,25 +57,24 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $startTimeObj = new DateTime($startTime);
     $endTimeObj = new DateTime($endTime);
 
-    // Validate the start and end times
-    if (($startDate === $endDate) && ($startTimeObj >= $endTimeObj)) { //FIX THIS 
-        // If both dates are the same, validate that start time is before end time
-        echo json_encode(['success' => false, 'error' => 'Start time must be before end time']);
+    if (strtotime($start) > strtotime($end)) {
+        echo json_encode(['success' => false, 'error' => 'Start date must be before end date']);
         exit;
-    } else {
-        // No validation needed if the dates are different
-        if ($startDateObj > $endDateObj) {
-            echo json_encode(['success' => false, 'error' => 'Start date must be before end date']);
-            exit;
-        }
     }
-
 
     // TODO: For one-time events, calculate the slots (duration-based) 
     $slots = [];
     $currentDate = clone $startDateObj;
     $duration = new DateInterval('PT' . $slotDuration . 'M');
-    $numSlots = $startDateObj->diff($endDateObj)->days * 24 * 60 / $slotDuration;
+    //if the start and end date are the same, the number of slots is the difference in minutes divided by the slot duration
+    //otherwise, the number of slots is the difference in days times 24 hours times 60 minutes divided by the slot duration
+    if ($startDate === $endDate) {
+        $timediff = ($endTimeObj->getTimestamp() - $startTimeObj->getTimestamp())/60;
+        $numSlots = $timediff / $slotDuration;
+    } else {
+        $numSlots = $startDateObj->diff($endDateObj)->days * 24 * 60 / $slotDuration;
+    }
+    //$numSlots = $startDateObj->diff($endDateObj)->days * 24 * 60 / $slotDuration;
     for ($i = 0; $i < $numSlots; $i++) {
         $slots[] = [
             'start_date' => $currentDate->format('Y-m-d'),
@@ -112,7 +108,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $stmt->execute([
                 $slot['creator_id'], 
                 $slot['start_date'], 
-                $slot['start_date'], // Same date for start and end TODO when past midnight its the next day!
+                $slot['end_date'], // Same date for start and end TODO when past midnight its the next day!
                 $slot['duration'], 
                 $slot['start_time'], 
                 $slot['end_time'], 
@@ -122,7 +118,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 $slot['max_people'],
                 $slot['url']   
             ]);
-
         }
 
         // the pop up message modal should be displayed now over the schedule page
