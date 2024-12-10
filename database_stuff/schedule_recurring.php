@@ -39,24 +39,16 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $notes = $_POST['notes'] ?? '';
     $creatorId = 1; //TODO: Assuming logged-in user, replace with actual user ID !!!!!
 
-    $link = "https://example.com/scheduling/event?name=" . urlencode($name); // Placeholder for now
-    
+    $link = "https://example.com/scheduling/event?creator_id=" . urlencode($creatorId); // TODO replace with actual link    
 
     // For recurring events, also capture additional details
     $startDate = $_POST['start_date'] ?? '';
     $endDate = $_POST['end_date'] ?? '';
     //$days = isset($_POST['days']) ? explode(',', $_POST['days']) : []; 
     $days = isset($_POST['day']) ? $_POST['day'] : [];
-
-    // if (empty($days)) {
-    //     echo 'No days selected.';
-    // } else {
-    //     echo 'Selected days: ' . implode(', ', $days);
-    // } 
-
     
     // Validate required fields
-    if (empty($name) || empty($location) || empty($startDate) || empty($endDate) || empty($slotDuration) || empty($participants) || empty($calendar)) {
+    if (empty($name) || empty($location) || empty($startDate) || empty($endDate) || empty($slotDuration) || empty($participants) || empty($calendar) || empty($days)) {
         echo json_encode(['success' => false, 'error' => 'Please fill in all required fields for recurring events']);
         exit;
     }
@@ -69,14 +61,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     $startDateObj = new DateTime($startDate . ' ' . $startTime); // Combine date and time
     $endDateObj = new DateTime($endDate . ' ' . $endTime); // Combine date and time
-    // TODO: Ensure start date is before end date - BUT ALLOW SAME DAY EVENTS - CHECK TIMES
-    // if ($startDateObj >= $endDateObj) {
-    //     echo json_encode(['success' => false, 'error' => 'Start date must be before end date']);
-    //     exit;
-    // }
+    if ($startDate > $endDate) {
+        echo json_encode(['success' => false, 'error' => 'Start date must be before end date']);
+        exit;
+    } else if ($startDate === $endDate && strtotime($startTime) >= strtotime($endTime)) {
+        echo json_encode(['success' => false, 'error' => 'Start time must be before end time', 'start' => $startTime, 'end' => $endTime]);
+        exit;
+    }
     
 
-    // TODO: For recurring events, find all occurrences of the selected days - THE LOGIC HERE NEEDS TO CHANGE
     $slots = [];
     $currentDate = clone $startDateObj;
     $duration = new DateInterval('PT' . $slotDuration . 'M');
@@ -97,7 +90,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             for ($i = 0; $i < $numSlots; $i++) {
                 $slots[] = [
                     'start_date' => $currentDate->format('Y-m-d'), // Use the current date
-                    'start_time' => $startTimeObj->format('H:i:s'), 
+                    'start_time' => $currentDate->format('H:i:s'), 
                     'end_date' => $currentDate->format('Y-m-d'), // Same day as start
                     'end_time' => $currentDate->add($duration)->format('H:i:s'), // Add duration to start time
                     'duration' => $slotDuration, // Duration in minutes
@@ -132,7 +125,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $stmt->execute([
                 $slot['creator_id'], 
                 $slot['start_date'], 
-                $slot['start_date'], // Same date for start and end
+                $slot['end_date'], // Same date for start and end
                 $slot['duration'], 
                 $slot['start_time'], 
                 $slot['end_time'], 

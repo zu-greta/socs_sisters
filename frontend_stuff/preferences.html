@@ -154,7 +154,7 @@
                 <p style="font-weight: bold;">Last Name: <span id="lastname" style="font-weight: lighter;"></span></p>
                 <button type="button" class="primary" onclick="showChangeLastnamePopup()">Change last name</button>
                 <p style="font-weight: bold;">Email: <span id="email" style="font-weight: lighter;"></span></p>
-                <button type="button" class="primary" onclick="showChangeEmailPopup()">Change email</button>
+                
 
                 <form id="preferences">
                     <h2>Account Preferences</h2>
@@ -171,8 +171,8 @@
                         <div class="change-password-popup-content">
                             <span class="close" onclick="closeChangeFirstnamePopup()">&times;</span>
                             <form id="change-firstname" method="POST" action="../database_stuff/fnamechange.php">
-                                <label for="fname">New First Name
-                                    <input type="text" name="fname"></label>
+                                <label for="ffirstname">New First Name
+                                    <input type="text" name="ffirstname"></label>
                                 <button type="submit" class="primary">Save change</button>
                             </form>
                         </div>
@@ -184,17 +184,6 @@
                             <form id="change-lastname" method="POST" action="../database_stuff/lnamechange.php">
                                 <label for="lname">New Last Name
                                     <input type="text" name="lname"></label>
-                                <button type="submit" class="primary">Save change</button>
-                            </form>
-                        </div>
-                    </div>
-                    <!-- change email popup -->
-                    <div id="change-email-popup" class="change-password-popup">
-                        <div class="change-password-popup-content">
-                            <span class="close" onclick="closeChangeEmailPopup()">&times;</span>
-                            <form id="change-email" method="POST" action="../database_stuff/emailchange.php">
-                                <label for="email">New Email
-                                    <input type="text" name="email"></label>
                                 <button type="submit" class="primary">Save change</button>
                             </form>
                         </div>
@@ -249,11 +238,6 @@
 
         function showChangeFirstnamePopup() {
             document.getElementById("change-firstname-popup").style.display = 'block';
-            //call the function to handle the form submission
-            const popup_content = document.getElementById("change-firstname-popup-content");
-            // get the form with id="change-firstname" from the popup
-            const form = popup_content.querySelector("#change-firstname");
-            form.addEventListener('submit', handleFirstnameChange);
         }
         function closeChangeFirstnamePopup() {
             document.getElementById("change-firstname-popup").style.display = 'none';
@@ -263,12 +247,6 @@
         }
         function closeChangeLastnamePopup() {
             document.getElementById("change-lastname-popup").style.display = 'none';
-        }
-        function showChangeEmailPopup() {
-            document.getElementById("change-email-popup").style.display = 'block';
-        }
-        function closeChangeEmailPopup() {
-            document.getElementById("change-email-popup").style.display = 'none';
         }
     </script>
     <script>
@@ -296,64 +274,36 @@
 
         //PASSWORD CHANGE NEEDS TO BE FIXED - THE LOGIC WOULD BE THE SAME FOR CHANGING NAME AND EMAIL!
         // + MAKE SURE TO DO EXTRA CHECKS FOR UNIQUE EMAILS AND USERNAMES... + HIDE THE PASSWORD AS U TYPE
-        document.addEventListener('DOMContentLoaded', function() {
-        function handlePasswordChange(event) {    //password change form submission
-            event.preventDefault();
-            const form = event.target;
-            fetch(form.action, {
-                method: 'POST',
-                body: new URLSearchParams(new FormData(form)) // event.target is the form
-            }).then((response) => {
-                if (!response.ok) {
-                    throw new Error(`HTTP error! Status: ${response.status}`);
-                }
-                return response.json(); 
-            }).then((body) => {
-                console.log("Response received for password change");
-                if (body.success) {
-                    console.log("Password changed successfully");
-                    // Show the modal
-                    document.getElementById("confirmation-popup").style.display = "block";
-                }
-            }).catch((error) => {
-                // TODO handle error
-                console.log("Error:", error); 
-                alert('An error occurred while changing the password.');
-            });
+    //     document.addEventListener('DOMContentLoaded', function() {
+    //     function handlePasswordChange(event) {    //password change form submission
+    //         event.preventDefault();
+    //         const form = event.target;
+    //         fetch(form.action, {
+    //             method: 'POST',
+    //             body: new URLSearchParams(new FormData(form)) // event.target is the form
+    //         }).then((response) => {
+    //             if (!response.ok) {
+    //                 throw new Error(`HTTP error! Status: ${response.status}`);
+    //             }
+    //             return response.json(); 
+    //         }).then((body) => {
+    //             console.log("Response received for password change");
+    //             if (body.success) {
+    //                 console.log("Password changed successfully");
+    //                 // Show the modal
+    //                 document.getElementById("confirmation-popup").style.display = "block";
+    //             }
+    //         }).catch((error) => {
+    //             // TODO handle error
+    //             console.log("Error:", error); 
+    //             alert('An error occurred while changing the password.');
+    //         });
 
-            //Close the confirmation popup
-            document.getElementById("close-popup").onclick = function () {
-                document.getElementById("confirmation-popup").style.display = "none";
-        };}
-        function handleFirstnameChange(event) {    //firstname change form submission
-            event.preventDefault();
-            const form = event.target;
-            fetch(form.action, {
-                method: 'POST',
-                body: new URLSearchParams(new FormData(form)) // event.target is the form
-            }).then((response) => {
-                if (!response.ok) {
-                    throw new Error(`HTTP error! Status: ${response.status}`);
-                }
-                return response.json(); 
-            }).then((body) => {
-                console.log("Response received for firstname change");
-                if (body.success) {
-                    console.log("Firstname changed successfully");
-                    // Show the modal
-                    document.getElementById("confirmation-popup").style.display = "block";
-                }
-            }).catch((error) => {
-                // TODO handle error
-                console.log("Error:", error); 
-                alert('An error occurred while changing the first name.');
-            });
-
-            //Close the confirmation popup
-            document.getElementById("close-popup").onclick = function () {
-                document.getElementById("confirmation-popup").style.display = "none";
-        };}
-    })
+    //         //Close the confirmation popup
+    //         document.getElementById("close-popup").onclick = function () {
+    //             document.getElementById("confirmation-popup").style.display = "none";
+    //     };}
+    // })
 
     </script>
 

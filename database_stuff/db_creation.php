@@ -39,6 +39,18 @@ try {
     $database->exec($sql);
 
     echo "Database and tables created successfully!";
+
+    //comment out this section if you dont want to load the data
+    // load some data into the tables
+    $sql = file_get_contents('data.sql');
+    // Check if file_get_contents successfully read the file
+    if ($sql === false) {
+        throw new Exception("Failed to read the SQL data file.");
+    }
+    // Execute the SQL schema
+    $database->exec($sql);
+
+    echo "Data loaded successfully!";
 } catch (PDOException $e) {
     echo "PDO Error: " . $e->getMessage();
 } catch (Exception $e) {

@@ -21,7 +21,8 @@ try {
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     // Sanitize and validate the form data
-    $fname = $_POST['fname'] ?? '';
+    $ffirstname = $_POST['ffirstname'] ?? '';
+    error_log("Received first name: $ffirstname");
     
     if (empty($fname)) {
         echo json_encode(['success' => false, 'error' => 'Please fill in all required fields']);
@@ -40,7 +41,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         );
 
         // Execute the statement
-        $stmt->execute([$fname, $userID]);
+        $stmt->execute([$ffirstname, $userID]);
 
         $response = [
             "success" => true,
@@ -48,6 +49,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
         // Send JSON response
         echo json_encode($response);
+        //redirect back to the dashboard
+        header('Location: ../frontend_stuff/preferences.html');
         exit;
     } catch (PDOException $e) {
         echo json_encode(['success' => false, 'error' => 'Database error: ' . $e->getMessage()]);

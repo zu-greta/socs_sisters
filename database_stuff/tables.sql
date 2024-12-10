@@ -6,6 +6,7 @@ CREATE TABLE Users (
     lname TEXT NOT NULL,
     email TEXT UNIQUE NOT NULL,
     password_hash TEXT NOT NULL, -- Placeholder for storing passwords
+    --role TEXT CHECK (role IN ('professor', 'TA', 'student', 'member')) DEFAULT 'member', -- CHECK THIS LATER
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     last_modified_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
@@ -36,7 +37,7 @@ CREATE TABLE Bookings (
     booked_by_email TEXT NOT NULL, -- Email of the person who booked the slot
     num_people INTEGER NOT NULL DEFAULT 1,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    FOREIGN KEY (slot_id) REFERENCES Events(slot_id),
+    FOREIGN KEY (slot_id) REFERENCES Events(slot_id) ON DELETE CASCADE,
     FOREIGN KEY (booked_by_id) REFERENCES Users(user_id)
 );
 
