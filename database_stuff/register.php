@@ -31,7 +31,6 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         $stmt->execute([
             ':fname' => $fname,
             ':lname' => $lname,
-            ':username' => $username,
             ':email' => $email,
             ':password_hash' => $passwordHash
         ]);
