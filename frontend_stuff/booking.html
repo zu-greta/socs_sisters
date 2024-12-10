@@ -369,10 +369,15 @@
         // Handle alternative button
         const alternativeButton = document.querySelector(".buttons .alternative");
 
+        //FOR TESTING - GET THIS CREATOR_ID FROM THE URL
+        //const urlParams = new URLSearchParams(window.location.search);
+        //const creator_id = urlParams.get('creator_id');
+        const creator_id = 1; // Placeholder creator ID
         alternativeButton.addEventListener("click", () => {
-          alert("Redirecting to request-time page...");
+          //alert("Redirecting to request-time page...");
           // Placeholder: Redirect to another page.
-          window.location.href = "request-time.html"; // Replace with the actual URL.
+          window.location.href = `request-time.html?creator_id=${creator_id}`; // Replace with the actual URL.
+          //private_pages_redirection/requesttime_sessioncheck.php -> ADD THIS WHEN REDIRECTING ^FOR TESTING RN
         });
 
         // Handle close button

@@ -40,8 +40,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     
 
     //TODO: CHECK Y TIME CANNOT BE VALIDATED
-    if (empty($name) || empty($location) || empty($slotDuration) || empty($participants) || empty($calendar)) {
-        echo json_encode(['success' => false, 'error' => 'Please fill in all required fields for one-time events']); 
+    if (empty($name) || empty($location) || empty($participants) || empty($calendar)) {
+        echo json_encode(['success' => false, 'error' => 'Please fill in all required fields for one-time events', 'slotDuration' => $slotDuration]); 
         //echo json_encode(['name' => $name, 'location' => $location, 'startTime' => $startTime, 'endTime' => $endTime, 'slotDuration' => $slotDuration, 'participants' => $participants, 'calendar' => $calendar]);   
         exit;
     }
@@ -66,15 +66,27 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $slots = [];
     $currentDate = clone $startDateObj;
     $duration = new DateInterval('PT' . $slotDuration . 'M');
-    //if the start and end date are the same, the number of slots is the difference in minutes divided by the slot duration
-    //otherwise, the number of slots is the difference in days times 24 hours times 60 minutes divided by the slot duration
-    if ($startDate === $endDate) {
-        $timediff = ($endTimeObj->getTimestamp() - $startTimeObj->getTimestamp())/60;
-        $numSlots = $timediff / $slotDuration;
-    } else {
-        $numSlots = $startDateObj->diff($endDateObj)->days * 24 * 60 / $slotDuration;
+    if ($slotDuration < 1) {
+        $numSlots = 1;
+        // slotDuration = 0 means the slot is the entire event. the duration should be the entire event time
+        if ($startDate === $endDate) {
+            $timediff = ($endTimeObj->getTimestamp() - $startTimeObj->getTimestamp())/60;
+            $duration = new DateInterval('PT' . $timediff . 'M');
+            $slotDuration = $timediff;
+        } else {
+            $duration = new DateInterval('PT' . $startDateObj->diff($endDateObj)->days*24*60 . 'M');
+            $slotDuration = $startDateObj->diff($endDateObj)->days * 24*60;
+        }
+    } else{
+        //if the start and end date are the same, the number of slots is the difference in minutes divided by the slot duration
+        //otherwise, the number of slots is the difference in days times 24 hours times 60 minutes divided by the slot duration
+        if ($startDate === $endDate) {
+            $timediff = ($endTimeObj->getTimestamp() - $startTimeObj->getTimestamp())/60;
+            $numSlots = $timediff / $slotDuration;
+        } else {
+            $numSlots = $startDateObj->diff($endDateObj)->days * 24 * 60 / $slotDuration;
+        }
     }
-    //$numSlots = $startDateObj->diff($endDateObj)->days * 24 * 60 / $slotDuration;
     for ($i = 0; $i < $numSlots; $i++) {
         $slots[] = [
             'start_date' => $currentDate->format('Y-m-d'),

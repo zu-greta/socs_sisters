@@ -48,7 +48,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $days = isset($_POST['day']) ? $_POST['day'] : [];
     
     // Validate required fields
-    if (empty($name) || empty($location) || empty($startDate) || empty($endDate) || empty($slotDuration) || empty($participants) || empty($calendar) || empty($days)) {
+    if (empty($name) || empty($location) || empty($startDate) || empty($endDate) || empty($participants) || empty($calendar) || empty($days)) {
         echo json_encode(['success' => false, 'error' => 'Please fill in all required fields for recurring events']);
         exit;
     }
@@ -72,8 +72,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     $slots = [];
     $currentDate = clone $startDateObj;
-    $duration = new DateInterval('PT' . $slotDuration . 'M');
-
+    if ($slotDuration < 1) {
+        $timediff = ($endTimeObj->getTimestamp() - $startTimeObj->getTimestamp())/60; 
+        $duration = new DateInterval('PT' . $timediff . 'M');
+        $slotDuration = $timediff;
+    } else {
+        $duration = new DateInterval('PT' . $slotDuration . 'M');
+    }
     // Loop through each day in the range
     while ($currentDate <= $endDateObj) {
         // Get the current day of the week (e.g., Monday, Tuesday)
@@ -84,8 +89,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             // Calculate the number of slots for the current day
             $dayStart = clone $startTimeObj; // Use the provided start time
             $dayEnd = clone $endTimeObj; // Use the provided end time
-            //numslots = (endDateObj - startDateObj / duration)
-            $numSlots = ($dayStart->diff($dayEnd)->h * 60 + $dayStart->diff($dayEnd)->i) / $slotDuration;
+            if ($slotDuration < 1) {
+                $numSlots = 1;
+            } else {
+                //numslots = (endDateObj - startDateObj / duration)
+                $numSlots = ($dayStart->diff($dayEnd)->h * 60 + $dayStart->diff($dayEnd)->i) / $slotDuration;
+            }
             // Generate slots for the current day
             for ($i = 0; $i < $numSlots; $i++) {
                 $slots[] = [
