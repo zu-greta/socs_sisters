@@ -43,22 +43,105 @@
             margin-top: 15px
         }
 
-        /* Table */
-        .upcoming-table, 
-        .upcoming-table th, 
-        .upcoming-table td {
-            border: 1px solid #424242;
-            border-collapse: collapse;
-            padding: 8px 16px;
+        /* View Toggle Buttons */
+        #view-toggle button {
+            background-color: transparent;
+            border: none;
             text-align: left;
         }
-        /* #details-btn,
+        #view-toggle div {
+            padding-bottom: 5px;
+        }
+        #view-toggle div.active{
+            border-bottom: 2px solid #424242;
+        }
+        #view-toggle button:hover {
+            background-color: #ebebeb;
+        }
+
+        /* Event Filter Dropdown */
+        .dropdown-btn {
+            background-color: transparent;
+            border: none;
+        }
+
+        .dropdown-btn:hover, .dropdown-btn:focus {
+            background-color: #ebebeb;
+        }
+
+        .dropdown {
+            position: relative;
+            display: inline-block;
+        }
+
+        .dropdown-content {
+            border-radius: 5px;
+            margin-top: 5px;
+            display: none;
+            position: absolute;
+            background-color: white;
+            min-width: 160px;
+            overflow: auto;
+            box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+            z-index: 1;
+            padding: 5px;
+        }
+
+        .dropdown-content.show {
+            display: block;
+        }
+
+        .dropdown-content button {
+            width: 100%;
+            display: block;
+            border: none;
+            background-color: transparent;
+            text-align: left;
+        }
+
+        .dropdown button:hover {background-color: #ddd;}
+
+        /* List View */
+        .upcoming-list, 
+        .upcoming-list th, 
+        .upcoming-list td {
+            border: 1px solid #888;
+            border-collapse: collapse;
+            padding: 15px;
+            text-align: left;
+        }
+        .upcoming-list tr:hover{
+            background-color: #ebebeb3c;
+            border-radius: 5px;
+        }
+
+        #details-btn,
         #modify-btn,
         #cancel-btn {
-            width: auto;
-            padding: 4px 7px;
             margin: 3px 0px;
-        } */
+            padding: 6px;
+            font-size: 13px;
+        }
+
+        /* Calendar View */
+        #calendar {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            gap: 10px;
+            text-align: center;
+        }
+
+        .day-header {
+            font-weight: bold;
+            border-bottom: 1px solid #ccc;
+            padding: 10px;
+        }
+
+        .day {
+            min-height: 100px;
+            border: 1px solid #ddd;
+            padding: 5px;
+        }
 
         /* for popup */
         .event-details-popup {
@@ -139,24 +222,104 @@
             </div>
             <!-- Upcoming -->
             <div id="upcoming" style="float:right; width:80%; padding: 15px 25px 15px 0px">
-                <h2 style="display:inline-block">Upcoming Bookings</h2>
-                <button class="primary" id="export-btn">Export to your calendar</button>
-                <table class="upcoming-table" id="upcoming-table" style="width: 100%">
+                <h2 style="display:inline-block">Upcoming Events</h2>
+                <button class="primary" id="export-btn">Export to your calendar</button><br>
+                <div id="view-toggle" style="width:100%; border-bottom: 2px solid #ebebeb; margin-bottom: 15px;">
+                    <div id="list-view-toggle" style="display:inline-block" class="active">
+                        <button onclick="showListView()">List view</button>
+                    </div>
+                    <div id="weekly-view-toggle" style="display:inline-block">
+                        <button onclick="showWeeklyView()">Weekly view</button>
+                    </div>
+                </div>
+                <!-- Filter Event Dropdown -->
+                <div class="dropdown" style="margin-bottom: 15px">
+                    <button onclick="showViewDropdown()" class="dropdown-btn">&#9013; All Events</button>
+                    <div id="filter-events-dropdown" class="dropdown-content">
+                        <button>All Events</button>
+                        <button>Your Bookings</button>
+                        <button>Your Events</button>
+                    </div>
+                </div>
+                <!-- List View -->
+                <!-- All Events -->
+                <table class="upcoming-list" id="upcoming-list" style="border: none; width:100%">
                     <colgroup>
-                        <col style="width: 25%;">
+                        <col style="width: 23%;">
                         <col style="width: 18%;">
                         <col style="width: 19%;">
-                        <col style="width: 15%;">
+                        <col style="width: 17%;">
                         <col style="width: 23%;">
                       </colgroup>
                     <tr>
-                        <th>Event Name</th>
                         <th>Date</th>
+                        <th>Event Name</th>
                         <th>Host</th>
                         <th>Location</th>
                         <th></th>
                     </tr>
                 </table>
+                <!-- Bookings (aka hosted by others) -->
+                <table class="upcoming-list" id="upcoming-list-bookings" style="display:none; border: none; width:100%">
+                    <colgroup>
+                        <col style="width: 23%;">
+                        <col style="width: 18%;">
+                        <col style="width: 19%;">
+                        <col style="width: 17%;">
+                        <col style="width: 23%;">
+                        </colgroup>
+                    <tr>
+                        <th>Date</th>
+                        <th>Event Name</th>
+                        <th>Host</th>
+                        <th>Location</th>
+                        <th></th>
+                    </tr>
+                </table>
+                <!-- Your Events (aka hosted by you) -->
+                <table class="upcoming-list" id="upcoming-list-events" style="display:none; border: none; width:100%">
+                    <colgroup>
+                        <col style="width: 23%;">
+                        <col style="width: 18%;">
+                        <col style="width: 19%;">
+                        <col style="width: 17%;">
+                        <col style="width: 23%;">
+                        </colgroup>
+                    <tr>
+                        <th>Date</th>
+                        <th>Event Name</th>
+                        <th>Host</th>
+                        <th>Location</th>
+                        <th></th>
+                    </tr>
+                </table>
+                <!-- Weekly View -->
+                <div id="upcoming-weekly" style="display:none; font-size:12px; width:100%">
+                    <div id="calendar-controls">
+                        <button class="secondary" id="prev-week">Previous Week</button>
+                        <span id="current-week"></span>
+                        <button class="secondary" id="today">Today</button>
+                        <button class="secondary" id="next-week">Next Week</button>
+                      </div>
+                      
+                      <div id="calendar">
+                        <div class="day-header"></div>
+                        <div class="day-header"></div>
+                        <div class="day-header"></div>
+                        <div class="day-header"></div>
+                        <div class="day-header"></div>
+                        <div class="day-header"></div>
+                        <div class="day-header"></div>
+                      
+                        <div class="day"></div>
+                        <div class="day"></div>
+                        <div class="day"></div>
+                        <div class="day"></div>
+                        <div class="day"></div>
+                        <div class="day"></div>
+                        <div class="day"></div>
+                      </div>                      
+                </div>
             </div>
         </div>
     </div>
@@ -170,10 +333,47 @@
         function closeDetailsPopup(id){
             document.getElementById(id).style.display = 'none';
         }
+
+        function showViewDropdown() {
+            document.getElementById("filter-events-dropdown").classList.toggle("show");
+        }
+
+        window.onclick = function(event) {
+            if (!event.target.matches('.dropdown-btn')) {
+                var dropdowns = document.getElementsByClassName("dropdown-content");
+                var i;
+                for (i = 0; i < dropdowns.length; i++) {
+                    var openDropdown = dropdowns[i];
+                    if (openDropdown.classList.contains('show')) {
+                            openDropdown.classList.remove('show');
+                    }
+                }
+            }
+        }
+
+        function showListView(){
+            // hide weekly view
+            document.getElementById('upcoming-weekly').style.display = 'none';
+            document.getElementById("weekly-view-toggle").classList.remove('active');
+            // show list view
+            document.getElementById("upcoming-list").style.display = 'block';
+            document.getElementById('upcoming-list').style.padding = '0px';
+            document.getElementById("list-view-toggle").classList.add('active');
+        }
+        
+        function showWeeklyView(){
+            // hide list view
+            document.getElementById("upcoming-list").style.display = 'none';
+            document.getElementById("list-view-toggle").classList.remove('active');
+            // show weekly view
+            document.getElementById('upcoming-weekly').style.display = 'block';
+            document.getElementById('upcoming-weekly').style.padding = '0px';
+            document.getElementById("weekly-view-toggle").classList.add('active');
+        }
     </script>
     <script>
-        // populate upcoming table
-        let upcomingTable = document.getElementById("upcoming-table");
+        // populate upcoming event list
+        let upcomingTable = document.getElementById("upcoming-list");
         for(let i = 0; i < 5; i++){
             let newRow = upcomingTable.insertRow(-1);
             let eventNameCell = newRow.insertCell(0);
@@ -198,7 +398,7 @@
             // add event action buttons to each entry
             let eventDetailsPopupID = `event-details-popup-${i}`;
             tableButtonsCell.innerHTML = `
-                <button class="secondary" onclick="showDetailsPopup('${eventDetailsPopupID}')">Details</button>
+                <button class="secondary" id="details-btn" onclick="showDetailsPopup('${eventDetailsPopupID}')">Details</button>
                 <div id="event-details-popup-${i}" class="event-details-popup">
                     <div class="event-details-popup-content">
                         <span class="close" onclick="closeDetailsPopup('${eventDetailsPopupID}')">&times;</span>
@@ -226,18 +426,95 @@
                                 <td>${eventURL}</td>
                             </tr>
                         </table>   
-                        <div>
+                        <div style="float:right; margin-top:15px">
                             <button class="primary">Modify booking</button>   
                             <button class="primary">Cancel booking</button>    
                         </div>
                     </div>
                 </div>
 
-                <button class="secondary">Modify</button>
+                <button class="secondary" id="modify-btn">Modify</button>
 
-                <button class="secondary">Cancel</button>
+                <button class="secondary" id="cancel-btn">Cancel</button>
             `
         }
+    </script>
+
+    <script>
+        // populate upcoming events calendar (in progress ignore this for now) 
+        document.addEventListener('DOMContentLoaded', () => {
+        const calendar = document.getElementById('calendar');
+        const weekDisplay = document.getElementById('current-week');
+        const prevWeekButton = document.getElementById('prev-week');
+        const todayButton = document.getElementById('today');
+        const nextWeekButton = document.getElementById('next-week');
+
+        let currentDate = new Date();
+        let displayedDate = new Date();
+
+        function getWeekRange(date) {
+            const startOfWeek = new Date(date);
+            startOfWeek.setDate(date.getDate() - date.getDay()); // Start on Sunday
+            const days = Array.from({ length: 7 }, (_, i) => {
+                const d = new Date(startOfWeek);
+                d.setDate(startOfWeek.getDate() + i);
+                return d;
+            });
+            return days;
+        }
+
+        // async function loadSchedule(weekDates) {
+        //     const response = await fetch('/api/schedule?startDate=' + weekDates[0].toISOString());
+        //     const data = await response.json();
+
+        //     // Clear previous data
+        //     calendar.querySelectorAll('.day').forEach(day => (day.innerHTML = ''));
+
+        //     // Populate new data
+        //     data.forEach(event => {
+        //     const eventDate = new Date(event.date);
+        //     const dayIndex = weekDates.findIndex(d => d.toDateString() === eventDate.toDateString());
+        //     if (dayIndex >= 0) {
+        //         const dayElement = calendar.querySelectorAll('.day')[dayIndex];
+        //         const eventDiv = document.createElement('div');
+        //         eventDiv.textContent = `${event.time}: ${event.title}`;
+        //         dayElement.appendChild(eventDiv);
+        //     }
+        //     });
+        // }
+
+        function updateCalendar(date) {
+            const weekDates = getWeekRange(date);
+            weekDisplay.textContent = `${weekDates[0].toLocaleDateString()} - ${weekDates[6].toLocaleDateString()}`;
+
+            // Update headers
+            const headers = calendar.querySelectorAll('.day-header');
+            weekDates.forEach((date, index) => {
+                headers[index].textContent = date.toLocaleDateString('en-US', { month: 'short', weekday: 'long', day: 'numeric' });
+            });
+
+            // Load schedule
+            loadSchedule(weekDates);
+        }
+
+        prevWeekButton.addEventListener('click', () => {
+            displayedDate.setDate(displayedDate.getDate() - 7);
+            updateCalendar(displayedDate);
+        });
+
+        todayButton.addEventListener('click', () => {
+            displayedDate.setDate(currentDate.getDate());
+            updateCalendar(displayedDate);
+        });
+
+        nextWeekButton.addEventListener('click', () => {
+            displayedDate.setDate(displayedDate.getDate() + 7);
+            updateCalendar(displayedDate);
+        });
+
+        // Initialize
+        updateCalendar(displayedDate);
+        });
     </script>
 
 

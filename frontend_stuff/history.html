@@ -45,6 +45,13 @@
             text-align: left;
         }
 
+        /* table buttons */
+        #details-btn {
+            margin: 3px 0px;
+            padding: 6px;
+            font-size: 13px;
+        }
+
         /* for popup */
         .event-details-popup {
         display: none;
@@ -188,7 +195,7 @@
         // add event buttons to each entry
         let eventDetailsPopupID = `event-details-popup-${i}`;
         tableButtonsCell.innerHTML = `
-            <button class="secondary" onclick="showDetailsPopup('${eventDetailsPopupID}')">Details</button>
+            <button class="secondary" id="details-btn" onclick="showDetailsPopup('${eventDetailsPopupID}')">Details</button>
             <!-- Event Details Popup -->
             <div id="event-details-popup-${i}" class="event-details-popup">
                 <div class="event-details-popup-content">
