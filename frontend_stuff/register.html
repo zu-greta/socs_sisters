@@ -1,4 +1,4 @@
-<!-- Register Page -->
+<!-- TODO: Redirect you to the login page PRIVATE -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -44,15 +44,15 @@
         .header-container h1 {
             font-size: 1.8rem; 
             line-height: 1.2;
-            margin-bottom: 20px;
+            margin-bottom: 8px;
             text-align: center;
         }
 
         .header-container .center-text {
-            font-size: 0.9  rem; 
+            font-size: 0.8rem; 
             color: #424242;
             text-align: center; 
-            margin-bottom: 15px;
+            margin-bottom: 20px;
         }
 
         .form-container {
@@ -94,10 +94,12 @@
             color: #555;
             margin-top: -10px; /* Adjusts spacing closer to the previous field */
             margin-bottom: 15px; /* Keeps consistent spacing below */
+            line-height: 0.6rem;
         }
         .terms-link {
             color: #ae0e1d;
             text-decoration: none;
+            cursor: pointer;
         }
 
         .terms-link:hover {
@@ -136,10 +138,10 @@
         <!-- Left Section -->
         <div class="left-section">
             <div class="header-container">
-                <h1>Welcome to the SOC-cessful Schedule Community</h1>
+                <h1>Create your account</h1>
                 <p class="center-text">
                     Already have an account? 
-                    <a href="login.html" class="terms-link">Log in</a>
+                    <a onclick="window.location.href='login.html'" class="terms-link">Log in</a>
                 </p>
                 <form class="form-container" action="../database_stuff/register.php" method="POST" onsubmit="return validateForm()">
                     <label for="email">Email:</label>
@@ -196,7 +198,77 @@
             </p>
         </div>
     </div>
-    <script source="js/register.js"></script>
+    <script>
+        function checkPassword() {
+    const passwordField = document.getElementById('password');
+    const passwordCheckLength = document.getElementById('password-check-length');
+    const passwordCheckNumber = document.getElementById('password-check-number');
+    const passwordCheckAlpha = document.getElementById('password-check-alpha');
+    const registerButton = document.getElementById('register-button');
+    const confirmPasswordField = document.getElementById('confirmpassword');
+
+    const value = passwordField.value;
+
+    let lengthValid = false;
+    let numberValid = false;
+    let alphaValid = false;
+
+    // Check for length of 10 or more
+    if (value.length >= 10) {
+        passwordCheckLength.style.visibility = 'visible';
+        lengthValid = true;
+    } else {
+        passwordCheckLength.style.visibility = 'hidden';
+    }
+
+    // Check for at least one number
+    if (/\d/.test(value)) {
+        passwordCheckNumber.style.visibility = 'visible';
+        numberValid = true;
+    } else {
+        passwordCheckNumber.style.visibility = 'hidden';
+    }
+
+    // Check for at least one alphabetical character
+    if (/[a-zA-Z]/.test(value)) {
+        passwordCheckAlpha.style.visibility = 'visible';
+        alphaValid = true;
+    } else {
+        passwordCheckAlpha.style.visibility = 'hidden';
+    }
+
+    // Enable or disable the register button based on password validity
+    if (lengthValid && numberValid && alphaValid) {
+        registerButton.disabled = false;
+        registerButton.classList.add('primary');  // Add the primary class for styling
+    } else {
+        registerButton.disabled = true;
+        registerButton.classList.remove('primary');  // Remove the primary class
+    }
+
+    return lengthValid && numberValid && alphaValid;
+
+}
+function validateForm() {
+    const password = document.getElementById('password').value;
+    const confirmPassword = document.getElementById('confirmpassword').value;
+
+    // Ensure password meets criteria
+    if (!checkPassword()) {
+        alert('Password does not meet the criteria.');
+        return false;
+    }
+
+    // Ensure passwords match
+    if (password !== confirmPassword) {
+        alert('Passwords do not match.');
+        return false;
+    }
+
+    return true; // Allow form submission
+}
+
+    </script>
     
 </body>
 </html>

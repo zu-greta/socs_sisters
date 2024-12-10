@@ -1,224 +1,249 @@
+<!-- PRIVATE PAGE not sure if this is needed here
+<?php
+session_start();
+
+if (!session_id()) {
+  echo "Session failed to start.";
+  exit;
+} else {
+  echo "Session started successfully. ID: " . session_id();
+}
+
+echo '<pre>';
+print_r($_SESSION);
+echo '</pre>';
+
+//Check if the user is logged in
+if (!isset($_SESSION['user_id'])) {
+    // Redirect to the login page if not authenticated
+    header("Location: login.html");
+    exit;
+}
+?> -->
 <!DOCTYPE html>
 <html lang="en">
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Schedule Creation</title>
-        <link rel="stylesheet" href="general_style.css">
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"> 
-        <style>
-            /* TODO: match the css to the general_style.css */
-            #background-container.disabled {
-                pointer-events: none;
-                opacity: 0.5; 
-            }
 
-            #background-container {
-                padding: 30px;
-                margin: auto;
-            }
-            
-            /* Toggle Buttons */
-            .toggle-container {
-                display: flex;
-                justify-content: left;
-                margin-bottom: 0px;
-            }
-            
-            .toggle-btn {
-                background-color: white;
-                color: #424242;
-                border: 1px solid black;
-                padding: 15px 25px;
-                cursor: pointer;
-            }
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Schedule Creation</title>
+    <link rel="stylesheet" href="general_style.css?v=1.0" >
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <style>
+        /* TODO: match the css to the general_style.css */
+        #background-container.disabled {
+            pointer-events: none;
+            opacity: 0.5;
+        }
 
-            .toggle-btn.active {
-                background-color: #ed1b2f;
-                color: white;
-                border: 1px solid #ae0e1d;
-                padding: 15px 25px;
-                cursor: pointer;
-                margin: 0;
-            }
-            
-            /* Active and Hover States for Buttons */
-            .save-btn,
-            .reset-btn,
-            .modal-btn {
-                background-color: #ed1b2f;
-                color: white;
-                border: 1px solid #ed1b2f;
-                padding: 10px 20px;
-                cursor: pointer;
-                margin: 0 10px;
-                border-radius: 5px;
-            }
+        #background-container {
+            padding: 30px;
+            margin: auto;
+        }
 
-            .reset-btn {
-                position: absolute;
-                top: 15px;
-                right: 10px;
-            }
-            
-            .toggle-btn:hover,
-            .reset-btn:hover,
-            .save-btn:hover,
-            .modal-btn:hover,
-            .close-btn:hover {
-                background-color: #ae0e1d;
-                color: white;
-            }
-            
-            /* Close Button */
-            .close-btn {
-                background-color: white;
-                color: #424242;
-                cursor: pointer;
-                padding: 5px 10px;
-                position: absolute;
-                top: 10px;
-                right: 15px;
-                border-radius: 5px;
-            }
-            
-            /* Forms */
-            .schedule-form {
-                display: none;
-                background-color: #ffffff;
-                border: 1px solid black;
-                padding: 20px;
-            }
-            
-            .schedule-form.active {
-                display: block;
-                font: 16px/26px 'Inter', sans-serif;
-                position: relative;
-            }
+        /* Toggle Buttons */
+        .toggle-container {
+            display: flex;
+            justify-content: left;
+            margin-bottom: 0px;
+        }
 
-            #nav-bar {
-                position: sticky;
-                top: 0;
-                overflow: hidden;
-                background-color: #ae0e1d;
-                z-index: 9999;
-            }
+        .toggle-btn {
+            background-color: white;
+            color: #424242;
+            border: 1px solid black;
+            padding: 15px 25px;
+            cursor: pointer;
+        }
 
-            #nav-bar a {
-                float: left;
-                display: block;
-                color: #ffffff;
-                text-align: center;
-                padding: 14px;
-                text-decoration: none;
-            }
+        .toggle-btn.active {
+            background-color: #ed1b2f;
+            color: white;
+            border: 1px solid #ae0e1d;
+            padding: 15px 25px;
+            cursor: pointer;
+            margin: 0;
+        }
 
-            #nav-bar a:hover {
-                background-color: #ed1b2f;
-                color: #ffffff;
-            }
-            
-            #nav-bar a.active {
-                background-color: #ed1b2f;
-                color: white;
-            }
-            
-            
-            label {
-                display: block;
-                margin: 10px 0;
-                color: grey;
-            }
-            
-            input,
-            textarea,
-            select {
-                width: 90%;
-                padding: 8px;
-                margin-top: 5px;
-            }
+        /* Active and Hover States for Buttons */
+        .save-btn,
+        .reset-btn,
+        .modal-btn {
+            background-color: #ed1b2f;
+            color: white;
+            border: 1px solid #ed1b2f;
+            padding: 10px 20px;
+            cursor: pointer;
+            margin: 0 10px;
+            border-radius: 5px;
+        }
 
-            /* recurring form taking half the page */
-            #recurring-form, #one-time-form, #calendar-container {
-                width: 50%;
-            }
-            
-            /* Modal Background */
-            .modal {
-                display: none; /* Hidden by default */
-                position: fixed;
-                z-index: 1001; /* Higher than the overlay */
-                left: 0;
-                top: 0;
-                width: 100%;
-                height: 100%;
-                background-color: rgba(0, 0, 0, 0.6); /* Semi-transparent background */
-            }
+        .reset-btn {
+            position: absolute;
+            top: 15px;
+            right: 10px;
+        }
 
-            /* Modal Content Box */
-            .modal-content {
-                position: absolute;
-                top: 50%;
-                left: 50%;
-                transform: translate(-50%, -50%);
-                background-color: #ffffff;
-                padding: 20px;
-                border-radius: 10px;
-                width: 80%;
-                max-width: 400px;
-                text-align: center;
-                box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
-            }
+        .toggle-btn:hover,
+        .reset-btn:hover,
+        .save-btn:hover,
+        .modal-btn:hover,
+        .close-btn:hover {
+            background-color: #ae0e1d;
+            color: white;
+        }
 
-            body.modal-open {
-                overflow: hidden;
-            } 
-        </style>
-    </head>
-    <body>
-        <!--navigation bar with logo and etc-->
-        <div id="nav-bar">
-            <a href="#">PLACEHOLDER!</a>
-            <a href="#">PLACEHOLDER!</a>
-            <a href="#">PLACEHOLDER!</a>
-        </div>
+        /* Close Button */
+        .close-btn {
+            background-color: white;
+            color: #424242;
+            cursor: pointer;
+            padding: 5px 10px;
+            position: absolute;
+            top: 10px;
+            right: 15px;
+            border-radius: 5px;
+        }
 
-        <div id="background-container">
-            <!-- Recurring and One-Time Toggle -->
-            <div class="toggle-container">
-              <button id="weekly-btn" class="toggle-btn active">Weekly</button>
-              <button id="one-time-btn" class="toggle-btn">One-Time</button>
+        /* Forms */
+        .schedule-form {
+            display: none;
+            background-color: #ffffff;
+            border: 1px solid black;
+            padding: 20px;
+        }
+
+        .schedule-form.active {
+            display: block;
+            font: 16px/26px 'Inter', sans-serif;
+            position: relative;
+        }
+
+
+
+        label {
+            display: block;
+            margin: 10px 0;
+            color: grey;
+        }
+
+        input,
+        textarea,
+        select {
+            width: 90%;
+            padding: 8px;
+            margin-top: 5px;
+        }
+
+        /* recurring form taking half the page */
+        #recurring-form,
+        #one-time-form,
+        #calendar-container {
+            width: 50%;
+        }
+
+        /* Modal Background */
+        .modal {
+            display: none;
+            /* Hidden by default */
+            position: fixed;
+            z-index: 1001;
+            /* Higher than the overlay */
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.6);
+            /* Semi-transparent background */
+        }
+
+        /* Modal Content Box */
+        .modal-content {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background-color: #ffffff;
+            padding: 20px;
+            border-radius: 10px;
+            width: 80%;
+            max-width: 400px;
+            text-align: center;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+        }
+
+        body.modal-open {
+            overflow: hidden;
+        }
+    </style>
+</head>
+
+<body>
+    <!--navigation bar with logo and etc-->
+    <header>
+        <div class="nav-container">
+            <a href="/" class="logo-link">
+                <img src="png/logo.png" alt="Logo" class="nav-logo-img">
+                <span class="logo-name">SOC-cessful Schedule</span>
+            </a>
+
+            <div class="nav-buttons">
+                <button id="profileLink" type="button" class="secondary profile-btn">
+                    <img src="png/user-icon.png" alt="User" class="user-icon">
+                    <span>Account</span>
+                </button>
+                <div class="dropdown-menu">
+                    <a href="#" class="dropdown-item">History</a>
+                    <a href="#" class="dropdown-item">Preferences</a>
+                    <a href="#" class="dropdown-item">Time Requests</a>
+                    <a href="#" class="dropdown-item" style="color:#ed1b2f;">Log Out</a>
+                </div>
             </div>
-            <!-- Form Section -->
-            <div id="form-container">
-                <!-- Recurring Form -->
-                <form id="recurring-form" class="schedule-form active" action="../database_stuff/schedule_recurring.php" method="POST">
+
+    </header>
+
+    <div id="background-container">
+        <!-- Recurring and One-Time Toggle -->
+        <div class="toggle-container">
+            <button id="weekly-btn" class="toggle-btn active">Weekly</button>
+            <button id="one-time-btn" class="toggle-btn">One-Time</button>
+        </div>
+        <!-- Form Section -->
+        <div id="form-container">
+            <!-- Recurring Form -->
+            <form id="recurring-form" class="schedule-form active" action="../database_stuff/schedule_recurring.php"
+                method="POST">
                 <h2>Schedule Weekly Recurring Event</h2>
                 <label><input type="text" name="name" required placeholder="Event Name: "></label>
-                <label><input type="text" name="location" required placeholder="Location/Video Call URL:"></label>     
+                <label><input type="text" name="location" required placeholder="Location/Video Call URL:"></label>
                 <!-- day of the week: choose from monday to sunday buttons which days of the week it happens on each week -->
                 <label style="display: block; justify-content: center;">Days of the Week: </br>
                     <!-- center these and make it prettier! -->
-                    <input type="checkbox" name="day" value="monday">Monday
-                    <input type="checkbox" name="day" value="tuesday">Tuesday
-                    <input type="checkbox" name="day" value="wednesday">Wednesday
-                    <input type="checkbox" name="day" value="thursday">Thursday
-                    <input type="checkbox" name="day" value="friday">Friday
-                    <input type="checkbox" name="day" value="saturday">Saturday
-                    <input type="checkbox" name="day" value="sunday">Sunday
+                    <input type="checkbox" name="day[]" value="Monday">Monday
+                    <input type="checkbox" name="day[]" value="Tuesday">Tuesday
+                    <input type="checkbox" name="day[]" value="Wednesday">Wednesday
+                    <input type="checkbox" name="day[]" value="Thursday">Thursday
+                    <input type="checkbox" name="day[]" value="Friday">Friday
+                    <input type="checkbox" name="day[]" value="Saturday">Saturday
+                    <input type="checkbox" name="day[]" value="Sunday">Sunday
                 </label>
                 <!-- time of the day for all the days selected -->
-                <label for="start_time" style="display: inline-block; margin-right: 10px; font-size: 10; color: grey;">Start Time:
+                <label for="start_time"
+                    style="display: inline-block; margin-right: 10px; font-size: 10; color: grey;">Start Time:
                     <input type="time" name="start_time" style="display: inline-block;" required></label>
-                    <label for="end_time" style="display: inline-block; margin-right: 10px; font-size: 10; color: grey;">End Time:
-                        <input type="time" name="end_time" style="display: inline-block;" required></label>
+                <label for="end_time" style="display: inline-block; margin-right: 10px; font-size: 10; color: grey;">End
+                    Time:
+                    <input type="time" name="end_time" style="display: inline-block;" required></label>
                 <!-- start day and end day of the month -->
                 </br>
-                <label for="start_date" style="display: inline-block; margin-right: 10px; font-size: 10; color: grey;">Start Date:
+                <label for="start_date"
+                    style="display: inline-block; margin-right: 10px; font-size: 10; color: grey;">Start Date:
                     <input type="date" name="start_date" style="display: inline-block;" required></label>
-                    <label for="end_date" style="display: inline-block; margin-right: 10px; font-size: 10; color: grey;">End Date:
-                        <input type="date" name="end_date" style="display: inline-block;" required></label>
-                <label><input type="number" name="participants" required placeholder="Number of Participants Allowed: "></label>
+                <label for="end_date" style="display: inline-block; margin-right: 10px; font-size: 10; color: grey;">End
+                    Date:
+                    <input type="date" name="end_date" style="display: inline-block;" required></label>
+                <label><input type="number" name="participants" required
+                        placeholder="Number of Participants Allowed: "></label>
                 <label>Length of each meeting: </br>
                     <select name="slot">
                         <option value="15">15 minutes</option>
@@ -231,26 +256,30 @@
                 <label>Calendar: </br>
                     <select name="calendar">
                         <!-- to be dynmaic depending on the calendar options eg. COMP307 OH calendar-->
-                    <option value="calendar-1">Calendar 1</option>
-                    <option value="calendar-2">Calendar 2</option>
+                        <option value="calendar-1">Calendar 1</option>
+                        <option value="calendar-2">Calendar 2</option>
                     </select>
                 </label>
                 <label><textarea name="notes" placeholder="Notes/Attachments: "></textarea></label>
                 <button type="reset" class="reset-btn">Reset</button>
                 <button type="submit" class="save-btn">Save</button>
-                </form>
+            </form>
 
-                <!-- One-Time Form -->
-                <form id="one-time-form" class="schedule-form" action="../database_stuff/schedule_onetime.php" method="POST">
+            <!-- One-Time Form -->
+            <form id="one-time-form" class="schedule-form" action="../database_stuff/schedule_onetime.php"
+                method="POST">
                 <h2>Schedule One-Time Event</h2>
                 <label><input type="text" name="name" placeholder="Event Name: " required></label>
-                <label><input type="text" name="location" placeholder="Location/Video Call URL:" required></label>     
-                <label for="start_time" style="display: inline-block; margin-right: 10px; font-size: 10; color: grey;">Start Time:
+                <label><input type="text" name="location" placeholder="Location/Video Call URL:" required></label>
+                <label for="start_time"
+                    style="display: inline-block; margin-right: 10px; font-size: 10; color: grey;">Start Time:
                     <input type="datetime-local" name="start_time" style="display: inline-block;" required></label>
-                    </br>
-                    <label for="end_time" style="display: inline-block; margin-right: 10px; font-size: 10; color: grey;">End Time:
-                        <input type="datetime-local" name="end_time" style="display: inline-block;" required></label>
-                <label><input type="number" name="participants" placeholder="Number of Participants Allowed: " required></label>
+                </br>
+                <label for="end_time" style="display: inline-block; margin-right: 10px; font-size: 10; color: grey;">End
+                    Time:
+                    <input type="datetime-local" name="end_time" style="display: inline-block;" required></label>
+                <label><input type="number" name="participants" placeholder="Number of Participants Allowed: "
+                        required></label>
                 <label>Time Slot Length: </br>
                     <select name="slot">
                         <option value="15">15 minutes</option>
@@ -263,41 +292,43 @@
                 <label>Calendar: </br>
                     <select name="calendar">
                         <!-- to be dynmaic depending on the calendar options eg. COMP307 OH calendar-->
-                    <option value="calendar-1">Calendar 1</option>
-                    <option value="calendar-2">Calendar 2</option>
+                        <option value="calendar-1">Calendar 1</option>
+                        <option value="calendar-2">Calendar 2</option>
                     </select>
                 </label>
                 <label><textarea name="notes" placeholder="Notes/Attachments: "></textarea></label>
                 <button type="reset" class="reset-btn">Reset</button>
                 <button type="submit" class="save-btn">Save</button>
-                </form>
-            </div>
+            </form>
         </div>
-        <!-- Confirmation Pop-Up Modal-->
-        <div id="confirmation-popup" class="modal">
-            <div class="modal-content">
+    </div>
+    <!-- Confirmation Pop-Up Modal-->
+    <div id="confirmation-popup" class="modal">
+        <div class="modal-content">
             <span class="close-btn" id="close-popup">&times;</span>
             <p>Slot Scheduled! <br> A confirmation email has been sent to: <span id="email-display">[Email]</span></p>
             <p>Information: <span id="popup-info"></span></p>
             <p>Link to Share: <span id="link-display">[Link]</span></p>
             <button id="copy-link" class="modal-btn">Copy Link</button>
             <button id="return-home" class="modal-btn">Home</button>
-            </div>
-        </div> 
+        </div>
+    </div>
 
-        <!--TODO: add link generation - copy from keyus poll page!-->
-        <!--TODO: send the email???-->
+    <!--TODO: send the email???-->
 
-        <script>
-            document.forms['recurring-form'].addEventListener('submit', (event) => {
+    <script>
+        document.forms['recurring-form'].addEventListener('submit', (event) => {
             event.preventDefault();
-            // TODO do something here to show user that form is being submitted
+            // Show loading message or disable form to indicate submission
+            document.getElementById('recurring-form').querySelector('.save-btn').innerText = 'Submitting...';
+            document.getElementById('recurring-form').querySelector('.save-btn').disabled = true;
+
             fetch(event.target.action, {
                 method: 'POST',
                 body: new URLSearchParams(new FormData(event.target)) // event.target is the form
             }).then((response) => {
                 if (!response.ok) {
-                throw new Error(`HTTP error! Status: ${response.status}`);
+                    throw new Error(`HTTP error! Status: ${response.status}`);
                 }
                 return response.json(); // or response.text() or whatever the server sends
             }).then((body) => {
@@ -318,26 +349,32 @@
                         \nNotes: ${event.notes}
                     `;
                     document.getElementById("email-display").innerText = event.email;
-                    document.getElementById("link-display").value = event.link; // TODO: Set the link to share
+                    document.getElementById("link-display").innerText = body.eventDetails.link;
                     // Show the modal
                     document.getElementById("confirmation-popup").style.display = "block";
                 }
             }).catch((error) => {
                 // TODO handle error
-                console.log("Error:", error); 
-                alert(error);
+                console.log("Error:", error);
+                alert('An error occurred while scheduling the event.');
+            }).finally(() => {
+                // Re-enable the button after submission is complete
+                document.getElementById('recurring-form').querySelector('.save-btn').innerText = 'Save';
+                document.getElementById('recurring-form').querySelector('.save-btn').disabled = false;
             });
         });
 
         document.forms['one-time-form'].addEventListener('submit', (event) => {
             event.preventDefault();
-            // TODO do something here to show user that form is being submitted
+            // Show loading message or disable form to indicate submission
+            document.getElementById('one-time-form').querySelector('.save-btn').innerText = 'Submitting...';
+            document.getElementById('one-time-form').querySelector('.save-btn').disabled = true;
             fetch(event.target.action, {
                 method: 'POST',
                 body: new URLSearchParams(new FormData(event.target)) // event.target is the form
             }).then((response) => {
                 if (!response.ok) {
-                throw new Error(`HTTP error! Status: ${response.status}`);
+                    throw new Error(`HTTP error! Status: ${response.status}`);
                 }
                 return response.json(); // or response.text() or whatever the server sends
             }).then((body) => {
@@ -356,14 +393,18 @@
                         \nNotes: ${event.notes}
                     `;
                     document.getElementById("email-display").innerText = event.email;
-                    document.getElementById("link-display").value = event.link; // TODO: Set the link to share
+                    document.getElementById("link-display").innerText = event.link;
                     // Show the modal
                     document.getElementById("confirmation-popup").style.display = "block";
                 }
             }).catch((error) => {
                 // TODO handle error
-                console.log("Error:", error); 
+                console.log("Error:", error);
                 alert(error);
+            }).finally(() => {
+                // Re-enable the button after submission is complete
+                document.getElementById('one-time-form').querySelector('.save-btn').innerText = 'Save';
+                document.getElementById('one-time-form').querySelector('.save-btn').disabled = false;
             });
         });
 
@@ -373,22 +414,22 @@
         };
 
         // Toggle between Recurring and One-Time Forms
-        document.getElementById("weekly-btn").addEventListener("click", function() {
+        document.getElementById("weekly-btn").addEventListener("click", function () {
             document.getElementById("weekly-btn").classList.add("active");
             document.getElementById("one-time-btn").classList.remove("active");
             document.getElementById("recurring-form").classList.add("active");
             document.getElementById("one-time-form").classList.remove("active");
         });
 
-        document.getElementById("one-time-btn").addEventListener("click", function() {
+        document.getElementById("one-time-btn").addEventListener("click", function () {
             document.getElementById("one-time-btn").classList.add("active");
             document.getElementById("weekly-btn").classList.remove("active");
             document.getElementById("one-time-form").classList.add("active");
             document.getElementById("recurring-form").classList.remove("active");
         });
 
-        //TODO: Copy Link Button
-        document.getElementById("copy-link").addEventListener("click", function() {
+        //TODO: Copy Link Button - might be errors???
+        document.getElementById("copy-link").addEventListener("click", function () {
             var copyText = document.getElementById("link-display");
             copyText.select();
             copyText.setSelectionRange(0, 99999);
@@ -397,9 +438,25 @@
         });
 
         // Return Home Button
-        document.getElementById("return-home").addEventListener("click", function() {
-            window.location.href = "index.html";
+        document.getElementById("return-home").addEventListener("click", function () {
+            window.location.href = "private_pages_redirection/dashboard_sessioncheck.php";
         });
+
+        function copyToClipboard() {
+            const eventURLField = document.getElementById('link-display');
+            const linkText = eventURLField.innerText;
+
+            console.log("Copying text: ", linkText);
+
+            navigator.clipboard.writeText(linkText).then(() => {
+                alert("Event URL copied to clipboard!");
+            }).catch((error) => {
+                console.error("Error copying text: ", error);
+                alert("Failed to copy event URL to clipboard.");
+            });
+        }
+        document.getElementById("copy-link").addEventListener("click", copyToClipboard);
     </script>
-    </body>
+</body>
+
 </html>

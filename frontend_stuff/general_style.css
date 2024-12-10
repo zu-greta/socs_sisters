@@ -1,36 +1,45 @@
 @import url('https://fonts.googleapis.com/css2?family=Work+Sans:wght@400;600&family=Montserrat:wght@400;600&family=Inter:wght@400;600&family=Arial&display=swap');
-body, p, button, form {
+
+body,
+p,
+h3,
+button,
+form {
   margin: 0;
   font-family: 'Inter', 'Helvetica Neue', sans-serif;
 }
 
-header, h1, h2, h3, .logo-name, input[type="text"] {
-  font-family: 'Work Sans', 'Montserrat', Arial, sans-serif; 
+header,
+h1,
+h2,
+h3,
+.logo-name,
+input {
+  font-family: 'Work Sans', 'Montserrat', Arial, sans-serif;
 }
 
-.logo-name {
-  font-size: 1.2em;
-  font-weight: bold;
+* {
+  box-sizing: border-box;
 }
 
 button {
-  padding: 10px 20px;
-  font-weight: 500 ;
-  border-radius: 5px;
+  padding: 10px 30px;
+  font-weight: 500;
+  border-radius: 6px;
   font-size: 0.9em;
   cursor: pointer;
-  transition: background-color 0.2s ease, color 0.2s ease;
+  transition: 0.2s ease;
 }
-
 
 button.primary {
   background-color: #ae0e1d;
-  border: none;
+  border: 3px solid #ae0e1d;
   color: white;
 }
 
 button.primary:hover {
   background-color: #ed1b2f;
+  border: 3px solid #ed1b2f;
 }
 
 button.secondary {
@@ -41,12 +50,114 @@ button.secondary {
 
 button.secondary:hover {
   background-color: #e4e4e4;
-  color: #424242;
+  color: #ed1b2f;
 }
 
 /* disabled button for when fields are not filled */
 button:disabled {
-  background-color: #ddd;
+  border: 3px solid #e4e4e4;
+  background-color: #e4e4e4;
   color: #aaa;
   cursor: not-allowed;
+}
+
+button:disabled:hover {
+  border: 3px solid #e4e4e4;
+  background-color: #e4e4e4;
+  color: #aaa;
+  cursor: not-allowed;
+}
+
+header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background-color: white;
+  width: 100%;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  padding: 11px;
+}
+
+/* NAV BAR */
+
+.nav-container {
+  /*background-color: black  ;*/
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  margin: 0 auto;
+  margin-left: 10px;
+  height: 44px;
+}
+
+.logo-link {
+  display: flex;
+  align-items: center;
+  text-decoration: none;
+  color: #424242;
+}
+
+.nav-logo-img {
+  width: 40px;
+  height: auto;
+  object-fit: contain;
+  margin-right: 10px;
+}
+
+.logo-name {
+  font-size: 1.2em;
+  font-weight: bold;
+}
+
+.profile-btn {
+  margin-right: 20px;
+  display: inline-flex;
+  align-items: center;  
+  justify-content: flex-start;
+  position: relative;  
+}
+
+.profile-btn:hover {
+  border-bottom-left-radius: 0;
+  border-bottom-right-radius: 0;
+}
+
+.profile-btn .user-icon {
+  width: 20px;
+  height: 20px;
+  margin-right: 8px;
+}
+
+.user-icon {
+  border-radius: 50%;
+}
+
+.dropdown-menu {
+  display: none;
+  background-color: white;
+  border: 1px solid #e4e4e4;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  border-bottom-left-radius: 6px;
+  border-bottom-right-radius: 6px;
+  z-index: 100;
+  margin-right: 20px;
+}
+
+.dropdown-item {
+  display: block;
+  padding: 15px 20px;
+  text-decoration: none;
+  color: #424242;
+  font-size: 0.9em;
+  transition: background-color 0.2s ease;
+}
+
+.dropdown-item:hover {
+  background-color: #e4e4e4;
+  color: #ed1b2f;
+}
+
+.profile-btn:hover+.dropdown-menu,
+.dropdown-menu:hover {
+  display: block;
 }
