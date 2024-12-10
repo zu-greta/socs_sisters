@@ -143,7 +143,7 @@
                 </p>
                 <form class="form-container" action="../database_stuff/register.php" method="POST" onsubmit="return validateForm()">
                     <label for="email">Email:</label>
-                    <input type="email" id="email" name="email" required>
+                    <input type="email" id="email" name="email" placeholder="user@mcgill.ca or user@mail.mcgill.ca" required>
                 
                     <label for="username">Username:</label>
                     <input type="text" id="username" name="username" required>
@@ -181,7 +181,7 @@
                     </p>
 
                     <!-- Initially disabled, primary class is applied dynamically -->
-                    <button type="submit" class="primary" id="register-button" disabled>Register</button>
+                    <button type="submit" class="primary" id="register-button">Register</button>
 
                 </form>
             </div>
@@ -196,7 +196,7 @@
             </p>
         </div>
     </div>
-    <script source="js/register.js"></script>
+    <script src="js/register.js"></script>
     
 </body>
 </html>
