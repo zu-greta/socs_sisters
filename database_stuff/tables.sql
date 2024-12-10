@@ -1,7 +1,6 @@
 -- Create Users Table
 CREATE TABLE Users (
     user_id INTEGER PRIMARY KEY AUTOINCREMENT, -- Primary Key
-    username TEXT UNIQUE NOT NULL,
     fname TEXT NOT NULL,
     lname TEXT NOT NULL,
     email TEXT UNIQUE NOT NULL,

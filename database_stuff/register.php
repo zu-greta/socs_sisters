@@ -2,7 +2,6 @@
 
 if ($_SERVER["REQUEST_METHOD"] === "POST") {
     $email = trim($_POST["email"]);
-    $username = trim($_POST["username"]);
     $fname = trim($_POST["firstname"]);
     $lname = trim($_POST["lastname"]);
     $password = trim($_POST["password"]);
@@ -28,7 +27,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         }
 
         // If email is not registered, insert the new user
-        $stmt = $database->prepare("INSERT INTO Users (fname, lname, username, email, password_hash) VALUES (:fname, :lname, :username, :email, :password_hash)");
+        $stmt = $database->prepare("INSERT INTO Users (fname, lname, email, password_hash) VALUES (:fname, :lname, :email, :password_hash)");
         $stmt->execute([
             ':fname' => $fname,
             ':lname' => $lname,

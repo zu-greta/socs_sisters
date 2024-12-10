@@ -1,6 +1,5 @@
 document.addEventListener("DOMContentLoaded", function () {
     const emailField = document.getElementById("email");
-    const usernameField = document.getElementById("username");
     const firstNameField = document.getElementById("firstname");
     const lastNameField = document.getElementById("lastname");
     const passwordField = document.getElementById("password");
@@ -29,11 +28,6 @@ document.addEventListener("DOMContentLoaded", function () {
             errors.push("Email field cannot be empty.");
         } else if (!validateEmail()) {
             errors.push("Email must end with @mcgill.ca or @mail.mcgill.ca.");
-        }
-
-        // Check username
-        if (!usernameField.value) {
-            errors.push("Username field cannot be empty.");
         }
 
         // Check first name

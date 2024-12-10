@@ -12,7 +12,7 @@ try {
         exit;
     }
     $userEmail = $userinfo[0]['email'];
-    $username = $userinfo[0]['username'];
+    // $username = $userinfo[0]['username'];
     $userFname = $userinfo[0]['fname'];
     $userLname = $userinfo[0]['lname'];
 } catch (PDOException $e) {
@@ -21,7 +21,7 @@ try {
 }
 // the pop up message modal should be displayed now over the schedule page
 $userDetails = [
-    "username" => $username,
+    // "username" => $username,
     "userEmail" => $userEmail,
     "userFname" => $userFname,
     "userLname" => $userLname,

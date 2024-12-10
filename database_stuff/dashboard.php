@@ -13,7 +13,7 @@ try {
         exit;
     }
     $userEmail = $userinfo[0]['email'];
-    $username = $userinfo[0]['username'];
+    // $username = $userinfo[0]['username'];
     $userFname = $userinfo[0]['fname'];
     $userLname = $userinfo[0]['lname'];
     // Get user made upcoming events
@@ -45,7 +45,7 @@ try {
 //events display: event name, event start date, event start time, event end date, event end time, event location, event notes, event url
 // prepare user details + user made upcoming events + user made past events + user booked upcoming events + user booked past events
 $userDetails = [
-    "username" => $username,
+    // "username" => $username,
     "userEmail" => $userEmail,
     "userFname" => $userFname,
     "userLname" => $userLname,
@@ -65,7 +65,7 @@ foreach ($bookedEvents as $key => $event) {
         "eventLocation" => $event['location'],
         "eventNotes" => $event['notes'],
         "eventURL" => $event['url'],
-        "eventHost" => $username,   
+        // "eventHost" => $username,   
     ];
 }
 //event host is me
@@ -83,7 +83,7 @@ foreach ($upcomingEvents as $key => $event) {
         "eventLocation" => $event['location'],
         "eventNotes" => $event['notes'],
         "eventURL" => $event['url'],
-        "eventHost" => $username,   
+        // "eventHost" => $username,   
     ];
 }
 foreach ($pastEvents as $key => $event) {
@@ -100,7 +100,7 @@ foreach ($pastEvents as $key => $event) {
         "eventLocation" => $event['location'],
         "eventNotes" => $event['notes'],
         "eventURL" => $event['url'],
-        "eventHost" => $username, 
+        // "eventHost" => $username, 
     ];
 }
 //event host is the username of the event creator
@@ -117,8 +117,7 @@ if (!empty($slot_ids)) {
             e.end_time, 
             e.location, 
             e.note AS notes, 
-            e.url, 
-            u.username AS eventHost
+            e.url
         FROM 
             Events e
         JOIN 
@@ -166,8 +165,7 @@ if (!empty($slot_ids)) {
             e.end_time, 
             e.location, 
             e.note AS notes, 
-            e.url, 
-            u.username AS eventHost
+            e.url
         FROM 
             Events e
         JOIN 

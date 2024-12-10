@@ -2,8 +2,8 @@
 -- users
 -- 1|gzu|g|z|gzu@gmail.com|$2y$10$QqRYYJ3bkG3f3C8U7PrlSutn2npB7Fh/MHjzUmdqWXHWB0n4mJcVK|2024-12-09 18:16:14|2024-12-09 18:16:14
 -- 2|kwang|k|w|kwang@gmail.com|$2y$10$QJJlJAWBkO6vBbNIikegtOLrZvPvZg1lWvZ88ZuSGIs0P3mpIrxwe|2024-12-09 18:16:37|2024-12-09 18:16:37
-INSERT INTO Users values (1, "gzu", "g", "z", "gzu@gmail.com", "$2y$10$QqRYYJ3bkG3f3C8U7PrlSutn2npB7Fh/MHjzUmdqWXHWB0n4mJcVK","2024-12-09 18:16:14", "2024-12-09 18:16:14");
-INSERT INTO Users values (2, "kwang", "k", "w", "kwang@gmail.com", "$2y$10$QJJlJAWBkO6vBbNIikegtOLrZvPvZg1lWvZ88ZuSGIs0P3mpIrxwe","2024-12-09 18:16:37", "2024-12-09 18:16:37");
+INSERT INTO Users values (1, "g", "z", "gzu@gmail.com", "$2y$10$QqRYYJ3bkG3f3C8U7PrlSutn2npB7Fh/MHjzUmdqWXHWB0n4mJcVK","2024-12-09 18:16:14", "2024-12-09 18:16:14");
+INSERT INTO Users values (2, "k", "w", "kwang@gmail.com", "$2y$10$QJJlJAWBkO6vBbNIikegtOLrZvPvZg1lWvZ88ZuSGIs0P3mpIrxwe","2024-12-09 18:16:37", "2024-12-09 18:16:37");
 -- events
 -- 594|1|2024-12-10|2024-12-10|15|22:08:00|22:23:00|jajajaj||2024-12-10 04:27:51|hghghg|11|https://example.com/scheduling/event?creator_id=1
 -- 595|2|2024-12-10|2024-12-10|15|10:08:00|10:20:00|heheh||2024-12-09 10:27:51|jeje|5|url
