@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Member Dashboard</title>
+    <link rel="stylesheet" href="general_style.css">
+    <style>
+        .main-container {
+            display: grid;
+            grid-template-columns: 30% 70%;
+        }
+        .left-section {
+            margin: 20px;
+            padding: 20px;
+        }
+        .right-section {
+            margin: 20px;
+            padding: 20px;
+        }
+        .poll-container {
+            /* max-width: 600px; */
+            margin: 20px 0px;
+            width: auto;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+        }
+        .poll-header {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        .poll-item {
+            margin: 10px 0;
+        }
+        .poll-bar {
+            height: 20px;
+            background-color: #ed1b2f;
+            border-radius: 5px;
+        }
+        .time-info {
+            font-size: 0.9em;
+            color: #555;
+        }
+    </style>
+</head>
+<body>
+    <!--navigation bar -->
+    <header>
+        <div class="nav-container">
+            <a href="/" class="logo-link">
+                <img src="png/logo.png" alt="Logo" class="nav-logo-img">
+                <span class="logo-name">SOC-cessful Schedule</span>
+            </a>
+
+            <div class="nav-buttons">
+                <button id="loginLink" type="button" class="secondary">Log In</button>
+                <button id="registerLink" type="button" class="primary">Register</button>
+            </div>
+        </div>
+    </header>
+    <div class="main-container">
+        <div class="left-section">
+            <h1 id="poll-header">[Poll Title]</h1>
+            <h3 id="poll-subheader">Meeting Poll Results</h3>
+        </div>
+        <div class="right-section">
+            <p>Poll Status: [Status]</p>
+            <div class="poll-container">
+                <div id="poll-results">
+                    <!-- Results will be dynamically loaded here -->
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+
+    <script>
+        // Example data for demonstration
+        const pollData = {
+            // startTime: "2024-12-01 09:00 AM",
+            // endTime: "2024-12-05 05:00 PM",
+            results: [
+                { slot: "2024-12-01: 9:00 AM - 10:00 AM", votes: 12 },
+                { slot: "2024-12-01: 10:00 AM - 11:00 AM", votes: 8 },
+                { slot: "2024-12-04: 1:00 PM - 2:00 PM", votes: 15 },
+                { slot: "2024-12-04: 3:00 PM - 4:00 PM", votes: 10 }
+            ]
+        };
+
+        // Populate start and end times
+        // document.getElementById('poll-start').textContent = pollData.startTime;
+        // document.getElementById('poll-end').textContent = pollData.endTime;
+
+        // Generate poll results dynamically
+        const pollResultsDiv = document.getElementById('poll-results');
+        pollData.results.forEach(result => {
+            const pollItem = document.createElement('div');
+            pollItem.classList.add('poll-item');
+
+            const label = document.createElement('div');
+            label.textContent = `${result.slot} (${result.votes} votes)`;
+            
+            const bar = document.createElement('div');
+            bar.classList.add('poll-bar');
+            bar.style.width = `${result.votes * 10}px`; // Adjust scale as needed
+
+            pollItem.appendChild(label);
+            pollItem.appendChild(bar);
+            pollResultsDiv.appendChild(pollItem);
+        });
+    </script>
+
+
+</body>
+</html>

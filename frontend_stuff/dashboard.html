@@ -106,7 +106,71 @@
         .upcoming-list th, 
         .upcoming-list td {
             border: 1px solid #888;
+        /* View Toggle Buttons */
+        #view-toggle button {
+            background-color: transparent;
+            border: none;
+            text-align: left;
+        }
+        #view-toggle div {
+            padding-bottom: 5px;
+        }
+        #view-toggle div.active{
+            border-bottom: 2px solid #424242;
+        }
+        #view-toggle button:hover {
+            background-color: #ebebeb;
+        }
+
+        /* Event Filter Dropdown */
+        .dropdown-btn {
+            background-color: transparent;
+            border: none;
+        }
+
+        .dropdown-btn:hover, .dropdown-btn:focus {
+            background-color: #ebebeb;
+        }
+
+        .dropdown {
+            position: relative;
+            display: inline-block;
+        }
+
+        .dropdown-content {
+            border-radius: 5px;
+            margin-top: 5px;
+            display: none;
+            position: absolute;
+            background-color: white;
+            min-width: 160px;
+            overflow: auto;
+            box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+            z-index: 1;
+            padding: 5px;
+        }
+
+        .dropdown-content.show {
+            display: block;
+        }
+
+        .dropdown-content button {
+            width: 100%;
+            display: block;
+            border: none;
+            background-color: transparent;
+            text-align: left;
+        }
+
+        .dropdown button:hover {background-color: #ddd;}
+
+        /* List View */
+        .upcoming-list, 
+        .upcoming-list th, 
+        .upcoming-list td {
+            border: 1px solid #888;
             border-collapse: collapse;
+            padding: 15px;
             padding: 15px;
             text-align: left;
         }
@@ -116,9 +180,38 @@
         }
 
         #details-btn,
+        .upcoming-list tr:hover{
+            background-color: #ebebeb3c;
+            border-radius: 5px;
+        }
+
+        #details-btn,
         #modify-btn,
         #cancel-btn {
             margin: 3px 0px;
+            padding: 6px;
+            font-size: 13px;
+        }
+
+        /* Calendar View */
+        #calendar {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            gap: 10px;
+            text-align: center;
+        }
+
+        .day-header {
+            font-weight: bold;
+            border-bottom: 1px solid #ccc;
+            padding: 10px;
+        }
+
+        .day {
+            min-height: 100px;
+            border: 1px solid #ddd;
+            padding: 5px;
+        }
             padding: 6px;
             font-size: 13px;
         }
@@ -220,6 +313,27 @@
                 </div>
             </div>
     </header>
+    <!-- private navigation bar -->
+    <header>
+        <div class="nav-container">
+            <a href="/" class="logo-link">
+                <img src="png/logo.png" alt="Logo" class="nav-logo-img">
+                <span class="logo-name">SOC-cessful Schedule</span>
+            </a>
+
+            <div class="nav-buttons">
+                <button id="profileLink" type="button" class="secondary profile-btn">
+                    <img src="png/user-icon.png" alt="User" class="user-icon">
+                    <span>Account</span>
+                </button>
+                <div class="dropdown-menu">
+                    <a href="#" class="dropdown-item">History</a>
+                    <a href="#" class="dropdown-item">Preferences</a>
+                    <a href="#" class="dropdown-item">Time Requests</a>
+                    <a href="#" class="dropdown-item" style="color:#ed1b2f;">Log Out</a>
+                </div>
+            </div>
+    </header>
 
     <div id="background-container">
         <!-- Welcome message -->
@@ -262,8 +376,10 @@
                 <table class="upcoming-list" id="upcoming-list" style="border: none; width:100%">
                     <colgroup>
                         <col style="width: 23%;">
+                        <col style="width: 23%;">
                         <col style="width: 18%;">
                         <col style="width: 19%;">
+                        <col style="width: 17%;">
                         <col style="width: 17%;">
                         <col style="width: 23%;">
                       </colgroup>
@@ -304,11 +420,39 @@
                     <tr>
                         <th>Date</th>
                         <th>Event Name</th>
+                        <th>Event Name</th>
                         <th>Host</th>
                         <th>Location</th>
                         <th></th>
                     </tr>
                 </table>
+                <!-- Weekly View -->
+                <div id="upcoming-weekly" style="display:none; font-size:12px; width:100%">
+                    <div id="calendar-controls">
+                        <button class="secondary" id="prev-week">Previous Week</button>
+                        <span id="current-week"></span>
+                        <button class="secondary" id="today">Today</button>
+                        <button class="secondary" id="next-week">Next Week</button>
+                      </div>
+                      
+                      <div id="calendar">
+                        <div class="day-header"></div>
+                        <div class="day-header"></div>
+                        <div class="day-header"></div>
+                        <div class="day-header"></div>
+                        <div class="day-header"></div>
+                        <div class="day-header"></div>
+                        <div class="day-header"></div>
+                      
+                        <div class="day"></div>
+                        <div class="day"></div>
+                        <div class="day"></div>
+                        <div class="day"></div>
+                        <div class="day"></div>
+                        <div class="day"></div>
+                        <div class="day"></div>
+                      </div>                      
+                </div>
                 <!-- Weekly View -->
                 <div id="upcoming-weekly" style="display:none; font-size:12px; width:100%">
                     <div id="calendar-controls">
@@ -876,6 +1020,7 @@
             let eventDetailsPopupID = `event-details-popup-${i}`;
             tableButtonsCell.innerHTML = `
                 <button class="secondary" id="details-btn" onclick="showDetailsPopup('${eventDetailsPopupID}')">Details</button>
+                <button class="secondary" id="details-btn" onclick="showDetailsPopup('${eventDetailsPopupID}')">Details</button>
                 <div id="event-details-popup-${i}" class="event-details-popup">
                     <div class="event-details-popup-content">
                         <span class="close" onclick="closeDetailsPopup('${eventDetailsPopupID}')">&times;</span>
@@ -904,6 +1049,7 @@
                             </tr>
                         </table>   
                         <div style="float:right; margin-top:15px">
+                        <div style="float:right; margin-top:15px">
                             <button class="primary">Modify booking</button>   
                             <button class="primary">Cancel booking</button>    
                         </div>
@@ -911,7 +1057,9 @@
                 </div>
 
                 <button class="secondary" id="modify-btn">Modify</button>
+                <button class="secondary" id="modify-btn">Modify</button>
 
+                <button class="secondary" id="cancel-btn">Cancel</button>
                 <button class="secondary" id="cancel-btn">Cancel</button>
             `
         }

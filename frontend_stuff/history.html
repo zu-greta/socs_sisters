@@ -45,6 +45,13 @@
             text-align: left;
         }
 
+        /* table buttons */
+        #details-btn {
+            margin: 3px 0px;
+            padding: 6px;
+            font-size: 13px;
+        }
+
         /* for popup */
         .event-details-popup {
         display: none;
@@ -106,12 +113,27 @@
 
 </head>
 <body>
-    <!-- Navigation Bar -->
-    <div id="nav-bar">
-        <a href="#">PLACEHOLDER!</a>
-        <a href="#">PLACEHOLDER!</a>
-        <a href="#">PLACEHOLDER!</a>
-    </div>
+    <!-- private navigation bar -->
+    <header>
+        <div class="nav-container">
+            <a href="/" class="logo-link">
+                <img src="png/logo.png" alt="Logo" class="nav-logo-img">
+                <span class="logo-name">SOC-cessful Schedule</span>
+            </a>
+
+            <div class="nav-buttons">
+                <button id="profileLink" type="button" class="secondary profile-btn">
+                    <img src="png/user-icon.png" alt="User" class="user-icon">
+                    <span>Account</span>
+                </button>
+                <div class="dropdown-menu">
+                    <a href="#" class="dropdown-item">History</a>
+                    <a href="#" class="dropdown-item">Preferences</a>
+                    <a href="#" class="dropdown-item">Time Requests</a>
+                    <a href="#" class="dropdown-item" style="color:#ed1b2f;">Log Out</a>
+                </div>
+            </div>
+    </header>
 
     <div id="background-container">
         <!-- Welcome message -->
@@ -342,7 +364,7 @@
         // add event buttons to each entry
         let eventDetailsPopupID = `event-details-popup-${i}`;
         tableButtonsCell.innerHTML = `
-            <button class="secondary" onclick="showDetailsPopup('${eventDetailsPopupID}')">Details</button>
+            <button class="secondary" id="details-btn" onclick="showDetailsPopup('${eventDetailsPopupID}')">Details</button>
             <!-- Event Details Popup -->
             <div id="event-details-popup-${i}" class="event-details-popup">
                 <div class="event-details-popup-content">
