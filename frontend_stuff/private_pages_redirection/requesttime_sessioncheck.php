@@ -26,6 +26,6 @@ if (!isset($_SESSION['user_id'])) {
 }
 else {
   //Redirect to the schedule page html if authenticated
-  header("Location: ../request-time.html");
+  header("Location: ../request_time.html");
 }
 ?>
