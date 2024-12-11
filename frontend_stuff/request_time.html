@@ -159,6 +159,7 @@
     <form action="../database_stuff/request_time.php" method="POST" id="request_time_form">
       <div class="form-section">
         <input type="hidden" name="creator_id" id="creator_id"> <!--get the person ur submitting to-->
+        <input type="hidden" name="eventName" id="eventName"> <!--get the event name-->
         <!-- <div class="input-container">
           <input type="text" placeholder="Your Name *" id="name" name="name" required>
           <input type="email" placeholder="Your Email *" id="email" name="email" required>
@@ -220,11 +221,16 @@
   <script>
     const urlParams = new URLSearchParams(window.location.search);
     const creator_id = urlParams.get('creator_id');
+    const eventName = urlParams.get('eventName');
 
     document.addEventListener('DOMContentLoaded', () => {
       const creatorIdInput = document.getElementById('creator_id');
+      const eventNameInput = document.getElementById('eventName');
       if (creatorIdInput) {
         creatorIdInput.value = creator_id;
+      }
+      if (eventNameInput) {
+        eventNameInput.value = eventName;
       }
     });
   </script>
@@ -250,6 +256,7 @@
                         You (${event.requesterEmail}) have successfully requested a different time slot. 
                         ${event.creator_email} will be notified of your request. 
                         Here are the details of your request:
+                        Event Name: ${event.eventName}
                         Date: ${event.date}
                         Start Time: ${event.start_time}
                         End Time: ${event.end_time}

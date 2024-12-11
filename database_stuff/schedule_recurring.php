@@ -39,7 +39,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $notes = $_POST['notes'] ?? '';
     $creatorId = 1; //TODO: Assuming logged-in user, replace with actual user ID !!!!!
 
-    $link = "https://example.com/scheduling/event?creator_id=" . urlencode($creatorId); // TODO replace with actual link    
+    $link = "https://example.com/scheduling/event?creator_id=" . urlencode($creatorId) . "&eventName=" . urlencode($name); // TODO replace with actual link    
 
     // For recurring events, also capture additional details
     $startDate = $_POST['start_date'] ?? '';

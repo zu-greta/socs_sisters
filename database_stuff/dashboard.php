@@ -65,7 +65,7 @@ foreach ($bookedEvents as $key => $event) {
         "eventLocation" => $event['location'],
         "eventNotes" => $event['notes'],
         "eventURL" => $event['url'],
-        // "eventHost" => $username,   
+        "eventHost" => $userFname . ' ' . $userLname,   
     ];
 }
 //event host is me
@@ -83,7 +83,7 @@ foreach ($upcomingEvents as $key => $event) {
         "eventLocation" => $event['location'],
         "eventNotes" => $event['notes'],
         "eventURL" => $event['url'],
-        // "eventHost" => $username,   
+        "eventHost" => $userFname . ' ' . $userLname,   
     ];
 }
 foreach ($pastEvents as $key => $event) {
@@ -100,7 +100,7 @@ foreach ($pastEvents as $key => $event) {
         "eventLocation" => $event['location'],
         "eventNotes" => $event['notes'],
         "eventURL" => $event['url'],
-        // "eventHost" => $username, 
+        "eventHost" => $userFname . ' ' . $userLname, 
     ];
 }
 //event host is the username of the event creator

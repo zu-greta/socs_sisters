@@ -51,6 +51,7 @@ CREATE TABLE TimeRequests (
     start_time TIME NOT NULL,
     end_time TIME NOT NULL,
     description TEXT,
+    eventName TEXT NOT NULL,
     status TEXT CHECK (status IN ('pending', 'approved', 'declined')) DEFAULT 'pending',
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     FOREIGN KEY (sender_id) REFERENCES Users(user_id),

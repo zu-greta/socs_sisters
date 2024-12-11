@@ -36,7 +36,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $calendar = $_POST['calendar'] ?? '';
     $notes = $_POST['notes'] ?? '';
 
-    $link = "https://example.com/scheduling/event?creator_id=" . urlencode($creatorId); // TODO replace with actual link
+    $link = "https://example.com/scheduling/event?creator_id=" . urlencode($creatorId) . "&eventName=" . urlencode($name); // TODO replace with actual link
     
 
     //TODO: CHECK Y TIME CANNOT BE VALIDATED
