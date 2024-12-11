@@ -59,7 +59,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
         // Send JSON response
         echo json_encode($response);
-        exit;
+        header('Location: ../frontend_stuff/preferences.html');
     } catch (PDOException $e) {
         echo json_encode(['success' => false, 'error' => 'Database error: ' . $e->getMessage()]);
     }

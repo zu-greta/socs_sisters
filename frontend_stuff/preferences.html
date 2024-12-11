@@ -44,6 +44,8 @@
         }
 
         /* change password popup */
+        .change-firstname-popup,
+        .change-lastname-popup,
         .change-password-popup {
             display: none;
             position: fixed;
@@ -57,6 +59,8 @@
             }
 
         /* popup content */
+        .change-firstname-popup-content,
+        .change-lastname-popup-content,
         .change-password-popup-content {
             background-color: white;
             margin: 10% auto;
@@ -67,7 +71,7 @@
             position: relative;
             border-radius: 5px;
 
-            }
+        }
 
         /* close button */
         .close {
@@ -157,44 +161,44 @@
                 <a href="dashboard.html">Upcoming</a>
                 <a href="history.html">History</a>
                 <a href="#" class="active">Preferences</a>
+                <a href="time_requests_dashboard.html">Time Requests</a>
             </div>
             <!-- Preferences -->
             <div style="float:right; width:80%; padding: 15px 25px 15px 0px">
-                <!--display the current account info--> <!--TODO MAKE THIS LOOK NIVER PLZ-->
+                <!--display the current account info--> <!--TODO MAKE THIS LOOK NICER PLZ-->
                 <h2>Account Preferences</h2>
                 <h4>Contact Information</h4>
-                <p style="font-weight: bold;">First Name: <span id="firstname" style="font-weight: lighter;"></span></p>
-                <!--button to change the firstname-->
-                <button type="button" class="primary" onclick="showChangeFirstnamePopup()">Change first name</button>
-                <p style="font-weight: bold;">Last Name: <span id="lastname" style="font-weight: lighter;"></span></p>
-                <button type="button" class="primary" onclick="showChangeLastnamePopup()">Change last name</button>
                 <p style="font-weight: bold;">Email: <span id="email" style="font-weight: lighter;"></span></p>
+                <p style="font-weight: bold;">First Name: <span id="firstname" style="font-weight: lighter;"></span></p>
+                <p style="font-weight: bold;">Last Name: <span id="lastname" style="font-weight: lighter;"></span></p>
+                <!--button to change the name-->
+            </br>
+                <button type="button" class="primary" onclick="showChangeFirstnamePopup()">Mofidy name</button>
+            </br>
                 
-
-                <form id="preferences">
-                    <h2>Account Preferences</h2>
-                    <h4>Contact Information</h4>
-                    <label for="first-name">First Name (required)
-                        <input type="text" id="first-name" placeholder="John"></label>
-                    <label for="last-name">Last Name (required)
-                        <input type="text" name="last-name" placeholder="Smith"></label>
-                    <label for="email">Email (required)
-                        <input type="text" name="email" placeholder="john.smith@mail.mcgill.ca"></label>
-                    <button type="button" class="primary" onclick="showChangePasswordPopup()">Change password</button>
-                    <!-- change firstname popup -->
-                    <div id="change-firstname-popup" class="change-password-popup">
-                        <div class="change-password-popup-content">
-                            <span class="close" onclick="closeChangeFirstnamePopup()">&times;</span>
-                            <form id="change-firstname" method="POST" action="../database_stuff/fnamechange.php">
-                                <label for="ffirstname">New First Name
-                                    <input type="text" name="ffirstname"></label>
-                                <button type="submit" class="primary">Save change</button>
-                            </form>
-                        </div>
+            </br>
+                <button type="button" class="primary" onclick="showChangePasswordPopup()">Change password</button>
+                <!-- change password popup -->
+                <div id="change-password-popup" class="change-password-popup">
+                    <div class="change-password-popup-content">
+                        <span class="close" onclick="closeChangePasswordPopup()">&times;</span>
+                        <form id="change-password" method="POST" action="../database_stuff/passwordchange.php">
+                            <label for="current-password">Current Password
+                                <input type="text" name="current-password"></label>
+                            <label for="new-password">New Password
+                                <input type="text" name="new-password"></label>
+                            <label for="reenter-new-password">Re-Enter New Password
+                                <input type="text" name="reenter-new-password"></label>
+                            <button type="submit" class="primary">Save password</button>
+                        </form>
                     </div>
-                    <!-- change lastname popup -->
-                    <div id="change-lastname-popup" class="change-password-popup">
-                        <div class="change-password-popup-content">
+                </div>
+    </br>
+</br>
+                <form id="preferences">
+                    <!-- change lastname popup DONT DELETE THIS YET -->
+                    <div id="change-lastname-popup" class="change-lastname-popup">
+                        <div class="change-lastname-popup-content">
                             <span class="close" onclick="closeChangeLastnamePopup()">&times;</span>
                             <form id="change-lastname" method="POST" action="../database_stuff/lnamechange.php">
                                 <label for="lname">New Last Name
@@ -203,6 +207,20 @@
                             </form>
                         </div>
                     </div>
+                    <!-- change firstname popup -->
+                    <div id="change-firstname-popup" class="change-firstname-popup">
+                        <div class="change-firstname-popup-content">
+                            <span class="close" onclick="closeChangeFirstnamePopup()">&times;</span>
+                            <form id="change-firstname" method="POST" action="../database_stuff/fnamechange.php">
+                                <label for="fn">New First Name
+                                    <input type="text" id="fn" name="fn"></label>
+                                <label for="ln">New Last Name
+                                    <input type="text" id="ln" name="ln"></label>
+                                <button type="submit" class="primary">Save change</button>
+                            </form>
+                        </div>
+                    </div>
+                    
                     <!-- change password popup -->
                     <div id="change-password-popup" class="change-password-popup">
                         <div class="change-password-popup-content">
@@ -218,12 +236,12 @@
                             </form>
                         </div>
                     </div>
-                    <h4>Notifications & Reminders</h4>
+                    <!-- <h4>Notifications & Reminders</h4>
                     <input type="checkbox" id="event-notifs" name="event-notifs" value="" >
                     <label for="event-notifs" > Email notifications of cancelled and rescheduled events</label><br><br>
                     <input type="checkbox" id="event-reminder" name="event-reminder" value="">
                     <label for="event-reminder"> Email reminder 2 days before event</label><br><br>
-                    <button type="submit" class="primary">Save preferences</button>
+                    <button type="submit" class="primary">Save preferences</button> -->
                 </form>
             </div>
         </div>
@@ -239,12 +257,6 @@
     <script>
         function showChangePasswordPopup() {
             document.getElementById("change-password-popup").style.display = 'block';
-
-            const popup_content = document.getElementById("change-password-popup-content");
-            // get the form with id="change-password" from the popup
-            const form = popup_content.querySelector("#change-password");
-            form.addEventListener('submit', handlePasswordChange);
-
         }
 
         function closeChangePasswordPopup(){
@@ -253,6 +265,11 @@
 
         function showChangeFirstnamePopup() {
             document.getElementById("change-firstname-popup").style.display = 'block';
+            // populate the current first name
+            const first = document.getElementById('firstname').innerHTML;
+            const last = document.getElementById('lastname').innerHTML;
+            document.getElementById('fn').value = first;
+            document.getElementById('ln').value = last;
         }
         function closeChangeFirstnamePopup() {
             document.getElementById("change-firstname-popup").style.display = 'none';
@@ -286,40 +303,6 @@
                 alert("An error occurred while fetching. Please try again later.");
             });
         });
-
-        //PASSWORD CHANGE NEEDS TO BE FIXED - THE LOGIC WOULD BE THE SAME FOR CHANGING NAME AND EMAIL!
-        // + MAKE SURE TO DO EXTRA CHECKS FOR UNIQUE EMAILS AND USERNAMES... + HIDE THE PASSWORD AS U TYPE
-    //     document.addEventListener('DOMContentLoaded', function() {
-    //     function handlePasswordChange(event) {    //password change form submission
-    //         event.preventDefault();
-    //         const form = event.target;
-    //         fetch(form.action, {
-    //             method: 'POST',
-    //             body: new URLSearchParams(new FormData(form)) // event.target is the form
-    //         }).then((response) => {
-    //             if (!response.ok) {
-    //                 throw new Error(`HTTP error! Status: ${response.status}`);
-    //             }
-    //             return response.json(); 
-    //         }).then((body) => {
-    //             console.log("Response received for password change");
-    //             if (body.success) {
-    //                 console.log("Password changed successfully");
-    //                 // Show the modal
-    //                 document.getElementById("confirmation-popup").style.display = "block";
-    //             }
-    //         }).catch((error) => {
-    //             // TODO handle error
-    //             console.log("Error:", error); 
-    //             alert('An error occurred while changing the password.');
-    //         });
-
-    //         //Close the confirmation popup
-    //         document.getElementById("close-popup").onclick = function () {
-    //             document.getElementById("confirmation-popup").style.display = "none";
-    //     };}
-    // })
-
     </script>
 
 
