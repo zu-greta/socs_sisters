@@ -33,12 +33,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $end = $_POST['end_time'] ?? '';
     $participants = $_POST['participants'] ?? '';
     $slotDuration = $_POST['slot'] ?? '';
-    $calendar = $_POST['calendar'] ?? '';
+    // $calendar = $_POST['calendar'] ?? '';
     $notes = $_POST['notes'] ?? '';
     
 
     //TODO: CHECK Y TIME CANNOT BE VALIDATED
-    if (empty($name) || empty($location) || empty($participants) || empty($calendar)) {
+    if (empty($name) || empty($location) || empty($participants)) {
         echo json_encode(['success' => false, 'error' => 'Please fill in all required fields for one-time events', 'slotDuration' => $slotDuration]); 
         //echo json_encode(['name' => $name, 'location' => $location, 'startTime' => $startTime, 'endTime' => $endTime, 'slotDuration' => $slotDuration, 'participants' => $participants, 'calendar' => $calendar]);   
         exit;
@@ -142,7 +142,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             "end_date" => $endDate,
             "participants" => $participants,
             "slotDuration" => $slotDuration,
-            "calendar" => $calendar,
+            "calendar" => "calendar REMOVE THIS FROM THE FRONTEND HTML",
             "notes" => $notes,
             "creator_id" => $creatorId, 
             "email" => $creatorEmail, 
