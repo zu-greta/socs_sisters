@@ -157,9 +157,9 @@
         <p class="signin-msg">Sign in to access your dashboard</p>
 
         <form method="POST" action="private_pages_redirection/login.php">
-            <label for="username">Username:</label>
-            <input type="text" id="username" name="username" placeholder="Enter your username" required>
-            <div class="error-message" id="username-error">You must fill out this field.</div>
+            <label for="email">Email:</label>
+            <input type="email" id="email" name="email" placeholder="Enter your email" required>
+            <div class="error-message" id="email-error">You must provide a valid email.</div>
 
             <label for="password">Password:</label>
             <input type="password" id="password" name="password" placeholder="Enter your password" required>
@@ -192,14 +192,19 @@
         }
 
         // Add event listeners for validation
-        const usernameInput = document.getElementById('username');
+        const emailInput = document.getElementById('email');
         const passwordInput = document.getElementById('password');
-        const usernameError = document.getElementById('username-error');
+        const emailError = document.getElementById('email-error');
         const passwordError = document.getElementById('password-error');
 
-        function validateInput(input, errorElement) {
+        function validateEmail() {
+            const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/; // Basic email validation regex
+            return emailPattern.test(emailInput.value);
+        }
+
+        function validateInput(input, errorElement, validator = null) {
             input.addEventListener('blur', () => {
-                if (input.value.trim() === '') {
+                if (input.value.trim() === '' || (validator && !validator())) {
                     errorElement.style.display = 'block';
                 } else {
                     errorElement.style.display = 'none';
@@ -207,14 +212,15 @@
             });
 
             input.addEventListener('input', () => {
-                if (input.value.trim() !== '') {
+                if (input.value.trim() !== '' && (!validator || validator())) {
                     errorElement.style.display = 'none';
                 }
             });
         }
 
-        validateInput(usernameInput, usernameError);
+        validateInput(emailInput, emailError, validateEmail);
         validateInput(passwordInput, passwordError);
+
     </script>
 
 </body>
