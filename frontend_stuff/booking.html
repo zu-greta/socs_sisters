@@ -276,7 +276,6 @@
     .view-tabs {
       display: flex;
       gap: 10px;
-      /* stick to the bottom of the box */
       position: absolute;
       bottom: 20px;
       left: 20px;
@@ -665,7 +664,7 @@
           calendarView.style.display = 'block';
           listView.style.display = 'none';
           //close the right tab if it is open
-          document.querySelector('.right-bar').style.display = 'block';
+          document.querySelector('.right-bar').style.display = 'none';
         });
       
         listTab.addEventListener('click', () => {
