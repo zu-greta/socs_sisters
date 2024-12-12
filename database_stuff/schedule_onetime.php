@@ -1,9 +1,17 @@
 <?php
 session_start();
-$creatorId = $_SESSION['user_id'];
+// $creatorId = $_SESSION['user_id'];
 try {
     $database = new PDO('sqlite:ssDB.sq3');
     $database->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+    // Get userID
+    $stmt = $database->prepare("SELECT user_id FROM Sessions WHERE session_token = ?");
+    $stmt->execute([$_COOKIE['auth_key']]);
+    $session = $stmt->fetch(PDO::FETCH_ASSOC);
+    if (!$session) {
+        header("Location: login");
+    }
+    $creatorId = $session['user_id'];
     $stmt = $database->prepare("SELECT * FROM Users WHERE user_id = ?");
     $stmt->execute([$creatorId]);
     $userinfo = $stmt->fetchAll(PDO::FETCH_ASSOC);
@@ -42,6 +50,21 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         echo json_encode(['success' => false, 'error' => 'Please fill in all required fields for one-time events', 'slotDuration' => $slotDuration]); 
         //echo json_encode(['name' => $name, 'location' => $location, 'startTime' => $startTime, 'endTime' => $endTime, 'slotDuration' => $slotDuration, 'participants' => $participants, 'calendar' => $calendar]);   
         exit;
+    }
+
+    function generateToken($creatorId, $name, $location, $slotDuration) {
+        $token = bin2hex(random_bytes(32));
+        //save into database
+        try {
+            $database = new PDO('sqlite:ssDB.sq3');
+            $database->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+            $stmt = $database->prepare("INSERT INTO Tokens (token, creator_id, eventName, eventDuration, eventLocation) VALUES (?, ?, ?, ?, ?)");
+            $stmt->execute([$token, $creatorId, $name, $slotDuration, $location]);
+        } catch (PDOException $e) {
+            echo json_encode(['success' => false, 'error' => 'Database error: ' . $e->getMessage()]);
+            exit;
+        }
+        return $token;
     }
 
     // split up the time and date
@@ -85,7 +108,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $numSlots = $startDateObj->diff($endDateObj)->days * 24 * 60 / $slotDuration;
         }
     }
-    $link = "http://cs.mcgill.ca/~gzu/socs_sisters/booking/event?creator_id=" . urlencode($creatorId) . "&eventName=" . urlencode($name) . "&eventDuration=" . urlencode($slotDuration) . "&eventLocation=" . urlencode($location); // TODO replace with actual link
+    $tokengen = generateToken($creatorId, $name, $location, $slotDuration);
+    $link = "http://cs.mcgill.ca/~gzu/socs_sisters/booking?token=" . urlencode($tokengen); 
+    //$link = "http://cs.mcgill.ca/~gzu/socs_sisters/booking/event?creator_id=" . urlencode($creatorId) . "&eventName=" . urlencode($name) . "&eventDuration=" . urlencode($slotDuration) . "&eventLocation=" . urlencode($location); // TODO replace with actual link
     for ($i = 0; $i < $numSlots; $i++) {
         $slots[] = [
             'start_date' => $currentDate->format('Y-m-d'),
