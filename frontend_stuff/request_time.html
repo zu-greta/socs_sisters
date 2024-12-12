@@ -156,7 +156,7 @@
   <div class="container">
     <h2>Request a Different Time Slot</h2>
     <!-- form format for the backend (GRETA)-->
-    <form action="../database_stuff/request_time.php" method="POST" id="request_time_form">
+    <form action="./database_stuff/request_time.php" method="POST" id="request_time_form">
       <div class="form-section">
         <input type="hidden" name="creator_id" id="creator_id"> <!--get the person ur submitting to-->
         <input type="hidden" name="eventName" id="eventName"> <!--get the event name-->
@@ -193,7 +193,7 @@
     <span class="close-btn" id="close-popup">&times;</span>
     <p id="popup-info"></p>
     <!--button back to bookings-->
-    <button class="modal-btn" onclick="window.location.href=`booking.html?creator_id=${creator_id}&eventName=${eventName}&eventDuration=${eventDuration}&eventLocation=${eventLocation}`;">Back to Bookings</button>
+    <button class="modal-btn" onclick="window.location.href=`booking?creator_id=${creator_id}&eventName=${eventName}&eventDuration=${eventDuration}&eventLocation=${eventLocation}`;">Back to Bookings</button>
     </div>
 </div> 
 
@@ -224,7 +224,7 @@
 
 
     cancelButton.addEventListener("click", () => {
-      window.location.href = `booking.html?creator_id=${creator_id}&eventName=${eventName}&eventDuration=${eventDuration}&eventLocation=${eventLocation}`; // Replace with the actual URL.
+      window.location.href = `booking?creator_id=${creator_id}&eventName=${eventName}&eventDuration=${eventDuration}&eventLocation=${eventLocation}`; // Replace with the actual URL.
     });
   </script>
   <script>

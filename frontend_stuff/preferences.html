@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Member Dashboard</title>
-    <link rel="stylesheet" href="general_style.css">
+    <link rel="stylesheet" href="./frontend_stuff/general_style.css">
     <style>
         /* Side Navigation Bar */
         .sidenav {
@@ -130,13 +130,13 @@
     <header>
         <div class="nav-container">
             <a href="/" class="logo-link">
-                <img src="png/logo.png" alt="Logo" class="nav-logo-img">
+                <img src="./frontend_stuff/png/logo.png" alt="Logo" class="nav-logo-img">
                 <span class="logo-name">SOC-cessful Schedule</span>
             </a>
 
             <div class="nav-buttons">
                 <button id="profileLink" type="button" class="secondary profile-btn">
-                    <img src="png/user-icon.png" alt="User" class="user-icon">
+                    <img src="./frontend_stuff/png/user-icon.png" alt="User" class="user-icon">
                     <span>Account</span>
                 </button>
                 <div class="dropdown-menu">
@@ -158,10 +158,10 @@
             <!-- Sidebar -->
             <div class="sidenav">
                 <h2>My Account</h2>
-                <a href="dashboard.html">Upcoming</a>
-                <a href="history.html">History</a>
+                <a href="dashboard">Upcoming</a>
+                <a href="history">History</a>
                 <a href="#" class="active">Preferences</a>
-                <a href="time_requests_dashboard.html">Time Requests</a>
+                <a href="viewTimeRequest">Time Requests</a>
             </div>
             <!-- Preferences -->
             <div style="float:right; width:80%; padding: 15px 25px 15px 0px">
@@ -182,7 +182,7 @@
                 <div id="change-password-popup" class="change-password-popup">
                     <div class="change-password-popup-content">
                         <span class="close" onclick="closeChangePasswordPopup()">&times;</span>
-                        <form id="change-password" method="POST" action="../database_stuff/passwordchange.php">
+                        <form id="change-password" method="POST" action="./database_stuff/passwordchange.php">
                             <label for="current-password">Current Password
                                 <input type="text" name="current-password"></label>
                             <label for="new-password">New Password
@@ -200,7 +200,7 @@
                     <div id="change-lastname-popup" class="change-lastname-popup">
                         <div class="change-lastname-popup-content">
                             <span class="close" onclick="closeChangeLastnamePopup()">&times;</span>
-                            <form id="change-lastname" method="POST" action="../database_stuff/lnamechange.php">
+                            <form id="change-lastname" method="POST" action="./database_stuff/lnamechange.php">
                                 <label for="lname">New Last Name
                                     <input type="text" name="lname"></label>
                                 <button type="submit" class="primary">Save change</button>
@@ -211,7 +211,7 @@
                     <div id="change-firstname-popup" class="change-firstname-popup">
                         <div class="change-firstname-popup-content">
                             <span class="close" onclick="closeChangeFirstnamePopup()">&times;</span>
-                            <form id="change-firstname" method="POST" action="../database_stuff/fnamechange.php">
+                            <form id="change-firstname" method="POST" action="./database_stuff/fnamechange.php">
                                 <label for="fn">New First Name
                                     <input type="text" id="fn" name="fn"></label>
                                 <label for="ln">New Last Name
@@ -225,7 +225,7 @@
                     <div id="change-password-popup" class="change-password-popup">
                         <div class="change-password-popup-content">
                             <span class="close" onclick="closeChangePasswordPopup()">&times;</span>
-                            <form id="change-password" method="POST" action="../database_stuff/passwordchange.php">
+                            <form id="change-password" method="POST" action="./database_stuff/passwordchange.php">
                                 <label for="current-password">Current Password
                                     <input type="text" name="current-password"></label>
                                 <label for="new-password">New Password
@@ -283,7 +283,7 @@
     </script>
     <script>
         document.addEventListener('DOMContentLoaded', function() {
-            fetch('../database_stuff/preferences.php')
+            fetch('./database_stuff/preferences.php')
             .then(response => response.json())
             .then(data => {
                 if (data.success) {

@@ -3,7 +3,7 @@ CREATE TABLE Users (
     user_id INTEGER PRIMARY KEY AUTOINCREMENT, -- Primary Key
     fname TEXT NOT NULL,
     lname TEXT NOT NULL,
-    email TEXT UNIQUE NOT NULL,
+    email TEXT UNIQUE NOT NULL, --ACTS AS USERNAME
     password_hash TEXT NOT NULL, -- Placeholder for storing passwords
     --role TEXT CHECK (role IN ('professor', 'TA', 'student', 'member')) DEFAULT 'member', -- CHECK THIS LATER
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
@@ -89,4 +89,13 @@ CREATE TABLE PollVotes (
     PRIMARY KEY (poll_id, voter_email, option_id), -- Composite Primary Key
     FOREIGN KEY (poll_id) REFERENCES MeetingPolls(poll_id),
     FOREIGN KEY (option_id) REFERENCES PollOptions(option_id)
+);
+
+-- Create Session Table (for storing session tokens - SECURITY)
+CREATE TABLE Sessions (
+    session_id INTEGER PRIMARY KEY AUTOINCREMENT, -- Primary Key
+    user_id INTEGER NOT NULL, -- Foreign Key referencing Users(user_id)
+    session_token TEXT NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (user_id) REFERENCES Users(user_id)
 );

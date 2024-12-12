@@ -8,7 +8,7 @@
 <html lang="en">
 <head>
     <title>Login Page</title>
-    <link rel="stylesheet" href="general_style.css">
+    <link rel="stylesheet" href="./frontend_stuff/general_style.css">
     <style>
         /* General */
         body {
@@ -152,7 +152,7 @@
 <body>
 
     <div class="content">
-        <img src="png/logo.png" alt="SOC-cessful Schedule Logo">
+        <img src="./frontend_stuff/png/logo.png" alt="SOC-cessful Schedule Logo">
         <h2> &nbsp; &nbsp; Log into your Account  &nbsp; &nbsp;</h2>
         <p class="signin-msg">Sign in to access your dashboard</p>
 
@@ -181,14 +181,14 @@
         </div>
 
         <p class="bottom-text">
-            Not Registered Yet? <a href="register.html">Create an account</a>
+            Not Registered Yet? <a href="register">Create an account</a>
         </p>
     </div>
 
     <script>
         // Function to redirect user to the dashboard
         function redirectToDashboard() {
-            window.location.href = "private_pages_redirection/dashboard_sessioncheck.php";
+            window.location.href = "dashboard";
         }
 
         // Add event listeners for validation

@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Member Dashboard</title>
-    <link rel="stylesheet" href="general_style.css">
+    <link rel="stylesheet" href=".frontend_stuff/general_style.css?v=1.0">
     <style>
         /* Side Navigation Bar */
         .sidenav {
@@ -203,13 +203,13 @@
     <header>
         <div class="nav-container">
             <a href="/" class="logo-link">
-                <img src="png/logo.png" alt="Logo" class="nav-logo-img">
+                <img src=".frontend_stuff/png/logo.png" alt="Logo" class="nav-logo-img">
                 <span class="logo-name">SOC-cessful Schedule</span>
             </a>
 
             <div class="nav-buttons">
                 <button id="profileLink" type="button" class="secondary profile-btn">
-                    <img src="png/user-icon.png" alt="User" class="user-icon">
+                    <img src=".frontend_stuff/png/user-icon.png" alt="User" class="user-icon">
                     <span>Account</span>
                 </button>
                 <div class="dropdown-menu">
@@ -232,8 +232,8 @@
             <div class="sidenav">
                 <h2>My Account</h2>
                 <a href="#" class="active">Upcoming</a>
-                <a href="history.html">History</a>
-                <a href="preferences.html">Preferences</a>
+                <a href="history">History</a>
+                <a href="preferences">Preferences</a>
             </div>
             <!-- Upcoming -->
             <div id="upcoming" style="float:right; width:80%; padding: 15px 25px 15px 0px">
@@ -391,7 +391,7 @@
 
         // redirects to the scheduling page
         document.getElementById("scheduling-btn").onclick = function(){
-            window.location.href = "private_pages_redirection/schedule_sessioncheck.php";
+            window.location.href = "scheduling";
         }
 
         function showListView(){
@@ -495,7 +495,7 @@
 <script> 
     //populate the upcoming table others
     document.addEventListener('DOMContentLoaded', function() {
-        fetch('../database_stuff/dashboard.php')
+        fetch('./database_stuff/dashboard.php')
         .then(response => response.json())
         .then(data => {
             if (data.success) {
@@ -559,7 +559,7 @@
 <script> 
     // populate the upcoming table by me
     document.addEventListener('DOMContentLoaded', function() {
-        fetch('../database_stuff/dashboard.php')
+        fetch('./database_stuff/dashboard.php')
         .then(response => response.json())
         .then(data => {
             if (data.success) {
@@ -665,7 +665,7 @@
         return;
     }
     console.log(`Cancelling booking with eventID ${eventID}`);
-    fetch(`../database_stuff/cancel_booking.php?eventID=${eventID}`, {
+    fetch(`./database_stuff/cancel_booking.php?eventID=${eventID}`, {
     method: 'GET',
     })
 
@@ -689,7 +689,7 @@
 <script> 
     // populate the upcoming table by me
     document.addEventListener('DOMContentLoaded', function() {
-        fetch('../database_stuff/dashboard.php')
+        fetch('./database_stuff/dashboard.php')
         .then(response => response.json())
         .then(data => {
             if (data.success) {
@@ -795,7 +795,7 @@
         return;
     }
     console.log(`Cancelling booking with eventID ${eventID}`);
-    fetch(`../database_stuff/cancel_booking.php?eventID=${eventID}`, {
+    fetch(`./database_stuff/cancel_booking.php?eventID=${eventID}`, {
     method: 'GET',
     })
 
@@ -817,7 +817,7 @@
 </script>
 <script>
     document.addEventListener('DOMContentLoaded', function() {
-        fetch('../database_stuff/dashboard.php')
+        fetch('./database_stuff/dashboard.php')
         .then(response => response.json())
         .then(data => {
             if (data.success) {

@@ -622,7 +622,7 @@
         <h3><span id="display-day"></span>, <span id="display-datetime"></span></h3>
         <h4>Event info: </br></h4><p id="event-info"></p>
         </br>
-        <form action="../database_stuff/booking.php" method="POST" id="booking_form">
+        <form action="./database_stuff/booking.php" method="POST" id="booking_form">
           <div class="input-container">
             <input type="email" id="input-email" name="requesterEmail" placeholder="Your Email *" required>
             <input type="hidden" id="slot_id" name="slot_id"> <!--give the slot_id-->
@@ -648,7 +648,7 @@
           <span class="modal-close-btn" id="close-popup">&times;</span>
           <p>Slot Booked!</p>
           <!--button to the landing page-->
-          <button class="primary-btn" onclick="window.location.href = 'index.html';">Landing page</button>
+          <button class="primary-btn" onclick="window.location.href = 'landing';">Landing page</button>
       </div>
     </div>
 
@@ -791,7 +791,7 @@
         const eventDuration = urlParams.get('eventDuration');
         const eventLocation = urlParams.get('eventLocation');
       
-        fetch(`../database_stuff/booking_info.php?creator_id=${creator_id}&eventName=${eventName}&eventDuration=${eventDuration}&eventLocation=${eventLocation}&start_date=${weekStart.toISOString().split('T')[0]}&end_date=${weekEnd.toISOString().split('T')[0]}`, {
+        fetch(`./database_stuff/booking_info.php?creator_id=${creator_id}&eventName=${eventName}&eventDuration=${eventDuration}&eventLocation=${eventLocation}&start_date=${weekStart.toISOString().split('T')[0]}&end_date=${weekEnd.toISOString().split('T')[0]}`, {
           method: 'GET',
         })
         .then(response => response.json())
@@ -853,7 +853,7 @@
         const eventDuration = urlParams.get('eventDuration');
         const eventLocation = urlParams.get('eventLocation');
       
-        fetch(`../database_stuff/booking_info.php?creator_id=${creator_id}&eventName=${eventName}&eventDuration=${eventDuration}&eventLocation=${eventLocation}`, {
+        fetch(`./database_stuff/booking_info.php?creator_id=${creator_id}&eventName=${eventName}&eventDuration=${eventDuration}&eventLocation=${eventLocation}`, {
           method: 'GET',
         })
         .then(response => response.json())
@@ -965,8 +965,7 @@
 
       alternativeButton.addEventListener("click", () => {
         //window.location.href = `request_time.html?creator_id=${creator_id}&eventName=${eventName}&eventDuration=${eventDuration}&eventLocation=${eventLocation}`; // Replace with the actual URL.
-        window.location.href = `private_pages_redirection/requesttime_sessioncheck.php?creator_id=${creator_id}&eventName=${eventName}&eventDuration=${eventDuration}&eventLocation=${eventLocation}`; // Replace with the actual URL.
-        //private_pages_redirection/requesttime_sessioncheck.php -> ADD THIS WHEN REDIRECTING ^FOR TESTING RN
+        window.location.href = `makeTimeRequest?creator_id=${creator_id}&eventName=${eventName}&eventDuration=${eventDuration}&eventLocation=${eventLocation}`; // Replace with the actual URL.
         //should prompt for login if not logged in
       });
       //Close the confirmation popup TODO FIX THIS

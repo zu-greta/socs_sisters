@@ -27,7 +27,7 @@ if (!isset($_SESSION['user_id'])) {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Schedule Creation</title>
-    <link rel="stylesheet" href="general_style.css?v=1.0" >
+    <link rel="stylesheet" href="./frontend_stuff/general_style.css?v=1.0" >
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <style>
         /* TODO: match the css to the general_style.css */
@@ -183,13 +183,13 @@ if (!isset($_SESSION['user_id'])) {
     <header>
         <div class="nav-container">
             <a href="/" class="logo-link">
-                <img src="png/logo.png" alt="Logo" class="nav-logo-img">
+                <img src="./frontend_stuff/png/logo.png" alt="Logo" class="nav-logo-img">
                 <span class="logo-name">SOC-cessful Schedule</span>
             </a>
 
             <div class="nav-buttons">
                 <button id="profileLink" type="button" class="secondary profile-btn">
-                    <img src="png/user-icon.png" alt="User" class="user-icon">
+                    <img src="./frontend_stuff/png/user-icon.png" alt="User" class="user-icon">
                     <span>Account</span>
                 </button>
                 <div class="dropdown-menu">
@@ -211,7 +211,7 @@ if (!isset($_SESSION['user_id'])) {
         <!-- Form Section -->
         <div id="form-container">
             <!-- Recurring Form -->
-            <form id="recurring-form" class="schedule-form active" action="../database_stuff/schedule_recurring.php"
+            <form id="recurring-form" class="schedule-form active" action="./database_stuff/schedule_recurring.php"
                 method="POST">
                 <h2>Schedule Weekly Recurring Event</h2>
                 <label><input type="text" name="name" required placeholder="Event Name: "></label>
@@ -266,7 +266,7 @@ if (!isset($_SESSION['user_id'])) {
             </form>
 
             <!-- One-Time Form -->
-            <form id="one-time-form" class="schedule-form" action="../database_stuff/schedule_onetime.php"
+            <form id="one-time-form" class="schedule-form" action="./database_stuff/schedule_onetime.php"
                 method="POST">
                 <h2>Schedule One-Time Event</h2>
                 <label><input type="text" name="name" placeholder="Event Name: " required></label>
@@ -439,7 +439,7 @@ if (!isset($_SESSION['user_id'])) {
 
         // Return Home Button
         document.getElementById("return-home").addEventListener("click", function() {
-            window.location.href = "private_pages_redirection/dashboard_sessioncheck.php";
+            window.location.href = "dashboard";
         });
 
         function copyToClipboard() {

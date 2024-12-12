@@ -114,7 +114,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $currentDate->modify('+1 day');
     }
 
-    $link = "https://example.com/scheduling/event?creator_id=" . urlencode($creatorId) . "&eventName=" . urlencode($name) . "&eventDuration=" . urlencode($slotDuration) . "&eventLocation=" . urlencode($location); // TODO replace with actual link
+    $link = "http://cs.mcgill.ca/~gzu/socs_sisters/booking/event?creator_id=" . urlencode($creatorId) . "&eventName=" . urlencode($name) . "&eventDuration=" . urlencode($slotDuration) . "&eventLocation=" . urlencode($location); // TODO replace with actual link
 
     // Insert each slot into the database
     try {
