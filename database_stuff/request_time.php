@@ -18,12 +18,13 @@ try {
 }
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $creator_id = $_POST['creator_id'] ?? '';
+    $eventName = $_POST['eventName'] ?? '';
     $date = $_POST['date'] ?? '';
     $start_time = $_POST['start-time'] ?? '';
     $end_time = $_POST['end-time'] ?? '';
     $reason = $_POST['reason'] ?? '';
 
-    if (empty($creator_id) || empty($date) || empty($start_time) || empty($end_time) || empty($reason)) {
+    if (empty($creator_id) || empty($eventName) || empty($date) || empty($start_time) || empty($end_time) || empty($reason)) {
         echo json_encode(['success' => false, 'error' => 'Please fill in all required fields for one-time events', 'creator_id' => $creator_id, 'date' => $date, 'start_time' => $start_time, 'end_time' => $end_time, 'reason' => $reason]);
         exit;
     }
@@ -50,8 +51,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $creator_email = $creatorInfo[0]['email'];
 
         // insert the request into the database
-        $stmt = $database->prepare("INSERT INTO TimeRequests (sender_id, receiver_id, start_date, end_date, duration, start_time, end_time, description) VALUES (?, ?, ?, ?, ?, ?, ?, ?)");
-        $stmt->execute([$requesterID, $creator_id, $date, $date, $duration, $start_time, $end_time, $reason]);
+        $stmt = $database->prepare("INSERT INTO TimeRequests (sender_id, receiver_id, start_date, end_date, duration, start_time, end_time, description, eventName) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)");
+        $stmt->execute([$requesterID, $creator_id, $date, $date, $duration, $start_time, $end_time, $reason, $eventName]);
         
         // the pop up message modal should be displayed now over the schedule page
         $eventDetails = [
@@ -61,6 +62,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             "reason" => $reason,
             "creator_email" => $creator_email,
             "requesterEmail" => $requesterEmail,
+            "eventName" => $eventName,
         ];
 
         $response = [

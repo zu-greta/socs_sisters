@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html>
+<html>
 
 <head>
   <meta charset="UTF-8">
@@ -228,7 +229,27 @@
         <img src="./frontend_stuff/png/logo.png" alt="Logo" class="nav-logo-img">
         <span class="logo-name">SOC-cessful Schedule</span>
       </a>
+  <!--navigation bar with logo and etc-->
+  <header>
+    <div class="nav-container">
+      <a href="/" class="logo-link">
+        <img src="./frontend_stuff/png/logo.png" alt="Logo" class="nav-logo-img">
+        <span class="logo-name">SOC-cessful Schedule</span>
+      </a>
 
+      <div class="nav-buttons">
+        <button id="profileLink" type="button" class="secondary profile-btn">
+          <img src="./frontend_stuff/png/user-icon.png" alt="User" class="user-icon">
+          <span>Account</span>
+        </button>
+        <div class="dropdown-menu">
+          <a href="#" class="dropdown-item">History</a>
+          <a href="#" class="dropdown-item">Preferences</a>
+          <a href="#" class="dropdown-item">Time Requests</a>
+          <a href="#" class="dropdown-item" style="color:#ed1b2f;">Log Out</a>
+        </div>
+      </div>
+  </header>
       <div class="nav-buttons">
         <button id="profileLink" type="button" class="secondary profile-btn">
           <img src="./frontend_stuff/png/user-icon.png" alt="User" class="user-icon">
@@ -332,7 +353,36 @@
             <button type="reset" class="secondary reset-btn">Reset</button>
             <button type="submit" class="primary save-btn">Save</button>
           </form>
+        <div class="item" id="content-2">
+          <h2 class="tab-title tab-onetime">Schedule One-Time Event</h2>
+          <!-- One-Time Form -->
+          <form id="one-time-form" class="schedule-form" action="./database_stuff/schedule_onetime.php" method="POST">
+            <label><input type="text" name="name" placeholder="Event Name: " required></label>
+            <label><input type="text" name="location" placeholder="Location/Video Call URL:" required></label>
+            <label for="start_time" style="display: inline-block; margin-right: 10px; font-size: 10; color: grey;">Start
+              Time:
+              <input type="datetime-local" name="start_time" style="display: inline-block;" required></label>
+            </br>
+            <label for="end_time" style="display: inline-block; margin-right: 10px; font-size: 10; color: grey;">End
+              Time:
+              <input type="datetime-local" name="end_time" style="display: inline-block;" required></label>
+            <label><input type="number" name="participants" placeholder="Number of Participants Allowed: "
+                required></label>
+            <label>Time Slot Length: </br>
+              <select name="slot">
+                <option value="15">15 minutes</option>
+                <option value="30">30 minutes</option>
+                <option value="45">45 minutes</option>
+                <option value="60">1 hour</option>
+                <option value="0">NA</option>
+              </select>
+            </label>
+            <label><textarea name="notes" placeholder="Notes/Attachments: "></textarea></label>
+            <button type="reset" class="secondary reset-btn">Reset</button>
+            <button type="submit" class="primary save-btn">Save</button>
+          </form>
         </div>
+      </section>
       </section>
     </div>
   </div>

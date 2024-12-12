@@ -3,7 +3,7 @@
 <html lang="en">
 <head>
     <title>Register Page</title>
-    <link rel="stylesheet" href="general_style.css">
+    <link rel="stylesheet" href="./frontend_stuff/general_style.css">
     <style>
         /* Common Styles */
         body {
@@ -141,9 +141,9 @@
                 <h1>Create your account</h1>
                 <p class="center-text">
                     Already have an account? 
-                    <a onclick="window.location.href='login.html'" class="terms-link">Log in</a>
+                    <a onclick="window.location.href='login'" class="terms-link">Log in</a>
                 </p>
-                <form class="form-container" action="../database_stuff/register.php" method="POST" onsubmit="return validateForm()">
+                <form class="form-container" action="./database_stuff/register.php" method="POST" onsubmit="return validateForm()">
                     <label for="email">Email:</label>
                     <input type="email" id="email" name="email" placeholder="user@mcgill.ca or user@mail.mcgill.ca" required>
                 
@@ -188,7 +188,7 @@
 
         <!-- Right Section -->
         <div class="right-section">
-            <img src="png/logo.png" alt="SOC-cessful Schedule Logo">
+            <img src="./frontend_stuff/png/logo.png" alt="SOC-cessful Schedule Logo">
             <h2>SOC-cessful Schedule</h2>
             <p style="color:white;">
                 SOC-cessful Schedule is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s.
@@ -197,74 +197,80 @@
     </div>
     <script>
         function checkPassword() {
-    const passwordField = document.getElementById('password');
-    const passwordCheckLength = document.getElementById('password-check-length');
-    const passwordCheckNumber = document.getElementById('password-check-number');
-    const passwordCheckAlpha = document.getElementById('password-check-alpha');
-    const registerButton = document.getElementById('register-button');
-    const confirmPasswordField = document.getElementById('confirmpassword');
+            const passwordField = document.getElementById('password');
+            const passwordCheckLength = document.getElementById('password-check-length');
+            const passwordCheckNumber = document.getElementById('password-check-number');
+            const passwordCheckAlpha = document.getElementById('password-check-alpha');
+            const registerButton = document.getElementById('register-button');
+            const confirmPasswordField = document.getElementById('confirmpassword');
 
-    const value = passwordField.value;
+            const value = passwordField.value;
 
-    let lengthValid = false;
-    let numberValid = false;
-    let alphaValid = false;
+            let lengthValid = false;
+            let numberValid = false;
+            let alphaValid = false;
 
-    // Check for length of 10 or more
-    if (value.length >= 10) {
-        passwordCheckLength.style.visibility = 'visible';
-        lengthValid = true;
-    } else {
-        passwordCheckLength.style.visibility = 'hidden';
-    }
+            // Check for length of 10 or more
+            if (value.length >= 10) {
+                passwordCheckLength.style.visibility = 'visible';
+                lengthValid = true;
+            } else {
+                passwordCheckLength.style.visibility = 'hidden';
+            }
 
-    // Check for at least one number
-    if (/\d/.test(value)) {
-        passwordCheckNumber.style.visibility = 'visible';
-        numberValid = true;
-    } else {
-        passwordCheckNumber.style.visibility = 'hidden';
-    }
+            // Check for at least one number
+            if (/\d/.test(value)) {
+                passwordCheckNumber.style.visibility = 'visible';
+                numberValid = true;
+            } else {
+                passwordCheckNumber.style.visibility = 'hidden';
+            }
 
-    // Check for at least one alphabetical character
-    if (/[a-zA-Z]/.test(value)) {
-        passwordCheckAlpha.style.visibility = 'visible';
-        alphaValid = true;
-    } else {
-        passwordCheckAlpha.style.visibility = 'hidden';
-    }
+            // Check for at least one alphabetical character
+            if (/[a-zA-Z]/.test(value)) {
+                passwordCheckAlpha.style.visibility = 'visible';
+                alphaValid = true;
+            } else {
+                passwordCheckAlpha.style.visibility = 'hidden';
+            }
 
-    // Enable or disable the register button based on password validity
-    if (lengthValid && numberValid && alphaValid) {
-        registerButton.disabled = false;
-        registerButton.classList.add('primary');  // Add the primary class for styling
-    } else {
-        registerButton.disabled = true;
-        registerButton.classList.remove('primary');  // Remove the primary class
-    }
+            // Enable or disable the register button based on password validity
+            if (lengthValid && numberValid && alphaValid) {
+                registerButton.disabled = false;
+                registerButton.classList.add('primary');  // Add the primary class for styling
+            } else {
+                registerButton.disabled = true;
+                registerButton.classList.remove('primary');  // Remove the primary class
+            }
 
-    return lengthValid && numberValid && alphaValid;
+            return lengthValid && numberValid && alphaValid;
 
-}
-function validateForm() {
-    const password = document.getElementById('password').value;
-    const confirmPassword = document.getElementById('confirmpassword').value;
+        }
+        function validateForm() {
+            const errors = [];
+            const password = document.getElementById('password').value;
+            const confirmPassword = document.getElementById('confirmpassword').value;
+            const email = document.getElementById('email').value;
 
-    // Ensure password meets criteria
-    if (!checkPassword()) {
-        alert('Password does not meet the criteria.');
-        return false;
-    }
+            if (!/@(mcgill\.ca|mail\.mcgill\.ca)$/.test(email)){
+                errors.push('Email must be a McGill email.');
+            }
+            // Ensure passwords match
+            if (password !== confirmPassword) {
+                errors.push('Passwords do not match.');
+            }
+            return errors; // Allow form submission
+        }
 
-    // Ensure passwords match
-    if (password !== confirmPassword) {
-        alert('Passwords do not match.');
-        return false;
-    }
+        // Handle form submission
+        document.querySelector("form").addEventListener("submit", function (event) {
+            const errors = validateForm();
 
-    return true; // Allow form submission
-}
-
+            if (errors.length > 0) {
+                event.preventDefault(); // Prevent form submission
+                alert("The following errors were found:\n\n" + errors.join("\n"));
+            }
+        });
     </script>
     
 </body>

@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Member Dashboard</title>
-    <link rel="stylesheet" href="general_style.css">
+    <link rel="stylesheet" href="./frontend_stuff/general_style.css">
 
     <style>
         /* Side Navigation Bar */
@@ -117,13 +117,13 @@
     <header>
         <div class="nav-container">
             <a href="/" class="logo-link">
-                <img src="png/logo.png" alt="Logo" class="nav-logo-img">
+                <img src="./frontend_stuff/png/logo.png" alt="Logo" class="nav-logo-img">
                 <span class="logo-name">SOC-cessful Schedule</span>
             </a>
 
             <div class="nav-buttons">
                 <button id="profileLink" type="button" class="secondary profile-btn">
-                    <img src="png/user-icon.png" alt="User" class="user-icon">
+                    <img src="./frontend_stuff/png/user-icon.png" alt="User" class="user-icon">
                     <span>Account</span>
                 </button>
                 <div class="dropdown-menu">
@@ -145,9 +145,9 @@
             <!-- Sidebar -->
             <div class="sidenav">
                 <h2>My Account</h2>
-                <a href="dashboard.html">Upcoming</a>
+                <a href="dashboard">Upcoming</a>
                 <a href="#" class="active">History</a>
-                <a href="preferences.html">Preferences</a>
+                <a href="preferences">Preferences</a>
             </div>
             <!-- History -->
             <div id="history" style="float:right; width:80%; padding: 15px 25px 15px 0px">
@@ -206,7 +206,7 @@
     <script>
         //populate the upcoming table others
         document.addEventListener('DOMContentLoaded', function() {
-            fetch('../database_stuff/dashboard.php')
+            fetch('./database_stuff/dashboard.php')
             .then(response => response.json())
             .then(data => {
                 if (data.success) {
@@ -273,7 +273,7 @@
     <script>
         // populate the upcoming table by me
         document.addEventListener('DOMContentLoaded', function() {
-            fetch('../database_stuff/dashboard.php')
+            fetch('./database_stuff/dashboard.php')
             .then(response => response.json())
             .then(data => {
                 if (data.success) {
@@ -400,7 +400,7 @@
     </script>
     <script>
         document.addEventListener('DOMContentLoaded', function() {
-            fetch('../database_stuff/preferences.php')
+            fetch('./database_stuff/preferences.php')
             .then(response => response.json())
             .then(data => {
                 if (data.success) {

@@ -3,7 +3,7 @@ CREATE TABLE Users (
     user_id INTEGER PRIMARY KEY AUTOINCREMENT, -- Primary Key
     fname TEXT NOT NULL,
     lname TEXT NOT NULL,
-    email TEXT UNIQUE NOT NULL,
+    email TEXT UNIQUE NOT NULL, --ACTS AS USERNAME
     password_hash TEXT NOT NULL, -- Placeholder for storing passwords
     --role TEXT CHECK (role IN ('professor', 'TA', 'student', 'member')) DEFAULT 'member', -- CHECK THIS LATER
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
@@ -34,7 +34,7 @@ CREATE TABLE Bookings (
     slot_id INTEGER NOT NULL, -- Foreign Key referencing Events(slot_id)
     booked_by_id INTEGER, -- Foreign Key referencing Users(user_id)
     booked_by_email TEXT NOT NULL, -- Email of the person who booked the slot
-    num_people INTEGER NOT NULL DEFAULT 1,
+    num_people INTEGER NOT NULL DEFAULT 1, --1 CZ IM LAZY
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     FOREIGN KEY (slot_id) REFERENCES Events(slot_id) ON DELETE CASCADE,
     FOREIGN KEY (booked_by_id) REFERENCES Users(user_id)
@@ -51,6 +51,7 @@ CREATE TABLE TimeRequests (
     start_time TIME NOT NULL,
     end_time TIME NOT NULL,
     description TEXT,
+    eventName TEXT NOT NULL,
     status TEXT CHECK (status IN ('pending', 'approved', 'declined')) DEFAULT 'pending',
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     FOREIGN KEY (sender_id) REFERENCES Users(user_id),
@@ -88,4 +89,13 @@ CREATE TABLE PollVotes (
     PRIMARY KEY (poll_id, voter_email, option_id), -- Composite Primary Key
     FOREIGN KEY (poll_id) REFERENCES MeetingPolls(poll_id),
     FOREIGN KEY (option_id) REFERENCES PollOptions(option_id)
+);
+
+-- Create Session Table (for storing session tokens - SECURITY)
+CREATE TABLE Sessions (
+    session_id INTEGER PRIMARY KEY AUTOINCREMENT, -- Primary Key
+    user_id INTEGER NOT NULL, -- Foreign Key referencing Users(user_id)
+    session_token TEXT NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (user_id) REFERENCES Users(user_id)
 );

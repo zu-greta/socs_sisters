@@ -35,11 +35,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $endTime = $_POST['end_time'] ?? '';
     $participants = $_POST['participants'] ?? '';
     $slotDuration = $_POST['slot'] ?? '';
-    $calendar = $_POST['calendar'] ?? '';
+    //$calendar = $_POST['calendar'] ?? '';
     $notes = $_POST['notes'] ?? '';
     $creatorId = 1; //TODO: Assuming logged-in user, replace with actual user ID !!!!!
-
-    $link = "https://example.com/scheduling/event?creator_id=" . urlencode($creatorId); // TODO replace with actual link    
 
     // For recurring events, also capture additional details
     $startDate = $_POST['start_date'] ?? '';
@@ -48,7 +46,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $days = isset($_POST['day']) ? $_POST['day'] : [];
     
     // Validate required fields
-    if (empty($name) || empty($location) || empty($startDate) || empty($endDate) || empty($participants) || empty($calendar) || empty($days)) {
+    if (empty($name) || empty($location) || empty($startDate) || empty($endDate) || empty($participants) || empty($days)) {
         echo json_encode(['success' => false, 'error' => 'Please fill in all required fields for recurring events']);
         exit;
     }
@@ -95,6 +93,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 //numslots = (endDateObj - startDateObj / duration)
                 $numSlots = ($dayStart->diff($dayEnd)->h * 60 + $dayStart->diff($dayEnd)->i) / $slotDuration;
             }
+            $link = "http://cs.mcgill.ca/~gzu/socs_sisters/booking/event?creator_id=" . urlencode($creatorId) . "&eventName=" . urlencode($name) . "&eventDuration=" . urlencode($slotDuration) . "&eventLocation=" . urlencode($location); // TODO replace with actual link
             // Generate slots for the current day
             for ($i = 0; $i < $numSlots; $i++) {
                 $slots[] = [
@@ -155,7 +154,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             "end_time" => $endTime,
             "participants" => $participants,
             "slotDuration" => $slotDuration,
-            "calendar" => $calendar,
+            "calendar" => "calendar REMOVE THIS FROM THE FRONTEND HTML",
             "notes" => $notes,
             "creator_id" => $creatorId,
             "email" => $creatorEmail, 

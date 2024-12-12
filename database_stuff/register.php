@@ -21,7 +21,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
             // Redirect back to the registration page with a pop-up
             echo "<script>
                 alert('The email is already registered. Please use a different email.');
-                window.location.href = '../frontend_stuff/register.html';
+                window.location.href = '../register';
             </script>";
             exit();
         }
@@ -38,14 +38,14 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         // Registration successful, redirect to login page
         echo "<script>
             alert('Registration successful! Please log in.');
-            window.location.href = '../frontend_stuff/login.html';
+            window.location.href = '../login';
         </script>";
         exit();
     } catch (PDOException $e) {
         // Handle database errors
         echo "<script>
             alert('Error: " . addslashes($e->getMessage()) . "');
-            window.location.href = '../frontend_stuff/register.html';
+            window.location.href = '../register';
         </script>";
         exit();
     }

@@ -33,14 +33,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $end = $_POST['end_time'] ?? '';
     $participants = $_POST['participants'] ?? '';
     $slotDuration = $_POST['slot'] ?? '';
-    $calendar = $_POST['calendar'] ?? '';
+    // $calendar = $_POST['calendar'] ?? '';
     $notes = $_POST['notes'] ?? '';
-
-    $link = "https://example.com/scheduling/event?creator_id=" . urlencode($creatorId); // TODO replace with actual link
     
 
     //TODO: CHECK Y TIME CANNOT BE VALIDATED
-    if (empty($name) || empty($location) || empty($participants) || empty($calendar)) {
+    if (empty($name) || empty($location) || empty($participants)) {
         echo json_encode(['success' => false, 'error' => 'Please fill in all required fields for one-time events', 'slotDuration' => $slotDuration]); 
         //echo json_encode(['name' => $name, 'location' => $location, 'startTime' => $startTime, 'endTime' => $endTime, 'slotDuration' => $slotDuration, 'participants' => $participants, 'calendar' => $calendar]);   
         exit;
@@ -87,6 +85,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $numSlots = $startDateObj->diff($endDateObj)->days * 24 * 60 / $slotDuration;
         }
     }
+    $link = "http://cs.mcgill.ca/~gzu/socs_sisters/booking/event?creator_id=" . urlencode($creatorId) . "&eventName=" . urlencode($name) . "&eventDuration=" . urlencode($slotDuration) . "&eventLocation=" . urlencode($location); // TODO replace with actual link
     for ($i = 0; $i < $numSlots; $i++) {
         $slots[] = [
             'start_date' => $currentDate->format('Y-m-d'),
@@ -102,6 +101,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             'url' => $link,
         ];
     }
+
 
     // Insert each slot into the database
     try {
@@ -142,7 +142,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             "end_date" => $endDate,
             "participants" => $participants,
             "slotDuration" => $slotDuration,
-            "calendar" => $calendar,
+            "calendar" => "calendar REMOVE THIS FROM THE FRONTEND HTML",
             "notes" => $notes,
             "creator_id" => $creatorId, 
             "email" => $creatorEmail, 
