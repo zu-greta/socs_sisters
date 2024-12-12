@@ -13,10 +13,24 @@
 
     .container {
       width: 100%;
-      text-align: center;
-      padding: 80px;
+      padding-top: 70px;
       margin: auto;
     }
+
+    /* Read section behin form */
+    .container .card {
+      max-width: 65vw;
+      width: 100%;
+      height: auto;
+      border-radius: 10px;
+      border: none;
+      margin: 0 auto;
+      z-index: 0;
+      position: relative;
+      background: #ae0e1d;
+    }
+
+    /* Tabs*/
 
     .tabs {
       text-align: left;
@@ -26,47 +40,23 @@
     .tabs input {
       position: absolute;
       opacity: 0;
-      margin: 0;
-      padding: 0;
-    }
-
-    .content .item {
-      opacity: 0;
-      visibility: hidden;
-      transition: all 0.3s;
-      position: absolute;
-      padding: 10px 20px;
-    }
-
-    #tab-1:checked~.glider {
-      left: 0px;
-    }
-
-    #tab-2:checked+label {
-      color: #ed1b2f;
-    }
-
-    #tab-1:checked~section #content-1,
-    #tab-2:checked~section #content-2 {
-      opacity: 1;
-      visibility: visible;
     }
 
     .tabs input+label {
-      margin: 12px -0.5vw;
-      width: 10vw;
+      margin: 12px 0;
+      width: 16vw;
       transition: all 0.3s;
       text-align: center;
       border: none;
       color: rgb(201, 201, 201);
       display: inline-flex;
       -webkit-box-pack: center;
-      padding: 8px 10px;
+      padding: 8px 12px;
       vertical-align: top;
       justify-content: flex-start;
-      box-shadow: 1px 1px 2px 1px #231f20;
+      box-shadow: 1px -1px 2px 0px #231f20;
       text-transform: uppercase;
-      font-size: 8pt;
+      font-size: 0.85rem;
       margin-bottom: 0.5px;
       border-radius: 7px 7px 0 0 !important;
       letter-spacing: 0.1666666667em !important;
@@ -75,22 +65,70 @@
       cursor: pointer;
     }
 
+    #tab-2+label {
+      margin-left: -0.112cm;
+    }
+
+    #tab-2:checked+label,
+    #tab-1:checked+label {
+      color: #ed1b2f;
+    }
+
     .tabs input+label:hover {
       color: black;
       transition: 0.1s ease;
     }
 
+    /* Glider */
+
+    .glider {
+      width: 16vw;
+      height: 3px;
+      position: absolute;
+      background: #ed1b2f;
+      transition: all 0.3s;
+      top: 41px;
+      z-index: 2;
+
+    }
+
+    
+    #tab-2:checked~.glider {
+      left: 16vw;
+    }
+
+    /* Content*/
+    #tab-1:checked~section #content-1,
+    #tab-2:checked~section #content-2 {
+      opacity: 1;
+      visibility: visible;
+    }
+
+    h2.tab-title.tab-onetime,
+    h2.tab-title.tab-weekly {
+      display: inline-flex;
+      color: #fff;
+      margin-bottom: 2vw;
+      margin-top: 6pt;
+      background-clip: text !important;
+      color: #ae0e1d;
+      text-transform: capitalize;
+      font-size: 24px;
+      letter-spacing: 0px;
+      font-weight: 800 !important;
+    }
+
+
     .content {
       margin: 0px auto;
       text-align: left;
       line-height: 20px;
-      max-width: 1000px;
       width: 100%;
       min-height: 550px;
       height: auto;
       border-bottom-left-radius: 10px;
       border-bottom-right-radius: 10px;
-      box-shadow: 0 2px 3px rgb(10 10 10 / 10%), 0 0 0 1px rgb(10 10 10 / 10%);
+      box-shadow: 0 2px 3px rgb(10 10 10 / 20%), 0 0 0 1px rgb(10 10 10 / 20%);
       display: block;
       padding: 1.25rem;
       z-index: 2;
@@ -100,16 +138,12 @@
       overflow-y: auto;
     }
 
-    .container .card {
-      max-width: 1000px;
-      width: 100%;
-      height: auto;
-      border-radius: 10px;
-      border: none;
-      margin: 0 auto;
-      z-index: 4 !important;
-      position: relative;
-      background: #ae0e1d;
+    .content .item {
+      opacity: 0;
+      visibility: hidden;
+      transition: all 0.3s;
+      position: absolute;
+      padding: 10px 20px;
     }
 
     .content p {
@@ -124,64 +158,6 @@
       font-weight: 300 !important;
     }
 
-    h2.tab-title.tab-onetime,
-    h2.tab-title.tab-weekly {
-      display: inline-flex;
-      color: #fff;
-      margin-bottom: 0.5vw;
-      margin-top: 6pt;
-      height: 22pt;
-      background-clip: text !important;
-      color: #ae0e1d;
-      text-transform: capitalize;
-      font-size: 24px;
-      letter-spacing: 0px;
-      font-weight: 800 !important;
-    }
-
-    h2.tab-title.tab-weekly {
-      background: #ae0e1d
-    }
-
-    h2.tab-title.tab-onetime {
-      background: #ae0e1d;
-    }
-
-    .tabs input {
-      position: relative;
-      opacity: 0;
-      margin: auto !important;
-      padding: 0;
-    }
-
-    label.tab.tab-weekly {
-      border-radius: 6pt 0 0 6pt;
-    }
-
-
-    #tab-1:checked+label {
-      color: #ed1b2f;
-    }
-
-    #tab-1:checked~.glider {
-      left: 9px;
-    }
-
-    #tab-2:checked~.glider {
-      left: 11vw;
-    }
-
-    .glider {
-      width: 10vw;
-      padding: 0px;
-      height: 3px;
-      position: absolute;
-      background: #ed1b2f;
-      transition: all 0.3s;
-      top: 38px;
-      z-index: 2;
-    }
-
     /* Form Styling */
     .schedule-form {
       display: flex;
@@ -189,7 +165,6 @@
       gap: 15px;
       max-width: 100%;
       width: 100%;
-      margin: 0;
       box-sizing: border-box;
     }
 
@@ -206,44 +181,42 @@
 
     /* Modal Background */
     .modal {
-            display: none;
-            /* Hidden by default */
-            position: fixed;
-            z-index: 1001;
-            /* Higher than the overlay */
-            left: 0;
-            top: 0;
-            width: 100%;
-            height: 100%;
-            background-color: rgba(0, 0, 0, 0.6);
-            /* Semi-transparent background */
-        }
+      display: none;
+      position: fixed;
+      z-index: 1001;
+      left: 0;
+      top: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0, 0, 0, 0.6);
+    }
 
-        /* Modal Content Box */
-        .modal-content {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            background-color: #ffffff;
-            padding: 20px;
-            border-radius: 10px;
-            width: 80%;
-            max-width: 400px;
-            text-align: center;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
-        }
+    .modal-content {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      background-color: #ffffff;
+      padding: 20px;
+      border-radius: 10px;
+      width: 80%;
+      max-width: 400px;
+      text-align: center;
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+    }
 
-        body.modal-open {
-            overflow: hidden;
-        }
-        .close-btn {
-            float: right;
-        }
-        .close-btn:hover {
-            background-color: #ae0e1d;
-            color: white;
-        }
+    body.modal-open {
+      overflow: hidden;
+    }
+
+    .close-btn {
+      float: right;
+    }
+
+    .close-btn:hover {
+      background-color: #ae0e1d;
+      color: white;
+    }
   </style>
 </head>
 
@@ -325,7 +298,7 @@
                 <option value="0">NA</option>
               </select>
             </label>
-            <label><textarea name="notes" placeholder="Notes/Attachments: "></textarea></label>
+            <label><textarea name="notes" placeholder="Description/Notes: "></textarea></label>
             <button type="reset" class="secondary reset-btn">Reset</button>
             <button type="submit" class="primary save-btn">Save</button>
           </form>
@@ -367,37 +340,37 @@
   <!-- Confirmation Pop-Up Modal-->
   <div id="confirmation-popup" class="modal">
     <div class="modal-content">
-        <span class="close-btn" id="close-popup">&times;</span>
-        <p>Slot Scheduled! <br></p>
-        <p>Information: <span id="popup-info"></span></p>
-        <p>Link to Share: <span id="link-display">[Link]</span></p>
-        <p>Email: <span id="email-display">[Email]</span></p>
-        <button id="copy-link" class="secondary modal-btn">Copy Link</button>
-        <button id="return-home" class="primary modal-btn">Home</button>
+      <span class="close-btn" id="close-popup">&times;</span>
+      <p>Slot Scheduled! <br></p>
+      <p>Information: <span id="popup-info"></span></p>
+      <p>Link to Share: <span id="link-display">[Link]</span></p>
+      <p>Email: <span id="email-display">[Email]</span></p>
+      <button id="copy-link" class="secondary modal-btn">Copy Link</button>
+      <button id="return-home" class="primary modal-btn">Home</button>
     </div>
-</div>
+  </div>
 
-<script>
+  <script>
     document.forms['recurring-form'].addEventListener('submit', (event) => {
-        event.preventDefault();
-        // Show loading message or disable form to indicate submission
-        document.getElementById('recurring-form').querySelector('.save-btn').innerText = 'Submitting...';
-        document.getElementById('recurring-form').querySelector('.save-btn').disabled = true;
+      event.preventDefault();
+      // Show loading message or disable form to indicate submission
+      document.getElementById('recurring-form').querySelector('.save-btn').innerText = 'Submitting...';
+      document.getElementById('recurring-form').querySelector('.save-btn').disabled = true;
 
-        fetch(event.target.action, {
-            method: 'POST',
-            body: new URLSearchParams(new FormData(event.target)) // event.target is the form
-        }).then((response) => {
-            if (!response.ok) {
-                throw new Error(`HTTP error! Status: ${response.status}`);
-            }
-            return response.json(); // or response.text() or whatever the server sends
-        }).then((body) => {
-            console.log("Response received");
-            if (body.success) {
-                // Populate the modal with the event details
-                const event = body.eventDetails;
-                document.getElementById("popup-info").innerText = `
+      fetch(event.target.action, {
+        method: 'POST',
+        body: new URLSearchParams(new FormData(event.target)) // event.target is the form
+      }).then((response) => {
+        if (!response.ok) {
+          throw new Error(`HTTP error! Status: ${response.status}`);
+        }
+        return response.json(); // or response.text() or whatever the server sends
+      }).then((body) => {
+        console.log("Response received");
+        if (body.success) {
+          // Populate the modal with the event details
+          const event = body.eventDetails;
+          document.getElementById("popup-info").innerText = `
                     Event: ${event.name}
                     \nLocation: ${event.location}
                     \nStart Time: ${event.start_time}
@@ -408,42 +381,42 @@
                     \nSlot Length: ${event.slotDuration} minutes
                     \nNotes: ${event.notes}
                 `;
-                document.getElementById("email-display").innerText = event.email;
-                document.getElementById("link-display").innerText = body.eventDetails.link;
-                // Show the modal
-                document.getElementById("confirmation-popup").style.display = "block";
-            }
-        }).catch((error) => {
-            // TODO handle error
-            console.log("Error:", error);
-            alert('An error occurred while scheduling the event.');
-        }).finally(() => {
-            // Re-enable the button after submission is complete
-            document.getElementById('recurring-form').querySelector('.save-btn').innerText = 'Save';
-            document.getElementById('recurring-form').querySelector('.save-btn').disabled = false;
-        });
+          document.getElementById("email-display").innerText = event.email;
+          document.getElementById("link-display").innerText = body.eventDetails.link;
+          // Show the modal
+          document.getElementById("confirmation-popup").style.display = "block";
+        }
+      }).catch((error) => {
+        // TODO handle error
+        console.log("Error:", error);
+        alert('An error occurred while scheduling the event.');
+      }).finally(() => {
+        // Re-enable the button after submission is complete
+        document.getElementById('recurring-form').querySelector('.save-btn').innerText = 'Save';
+        document.getElementById('recurring-form').querySelector('.save-btn').disabled = false;
+      });
     });
 
     document.forms['one-time-form'].addEventListener('submit', (event) => {
-        event.preventDefault();
-        // Show loading message or disable form to indicate submission
-        document.getElementById('one-time-form').querySelector('.save-btn').innerText = 'Submitting...';
-        document.getElementById('one-time-form').querySelector('.save-btn').disabled = true;
-        fetch(event.target.action, {
-            method: 'POST',
-            body: new URLSearchParams(new FormData(event.target)) // event.target is the form
-        }).then((response) => {
-            if (!response.ok) {
-                throw new Error(`HTTP error! Status: ${response.status}`);
-            }
-            return response.json(); // or response.text() or whatever the server sends
-        }).then((body) => {
-            console.log("Response received");
-            console.log(body);
-            if (body.success) {
-                // Populate the modal with the event details
-                const event = body.eventDetails;
-                document.getElementById("popup-info").innerText = `
+      event.preventDefault();
+      // Show loading message or disable form to indicate submission
+      document.getElementById('one-time-form').querySelector('.save-btn').innerText = 'Submitting...';
+      document.getElementById('one-time-form').querySelector('.save-btn').disabled = true;
+      fetch(event.target.action, {
+        method: 'POST',
+        body: new URLSearchParams(new FormData(event.target)) // event.target is the form
+      }).then((response) => {
+        if (!response.ok) {
+          throw new Error(`HTTP error! Status: ${response.status}`);
+        }
+        return response.json(); // or response.text() or whatever the server sends
+      }).then((body) => {
+        console.log("Response received");
+        console.log(body);
+        if (body.success) {
+          // Populate the modal with the event details
+          const event = body.eventDetails;
+          document.getElementById("popup-info").innerText = `
                     Event: ${event.name}
                     \nLocation: ${event.location}
                     \nStart Time: ${event.start_time}
@@ -452,57 +425,57 @@
                     \nSlot Length: ${event.slotDuration} minutes
                     \nNotes: ${event.notes}
                 `;
-                document.getElementById("email-display").innerText = event.email;
-                document.getElementById("link-display").innerText = event.link;
-                // Show the modal
-                document.getElementById("confirmation-popup").style.display = "block";
-            }
-        }).catch((error) => {
-            // TODO handle error
-            console.log("Error:", error);
-            alert(error);
-        }).finally(() => {
-            // Re-enable the button after submission is complete
-            document.getElementById('one-time-form').querySelector('.save-btn').innerText = 'Save';
-            document.getElementById('one-time-form').querySelector('.save-btn').disabled = false;
-        });
+          document.getElementById("email-display").innerText = event.email;
+          document.getElementById("link-display").innerText = event.link;
+          // Show the modal
+          document.getElementById("confirmation-popup").style.display = "block";
+        }
+      }).catch((error) => {
+        // TODO handle error
+        console.log("Error:", error);
+        alert(error);
+      }).finally(() => {
+        // Re-enable the button after submission is complete
+        document.getElementById('one-time-form').querySelector('.save-btn').innerText = 'Save';
+        document.getElementById('one-time-form').querySelector('.save-btn').disabled = false;
+      });
     });
 
     //Close the confirmation popup
     document.getElementById("close-popup").onclick = function () {
-        document.getElementById("confirmation-popup").style.display = "none";
+      document.getElementById("confirmation-popup").style.display = "none";
     };
 
     // Copy Link Button
     document.getElementById("copy-link").addEventListener("click", function () {
-        var copyText = document.getElementById("link-display");
-        //copyText.select();
-        //copyText.setSelectionRange(0, 99999);
-        document.execCommand("copy");
-        alert("Link Copied");
+      var copyText = document.getElementById("link-display");
+      //copyText.select();
+      //copyText.setSelectionRange(0, 99999);
+      document.execCommand("copy");
+      alert("Link Copied");
     });
 
     // Return Home Button
-    document.getElementById("return-home").addEventListener("click", function() {
-        window.location.href = "dashboard";
+    document.getElementById("return-home").addEventListener("click", function () {
+      window.location.href = "dashboard";
     });
 
     function copyToClipboard() {
-        const eventURLField = document.getElementById('link-display');
-        const linkText = eventURLField.innerText;
+      const eventURLField = document.getElementById('link-display');
+      const linkText = eventURLField.innerText;
 
-        console.log("Copying text: ", linkText);
+      console.log("Copying text: ", linkText);
 
-        navigator.clipboard.writeText(linkText).then(() => {
-            //alert("Event URL copied to clipboard!");
-            console.log("Event URL copied to clipboard!");
-        }).catch((error) => {
-            console.error("Error copying text: ", error);
-            alert("Failed to copy event URL to clipboard.");
-        });
+      navigator.clipboard.writeText(linkText).then(() => {
+        //alert("Event URL copied to clipboard!");
+        console.log("Event URL copied to clipboard!");
+      }).catch((error) => {
+        console.error("Error copying text: ", error);
+        alert("Failed to copy event URL to clipboard.");
+      });
     }
     document.getElementById("copy-link").addEventListener("click", copyToClipboard);
-</script>
+  </script>
 </body>
 
 </html>
