@@ -17,6 +17,7 @@ INSERT INTO Events values (101, 2, "2024-12-20", "2024-12-20", 15, "09:08:00", "
 INSERT INTO Events values (2, 1, "2024-12-20", "2024-12-20", 15, "07:08:00", "22:23:00", "2", "", "2024-12-10 04:27:51", "hhaah", 11, "https://example.com/scheduling/event?creator_id=1");
 INSERT INTO Events values (3, 1, "2024-12-20", "2024-12-20", 30, "08:08:00", "22:23:00", "3", "", "2024-12-10 04:27:51", "here", 1, "https://example.com/scheduling/event?creator_id=1");
 INSERT INTO Events values (4, 2, "2024-12-20", "2024-12-20", 15, "10:08:00", "10:20:00", "101", "", "2024-12-09 10:27:51", "gkgk", 2, "url");
+INSERT INTO Events values (5, 2, "2024-12-20", "2024-12-20", 15, "09:08:00", "10:20:00", "5", "", "2024-12-09 10:27:51", "gkgk", 2, "http://cs.mcgill.ca/~gzu/socs_sisters/booking/event?creator_id=1&eventName=link%3F&eventDuration=15&eventLocation=l");
 -- bookings
 -- 2|1|1|gzu@gmail.com|2|2024-12-09
 -- 3|49|1|gzu@gmail.com|2|2024-12-09

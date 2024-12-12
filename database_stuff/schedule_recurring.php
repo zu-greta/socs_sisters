@@ -93,6 +93,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 //numslots = (endDateObj - startDateObj / duration)
                 $numSlots = ($dayStart->diff($dayEnd)->h * 60 + $dayStart->diff($dayEnd)->i) / $slotDuration;
             }
+            $link = "http://cs.mcgill.ca/~gzu/socs_sisters/booking/event?creator_id=" . urlencode($creatorId) . "&eventName=" . urlencode($name) . "&eventDuration=" . urlencode($slotDuration) . "&eventLocation=" . urlencode($location); // TODO replace with actual link
             // Generate slots for the current day
             for ($i = 0; $i < $numSlots; $i++) {
                 $slots[] = [
@@ -114,7 +115,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $currentDate->modify('+1 day');
     }
 
-    $link = "http://cs.mcgill.ca/~gzu/socs_sisters/booking/event?creator_id=" . urlencode($creatorId) . "&eventName=" . urlencode($name) . "&eventDuration=" . urlencode($slotDuration) . "&eventLocation=" . urlencode($location); // TODO replace with actual link
 
     // Insert each slot into the database
     try {

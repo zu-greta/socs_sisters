@@ -476,10 +476,10 @@
     // Copy Link Button
     document.getElementById("copy-link").addEventListener("click", function () {
         var copyText = document.getElementById("link-display");
-        copyText.select();
-        copyText.setSelectionRange(0, 99999);
+        //copyText.select();
+        //copyText.setSelectionRange(0, 99999);
         document.execCommand("copy");
-        alert("Link Copied: " + copyText.value);
+        alert("Link Copied");
     });
 
     // Return Home Button
@@ -494,7 +494,8 @@
         console.log("Copying text: ", linkText);
 
         navigator.clipboard.writeText(linkText).then(() => {
-            alert("Event URL copied to clipboard!");
+            //alert("Event URL copied to clipboard!");
+            console.log("Event URL copied to clipboard!");
         }).catch((error) => {
             console.error("Error copying text: ", error);
             alert("Failed to copy event URL to clipboard.");

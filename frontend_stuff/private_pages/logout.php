@@ -1,12 +1,25 @@
 <?php
-//logout
 session_start();
-//TODO login checking - TEMPORARY RN
 
-//clear session
-session_unset();
-session_destroy();
+try {
+    if (isset($_COOKIE['auth_key'])) {
+        $secretKey = $_COOKIE['auth_key'];
 
-//redirect to landing
-include './frontend_stuff/landing.html';
+        // Connect to the database
+        $database = new PDO('sqlite:ssDB.sq3');
+        $database->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+
+        // Delete the session
+        $stmt = $database->prepare("DELETE FROM Sessions WHERE session_token = ?");
+        $stmt->execute([$secretKey]);
+
+        // Clear the auth_key cookie
+        setcookie("auth_key", "", time() - 3600, '/');
+    }
+} catch (Exception $e) {
+    // Log error or handle accordingly
+}
+
+header("Location: landing");
+exit;
 ?>

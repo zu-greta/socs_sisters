@@ -45,7 +45,7 @@ if (!array_key_exists($route, $routes)) {
 // helper functions for auth
 function loggedIn() {
     //PLACEHOLDER TO BE FIXED
-    $_SESSION['user_id'] = 1;
+    //$_SESSION['user_id'] = 1;
     return isset($_SESSION['user_id']);
 }
 

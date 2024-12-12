@@ -156,7 +156,7 @@
         <h2> &nbsp; &nbsp; Log into your Account  &nbsp; &nbsp;</h2>
         <p class="signin-msg">Sign in to access your dashboard</p>
 
-        <form method="POST" action="private_pages_redirection/login.php">
+        <form method="POST" action="login">
             <label for="email">Email:</label>
             <input type="email" id="email" name="email" placeholder="Enter your email" required>
             <div class="error-message" id="email-error">You must provide a valid email.</div>
@@ -172,7 +172,7 @@
                 <a href="#">Forgot Password?</a>
             </div>
             
-            <button type="button" class="primary" onclick="redirectToDashboard()">Login</button>
+            <button type="submit" class="primary">Login</button> <!--onclick="redirectToDashboard()"-->
         </form>
 
         <!-- OR Line -->
@@ -188,7 +188,8 @@
     <script>
         // Function to redirect user to the dashboard
         function redirectToDashboard() {
-            window.location.href = "dashboard";
+            console.log('Redirecting to dashboard...');
+            //window.location.href = "dashboard";
         }
 
         // Add event listeners for validation
