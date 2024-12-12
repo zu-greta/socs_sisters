@@ -15,7 +15,7 @@ try {
     $database->exec("PRAGMA foreign_keys = OFF;");
 
     // Drop tables if they exist (Add your table names here)
-    $tablesToDrop = ['Users', 'Events', 'Bookings', 'TimeRequests', 'MeetingPolls', 'PollOptions', 'PollVotes']; // Replace with your actual table names
+    $tablesToDrop = ['Users', 'Events', 'Bookings', 'TimeRequests', 'MeetingPolls', 'PollOptions', 'PollVotes', 'Sessions']; // Replace with your actual table names
     foreach ($tablesToDrop as $table) {
         $dropQuery = "DROP TABLE IF EXISTS $table";
         $database->exec($dropQuery);

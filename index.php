@@ -13,7 +13,6 @@ $routes = [
     //private pages
     'dashboard' => 'frontend_stuff/private_pages/dashboard.php',
     'createPoll' => 'frontend_stuff/private_pages/createPoll.php',
-    'resultPoll' => 'frontend_stuff/private_pages/resultPoll.php',
     'scheduling' => 'frontend_stuff/private_pages/scheduling.php', 
     'history' => 'frontend_stuff/private_pages/history.php',
     'preferences' => 'frontend_stuff/private_pages/preferences.php',
@@ -23,7 +22,7 @@ $routes = [
 
     //secret pages
     'booking' => 'frontend_stuff/public_pages/booking.php',
-    'votePoll' => 'frontend_stuff/public_pages/votePoll.php',
+    'resultPoll' => 'frontend_stuff/public_pages/resultPoll.php',
 
     //TODO: check
 ];

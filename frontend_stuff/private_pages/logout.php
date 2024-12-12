@@ -6,7 +6,7 @@ try {
         $secretKey = $_COOKIE['auth_key'];
 
         // Connect to the database
-        $database = new PDO('sqlite:ssDB.sq3');
+        $database = new PDO('sqlite:./database_stuff/ssDB.sq3');
         $database->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
         // Delete the session

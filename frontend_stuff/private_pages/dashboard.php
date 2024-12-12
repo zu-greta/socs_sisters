@@ -1,7 +1,6 @@
 <?php
 //dashboard
 session_start();
-//TODO login checking - TEMPORARY RN
 
 if(!isset($_COOKIE['auth_key'])){
     header("Location: login");
@@ -9,7 +8,7 @@ if(!isset($_COOKIE['auth_key'])){
 }
 try {
     // Connect to the database
-    $database = new PDO('sqlite:ssDB.sq3');
+    $database = new PDO('sqlite:./database_stuff/ssDB.sq3');
     $database->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
     // Check if the secret key exists in the database
@@ -28,6 +27,5 @@ try {
 } catch (Exception $e) {
     die("Error: " . $e->getMessage());
 }
-
 
 ?>
