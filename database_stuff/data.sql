@@ -9,12 +9,14 @@ INSERT INTO Users values (2, "k", "w", "kwang@gmail.com", "$2y$10$QJJlJAWBkO6vBb
 -- 595|2|2024-12-10|2024-12-10|15|10:08:00|10:20:00|heheh||2024-12-09 10:27:51|jeje|5|url
 -- user 1 made events 594, 1 and 2
 -- user 2 made events 595, 49, and 101 
-INSERT INTO Events values (594, 1, "2024-12-11", "2024-12-11", 15, "22:08:00", "22:23:00", "594", "", "2024-12-10 04:27:51", "hghghg", 11, "https://example.com/scheduling/event?creator_id=1");
-INSERT INTO Events values (595, 2, "2024-12-11", "2024-12-11", 15, "10:08:00", "10:20:00", "595", "", "2024-12-09 10:27:51", "jeje", 5, "url");
-INSERT INTO Events values (1, 1, "2024-12-11", "2024-12-11", 15, "22:08:00", "22:23:00", "1", "", "2024-12-10 04:27:51", "gtgtg", 11, "https://example.com/scheduling/event?creator_id=1");
-INSERT INTO Events values (49, 2, "2024-12-11", "2024-12-11", 15, "10:08:00", "10:20:00", "49", "", "2024-12-09 10:27:51", "lmlm", 5, "url");
-INSERT INTO Events values (101, 2, "2024-12-11", "2024-12-11", 15, "10:08:00", "10:20:00", "101", "", "2024-12-09 10:27:51", "gkgk", 5, "url");
-INSERT INTO Events values (2, 1, "2024-12-11", "2024-12-11", 15, "22:08:00", "22:23:00", "2", "", "2024-12-10 04:27:51", "hhaah", 11, "https://example.com/scheduling/event?creator_id=1");
+INSERT INTO Events values (594, 1, "2024-12-20", "2024-12-20", 15, "22:08:00", "22:23:00", "594", "", "2024-12-10 04:27:51", "hghghg", 1, "https://example.com/scheduling/event?creator_id=1");
+INSERT INTO Events values (595, 2, "2024-12-20", "2024-12-20", 15, "10:08:00", "10:20:00", "595", "", "2024-12-09 10:27:51", "jeje", 5, "url");
+INSERT INTO Events values (1, 1, "2024-12-20", "2024-12-20", 15, "11:08:00", "22:23:00", "1", "", "2024-12-10 04:27:51", "gtgtg", 11, "https://example.com/scheduling/event?creator_id=1");
+INSERT INTO Events values (49, 2, "2024-12-20", "2024-12-20", 15, "13:08:00", "10:20:00", "49", "", "2024-12-09 10:27:51", "lmlm", 5, "url");
+INSERT INTO Events values (101, 2, "2024-12-20", "2024-12-20", 15, "09:08:00", "10:20:00", "101", "", "2024-12-09 10:27:51", "gkgk", 2, "url");
+INSERT INTO Events values (2, 1, "2024-12-20", "2024-12-20", 15, "07:08:00", "22:23:00", "2", "", "2024-12-10 04:27:51", "hhaah", 11, "https://example.com/scheduling/event?creator_id=1");
+INSERT INTO Events values (3, 1, "2024-12-20", "2024-12-20", 30, "08:08:00", "22:23:00", "3", "", "2024-12-10 04:27:51", "here", 1, "https://example.com/scheduling/event?creator_id=1");
+INSERT INTO Events values (4, 2, "2024-12-20", "2024-12-20", 15, "10:08:00", "10:20:00", "101", "", "2024-12-09 10:27:51", "gkgk", 2, "url");
 -- bookings
 -- 2|1|1|gzu@gmail.com|2|2024-12-09
 -- 3|49|1|gzu@gmail.com|2|2024-12-09

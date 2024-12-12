@@ -34,7 +34,7 @@ CREATE TABLE Bookings (
     slot_id INTEGER NOT NULL, -- Foreign Key referencing Events(slot_id)
     booked_by_id INTEGER, -- Foreign Key referencing Users(user_id)
     booked_by_email TEXT NOT NULL, -- Email of the person who booked the slot
-    num_people INTEGER NOT NULL DEFAULT 1,
+    num_people INTEGER NOT NULL DEFAULT 1, --1 CZ IM LAZY
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     FOREIGN KEY (slot_id) REFERENCES Events(slot_id) ON DELETE CASCADE,
     FOREIGN KEY (booked_by_id) REFERENCES Users(user_id)

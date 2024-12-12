@@ -35,8 +35,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $slotDuration = $_POST['slot'] ?? '';
     $calendar = $_POST['calendar'] ?? '';
     $notes = $_POST['notes'] ?? '';
-
-    $link = "https://example.com/scheduling/event?creator_id=" . urlencode($creatorId) . "&eventName=" . urlencode($name); // TODO replace with actual link
     
 
     //TODO: CHECK Y TIME CANNOT BE VALIDATED
@@ -102,6 +100,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             'url' => $link,
         ];
     }
+
+    $link = "https://example.com/scheduling/event?creator_id=" . urlencode($creatorId) . "&eventName=" . urlencode($name) . "&eventDuration=" . urlencode($slotDuration) . "&eventLocation=" . urlencode($location); // TODO replace with actual link
 
     // Insert each slot into the database
     try {

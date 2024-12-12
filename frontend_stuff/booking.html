@@ -72,10 +72,15 @@
     }
     .calendar {
       display: grid;
-      grid-template-columns: 100px repeat(5, 1fr); /* Fixed width for the time column */
+      grid-template-columns: 100px repeat(7, 1fr); /* Fixed width for the time column */
       grid-auto-rows: 50px; /* Uniform height for rows */
       gap: 1px; /* Creates spacing between grid cells */
       background-color: white;
+      max-height: 50vh; /* Set a maximum height to control the calendar size */
+      overflow: auto; /* Enable scrolling when content exceeds container size */
+    }
+    .calendar .row {
+      display: contents; /* Preserve grid structure */
     }
     .calendar div {
       background-color: #fff;
@@ -85,29 +90,27 @@
       border: 0.5px solid #ccc;
       font-size: 14px;
     }
-    .calendar .time {
-      grid-column: 1; /* Ensure times occupy only the first column */
-      background-color: #f0f0f0;
-      font-weight: bold;
-    }
-    .calendar .day {
+    .calendar .day, .calendar .time {
       background-color: #e9ecef;
       font-weight: bold;
+      border: 1px solid #ccc;
+      text-align: center;
     }
     .calendar .time-slot {
       cursor: pointer;
       border-radius: 4px;
     }
-    .calendar .group {
+    .calendar .available {
       background-color: #ed1b2f;
       color: #fff;
     }
-    .calendar .one-on-one {
+    .calendar .full {
       background: repeating-linear-gradient(45deg, #ed1b2f, #ed1b2f 5px, transparent 3px, transparent 8px);
-      color: #fff;
+      color: #000000;
     }
 
     .right-bar {
+      display: none;
       width: 20%;
       padding: 20px;
       border-left: 1px solid #ccc;
@@ -144,7 +147,7 @@
       border-radius: 4px;
       cursor: pointer;
     }
-    .buttons .book {
+    .buttons .book, .buttons .submit {
       background-color: #ed1b2f;
       border: 3px solid #ed1b2f;
       color: white;
@@ -167,6 +170,7 @@
     }
 
     .close-button {
+      display: none;
       position: absolute;
       top: 10px;
       right: 15px;
@@ -174,7 +178,7 @@
       cursor: pointer;
     }
 
-    .iframe-modal {
+    /* .iframe-modal {
       position: fixed;
       top: 0;
       left: 0;
@@ -218,79 +222,888 @@
 
     .iframe-done-button:hover {
       background-color: #ae0e1d;
+    } */
+
+    /* Modal Background */
+    .modal {
+        display: none; /* Hidden by default */
+        position: fixed;
+        z-index: 1001; /* Higher than the overlay */
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.6); /* Semi-transparent background */
+    }
+
+    /* Modal Content Box */
+    .modal-content {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        background-color: #ffffff;
+        padding: 20px;
+        border-radius: 10px;
+        width: 80%;
+        max-width: 400px;
+        text-align: center;
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+    }
+
+    body.modal-open {
+        overflow: hidden;
+    } 
+
+    .modal-btn:hover,
+    .modal-close-btn:hover {
+        background-color: #ae0e1d;
+        color: white;
+    }
+    
+    /* Close Button */
+    .modal-close-btn {
+        background-color: white;
+        color: #424242;
+        cursor: pointer;
+        padding: 5px 10px;
+        position: absolute;
+        top: 10px;
+        right: 15px;
+        border-radius: 5px;
+    }
+
+    .view-tabs {
+      display: flex;
+      gap: 10px;
+      /* stick to the bottom of the box */
+      position: absolute;
+      bottom: 20px;
+      left: 20px;
+    }
+    
+    .tab-button {
+      padding: 5px 10px;
+      border: none;
+      border-radius: 4px;
+      background-color: white;
+      color: #424242;
+      cursor: pointer;
+      font-size: 14px;
+    }
+    
+    .tab-button:hover {
+      color: #ed1b2f;
+    }
+    
+    .tab-button-active {
+      background-color: #ed1b2f;
+      color: white;
+    }
+    .list-view ul {
+      list-style-type: none;
+      padding: 0;
+    } 
+    
+    .list-view li {
+      padding: 10px;
+      border-bottom: 1px solid #ccc;
+      cursor: pointer;
+      background-color: #ed1b2f;
+      color: #fff;;
+      margin-bottom: 5px;
+      border-radius: 4px;
+    }
+    
+    .list-view li:hover {
+      background-color: #f1f1f1;
+    }
+
+    .list-view .time-slot .available {
+      background-color: #ed1b2f;
+      color: #fff;
+    }
+    .list-view .time-slot .full {
+      background: repeating-linear-gradient(45deg, #ed1b2f, #ed1b2f 5px, transparent 3px, transparent 8px);
+      color: #000000;
     }
   </style>
   </head>
   <body>
     <div class="container">
       <div class="left-bar">
-        <h3>Event Name</h3>
+        <h3>Event Name: <span id="eventName"></span></h3>
         <div class="profile-pic"></div>
-        <p>Name: Faculty</p>
-        <p>Role: Professor</p>
-        <p>Duration: 30 min</p>
-        <p>Location: Room 101</p>
+        <p>Host Name: <span id="creator_name"></span></p>
+        <p>Event Duration: <span id="eventDuration"></span> min</p>
+        <p>Event Location: <span id="eventLocation"></span></p>
+
+        <div class="view-tabs">
+          <button id="calendar-tab" class="tab-button-active">Calendar View</button>
+          <button id="list-tab" class="tab-button">List View</button>
+        </div>
       </div>
       <div class="middle-section">
         <div class="schedule">
-          <div class="schedule-header">
-            <h3>Month Day - Month Day</h3>
-            <div class="week-navigation">
-              <button class="prev-week">&lt</button>
-              <button class="next-week">&gt</button>
+          <div class="calendar-view">
+            <div class="schedule-header">
+              <h3>Month Day - Month Day, Year</h3>
+              <div class="week-navigation">
+                <button class="prev-week">&lt</button>
+                <button class="next-week">&gt</button>
+              </div>
             </div>
-          </div>
+            <!--calendar view-->
           <div class="calendar">
-            <div></div>
-            <div class="day">Monday</div>
-            <div class="day">Tuesday</div>
-            <div class="day">Wednesday</div>
-            <div class="day">Thursday</div>
-            <div class="day">Friday</div>
-            <div class="time">8:00 AM</div>
-            <div class="time-slot group"></div>
-            <div></div>
-            <div></div>
-            <div></div>
-            <div></div>
-            <div class="time">9:00 AM</div>
-            <div></div>
-            <div class="time-slot one-on-one"></div>
-            <div></div>
-            <div></div>
-            <div></div>
+            <div class="row">
+              <div></div>
+              <div class="day" data-day="Monday">Monday</div>
+              <div class="day" data-day="Tuesday">Tuesday</div>
+              <div class="day" data-day="Wednesday">Wednesday</div>
+              <div class="day" data-day="Thursday">Thursday</div>
+              <div class="day" data-day="Friday">Friday</div>
+              <div class="day" data-day="Saturday">Saturday</div>
+              <div class="day" data-day="Sunday">Sunday</div>
+            </div>
+            <div class="row">
+              <div class="time" data-time="00:00">12:00 AM</div>
+              <div class="slot" row-day="Monday" row-time="00:00"></div>
+              <div class="slot" row-day="Tuesday" row-time="00:00"></div>
+              <div class="slot" row-day="Wednesday" row-time="00:00"></div>
+              <div class="slot" row-day="Thursday" row-time="00:00"></div>
+              <div class="slot" row-day="Friday" row-time="00:00"></div>
+              <div class="slot" row-day="Saturday" row-time="00:00"></div>
+              <div class="slot" row-day="Sunday" row-time="00:00"></div>
+            </div>
+            <div class="row">
+              <div class="time" data-time="01:00">1:00 AM</div>
+              <div class="slot" row-day="Monday" row-time="01:00"></div>
+              <div class="slot" row-day="Tuesday" row-time="01:00"></div>
+              <div class="slot" row-day="Wednesday" row-time="01:00"></div>
+              <div class="slot" row-day="Thursday" row-time="01:00"></div>
+              <div class="slot" row-day="Friday" row-time="01:00"></div>
+              <div class="slot" row-day="Saturday" row-time="01:00"></div>
+              <div class="slot" row-day="Sunday" row-time="01:00"></div>
+            </div>
+            <div class="row">
+              <div class="time" data-time="02:00">2:00 AM</div>
+              <div class="slot" row-day="Monday" row-time="02:00"></div>
+              <div class="slot"row-day="Tuesday" row-time="02:00"></div>
+              <div class="slot" row-day="Wednesday" row-time="02:00"></div>
+              <div class="slot" row-day="Thursday" row-time="02:00"></div>
+              <div class="slot"row-day="Friday" row-time="02:00"></div>
+              <div class="slot" row-day="Saturday" row-time="02:00"></div>
+              <div class="slot" row-day="Sunday" row-time="02:00"></div>
+            </div>
+            <div class="row">
+                <div class="time" data-time="03:00">3:00 AM</div>
+                <div class="slot" row-day="Monday" row-time="03:00"></div>
+                <div class="slot" row-day="Tuesday" row-time="03:00"></div>
+                <div class="slot" row-day="Wednesday" row-time="03:00"></div>
+                <div class="slot" row-day="Thursday" row-time="03:00"></div>
+                <div class="slot" row-day="Friday" row-time="03:00"></div>
+                <div class="slot" row-day="Saturday" row-time="03:00"></div>
+                <div class="slot" row-day="Sunday" row-time="03:00"></div>
+            </div>
+            <div class="row">
+                <div class="time" data-time="04:00">4:00 AM</div>
+                <div class="slot" row-day="Monday" row-time="04:00"></div>
+                <div class="slot" row-day="Tuesday" row-time="04:00"></div>
+                <div class="slot" row-day="Wednesday" row-time="04:00"></div>
+                <div class="slot" row-day="Thursday" row-time="04:00"></div>
+                <div class="slot" row-day="Friday" row-time="04:00"></div>
+                <div class="slot" row-day="Saturday" row-time="04:00"></div>
+                <div class="slot" row-day="Sunday" row-time="04:00"></div>
+            </div>
+            <div class="row">
+                <div class="time" data-time="05:00">5:00 AM</div>
+                <div class="slot" row-day="Monday" row-time="05:00"></div>
+                <div class="slot" row-day="Tuesday" row-time="05:00"></div>
+                <div class="slot" row-day="Wednesday" row-time="05:00"></div>
+                <div class="slot" row-day="Thursday" row-time="05:00"></div>
+                <div class="slot" row-day="Friday" row-time="05:00"></div>
+                <div class="slot" row-day="Saturday" row-time="05:00"></div>
+                <div class="slot" row-day="Sunday" row-time="05:00"></div>
+            </div>
+            <div class="row">
+                <div class="time" data-time="06:00">6:00 AM</div>
+                <div class="slot" row-day="Monday" row-time="06:00"></div>
+                <div class="slot" row-day="Tuesday" row-time="06:00"></div>
+                <div class="slot" row-day="Wednesday" row-time="06:00"></div>
+                <div class="slot" row-day="Thursday" row-time="06:00"></div>
+                <div class="slot" row-day="Friday" row-time="06:00"></div>
+                <div class="slot" row-day="Saturday" row-time="06:00"></div>
+                <div class="slot" row-day="Sunday" row-time="06:00"></div>
+            </div>
+            <div class="row">
+                <div class="time" data-time="07:00">7:00 AM</div>
+                <div class="slot" row-day="Monday" row-time="07:00"></div>
+                <div class="slot" row-day="Tuesday" row-time="07:00"></div>
+                <div class="slot" row-day="Wednesday" row-time="07:00"></div>
+                <div class="slot" row-day="Thursday" row-time="07:00"></div>
+                <div class="slot" row-day="Friday" row-time="07:00"></div>
+                <div class="slot" row-day="Saturday" row-time="07:00"></div>
+                <div class="slot" row-day="Sunday" row-time="07:00"></div>
+            </div>
+            <div class="row">
+                <div class="time" data-time="08:00">8:00 AM</div>
+                <div class="slot" row-day="Monday" row-time="08:00"></div>
+                <div class="slot" row-day="Tuesday" row-time="08:00"></div>
+                <div class="slot" row-day="Wednesday" row-time="08:00"></div>
+                <div class="slot" row-day="Thursday" row-time="08:00"></div>
+                <div class="slot" row-day="Friday" row-time="08:00"></div>
+                <div class="slot" row-day="Saturday" row-time="08:00"></div>
+                <div class="slot" row-day="Sunday" row-time="08:00"></div>
+            </div>
+            <div class="row">
+                <div class="time" data-time="09:00">9:00 AM</div>
+                <div class="slot" row-day="Monday" row-time="09:00"></div>
+                <div class="slot" row-day="Tuesday" row-time="09:00"></div>
+                <div class="slot" row-day="Wednesday" row-time="09:00"></div>
+                <div class="slot" row-day="Thursday" row-time="09:00"></div>
+                <div class="slot" row-day="Friday" row-time="09:00"></div>
+                <div class="slot" row-day="Saturday" row-time="09:00"></div>
+                <div class="slot" row-day="Sunday" row-time="09:00"></div>
+            </div>
+            <div class="row">
+                <div class="time" data-time="10:00">10:00 AM</div>
+                <div class="slot" row-day="Monday" row-time="10:00"></div>
+                <div class="slot" row-day="Tuesday" row-time="10:00"></div>
+                <div class="slot" row-day="Wednesday" row-time="10:00"></div>
+                <div class="slot" row-day="Thursday" row-time="10:00"></div>
+                <div class="slot" row-day="Friday" row-time="10:00"></div>
+                <div class="slot" row-day="Saturday" row-time="10:00"></div>
+                <div class="slot" row-day="Sunday" row-time="10:00"></div>
+            </div>
+            <div class="row">
+                <div class="time" data-time="11:00">11:00 AM</div>
+                <div class="slot" row-day="Monday" row-time="11:00"></div>
+                <div class="slot" row-day="Tuesday" row-time="11:00"></div>
+                <div class="slot" row-day="Wednesday" row-time="11:00"></div>
+                <div class="slot" row-day="Thursday" row-time="11:00"></div>
+                <div class="slot" row-day="Friday" row-time="11:00"></div>
+                <div class="slot" row-day="Saturday" row-time="11:00"></div>
+                <div class="slot" row-day="Sunday" row-time="11:00"></div>
+            </div>
+            <div class="row">
+                <div class="time" data-time="12:00">12:00 PM</div>
+                <div class="slot" row-day="Monday" row-time="12:00"></div>
+                <div class="slot" row-day="Tuesday" row-time="12:00"></div>
+                <div class="slot" row-day="Wednesday" row-time="12:00"></div>
+                <div class="slot" row-day="Thursday" row-time="12:00"></div>
+                <div class="slot" row-day="Friday" row-time="12:00"></div>
+                <div class="slot" row-day="Saturday" row-time="12:00"></div>
+                <div class="slot" row-day="Sunday" row-time="12:00"></div>
+            </div>
+            <div class="row">
+                <div class="time" data-time="13:00">1:00 PM</div>
+                <div class="slot" row-day="Monday" row-time="13:00"></div>
+                <div class="slot" row-day="Tuesday" row-time="13:00"></div>
+                <div class="slot" row-day="Wednesday" row-time="13:00"></div>
+                <div class="slot" row-day="Thursday" row-time="13:00"></div>
+                <div class="slot" row-day="Friday" row-time="13:00"></div>
+                <div class="slot" row-day="Saturday" row-time="13:00"></div>
+                <div class="slot" row-day="Sunday" row-time="13:00"></div>
+            </div>
+            <div class="row">
+                <div class="time" data-time="14:00">2:00 PM</div>
+                <div class="slot" row-day="Monday" row-time="14:00"></div>
+                <div class="slot" row-day="Tuesday" row-time="14:00"></div>
+                <div class="slot" row-day="Wednesday" row-time="14:00"></div>
+                <div class="slot" row-day="Thursday" row-time="14:00"></div>
+                <div class="slot" row-day="Friday" row-time="14:00"></div>
+                <div class="slot" row-day="Saturday" row-time="14:00"></div>
+                <div class="slot" row-day="Sunday" row-time="14:00"></div>
+            </div>
+            <div class="row">
+                <div class="time" data-time="15:00">3:00 PM</div>
+                <div class="slot" row-day="Monday" row-time="15:00"></div>
+                <div class="slot" row-day="Tuesday" row-time="15:00"></div>
+                <div class="slot" row-day="Wednesday" row-time="15:00"></div>
+                <div class="slot" row-day="Thursday" row-time="15:00"></div>
+                <div class="slot" row-day="Friday" row-time="15:00"></div>
+                <div class="slot" row-day="Saturday" row-time="15:00"></div>
+                <div class="slot" row-day="Sunday" row-time="15:00"></div>
+            </div>
+            <div class="row">
+                <div class="time" data-time="16:00">4:00 PM</div>
+                <div class="slot" row-day="Monday" row-time="16:00"></div>
+                <div class="slot" row-day="Tuesday" row-time="16:00"></div>
+                <div class="slot" row-day="Wednesday" row-time="16:00"></div>
+                <div class="slot" row-day="Thursday" row-time="16:00"></div>
+                <div class="slot" row-day="Friday" row-time="16:00"></div>
+                <div class="slot" row-day="Saturday" row-time="16:00"></div>
+                <div class="slot" row-day="Sunday" row-time="16:00"></div>
+            </div>
+            <div class="row">
+                <div class="time" data-time="17:00">5:00 PM</div>
+                <div class="slot" row-day="Monday" row-time="17:00"></div>
+                <div class="slot" row-day="Tuesday" row-time="17:00"></div>
+                <div class="slot" row-day="Wednesday" row-time="17:00"></div>
+                <div class="slot" row-day="Thursday" row-time="17:00"></div>
+                <div class="slot" row-day="Friday" row-time="17:00"></div>
+                <div class="slot" row-day="Saturday" row-time="17:00"></div>
+                <div class="slot" row-day="Sunday" row-time="17:00"></div>
+            </div>
+            <div class="row">
+                <div class="time" data-time="18:00">6:00 PM</div>
+                <div class="slot" row-day="Monday" row-time="18:00"></div>
+                <div class="slot" row-day="Tuesday" row-time="18:00"></div>
+                <div class="slot" row-day="Wednesday" row-time="18:00"></div>
+                <div class="slot" row-day="Thursday" row-time="18:00"></div>
+                <div class="slot" row-day="Friday" row-time="18:00"></div>
+                <div class="slot" row-day="Saturday" row-time="18:00"></div>
+                <div class="slot" row-day="Sunday" row-time="18:00"></div>
+            </div>
+            <div class="row">
+                <div class="time" data-time="19:00">7:00 PM</div>
+                <div class="slot" row-day="Monday" row-time="19:00"></div>
+                <div class="slot" row-day="Tuesday" row-time="19:00"></div>
+                <div class="slot" row-day="Wednesday" row-time="19:00"></div>
+                <div class="slot" row-day="Thursday" row-time="19:00"></div>
+                <div class="slot" row-day="Friday" row-time="19:00"></div>
+                <div class="slot" row-day="Saturday" row-time="19:00"></div>
+                <div class="slot" row-day="Sunday" row-time="19:00"></div>
+            </div>
+            <div class="row">
+                <div class="time" data-time="20:00">8:00 PM</div>
+                <div class="slot" row-day="Monday" row-time="20:00"></div>
+                <div class="slot" row-day="Tuesday" row-time="20:00"></div>
+                <div class="slot" row-day="Wednesday" row-time="20:00"></div>
+                <div class="slot" row-day="Thursday" row-time="20:00"></div>
+                <div class="slot" row-day="Friday" row-time="20:00"></div>
+                <div class="slot" row-day="Saturday" row-time="20:00"></div>
+                <div class="slot" row-day="Sunday" row-time="20:00"></div>
+            </div>
+            <div class="row">
+                <div class="time" data-time="21:00">9:00 PM</div>
+                <div class="slot" row-day="Monday" row-time="21:00"></div>
+                <div class="slot" row-day="Tuesday" row-time="21:00"></div>
+                <div class="slot" row-day="Wednesday" row-time="21:00"></div>
+                <div class="slot" row-day="Thursday" row-time="21:00"></div>
+                <div class="slot" row-day="Friday" row-time="21:00"></div>
+                <div class="slot" row-day="Saturday" row-time="21:00"></div>
+                <div class="slot" row-day="Sunday" row-time="21:00"></div>
+            </div>
+            <div class="row">
+                <div class="time" data-time="22:00">10:00 PM</div>
+                <div class="slot" row-day="Monday" row-time="22:00"></div>
+                <div class="slot" row-day="Tuesday" row-time="22:00"></div>
+                <div class="slot" row-day="Wednesday" row-time="22:00"></div>
+                <div class="slot" row-day="Thursday" row-time="22:00"></div>
+                <div class="slot" row-day="Friday" row-time="22:00"></div>
+                <div class="slot" row-day="Saturday" row-time="22:00"></div>
+                <div class="slot" row-day="Sunday" row-time="22:00"></div>
+            </div>
+            <div class="row">
+                <div class="time" data-time="23:00">11:00 PM</div>
+                <div class="slot" row-day="Monday" row-time="23:00"></div>
+                <div class="slot" row-day="Tuesday" row-time="23:00"></div>
+                <div class="slot" row-day="Wednesday" row-time="23:00"></div>
+                <div class="slot" row-day="Thursday" row-time="23:00"></div>
+                <div class="slot" row-day="Friday" row-time="23:00"></div>
+                <div class="slot" row-day="Saturday" row-time="23:00"></div>
+                <div class="slot" row-day="Sunday" row-time="23:00"></div>
+            </div>  
+          </div>  
+          </div>
+          <!--list view-->
+          <div class="list-view" style="display: none;">
+            <div class="time-slots">
+              <h3>Time Slots</h3>
+              <!-- <ul id="time-slots"></ul> -->
+               <div class="list" id="time-slots"></div>
+            </div>
           </div>
         </div>
         
+        
       </div>
       <div class="right-bar">
-        <h3>Monday, Nov 6</h3>
-        <p>How many people are you booking for?</p>
-        <select>
-          <option>1</option>
-          <option>2</option>
-          <option>3</option>
-        </select>
-        <p>Available Times:</p>
-        <button>8:30</button>
-        <button>9:00</button>
-        <button>11:00</button>
+        <h3><span id="display-day"></span>, <span id="display-datetime"></span></h3>
+        <h4>Event info: </br></h4><p id="event-info"></p>
+        </br>
+        <form action="../database_stuff/booking.php" method="POST" id="booking_form">
+          <div class="input-container">
+            <input type="email" id="input-email" name="requesterEmail" placeholder="Your Email *" required>
+            <input type="hidden" id="slot_id" name="slot_id"> <!--give the slot_id-->
+          </div>
+          <div class="buttons">
+            <button class="submit" type="submit">Book</button>
+          </div>
+          <p>*Note: you must make an account with your @mail.mcgill.ca or @mcgill.ca to be able to view your bookings</p>
+        </form>
       </div>
       <span class="close-button">&times;</span>
     </div>
 
     <div class="form-section">
-      <div class="input-container">
-        <input type="text" placeholder="Your Name *">
-        <input type="email" placeholder="Your Email *">
-      </div>
       <div class="buttons">
         <button class="alternative">Request a Time</button>
-        <button class="book">Book</button>
       </div>
     </div>  
 
+    <!-- Confirmation Pop-Up Modal - MAKE THIS NICER -->
+    <div id="confirmation-popup" class="modal">
+      <div class="modal-content">
+          <span class="modal-close-btn" id="close-popup">&times;</span>
+          <p>Slot Booked!</p>
+          <!--button to the landing page-->
+          <button class="primary-btn" onclick="window.location.href = 'index.html';">Landing page</button>
+      </div>
+    </div>
+
+    <!--toggle-->
     <script>
+      document.addEventListener('DOMContentLoaded', () => {
+        const calendarTab = document.getElementById('calendar-tab');
+        const listTab = document.getElementById('list-tab');
+        const calendarView = document.querySelector('.calendar-view');
+        const listView = document.querySelector('.list-view');
+      
+        calendarTab.addEventListener('click', () => {
+          calendarView.style.display = 'block';
+          listView.style.display = 'none';
+          //close the right tab if it is open
+          document.querySelector('.right-bar').style.display = 'block';
+        });
+      
+        listTab.addEventListener('click', () => {
+          calendarView.style.display = 'none';
+          listView.style.display = 'block';
+          //close the right tab if it is open
+          document.querySelector('.right-bar').style.display = 'none';
+        });
+      
+        // Initialize the calendar with the current week
+        const today = new Date();
+        const currentWeekStart = getStartOfWeek(today);
+        updateCalendar(currentWeekStart);
+      
+        document.querySelector('.prev-week').addEventListener('click', () => {
+          const newWeekStart = new Date(currentWeekStart.setDate(currentWeekStart.getDate() - 7));
+          updateCalendar(newWeekStart);
+        });
+      
+        document.querySelector('.next-week').addEventListener('click', () => {
+          const newWeekStart = new Date(currentWeekStart.setDate(currentWeekStart.getDate() + 7));
+          updateCalendar(newWeekStart);
+        });
+      });
+    </script>
+    <script>
+      const urlParams = new URLSearchParams(window.location.search);
+      const creator_id = urlParams.get('creator_id');
+      const eventName = urlParams.get('eventName');
+      const eventDuration = urlParams.get('eventDuration');
+      const eventLocation = urlParams.get('eventLocation');
+
+      document.addEventListener('DOMContentLoaded', () => {
+        const creatorIdInput = document.getElementById('creator_id');
+        const eventNameInput = document.getElementById('eventName');
+        const eventDurationInput = document.getElementById('eventDuration');
+        const eventLocationInput = document.getElementById('eventLocation');
+        if (creatorIdInput) {
+          creatorIdInput.value = creator_id;
+        }
+        if (eventNameInput) {
+          eventNameInput.value = eventName;
+        }
+        if (eventDurationInput) {
+          eventDurationInput.value = eventDuration;
+        }
+        if (eventLocationInput) {
+          eventLocationInput.value = eventLocation;
+        }
+      });
+    </script>
+    <script>
+      document.addEventListener('DOMContentLoaded', () => {
+        const calendarTab = document.getElementById('calendar-tab');
+        const listTab = document.getElementById('list-tab');
+        const calendarView = document.querySelector('.calendar-view');
+        const listView = document.querySelector('.list-view');
+      
+        calendarTab.addEventListener('click', () => {
+          calendarView.style.display = 'block';
+          listView.style.display = 'none';
+        });
+      
+        listTab.addEventListener('click', () => {
+          calendarView.style.display = 'none';
+          listView.style.display = 'block';
+        });
+      
+        // Initialize the calendar with the current week
+        const today = new Date();
+        const currentWeekStart = getStartOfWeek(today);
+        updateCalendar(currentWeekStart);
+      
+        document.querySelector('.prev-week').addEventListener('click', () => {
+          const newWeekStart = new Date(currentWeekStart.setDate(currentWeekStart.getDate() - 7));
+          updateCalendar(newWeekStart);
+        });
+      
+        document.querySelector('.next-week').addEventListener('click', () => {
+          const newWeekStart = new Date(currentWeekStart.setDate(currentWeekStart.getDate() + 7));
+          updateCalendar(newWeekStart);
+        });
+      
+        // Fetch all slots for the list view
+        fetchAllSlots();
+      });
+      
+      function getStartOfWeek(date) {
+        const day = date.getDay();
+        const diff = date.getDate() - day + (day === 0 ? -6 : 1); // adjust when day is sunday
+        return new Date(date.setDate(diff));
+      }
+      
+      function updateCalendar(weekStart) {
+        const daysOfWeek = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"];
+        const calendarHeader = document.querySelector('.schedule-header h3');
+        const calendarDays = document.querySelectorAll('.calendar .day');
+      
+        // Update the header with the week range and year
+        const weekEnd = new Date(weekStart);
+        weekEnd.setDate(weekStart.getDate() + 6);
+        calendarHeader.textContent = `${formatDate(weekStart)} - ${formatDate(weekEnd)}, ${weekEnd.getFullYear()}`;
+      
+        // Update each day in the calendar
+        calendarDays.forEach((dayElement, index) => {
+          const currentDay = new Date(weekStart);
+          currentDay.setDate(weekStart.getDate() + index);
+          dayElement.textContent = `${daysOfWeek[index]} ${currentDay.getDate()}`;
+          dayElement.dataset.date = currentDay.toISOString().split('T')[0]; // Store the date in ISO format
+        });
+      
+        // Fetch and update time slots for the new week
+        fetchTimeSlots(weekStart, weekEnd);
+      }
+      
+      function formatDate(date) {
+        const options = { month: 'short', day: 'numeric' };
+        return date.toLocaleDateString(undefined, options);
+      }
+      
+      function fetchTimeSlots(weekStart, weekEnd) {
+        const creator_id = urlParams.get('creator_id');
+        const eventName = urlParams.get('eventName');
+        const eventDuration = urlParams.get('eventDuration');
+        const eventLocation = urlParams.get('eventLocation');
+      
+        fetch(`../database_stuff/booking_info.php?creator_id=${creator_id}&eventName=${eventName}&eventDuration=${eventDuration}&eventLocation=${eventLocation}&start_date=${weekStart.toISOString().split('T')[0]}&end_date=${weekEnd.toISOString().split('T')[0]}`, {
+          method: 'GET',
+        })
+        .then(response => response.json())
+        .then(data => {
+          if (data.success) {
+            console.log("Response received");
+            console.log(data);
+      
+            const calendar = document.querySelector(".calendar");
+            calendar.querySelectorAll(".time-slot").forEach(slot => slot.remove());
+      
+            data.time_slots.forEach(slot => {
+              const slotDate = new Date(slot.date);
+              const dayColumn = calendar.querySelector(`.day[data-date="${slotDate.toISOString().split('T')[0]}"]`);
+              if (!dayColumn) {
+                console.warn(`No column found for date: ${slot.date}`);
+                return;
+              }
+      
+              const roundedTime = roundToNearestHour(slot.start_time);
+              const matchingRow = calendar.querySelector(`.row .time[data-time="${roundedTime}"]`);
+      
+              if (matchingRow) {
+                const dayIndex = [...calendar.querySelectorAll(".day")].findIndex(day => day.dataset.date === slotDate.toISOString().split('T')[0]) + 2;
+                const targetCell = matchingRow.parentElement.children[dayIndex];
+      
+                if (targetCell) {
+                  const timeSlot = document.createElement("div");
+                  timeSlot.classList.add("time-slot");
+                  timeSlot.textContent = convertTo12HourFormat(slot.start_time);
+                  timeSlot.textContent += " - " + convertTo12HourFormat(slot.end_time) + " on " + slot.date;
+                  timeSlot.classList.add(slot.type || "unknown");
+      
+                  timeSlot.addEventListener("click", () => {
+                    showSlotDetails(slot, eventName);
+                  });
+                  targetCell.appendChild(timeSlot);
+                } else {
+                  console.warn(`No cell found for date: ${slot.date}, time: ${roundedTime}`);
+                }
+              } else {
+                console.warn(`No row found for rounded time: ${roundedTime}`);
+              }
+            });
+          } else {
+            console.log(data.error);
+            alert("An error occurred. Please try again later.");
+          }
+        })
+        .catch((error) => {
+          console.error('Error:', error);
+          alert("An error occurred while fetching. Please try again later.");
+        });
+      }
+      
+      function fetchAllSlots() {
+        const creator_id = urlParams.get('creator_id');
+        const eventName = urlParams.get('eventName');
+        const eventDuration = urlParams.get('eventDuration');
+        const eventLocation = urlParams.get('eventLocation');
+      
+        fetch(`../database_stuff/booking_info.php?creator_id=${creator_id}&eventName=${eventName}&eventDuration=${eventDuration}&eventLocation=${eventLocation}`, {
+          method: 'GET',
+        })
+        .then(response => response.json())
+        .then(data => {
+          if (data.success) {
+            console.log("All slots response received");
+            console.log(data);
+
+            document.getElementById("creator_name").innerHTML = data.creator_info.creator_name;
+            document.getElementById("eventName").innerHTML = eventName;
+            document.getElementById("eventDuration").innerHTML = eventDuration;
+            document.getElementById("eventLocation").innerHTML = eventLocation;
+      
+            const slotList = document.getElementById("time-slots");
+            slotList.innerHTML = '';
+      
+            data.time_slots.forEach(slot => {
+              const listItem = document.createElement("li");
+              listItem.classList.add("time-slot");
+              listItem.textContent = `${slot.date} ${convertTo12HourFormat(slot.start_time)} - ${convertTo12HourFormat(slot.end_time)}: ${slot.description}`;
+              listItem.addEventListener("click", () => {
+                showSlotDetails(slot, eventName);
+              });
+              slotList.appendChild(listItem);
+            });
+          } else {
+            console.log(data.error);
+            alert("An error occurred. Please try again later.");
+          }
+        })
+        .catch((error) => {
+          console.error('Error:', error);
+          alert("An error occurred while fetching. Please try again later.");
+        });
+      }
+      
+      function showSlotDetails(slot, eventName) {
+        const rightBar = document.querySelector(".right-bar");
+        const closeButton = document.querySelector(".close-button");
+        const displayDay = document.getElementById("display-day");
+        const displayDatetime = document.getElementById("display-datetime");
+        const eventInfo = document.getElementById("event-info");
+      
+        displayDay.textContent = slot.day;
+        displayDatetime.textContent = `${slot.date} at ${convertTo12HourFormat(slot.start_time)}-${convertTo12HourFormat(slot.end_time)}`;
+        eventInfo.innerHTML = `
+          Name: ${eventName}<br>
+          Date: ${slot.date}<br>
+          Start time: ${convertTo12HourFormat(slot.start_time)}<br>
+          End time: ${convertTo12HourFormat(slot.end_time)}<br>
+          Location: ${slot.location}<br>
+          Description: ${slot.description}<br>
+          Host: ${slot.host}
+        `;
+      
+        rightBar.style.display = "block";
+        closeButton.style.display = "block";
+      
+        closeButton.addEventListener("click", () => {
+          rightBar.style.display = "none";
+          closeButton.style.display = "none";
+        });
+      
+        if (slot.type === "full") {
+          document.querySelector(".submit").disabled = true;
+          document.querySelector(".submit").textContent = "Slot Full";
+        } else {
+          document.querySelector(".submit").disabled = false;
+        }
+      
+        document.forms['booking_form'].addEventListener('submit', (event) => {
+          event.preventDefault();
+          document.getElementById("slot_id").value = slot.event_id;
+      
+          fetch(event.target.action, {
+            method: 'POST',
+            body: new URLSearchParams(new FormData(event.target))
+          }).then((response) => {
+            if (!response.ok) {
+              throw new Error(`HTTP error! Status: ${response.status}`);
+            }
+            return response.json();
+          }).then((body) => {
+            console.log("Form Response received");
+            console.log(body);
+            if (body.success) {
+              document.getElementById("confirmation-popup").style.display = "block";
+            }
+          }).catch((error) => {
+            console.log("Error:", error);
+            alert(error);
+          });
+        });
+      }
+    </script>
+    <script>
+      function convertTo12HourFormat(time24) {
+        const [hour, minute] = time24.split(':').map(Number); // Extract hours and minutes
+        const suffix = hour >= 12 ? 'PM' : 'AM';
+        const hour12 = hour % 12 || 12; // Convert 0 or 24 to 12
+        return `${hour12}:${minute.toString().padStart(2, '0')} ${suffix}`; 
+      }
+      function roundToNearestHour(time24) {
+          const [hour] = time24.split(':').map(Number);
+          return `${hour.toString().padStart(2, '0')}:00`; // Always round down to the start of the hour
+      }
+      // Handle alternative button
+      const alternativeButton = document.querySelector(".buttons .alternative");
+
+      alternativeButton.addEventListener("click", () => {
+        //window.location.href = `request_time.html?creator_id=${creator_id}&eventName=${eventName}&eventDuration=${eventDuration}&eventLocation=${eventLocation}`; // Replace with the actual URL.
+        window.location.href = `private_pages_redirection/requesttime_sessioncheck.php?creator_id=${creator_id}&eventName=${eventName}&eventDuration=${eventDuration}&eventLocation=${eventLocation}`; // Replace with the actual URL.
+        //private_pages_redirection/requesttime_sessioncheck.php -> ADD THIS WHEN REDIRECTING ^FOR TESTING RN
+        //should prompt for login if not logged in
+      });
+      //Close the confirmation popup TODO FIX THIS
+      document.getElementById("close-popup").onclick = function () {
+          document.getElementById("confirmation-popup").style.display = "none";
+          //reload the page
+          location.reload();
+      };
+
+      // document.addEventListener('DOMContentLoaded', function() {
+      //       fetch(`../database_stuff/booking_info.php?creator_id=${creator_id}&eventName=${eventName}&eventDuration=${eventDuration}&eventLocation=${eventLocation}`, {
+      //           method: 'GET',
+      //       })
+      //       .then(response => response.json())
+      //       .then(data => {
+      //           if (data.success) {
+      //               console.log("Response received");
+      //               console.log(data);
+      //               // populate first name
+      //               document.getElementById("creator_name").innerHTML = data.creator_info.creator_name;
+      //               document.getElementById("eventName").innerHTML = eventName;
+      //               document.getElementById("eventDuration").innerHTML = eventDuration;
+      //               document.getElementById("eventLocation").innerHTML = eventLocation;
+
+      //               const calendar = document.querySelector(".calendar");
+      //               const daysOfWeek = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"];
+                    
+      //               calendar.querySelectorAll(".time-slot").forEach(slot => slot.remove());
+      //               data.time_slots.forEach(slot => {
+      //               const dayColumn = calendar.querySelector(`.day[data-day="${slot.day}"]`);
+      //               if (!dayColumn) {
+      //                   console.warn(`No column found for day: ${slot.day}`);
+      //                   return;
+      //               }
+
+      //               const roundedTime = roundToNearestHour(slot.start_time); // Round time to the nearest hour
+      //               const matchingRow = calendar.querySelector(`.row .time[data-time="${roundedTime}"]`);
+
+      //               if (matchingRow) {
+      //                   // Find the specific cell within the same row and correct day column
+      //                   const dayIndex = [...calendar.querySelectorAll(".day")].findIndex(day => day.dataset.day === slot.day) + 1;
+      //                   const targetCell = matchingRow.parentElement.children[dayIndex]; // Get the correct cell
+
+      //                   if (targetCell) {
+      //                       const timeSlot = document.createElement("div");
+      //                       timeSlot.classList.add("time-slot");
+      //                       timeSlot.textContent = convertTo12HourFormat(slot.start_time); // Display the original time in 12-hour format
+      //                       //also display the end time and date
+      //                       timeSlot.textContent += " - " + convertTo12HourFormat(slot.end_time) + " on " + slot.date;
+      //                       timeSlot.classList.add(slot.type || "unknown"); // Add type-specific styles
+                            
+
+      //                       timeSlot.addEventListener("click", () => {
+      //                           const rightBar = document.querySelector(".right-bar");
+      //                           const closeButton = document.querySelector(".close-button");
+      //                           const displayDay = document.getElementById("display-day");
+      //                           const displayDatetime = document.getElementById("display-datetime");
+      //                           const eventInfo = document.getElementById("event-info");
+
+      //                           // Retrieve data from the clicked slot
+      //                           displayDay.textContent = slot.day;
+      //                           displayDatetime.textContent = `${slot.date} at ${convertTo12HourFormat(slot.start_time)}-${convertTo12HourFormat(slot.end_time)}`;
+      //                           eventInfo.innerHTML = `
+      //                             Name: ${eventName}<br>
+      //                             Date: ${slot.date}<br>
+      //                             Start time: ${convertTo12HourFormat(slot.start_time)}<br>
+      //                             End time: ${convertTo12HourFormat(slot.end_time)}<br>
+      //                             Location: ${slot.location}<br>
+      //                             Description: ${slot.description}<br>
+      //                             Host: ${slot.host}
+      //                         `;
+
+      //                           // Display the right-bar
+      //                           rightBar.style.display = "block";
+      //                           closeButton.style.display = "block";
+
+      //                           closeButton.addEventListener("click", () => {
+      //                             rightBar.style.display = "none";
+      //                             closeButton.style.display = "none";
+      //                           });
+
+      //                           // if slot.type === full, disable the button
+      //                           if (slot.type === "full") {
+      //                             document.querySelector(".submit").disabled = true;
+      //                             document.querySelector(".submit").textContent = "Slot Full";
+      //                           } else {
+      //                             document.querySelector(".submit").disabled = false;
+      //                           }
+
+      //                           document.forms['booking_form'].addEventListener('submit', (event) => {
+      //                             event.preventDefault();
+      //                             document.getElementById("slot_id").value = slot.event_id;
+
+      //                             fetch(event.target.action, {
+      //                                 method: 'POST',
+      //                                 body: new URLSearchParams(new FormData(event.target)) // event.target is the form
+      //                             }).then((response) => {
+      //                                 if (!response.ok) {
+      //                                   throw new Error(`HTTP error! Status: ${response.status}`);
+      //                                 }
+      //                                 return response.json(); 
+      //                             }).then((body) => {
+      //                                 console.log("Form Response received");
+      //                                 console.log(body);
+      //                                 if (body.success) {
+      //                                     // Show the modal
+      //                                     document.getElementById("confirmation-popup").style.display = "block";
+      //                                 }
+      //                             }).catch((error) => {
+      //                                 console.log("Error:", error); 
+      //                                 alert(error);
+      //                             });
+      //                         });
+      //                       });
+      //                       targetCell.appendChild(timeSlot); // Append to the correct cell
+      //                   } else {
+      //                       console.warn(`No cell found for day: ${slot.day}, time: ${roundedTime}`);
+      //                   }
+      //               } else {
+      //                   console.warn(`No row found for rounded time: ${roundedTime}`);
+      //               }
+      //           });
+      //           } else {
+      //               console.log(data.error);
+      //               alert("An error occurred. Please try again later.");
+      //           }
+      //       })
+      //       .catch((error) => {
+      //           console.error('Error:', error);
+      //           alert("An error occurred while fetching. Please try again later.");
+      //       });
+      //   });
+    </script>
+
+    <!--alt buttons + iframe-->
+    <!-- <script>
       // Placeholder JavaScript for the Booking Page
       document.addEventListener("DOMContentLoaded", function () {
         // Handle week navigation
@@ -306,16 +1119,6 @@
         nextWeekButton.addEventListener("click", () => {
           alert("Navigate to the next week");
           // Placeholder: Update the scheduleHeader text or fetch new data.
-        });
-
-        // Handle time-slot click events
-        const timeSlots = document.querySelectorAll(".time-slot");
-
-        timeSlots.forEach((slot) => {
-          slot.addEventListener("click", () => {
-            alert(`You selected: ${slot.textContent.trim()}`);
-            // Placeholder: Handle time slot selection logic.
-          });
         });
 
         // Handle booking confirmation
@@ -369,45 +1172,31 @@
         // Handle alternative button
         const alternativeButton = document.querySelector(".buttons .alternative");
 
-        //FOR TESTING - GET THIS CREATOR_ID FROM THE URL
-        //const urlParams = new URLSearchParams(window.location.search);
-        //const creator_id = urlParams.get('creator_id');
-        const creator_id = 1; // Placeholder creator ID
-        const eventName = 1; // Placeholder event name
         alternativeButton.addEventListener("click", () => {
-          //alert("Redirecting to request-time page...");
-          // Placeholder: Redirect to another page.
-          window.location.href = `request_time.html?creator_id=${creator_id}&eventName=${eventName}`; // Replace with the actual URL.
+          window.location.href = `request_time.html?creator_id=${creator_id}&eventName=${eventName}&eventDuration=${eventDuration}&eventLocation=${eventLocation}`; // Replace with the actual URL.
           //private_pages_redirection/requesttime_sessioncheck.php -> ADD THIS WHEN REDIRECTING ^FOR TESTING RN
         });
 
-        // Handle close button
-        const closeButton = document.querySelector(".close-button");
+        // // Handle the dropdown selection
+        // const peopleDropdown = document.querySelector("select");
 
-        closeButton.addEventListener("click", () => {
-          alert("Close the booking modal");
-          // Placeholder: Hide or close the booking container.
-        });
+        // peopleDropdown.addEventListener("change", (event) => {
+        //   alert(`You selected ${event.target.value} people`);
+        //   // Placeholder: Update logic based on the selected number of people.
+        // });
 
-        // Handle the dropdown selection
-        const peopleDropdown = document.querySelector("select");
+        // // Handle available times button clicks
+        // const availableTimeButtons = document.querySelectorAll(".right-bar button");
 
-        peopleDropdown.addEventListener("change", (event) => {
-          alert(`You selected ${event.target.value} people`);
-          // Placeholder: Update logic based on the selected number of people.
-        });
-
-        // Handle available times button clicks
-        const availableTimeButtons = document.querySelectorAll(".right-bar button");
-
-        availableTimeButtons.forEach((button) => {
-          button.addEventListener("click", () => {
-            alert(`You selected the time: ${button.textContent}`);
-            // Placeholder: Highlight selected time or process booking.
-          });
-        });
+        // availableTimeButtons.forEach((button) => {
+        //   button.addEventListener("click", () => {
+        //     alert(`You selected the time: ${button.textContent}`);
+        //     // Placeholder: Highlight selected time or process booking.
+        //   });
+        // });
       });
 
-    </script>
+    </script> -->
+    
   </body>
 </html>

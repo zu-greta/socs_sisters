@@ -39,8 +39,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $notes = $_POST['notes'] ?? '';
     $creatorId = 1; //TODO: Assuming logged-in user, replace with actual user ID !!!!!
 
-    $link = "https://example.com/scheduling/event?creator_id=" . urlencode($creatorId) . "&eventName=" . urlencode($name); // TODO replace with actual link    
-
     // For recurring events, also capture additional details
     $startDate = $_POST['start_date'] ?? '';
     $endDate = $_POST['end_date'] ?? '';
@@ -116,6 +114,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $currentDate->modify('+1 day');
     }
 
+    $link = "https://example.com/scheduling/event?creator_id=" . urlencode($creatorId) . "&eventName=" . urlencode($name) . "&eventDuration=" . urlencode($slotDuration) . "&eventLocation=" . urlencode($location); // TODO replace with actual link
 
     // Insert each slot into the database
     try {

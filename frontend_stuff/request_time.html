@@ -180,7 +180,8 @@
         </div>
 
         <div class="buttons">
-          <button class="cancel" onclick="window.location.href='booking.html';">Cancel</button>
+          <!--give the parameters back!-->
+          <button class="cancel">Cancel</button>
           <button class="submit" type="submit">Submit Request</button>
         </div>
       </div>
@@ -192,7 +193,7 @@
     <span class="close-btn" id="close-popup">&times;</span>
     <p id="popup-info"></p>
     <!--button back to bookings-->
-    <button class="modal-btn" onclick="window.location.href=`booking.html?creator_id${creator_id}`;">Back to Bookings</button>
+    <button class="modal-btn" onclick="window.location.href=`booking.html?creator_id=${creator_id}&eventName=${eventName}&eventDuration=${eventDuration}&eventLocation=${eventLocation}`;">Back to Bookings</button>
     </div>
 </div> 
 
@@ -219,18 +220,36 @@
     }
   </script> -->
   <script>
+    const cancelButton = document.querySelector(" .cancel");
+
+
+    cancelButton.addEventListener("click", () => {
+      window.location.href = `booking.html?creator_id=${creator_id}&eventName=${eventName}&eventDuration=${eventDuration}&eventLocation=${eventLocation}`; // Replace with the actual URL.
+    });
+  </script>
+  <script>
     const urlParams = new URLSearchParams(window.location.search);
     const creator_id = urlParams.get('creator_id');
     const eventName = urlParams.get('eventName');
+    const eventDuration = urlParams.get('eventDuration');
+    const eventLocation = urlParams.get('eventLocation');
 
     document.addEventListener('DOMContentLoaded', () => {
       const creatorIdInput = document.getElementById('creator_id');
       const eventNameInput = document.getElementById('eventName');
+      const eventDurationInput = document.getElementById('eventDuration');
+      const eventLocationInput = document.getElementById('eventLocation');
       if (creatorIdInput) {
         creatorIdInput.value = creator_id;
       }
       if (eventNameInput) {
         eventNameInput.value = eventName;
+      }
+      if (eventDurationInput) {
+        eventDurationInput.value = eventDuration;
+      }
+      if (eventLocationInput) {
+        eventLocationInput.value = eventLocation;
       }
     });
   </script>
