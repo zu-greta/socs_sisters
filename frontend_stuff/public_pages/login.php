@@ -6,9 +6,6 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     $email = $_POST['email'];
     $password = $_POST['password'];
 
-    $hashed_password = password_hash($password, PASSWORD_DEFAULT);
-
-    //echo "Email: $email, Password: $password";
 
     try {
         //echo "Trying to connect to the database";
@@ -46,11 +43,11 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
             //header("Location: " . $redirect);
             exit;
         } else {
-            echo "Invalid username or password.";
+            //echo "Invalid username or password.";
             $error = "Invalid username or password.";
         }
     } catch (Exception $e) {
-        echo "Error: " . $e->getMessage();
+        //echo "Error: " . $e->getMessage();
         $error = "Error: " . $e->getMessage();
     }
 }

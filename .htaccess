@@ -1,4 +1,8 @@
 RewriteEngine On
+<FilesMatch "^database_stuff/.*\.php$">
+    Order Deny,Allow
+    Deny from all
+</FilesMatch>
 RewriteCond %{REQUEST_FILENAME} !-f
 RewriteCond %{REQUEST_FILENAME} !-d
 RewriteCond %{REQUEST_URI} !^/index.php

@@ -99,3 +99,12 @@ CREATE TABLE Sessions (
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     FOREIGN KEY (user_id) REFERENCES Users(user_id)
 );
+
+-- Create Tokens Table (for storing URL parameters - SECURITY) ADD THIS TO db_create
+CREATE TABLE Tokens (
+    token VARCHAR(64) PRIMARY KEY, -- Primary Key
+    creator_id INTEGER NOT NULL, -- Foreign Key referencing Users(user_id)
+    eventName TEXT NOT NULL,
+    eventDuration INTEGER NOT NULL,
+    eventLocation TEXT NOT NULL
+);

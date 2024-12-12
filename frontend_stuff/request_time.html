@@ -229,34 +229,33 @@
       const eventName = decodeURIComponent(urlParams.get('eventName'));
       const eventDuration = decodeURIComponent(urlParams.get('eventDuration'));
       const eventLocation = decodeURIComponent(urlParams.get('eventLocation'));
+      const token = decodeURIComponent(urlParams.get('token'));
       const ecreator_id = encodeURIComponent(creator_id);
       const eeventName = encodeURIComponent(eventName);
       const eeventDuration = encodeURIComponent(eventDuration);
       const eeventLocation = encodeURIComponent(eventLocation);
+      const etoken = encodeURIComponent(token);
 
-      const targetURL = `booking?creator_id=${ecreator_id}&eventName=${eeventName}&eventDuration=${eeventDuration}&eventLocation=${eeventLocation}`;
+      const targetURL = `booking?token=${etoken}&creator_id=${ecreator_id}&eventName=${eeventName}&eventDuration=${eeventDuration}&eventLocation=${eeventLocation}`;
       
-      console.log(targetURL);
+      //console.log(targetURL);
       window.location.href = targetURL;
     });
   </script>
   <script>
     const urlParams = new URLSearchParams(window.location.search);
-    console.log(urlParams);
-    console.log(urlParams.get('creator_id'));
-    console.log(urlParams.get('eventName'));
-    console.log(urlParams.get('eventDuration'));
-    console.log(urlParams.get('eventLocation'));
     const creator_id = decodeURIComponent(urlParams.get('creator_id'));
     const eventName = decodeURIComponent(urlParams.get('eventName'));
     const eventDuration = decodeURIComponent(urlParams.get('eventDuration'));
     const eventLocation = decodeURIComponent(urlParams.get('eventLocation'));
+    const token = decodeURIComponent(urlParams.get('token'));
     const ecreator_id = encodeURIComponent(creator_id);
     const eeventName = encodeURIComponent(eventName);
     const eeventDuration = encodeURIComponent(eventDuration);
     const eeventLocation = encodeURIComponent(eventLocation);
+    const etoken = encodeURIComponent(token);
 
-    const targetURL = `booking?creator_id=${ecreator_id}&eventName=${eeventName}&eventDuration=${eeventDuration}&eventLocation=${eeventLocation}`;
+    const targetURL = `booking?token=${etoken}&creator_id=${ecreator_id}&eventName=${eeventName}&eventDuration=${eeventDuration}&eventLocation=${eeventLocation}`;
     
 
     document.addEventListener('DOMContentLoaded', () => {

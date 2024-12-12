@@ -696,6 +696,7 @@
       const eventName = decodeURIComponent(urlParams.get('eventName'));
       const eventDuration = decodeURIComponent(urlParams.get('eventDuration'));
       const eventLocation = decodeURIComponent(urlParams.get('eventLocation'));
+      const token = decodeURIComponent(urlParams.get('token'));
 
       document.addEventListener('DOMContentLoaded', () => {
         const creatorIdInput = document.getElementById('creator_id');
@@ -968,7 +969,8 @@
         const eeventName = encodeURIComponent(eventName);
         const eeventDuration = encodeURIComponent(eventDuration);
         const eeventLocation = encodeURIComponent(eventLocation);
-        const targetURL = `makeTimeRequest?creator_id=${ecreator_id}&eventName=${eeventName}&eventDuration=${eeventDuration}&eventLocation=${eeventLocation}`;
+        const etoken = encodeURIComponent(token);
+        const targetURL = `makeTimeRequest?token=${etoken}&creator_id=${ecreator_id}&eventName=${eeventName}&eventDuration=${eeventDuration}&eventLocation=${eeventLocation}`;
         //check if user is logged in
         if (document.cookie.includes("auth_key")) {
           window.location.href = targetURL;
