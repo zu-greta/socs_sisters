@@ -692,10 +692,10 @@
     </script>
     <script>
       const urlParams = new URLSearchParams(window.location.search);
-      const creator_id = urlParams.get('creator_id');
-      const eventName = urlParams.get('eventName');
-      const eventDuration = urlParams.get('eventDuration');
-      const eventLocation = urlParams.get('eventLocation');
+      const creator_id = decodeURIComponent(urlParams.get('creator_id'));
+      const eventName = decodeURIComponent(urlParams.get('eventName'));
+      const eventDuration = decodeURIComponent(urlParams.get('eventDuration'));
+      const eventLocation = decodeURIComponent(urlParams.get('eventLocation'));
 
       document.addEventListener('DOMContentLoaded', () => {
         const creatorIdInput = document.getElementById('creator_id');
@@ -964,9 +964,17 @@
       const alternativeButton = document.querySelector(".buttons .alternative");
 
       alternativeButton.addEventListener("click", () => {
-        //window.location.href = `request_time.html?creator_id=${creator_id}&eventName=${eventName}&eventDuration=${eventDuration}&eventLocation=${eventLocation}`; // Replace with the actual URL.
-        window.location.href = `makeTimeRequest?creator_id=${creator_id}&eventName=${eventName}&eventDuration=${eventDuration}&eventLocation=${eventLocation}`; // Replace with the actual URL.
-        //should prompt for login if not logged in
+        const ecreator_id = encodeURIComponent(creator_id);
+        const eeventName = encodeURIComponent(eventName);
+        const eeventDuration = encodeURIComponent(eventDuration);
+        const eeventLocation = encodeURIComponent(eventLocation);
+        const targetURL = `makeTimeRequest?creator_id=${ecreator_id}&eventName=${eeventName}&eventDuration=${eeventDuration}&eventLocation=${eeventLocation}`;
+        //check if user is logged in
+        if (document.cookie.includes("auth_key")) {
+          window.location.href = targetURL;
+        } else {
+          window.location.href = `login?redirect=${encodeURIComponent(targetURL)}`;
+        }
       });
       //Close the confirmation popup TODO FIX THIS
       document.getElementById("close-popup").onclick = function () {

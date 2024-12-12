@@ -193,7 +193,7 @@
     <span class="close-btn" id="close-popup">&times;</span>
     <p id="popup-info"></p>
     <!--button back to bookings-->
-    <button class="modal-btn" onclick="window.location.href=`booking?creator_id=${creator_id}&eventName=${eventName}&eventDuration=${eventDuration}&eventLocation=${eventLocation}`;">Back to Bookings</button>
+    <button class="modal-btn" onclick="window.location.href = targetURL;">Back to Bookings</button>
     </div>
 </div> 
 
@@ -224,15 +224,40 @@
 
 
     cancelButton.addEventListener("click", () => {
-      window.location.href = `booking?creator_id=${creator_id}&eventName=${eventName}&eventDuration=${eventDuration}&eventLocation=${eventLocation}`; // Replace with the actual URL.
+      const urlParams = new URLSearchParams(window.location.search);
+      const creator_id = decodeURIComponent(urlParams.get('creator_id'));
+      const eventName = decodeURIComponent(urlParams.get('eventName'));
+      const eventDuration = decodeURIComponent(urlParams.get('eventDuration'));
+      const eventLocation = decodeURIComponent(urlParams.get('eventLocation'));
+      const ecreator_id = encodeURIComponent(creator_id);
+      const eeventName = encodeURIComponent(eventName);
+      const eeventDuration = encodeURIComponent(eventDuration);
+      const eeventLocation = encodeURIComponent(eventLocation);
+
+      const targetURL = `booking?creator_id=${ecreator_id}&eventName=${eeventName}&eventDuration=${eeventDuration}&eventLocation=${eeventLocation}`;
+      
+      console.log(targetURL);
+      window.location.href = targetURL;
     });
   </script>
   <script>
     const urlParams = new URLSearchParams(window.location.search);
-    const creator_id = urlParams.get('creator_id');
-    const eventName = urlParams.get('eventName');
-    const eventDuration = urlParams.get('eventDuration');
-    const eventLocation = urlParams.get('eventLocation');
+    console.log(urlParams);
+    console.log(urlParams.get('creator_id'));
+    console.log(urlParams.get('eventName'));
+    console.log(urlParams.get('eventDuration'));
+    console.log(urlParams.get('eventLocation'));
+    const creator_id = decodeURIComponent(urlParams.get('creator_id'));
+    const eventName = decodeURIComponent(urlParams.get('eventName'));
+    const eventDuration = decodeURIComponent(urlParams.get('eventDuration'));
+    const eventLocation = decodeURIComponent(urlParams.get('eventLocation'));
+    const ecreator_id = encodeURIComponent(creator_id);
+    const eeventName = encodeURIComponent(eventName);
+    const eeventDuration = encodeURIComponent(eventDuration);
+    const eeventLocation = encodeURIComponent(eventLocation);
+
+    const targetURL = `booking?creator_id=${ecreator_id}&eventName=${eeventName}&eventDuration=${eeventDuration}&eventLocation=${eeventLocation}`;
+    
 
     document.addEventListener('DOMContentLoaded', () => {
       const creatorIdInput = document.getElementById('creator_id');

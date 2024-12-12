@@ -1,6 +1,7 @@
 <?php
 session_start();
-//TODO login checking - TEMPORARY RN
+
+$redirect = isset($_GET['redirect']) ? $_GET['redirect'] : 'dashboard';
 if ($_SERVER["REQUEST_METHOD"] === "POST") {
     $email = $_POST['email'];
     $password = $_POST['password'];
@@ -40,9 +41,9 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
                 'samesite' => 'Strict',     // Prevent cross-site request forgery
             ]);
 
-            // Redirect to private page
-            //redirect to dashboard if already logged in
-            include './frontend_stuff/dashboard.html';  
+            $re = html_entity_decode($redirect, ENT_QUOTES, 'UTF-8');
+            header("Location: " . $re);
+            //header("Location: " . $redirect);
             exit;
         } else {
             echo "Invalid username or password.";

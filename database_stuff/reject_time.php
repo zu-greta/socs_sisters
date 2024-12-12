@@ -1,6 +1,6 @@
 <?php
 session_start();
-$userID = $_SESSION['user_id'];
+// $userID = $_SESSION['user_id'];
 
 if ($_SERVER['REQUEST_METHOD'] === 'GET') {
     $eventID = $_GET['eventID'] ?? null;

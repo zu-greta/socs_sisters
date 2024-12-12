@@ -1,9 +1,17 @@
 <?php
 session_start();
-$creatorId = $_SESSION['user_id'];
+// $creatorId = $_SESSION['user_id'];
 try {
     $database = new PDO('sqlite:ssDB.sq3');
     $database->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+    // Get userID
+    $stmt = $database->prepare("SELECT user_id FROM Sessions WHERE session_token = ?");
+    $stmt->execute([$_COOKIE['auth_key']]);
+    $session = $stmt->fetch(PDO::FETCH_ASSOC);
+    if (!$session) {
+        header("Location: login");
+    }
+    $creatorId = $session['user_id'];
     $stmt = $database->prepare("SELECT * FROM Users WHERE user_id = ?");
     $stmt->execute([$creatorId]);
     $userinfo = $stmt->fetchAll(PDO::FETCH_ASSOC);
