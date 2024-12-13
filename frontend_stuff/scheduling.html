@@ -105,7 +105,7 @@
       display: inline-flex;
       color: #fff;
       margin-bottom: 0;
-      margin-top: 6pt;
+      margin-top: 20px;
       background-clip: text !important;
       color: #ae0e1d;
       text-transform: capitalize;
@@ -232,7 +232,7 @@
     .reset-btn {
       position: absolute;
       top: -1vw;
-      right: 0;
+      right: 2.6vw;
       background: #ae0e1d;
       color: white;
       border: none;
@@ -327,7 +327,7 @@
             method="POST">
 
             <label style="display: inline-block;">
-              <input type="text" style="border-left: 1cm; border-top: none; border-right: none; font-size: 1.2rem; height: 3vw;" name="name" required placeholder="Your event name ">
+              <input type="text" style="border-left: 1cm; border-top: none; border-right: none; font-size: 1.2rem; height: 3vw; margin-bottom: 7px;" name="name" required placeholder="Your event name ">
             </label>
 
             <div class="form-location-ppl">
@@ -341,9 +341,9 @@
                 </label>
             </div>
             <!-- day of the week: choose from monday to sunday buttons which days of the week it happens on each week -->
-            <label style="display: block;  text-align: left;">Repeats on: </br>
+            <label style="display: block;  text-align: left; margin-top: 15px;">Repeats on: </br>
               <!-- center these and make it prettier! -->
-              <div class="days-of-week" style="margin-top: 15px;">
+              <div class="days-of-week" style="margin-top: 10px;">
                 <input type="checkbox" name="day[]" value="Monday">Monday
                 <input type="checkbox" style="margin-left: 15px;" name="day[]" value="Tuesday">Tuesday
                 <input type="checkbox" style="margin-left: 15px;" name="day[]" value="Wednesday">Wednesday
@@ -354,31 +354,31 @@
               </div>
             </label>
             <!-- time of the day for all the days selected -->
-            <div class="form-times">
+            <div class="form-times" style="margin-top: 10px;">
               <label for="start_time"
                 style="display: inline-block; margin-right: 10px; font-size: 10; color: grey; padding-top: 15px; width: 9vw;">Start
                 Time:
-                <input type="time" name="start_time" style="display: inline-block;" required></label>
+                <input type="time" name="start_time" style="display: inline-block; padding: 4px;" required></label>
 
               <label for="start_date"
                 style="display: inline-block; margin-right: 10px; font-size: 10; color: grey; padding-bottom: 10px;">Start
                 Date:
-                <input type="date" name="start_date" style="display: inline-block;" required></label>
+                <input type="date" name="start_date" style="display: inline-block; padding: 4px;" required></label>
 
-              <text> to&nbsp;&nbsp;</text>
+              <text> to&nbsp;&nbsp;&nbsp;</text>
 
               <label for="end_time" style="display: inline-block; margin-right: 5px; font-size: 10; color: grey; width: 9vw;">End
                 Time:
-                <input type="time" name="end_time" style="display: inline-block;" required></label>
+                <input type="time" name="end_time" style="display: inline-block; padding: 4px;" required></label>
 
               <label for="end_date" style="display: inline-block; margin-right: 10px; font-size: 10; color: grey;">End
                 Date:
-                <input type="date" name="end_date" style="display: inline-block;" required></label>
+                <input type="date" name="end_date" style="display: inline-block; padding: 4px;" required></label>
             </div>
 
 
-            <label>Length of each meeting: </br>
-              <select name="slot" style="background-color: #e4e4e4; border: none; border-radius: 6px; padding: 10px 8px;">
+            <label style="margin-top: 15px;">Length of each meeting: </br>
+              <select name="slot" style="background-color: #e4e4e4; border: none; border-radius: 6px; padding: 10px 8px;margin-top: 3px;">
                 <option value="15">15 minutes</option>
                 <option value="30">30 minutes</option>
                 <option value="45">45 minutes</option>
