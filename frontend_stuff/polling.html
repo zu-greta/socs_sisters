@@ -3,48 +3,107 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Poll Interface</title>
-   
+    <title>Poll Page</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+        .poll-container {
+            max-width: 600px;
+            margin: auto;
+        }
+        .poll-title {
+            font-size: 1.5em;
+            margin-bottom: 10px;
+        }
+        .poll-options {
+            list-style: none;
+            padding: 0;
+        }
+        .poll-options li {
+            margin-bottom: 15px;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+        .poll-options label {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .submit-button {
+            display: block;
+            width: 100%;
+            padding: 10px;
+            font-size: 1em;
+            color: #fff;
+            background-color: #007BFF;
+            border: none;
+            cursor: pointer;
+            border-radius: 5px;
+            margin-top: 20px;
+        }
+        .submit-button:hover {
+            background-color: #0056b3;
+        }
+    </style>
 </head>
 <body>
     <div class="poll-container">
-        <div class="poll-question">Which features would you like to see in our next update?</div>
-        <ul class="poll-options">
-            <li>
-                <label>
-                    <input type="checkbox" name="option" value="feature1"> Feature 1
-                </label>
-            </li>
-            <li>
-                <label>
-                    <input type="checkbox" name="option" value="feature2"> Feature 2
-                </label>
-            </li>
-            <li>
-                <label>
-                    <input type="checkbox" name="option" value="feature3"> Feature 3
-                </label>
-            </li>
-            <li>
-                <label>
-                    <input type="checkbox" name="option" value="feature4"> Feature 4
-                </label>
-            </li>
-        </ul>
+        <div class="poll-title" id="poll-title">Loading Poll...</div>
+        <ul class="poll-options" id="poll-options"></ul>
         <button class="submit-button" onclick="submitPoll()">Submit</button>
     </div>
 
     <script>
+        // Fetch poll data from PHP
+        async function fetchPollData() {
+            const response = await fetch('http://localhost/socs_sisters/polling?token=11112');
+            const pollData = await response.json();
+            if (pollData.success) {
+                displayPoll(pollData);
+            } else {
+                document.getElementById('poll-title').textContent = "Failed to load poll.";
+            }
+        }
+
+        // Display poll data dynamically
+        function displayPoll(pollData) {
+            const pollTitle = document.getElementById('poll-title');
+            const pollOptions = document.getElementById('poll-options');
+
+            // Set poll title
+            pollTitle.textContent = pollData.poll.event_name;
+
+            // Generate poll options
+            pollData.pollOptions.forEach(option => {
+                const listItem = document.createElement('li');
+                listItem.innerHTML = `
+                    <label>
+                        <input type="checkbox" name="poll-option" value="${option.option_id}">
+                        <span>${option.start_date} (${option.start_time} - ${option.end_time})</span>
+                        <span>Votes: ${option.vote_count}</span>
+                    </label>
+                `;
+                pollOptions.appendChild(listItem);
+            });
+        }
+
+        // Handle poll submission
         function submitPoll() {
-            const selectedOptions = Array.from(document.querySelectorAll('input[name="option"]:checked'))
+            const selectedOptions = Array.from(document.querySelectorAll('input[name="poll-option"]:checked'))
                 .map(option => option.value);
             if (selectedOptions.length > 0) {
-                alert(`You selected: ${selectedOptions.join(', ')}`);
-                // Here you can send the selected options to the server using fetch or other methods
+                alert(`You selected options: ${selectedOptions.join(', ')}`);
+                // Send selected options to the server using fetch or another method
             } else {
                 alert("Please select at least one option before submitting.");
             }
         }
+
+        // Fetch and display poll data on page load
+        fetchPollData();
     </script>
 </body>
 </html>

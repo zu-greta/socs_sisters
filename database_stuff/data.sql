@@ -46,8 +46,8 @@ INSERT INTO TimeRequests values (5, 1, 2, "2024-12-12", "2024-12-10", 60, "18:53
 -- Insert into Tokens Table
 INSERT INTO Tokens (token, creator_id, eventName, eventDuration, eventLocation) 
 VALUES 
-('1', 101, 'Team Meeting', 120, 'Conference Room A'),
-('2', 102, 'Project Discussion', 90, 'Online');
+(123, 1, 'Team Meeting', 120, 'Conference Room A'),
+(456, 1, 'Project Discussion', 90, 'Online');
 
 -- Insert into MeetingPolls Table
 INSERT INTO MeetingPolls (creator_id, event_name, url) 
