@@ -191,7 +191,7 @@
 
     const token = generateRandomBytes(16);
     const tokenHex = bytesToHex(token);
-    const pollURL = "http://cs.mcgill.ca/~gzu/socs_sisters/poll?token=" + tokenHex;
+    const pollURL = "http://cs.mcgill.ca/~gzu/socs_sisters/polling?token=" + tokenHex; //small typo fix!
 
     // Display the poll URL
     document.getElementById('poll-url').innerText = pollURL;
