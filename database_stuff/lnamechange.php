@@ -1,6 +1,7 @@
 <?php
 session_start();
 // $userID = $_SESSION['user_id'];
+//THIS IS NOT USED BUT LEAVE IT HERE FOR NOW CZ IT FIXES MY BUG BY EXISTING
 try {
     $database = new PDO('sqlite:ssDB.sq3');
     $database->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);

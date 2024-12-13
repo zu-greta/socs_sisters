@@ -7,6 +7,15 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     $password = trim($_POST["password"]);
     $passwordHash = password_hash($password, PASSWORD_DEFAULT);
 
+    // validate input
+    if (empty($email) || empty($fname) || empty($lname) || empty($password)) {
+        echo "<script>
+            alert('Please fill out all fields.');
+            window.location.href = '../register';
+        </script>";
+        exit();
+    }
+
     try {
         // Connect to the database
         $database = new PDO('sqlite:ssDB.sq3');

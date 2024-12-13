@@ -179,7 +179,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             "end_time" => $endTime,
             "participants" => $participants,
             "slotDuration" => $slotDuration,
-            "calendar" => "calendar REMOVE THIS FROM THE FRONTEND HTML",
             "notes" => $notes,
             "creator_id" => $creatorId,
             "email" => $creatorEmail, 

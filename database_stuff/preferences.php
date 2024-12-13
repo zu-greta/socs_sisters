@@ -44,15 +44,4 @@ $response = [
 echo json_encode($response);
 exit;
 
-// CREATE TABLE Users (
-//     user_id INTEGER PRIMARY KEY AUTOINCREMENT, -- Primary Key
-//     username TEXT UNIQUE NOT NULL,
-//     fname TEXT NOT NULL,
-//     lname TEXT NOT NULL,
-//     email TEXT UNIQUE NOT NULL,
-//     password_hash TEXT NOT NULL, -- Placeholder for storing passwords
-//     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-//     last_modified_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
-// );
-
 ?>

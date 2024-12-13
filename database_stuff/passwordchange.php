@@ -25,8 +25,6 @@ try {
     exit;
 }
 
-// NO IDEA IF THIS WORKS
-
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     // Sanitize and validate the form data
     $currentPassword = $_POST['current-password'] ?? '';
