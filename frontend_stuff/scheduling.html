@@ -17,7 +17,7 @@
       margin: auto;
     }
 
-    /* Read section behin form */
+    /* Read section behind form */
     .container .card {
       max-width: 65vw;
       width: 100%;
@@ -42,7 +42,7 @@
     }
 
     .tabs input+label {
-      margin: 12px 0;
+      margin: 10px 0;
       width: 16vw;
       transition: all 0.3s;
       text-align: center;
@@ -85,7 +85,7 @@
       position: absolute;
       background: #ed1b2f;
       transition: all 0.3s;
-      top: 42px;
+      top: 40px;
       z-index: 2;
     }
 
@@ -104,13 +104,12 @@
     h2.tab-title.tab-weekly {
       display: inline-flex;
       color: #fff;
-      margin-bottom: 2vw;
+      margin-bottom: 0;
       margin-top: 6pt;
       background-clip: text !important;
       color: #ae0e1d;
       text-transform: capitalize;
       font-size: 24px;
-      letter-spacing: 0px;
       font-weight: 800 !important;
     }
 
@@ -119,7 +118,7 @@
       text-align: left;
       line-height: 20px;
       width: 100%;
-      min-height: 550px;
+      min-height: 600px;
       height: auto;
       border-bottom-left-radius: 10px;
       border-bottom-right-radius: 10px;
@@ -131,6 +130,7 @@
       background: white;
       position: relative;
       overflow-y: auto;
+      padding: 1vw 3vw;
     }
 
     .content .item {
@@ -139,6 +139,7 @@
       transition: all 0.3s;
       position: absolute;
       padding: 10px 20px;
+
     }
 
     .content p {
@@ -154,27 +155,97 @@
     }
 
     /* Form Styling */
+    /* Center the form container */
     .schedule-form {
       display: flex;
       flex-direction: column;
-      gap: 15px;
-      max-width: 100%;
+      gap: 0px;
+      margin: 0 auto;
+      padding: 20px;
+      box-sizing: border-box;
+      text-align: left;
+      justify-content: center;
+    }
+
+    /* Label styling to ensure they stay on the left */
+    .schedule-form label {
+      display: block;
+      text-align: left;
+      margin-bottom: 5px;
+    }
+
+    .schedule-form input,
+    .schedule-form select,
+    .schedule-form textarea {
       width: 100%;
+      padding: 0; /* padding: 8px; */
+      margin-bottom: 2px;
       box-sizing: border-box;
     }
 
-    /* Ensure checkboxes are visible */
+    .schedule-form label input[type="checkbox"] {
+      margin-right: 0;
+    }
+
+    button.reset-btn,
+    button.save-btn {
+      margin-top: 20px;
+      padding: 10px 20px;
+      width: auto;
+    }
+
+    .schedule-form label {
+      text-align: left;
+      display: block;
+    }
+
+    .schedule-form .days-of-week {
+      display: flex;
+      flex-wrap: nowrap;
+      gap: 0;
+      font-size: 1.1rem;
+    }
+
     input[type="text"],
     input[type="checkbox"],
     input[type="time"],
     input[type="date"],
     input[type="number"],
     input[type="datetime-local"] {
+      /* ensures checkboxes are visible */
       position: static;
       opacity: 1;
     }
 
-    /* Modal Background */
+    button.save-btn {
+      box-sizing: content-box;
+    }
+
+    .time-inputs label,
+    .date-inputs label {
+      display: inline-block;
+      margin-right: 10px;
+      font-size: 10px;
+      color: grey;
+    }
+
+    .reset-btn {
+      position: absolute;
+      top: -1vw;
+      right: 0;
+      background: #ae0e1d;
+      color: white;
+      border: none;
+      cursor: pointer;
+      border-radius: 5px;
+    }
+
+    .form-times text{
+      font-family: 'Inter', 'Helvetica Neue', sans-serif;
+      font-size: 1rem;
+    }
+
+    /* Modal Background Styling */
     .modal {
       display: none;
       position: fixed;
@@ -254,38 +325,60 @@
           <!-- Recurring Form -->
           <form id="recurring-form" class="schedule-form active" action="./database_stuff/schedule_recurring.php"
             method="POST">
-            <label><input type="text" name="name" required placeholder="Event Name: "></label>
-            <label><input type="text" name="location" required placeholder="Location/Video Call URL:"></label>
+
+            <label style="display: inline-block;">
+              <input type="text" style="border-left: 1cm; border-top: none; border-right: none; font-size: 1.2rem; height: 3vw;" name="name" required placeholder="Your event name ">
+            </label>
+
+            <div class="form-location-ppl">
+              <label style="display: inline-block; width: 34vw; margin-right: 0.1vw;">
+                <input type="text" style="background-color: #e4e4e4; border: none; border-radius: 6px; padding: 10px 8px;" 
+                name="location" required placeholder="Location/Video Call URL:">
+              </label>
+              <label style="display: inline-block; width:17vw;">
+                <input type="number" style="background-color: #e4e4e4; border: none; border-radius: 6px; padding: 10px 8px;" 
+                name="participants" required placeholder="Number of Participants Allowed: ">
+                </label>
+            </div>
             <!-- day of the week: choose from monday to sunday buttons which days of the week it happens on each week -->
-            <label style="display: block; justify-content: center;">Days of the Week: </br>
+            <label style="display: block;  text-align: left;">Repeats on: </br>
               <!-- center these and make it prettier! -->
-              <input type="checkbox" name="day[]" value="Monday">Monday
-              <input type="checkbox" name="day[]" value="Tuesday">Tuesday
-              <input type="checkbox" name="day[]" value="Wednesday">Wednesday
-              <input type="checkbox" name="day[]" value="Thursday">Thursday
-              <input type="checkbox" name="day[]" value="Friday">Friday
-              <input type="checkbox" name="day[]" value="Saturday">Saturday
-              <input type="checkbox" name="day[]" value="Sunday">Sunday
+              <div class="days-of-week" style="margin-top: 15px;">
+                <input type="checkbox" name="day[]" value="Monday">Monday
+                <input type="checkbox" style="margin-left: 15px;" name="day[]" value="Tuesday">Tuesday
+                <input type="checkbox" style="margin-left: 15px;" name="day[]" value="Wednesday">Wednesday
+                <input type="checkbox" style="margin-left: 15px;" name="day[]" value="Thursday">Thursday
+                <input type="checkbox" style="margin-left: 15px;" name="day[]" value="Friday">Friday
+                <input type="checkbox" style="margin-left: 15px;" name="day[]" value="Saturday">Saturday
+                <input type="checkbox" style="margin-left: 15px;" name="day[]" value="Sunday">Sunday
+              </div>
             </label>
             <!-- time of the day for all the days selected -->
-            <label for="start_time" style="display: inline-block; margin-right: 10px; font-size: 10; color: grey;">Start
-              Time:
-              <input type="time" name="start_time" style="display: inline-block;" required></label>
-            <label for="end_time" style="display: inline-block; margin-right: 10px; font-size: 10; color: grey;">End
-              Time:
-              <input type="time" name="end_time" style="display: inline-block;" required></label>
-            <!-- start day and end day of the month -->
-            </br>
-            <label for="start_date" style="display: inline-block; margin-right: 10px; font-size: 10; color: grey;">Start
-              Date:
-              <input type="date" name="start_date" style="display: inline-block;" required></label>
-            <label for="end_date" style="display: inline-block; margin-right: 10px; font-size: 10; color: grey;">End
-              Date:
-              <input type="date" name="end_date" style="display: inline-block;" required></label>
-            <label><input type="number" name="participants" required
-                placeholder="Number of Participants Allowed: "></label>
+            <div class="form-times">
+              <label for="start_time"
+                style="display: inline-block; margin-right: 10px; font-size: 10; color: grey; padding-top: 15px; width: 9vw;">Start
+                Time:
+                <input type="time" name="start_time" style="display: inline-block;" required></label>
+
+              <label for="start_date"
+                style="display: inline-block; margin-right: 10px; font-size: 10; color: grey; padding-bottom: 10px;">Start
+                Date:
+                <input type="date" name="start_date" style="display: inline-block;" required></label>
+
+              <text> to&nbsp;&nbsp;</text>
+
+              <label for="end_time" style="display: inline-block; margin-right: 5px; font-size: 10; color: grey; width: 9vw;">End
+                Time:
+                <input type="time" name="end_time" style="display: inline-block;" required></label>
+
+              <label for="end_date" style="display: inline-block; margin-right: 10px; font-size: 10; color: grey;">End
+                Date:
+                <input type="date" name="end_date" style="display: inline-block;" required></label>
+            </div>
+
+
             <label>Length of each meeting: </br>
-              <select name="slot">
+              <select name="slot" style="background-color: #e4e4e4; border: none; border-radius: 6px; padding: 10px 8px;">
                 <option value="15">15 minutes</option>
                 <option value="30">30 minutes</option>
                 <option value="45">45 minutes</option>
@@ -293,7 +386,7 @@
                 <option value="0">NA</option>
               </select>
             </label>
-            <label><textarea name="notes" placeholder="Description/Notes: "></textarea></label>
+            <label><textarea name="notes" style="background-color: #e4e4e4; border: none; border-radius: 6px; padding: 10px 8px 20px" placeholder="Description/Notes: "></textarea></label>
             <button type="reset" class="secondary reset-btn">Reset</button>
             <button type="submit" class="primary save-btn">Save</button>
           </form>
@@ -305,13 +398,15 @@
           <form id="one-time-form" class="schedule-form" action="./database_stuff/schedule_onetime.php" method="POST">
             <label><input type="text" name="name" placeholder="Event Name: " required></label>
             <label><input type="text" name="location" placeholder="Location/Video Call URL:" required></label>
-            <label for="start_time" style="display: inline-block; margin-right: 10px; font-size: 10; color: grey;">Start
-              Time:
-              <input type="datetime-local" name="start_time" style="display: inline-block;" required></label>
-            </br>
-            <label for="end_time" style="display: inline-block; margin-right: 10px; font-size: 10; color: grey;">End
-              Time:
-              <input type="datetime-local" name="end_time" style="display: inline-block;" required></label>
+            <div class="form-datetime">
+              <label for="start_time"
+                style="display: inline-block; margin-right: 10px; font-size: 10; color: grey;">Start
+                Time:
+                <input type="datetime-local" name="start_time" style="display: inline-block;" required></label>
+              <label for="end_time" style="display: inline-block; margin-right: 10px; font-size: 10; color: grey;">End
+                Time:
+                <input type="datetime-local" name="end_time" style="display: inline-block;" required></label>
+            </div>
             <label><input type="number" name="participants" placeholder="Number of Participants Allowed: "
                 required></label>
             <label>Time Slot Length: </br>
