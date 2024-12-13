@@ -77,19 +77,10 @@ CREATE TABLE PollOptions (
     duration INTEGER NOT NULL, -- Duration in minutes
     start_time TIME NOT NULL,
     end_time TIME NOT NULL,
+    vote_count INTEGER DEFAULT 0,
     FOREIGN KEY (poll_id) REFERENCES MeetingPolls(poll_id)
 );
 
--- Create Poll Votes Table
-CREATE TABLE PollVotes (
-    poll_id INTEGER NOT NULL, -- Foreign Key referencing MeetingPolls(poll_id)
-    voter_email TEXT NOT NULL, -- Voter's email (not referencing Users table)
-    option_id INTEGER NOT NULL, -- Foreign Key referencing PollOptions(option_id)
-    voted_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    PRIMARY KEY (poll_id, voter_email, option_id), -- Composite Primary Key
-    FOREIGN KEY (poll_id) REFERENCES MeetingPolls(poll_id),
-    FOREIGN KEY (option_id) REFERENCES PollOptions(option_id)
-);
 
 -- Create Session Table (for storing session tokens - SECURITY)
 CREATE TABLE Sessions (

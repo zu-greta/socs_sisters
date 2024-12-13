@@ -43,3 +43,29 @@ INSERT INTO TimeRequests values (3, 1, 2, "2024-12-12", "2024-12-10", 60, "18:53
 INSERT INTO TimeRequests values (4, 1, 2, "2024-12-12", "2024-12-10", 60, "18:53", "19:53", "ththt", "1", "pending", "2024-12-10 23:53:23");
 INSERT INTO TimeRequests values (5, 1, 2, "2024-12-12", "2024-12-10", 60, "18:53", "19:53", "nbnbn", "49", "pending", "2024-12-10 23:53:23");
 
+-- Insert into Tokens Table
+INSERT INTO Tokens (token, creator_id, eventName, eventDuration, eventLocation) 
+VALUES 
+('1', 101, 'Team Meeting', 120, 'Conference Room A'),
+('2', 102, 'Project Discussion', 90, 'Online');
+
+-- Insert into MeetingPolls Table
+INSERT INTO MeetingPolls (creator_id, event_name, url) 
+VALUES 
+(1, 'Team Meeting', 'https://example.com/team-meeting'),
+(2, 'Project Discussion', 'https://example.com/project-discussion');
+
+-- Insert into PollOptions Table (at least 4 options for each poll)
+INSERT INTO PollOptions (poll_id, start_date, end_date, duration, start_time, end_time, vote_count) 
+VALUES 
+-- Options for Poll 1
+(1, '2024-12-15', '2024-12-15', 120, '10:00:00', '12:00:00', 2),
+(1, '2024-12-16', '2024-12-16', 120, '11:00:00', '13:00:00', 4),
+(1, '2024-12-17', '2024-12-17', 120, '09:00:00', '11:00:00', 1),
+(1, '2024-12-18', '2024-12-18', 120, '14:00:00', '16:00:00', 0),
+-- Options for Poll 2
+(2, '2024-12-20', '2024-12-20', 90, '14:00:00', '15:30:00', 4),
+(2, '2024-12-21', '2024-12-21', 90, '13:00:00', '14:30:00', 5),
+(2, '2024-12-22', '2024-12-22', 90, '10:00:00', '11:30:00', 9),
+(2, '2024-12-23', '2024-12-23', 90, '16:00:00', '17:30:00', 5);
+
