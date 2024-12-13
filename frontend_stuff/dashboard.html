@@ -239,6 +239,7 @@
             <div id="upcoming" style="float:right; width:80%; padding: 15px 25px 15px 0px">
                 <h2 style="display:inline-block">Upcoming Events</h2>
                 <button class="primary" id="scheduling-btn">Add new booking</button> <!--move this how u want-->
+                <button class="primary" id="create-poll-btn">Create a meeting poll</button>
                 <button class="primary" id="export-btn">Export to your calendar</button><br>
                 <div id="view-toggle" style="width:100%; border-bottom: 2px solid #ebebeb; margin-bottom: 15px;">
                     <div id="list-view-toggle" style="display:inline-block" class="active">
@@ -394,6 +395,12 @@
             window.location.href = "scheduling";
         }
 
+
+        // redirects to the create poll page
+        document.getElementById("create-poll-btn").onclick = function(){
+            window.location.href = "createPoll";
+        }
+        
         function showListView(){
             // hide weekly view
             document.getElementById('upcoming-weekly').style.display = 'none';

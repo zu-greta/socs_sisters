@@ -22,7 +22,7 @@ $routes = [
 
     //secret pages
     'booking' => 'frontend_stuff/public_pages/booking.php',
-    'resultPoll' => 'frontend_stuff/public_pages/resultPoll.php',
+    'poll' => 'frontend_stuff/public_pages/resultPoll.php',
 
     //TODO: check
 ];
