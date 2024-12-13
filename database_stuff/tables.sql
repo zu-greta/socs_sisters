@@ -105,6 +105,6 @@ CREATE TABLE Tokens (
     token VARCHAR(64) PRIMARY KEY, -- Primary Key
     creator_id INTEGER NOT NULL, -- Foreign Key referencing Users(user_id)
     eventName TEXT NOT NULL,
-    eventDuration INTEGER DEFAULT 1,
+    eventDuration INTEGER DEFAULT -1,
     eventLocation TEXT DEFAULT 'TBD'
 );
