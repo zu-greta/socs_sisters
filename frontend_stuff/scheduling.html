@@ -107,7 +107,7 @@
       display: inline-flex;
       width: 40vw;
       color: #fff;
-      margin-bottom:30px;
+      margin-bottom: 30px;
       margin-top: 30px;
       background-clip: text !important;
       color: #ae0e1d;
@@ -132,7 +132,7 @@
       background: white;
       position: relative;
       overflow-y: auto;
-      align-items: center;   
+      align-items: center;
       justify-content: center;
       padding: 0.5vw 3vw;
     }
@@ -182,7 +182,8 @@
     .schedule-form select,
     .schedule-form textarea {
       width: 100%;
-      padding: 0; /* padding: 8px; */
+      padding: 0;
+      /* padding: 8px; */
       margin-bottom: 2px;
     }
 
@@ -195,7 +196,7 @@
       padding: 10px 20px;
     }
 
-    button.reset-btn{
+    button.reset-btn {
       margin-top: 3vw;
       margin-right: -1vw;
     }
@@ -207,19 +208,24 @@
 
     .schedule-form .days-of-week {
       display: flex;
-      flex-wrap: wrap; /* Allow wrapping to the next line */
-      gap: 10px; /* Space between day options */
-      justify-content: left; /* Center all elements */
+      flex-wrap: wrap;
+      /* Allow wrapping to the next line */
+      gap: 10px;
+      /* Space between day options */
+      justify-content: left;
+      /* Center all elements */
     }
 
     .schedule-form .day-option {
       margin-right: 10px;
       display: flex;
-      align-items: left; /* Keep checkbox and label aligned */
-      gap: 7px; /* Space between checkbox and label */
+      align-items: left;
+      /* Keep checkbox and label aligned */
+      gap: 7px;
+      /* Space between checkbox and label */
     }
 
-    
+
 
     input[type="text"],
     input[type="checkbox"],
@@ -233,14 +239,14 @@
     }
 
     input[type="text"],
-    input[type="textarea"]{
-      background-color: #e4e4e4; 
-      border: none; 
-      border-radius: 6px; 
+    input[type="textarea"] {
+      background-color: #e4e4e4;
+      border: none;
+      border-radius: 6px;
       padding: 10px 8px;
       margin-top: 3px;
     }
-    
+
     button.save-btn {
       box-sizing: content-box;
     }
@@ -264,15 +270,15 @@
       border-radius: 5px;
     }
 
-    .form-times text, 
-    .form-datetime{
+    .form-times text,
+    .form-datetime {
       font-family: 'Inter', 'Helvetica Neue', sans-serif;
       font-size: 1rem;
     }
 
     /* Modal Background Styling */
     .modal {
-      display: none;
+      display: block;
       position: fixed;
       z-index: 1001;
       left: 0;
@@ -283,21 +289,45 @@
     }
 
     .modal-content {
+      inline-size: 2px;
+      box-sizing: content-box;
       position: absolute;
       top: 50%;
       left: 50%;
       transform: translate(-50%, -50%);
       background-color: #ffffff;
-      padding: 20px;
+      padding: 30px;
       border-radius: 10px;
       width: 80%;
       max-width: 400px;
-      text-align: center;
+      text-align: left;
       box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+      overflow-wrap: break-word;; /* Ensures text wraps inside modal */
+    }
+
+    .modal-content p, 
+    .modal-content span {
+      word-wrap: break-word; /* Ensures words/links break to fit container */
+      word-break: break-all; /* Allows breaking links if necessary */
+      overflow-wrap: break-word;; /* Modern support for wrapping text */
+      max-width: 100%; /* Prevents overflowing */
+      display: block; /* Ensures proper stacking and alignment */
+      margin-bottom: 5px;
+    }
+
+    .modal-content button {
+      width:150px;
+    }
+
+    .modal-buttons {
+      display: flex;
+      justify-content: flex-end; /* Aligns buttons to the right */
+      gap: 10px; /* Adds space between buttons */
+      margin-top: 20px; /* Adds some spacing above the buttons */
     }
 
     body.modal-open {
-      overflow: hidden;
+      overflow: break-word;;
     }
 
     .close-btn {
@@ -308,6 +338,7 @@
       background-color: #ae0e1d;
       color: white;
     }
+    
   </style>
 </head>
 
@@ -352,18 +383,21 @@
             method="POST">
 
             <label style="display: inline-block;">
-              <input type="text" class="event-name" style="font-size: 1.2rem; height: 50px; margin-bottom: 0;" name="name" required placeholder="Your event name ">
+              <input type="text" class="event-name" style="font-size: 1.2rem; height: 50px; margin-bottom: 0;"
+                name="name" required placeholder="Your event name ">
             </label>
 
             <div class="form-location-ppl">
               <label style="display: inline-block; width: 36vw; margin-right: 0.05vw; ">
-                <input type="text" style="background-color: #e4e4e4; border: none; border-radius: 6px; padding: 10px 8px;" 
-                name="location" required placeholder="Location/Video Call URL:">
+                <input type="text"
+                  style="background-color: #e4e4e4; border: none; border-radius: 6px; padding: 10px 8px;"
+                  name="location" required placeholder="Location/Video Call URL:">
               </label>
               <label style="display: inline-block; width:18.6vw;">
-                <input type="number" style="background-color: #e4e4e4; border: none; border-radius: 6px; padding: 10px 8px;" 
-                name="participants" required placeholder="Number of Participants Allowed: ">
-                </label>
+                <input type="number"
+                  style="background-color: #e4e4e4; border: none; border-radius: 6px; padding: 10px 8px;"
+                  name="participants" required placeholder="Number of Participants Allowed: ">
+              </label>
             </div>
             <!-- day of the week: choose from monday to sunday buttons which days of the week it happens on each week -->
             <div class="schedule-form">
@@ -380,8 +414,8 @@
                 </div>
               </div>
             </div>
-            
-            
+
+
             <!-- time of the day for all the days selected -->
             <div class="form-times" style="margin-top: 5px;">
               <label for="start_time"
@@ -396,18 +430,21 @@
 
               <text> to</text>
 
-              <label for="end_time" style="display: inline-block; margin-right: 5px; font-size: 10; color: grey; width: 7vw; margin-left: 1vw;">End
+              <label for="end_time"
+                style="display: inline-block; margin-right: 5px; font-size: 10; color: grey; width: 7vw; margin-left: 1vw;">End
                 Time:
                 <input type="time" name="end_time" style="display: inline-block; padding: 4px;" required></label>
 
-              <label for="end_date" style="display: inline-block; margin-right: 10px; font-size: 10; color: grey; width: 10vw">End
+              <label for="end_date"
+                style="display: inline-block; margin-right: 10px; font-size: 10; color: grey; width: 10vw">End
                 Date:
                 <input type="date" name="end_date" style="display: inline-block; padding: 5px;" required></label>
             </div>
 
 
             <label style="margin-top: 20px;">Length of each meeting: </br>
-              <select name="slot" style="background-color: #e4e4e4; border: none; border-radius: 6px; padding: 10px 8px;margin-top: 3px;">
+              <select name="slot"
+                style="background-color: #e4e4e4; border: none; border-radius: 6px; padding: 10px 8px;margin-top: 3px;">
                 <option value="15">15 minutes</option>
                 <option value="30">30 minutes</option>
                 <option value="45">45 minutes</option>
@@ -415,7 +452,9 @@
                 <option value="0">NA</option>
               </select>
             </label>
-            <label><textarea name="notes" style="background-color: #e4e4e4; border: none; border-radius: 6px; padding: 10px 8px 20px;" placeholder="Description/Notes: "></textarea></label>
+            <label><textarea name="notes"
+                style="background-color: #e4e4e4; border: none; border-radius: 6px; padding: 10px 8px 20px;"
+                placeholder="Description/Notes: "></textarea></label>
             <button type="reset" class="secondary reset-btn">Reset</button>
             <button type="submit" class="primary save-btn">Save</button>
           </form>
@@ -426,35 +465,41 @@
           <!-- One-Time Form -->
           <form id="one-time-form" class="schedule-form" action="./database_stuff/schedule_onetime.php" method="POST">
             <label style="display: inline-block;">
-              <input type="text" class="event-name" style="font-size: 1.2rem; height: 50px; margin-bottom: 0;" name="name" required placeholder="Your event name ">
+              <input type="text" class="event-name" style="font-size: 1.2rem; height: 50px; margin-bottom: 0;"
+                name="name" required placeholder="Your event name ">
             </label>
 
             <div class="form-location-ppl">
               <label style="display: inline-block; width: 36vw; margin-right: 0.05vw; ">
-                <input type="text" style="background-color: #e4e4e4; border: none; border-radius: 6px; padding: 10px 8px;" 
-                name="location" required placeholder="Location/Video Call URL:">
+                <input type="text"
+                  style="background-color: #e4e4e4; border: none; border-radius: 6px; padding: 10px 8px;"
+                  name="location" required placeholder="Location/Video Call URL:">
               </label>
               <label style="display: inline-block; width:18.6vw;">
-                <input type="number" style="background-color: #e4e4e4; border: none; border-radius: 6px; padding: 10px 8px;" 
-                name="participants" required placeholder="Number of Participants Allowed: ">
-                </label>
+                <input type="number"
+                  style="background-color: #e4e4e4; border: none; border-radius: 6px; padding: 10px 8px;"
+                  name="participants" required placeholder="Number of Participants Allowed: ">
+              </label>
             </div>
-            
+
 
             <div class="form-datetime" style="margin-top: 5px;">
-              <label for="start_time" style="display: inline-block; margin-right: 10px; font-size: 10; color: grey; padding-top: 15px; width: 15vw;">
+              <label for="start_time"
+                style="display: inline-block; margin-right: 10px; font-size: 10; color: grey; padding-top: 15px; width: 15vw;">
                 Start Time:
                 <input type="datetime-local" name="start_time" style="padding: 10px;" required></label>
 
-                <text> to &nbsp;</text>
+              <text> to &nbsp;</text>
 
-              <label for="end_time" style="display: inline-block;  font-size: 10; color: grey; padding-top: 15px; width: 15vw;">
+              <label for="end_time"
+                style="display: inline-block;  font-size: 10; color: grey; padding-top: 15px; width: 15vw;">
                 End Time:
                 <input type="datetime-local" name="end_time" style="padding: 10px;" required></label>
             </div>
 
             <label style="margin-top: 20px;">Time Slot Length: </br>
-              <select name="slot" style="background-color: #e4e4e4; border: none; border-radius: 6px; padding: 10px 8px;margin-top: 3px;">
+              <select name="slot"
+                style="background-color: #e4e4e4; border: none; border-radius: 6px; padding: 10px 8px;margin-top: 3px;">
                 <option value="15">15 minutes</option>
                 <option value="30">30 minutes</option>
                 <option value="45">45 minutes</option>
@@ -462,7 +507,9 @@
                 <option value="0">NA</option>
               </select>
             </label>
-            <label><textarea name="notes" style="background-color: #e4e4e4; border: none; border-radius: 6px; padding: 10px 8px 30px;" placeholder="Description/Notes: "></textarea></label>
+            <label><textarea name="notes"
+                style="background-color: #e4e4e4; border: none; border-radius: 6px; padding: 10px 8px 30px;"
+                placeholder="Description/Notes: "></textarea></label>
             <button type="reset" class="secondary reset-btn">Reset</button>
             <button type="submit" class="primary save-btn">Save</button>
           </form>
@@ -475,12 +522,16 @@
   <div id="confirmation-popup" class="modal">
     <div class="modal-content">
       <span class="close-btn" id="close-popup">&times;</span>
-      <p>Slot Scheduled! <br></p>
+      <p style="font-weight: bold; font-size: 1.5rem; margin-bottom: 10px; margin-top: 5px;">Slot Scheduled! <br></p>
       <p>Information: <span id="popup-info"></span></p>
-      <p>Link to Share: <span id="link-display">[Link]</span></p>
+      <p>Link to Share: <span
+          id="link-display">[Link]</span>
+      </p>
       <p>Email: <span id="email-display">[Email]</span></p>
-      <button id="copy-link" class="secondary modal-btn">Copy Link</button>
-      <button id="return-home" class="primary modal-btn">Home</button>
+      <div class="modal-buttons">
+        <button id="copy-link" class="secondary modal-btn">Copy Link</button>
+        <button id="return-home" class="primary modal-btn">Home</button>
+      </div>
     </div>
   </div>
 
