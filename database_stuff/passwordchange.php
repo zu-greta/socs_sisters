@@ -45,6 +45,16 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         exit;
     }
 
+    // Password validation before inserting into the database
+    if (strlen($newPassword) < 10 || !preg_match('/[a-zA-Z]/', $newPassword) || !preg_match('/\d/', $newPassword)) {
+        echo "<script>
+            alert('Password must be at most 10 characters long, contain at least one letter, and at least one number.');
+            
+            window.location.href = '../preferences';
+        </script>";
+        exit();
+    }
+
     // Insert each slot into the database
     try {
         $database = new PDO('sqlite:ssDB.sq3');
