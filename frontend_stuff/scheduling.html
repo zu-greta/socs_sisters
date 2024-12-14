@@ -9,18 +9,20 @@
   <style>
     body {
       background: #e4e4e4;
+      height: 100%; /* Ensure parent elements take up full viewport height */
     }
 
     .container {
       width: 100%;
-      padding-top: 70px;
-      margin: auto;
+      margin: 4vw auto;
+      height: 100%;
+      flex-direction: column; /* Stack items vertically */
     }
 
     /* Read section behind form */
     .container .card {
       max-width: 65vw;
-      height: 100%;
+      height: 100%;      
       width: 100%;
       border-radius: 10px;
       border: none;
@@ -45,6 +47,7 @@
 
     .tabs input+label {
       margin: 10px 0;
+      min-width: 110px;
       width: 16vw;
       transition: all 0.3s;
       text-align: center;
