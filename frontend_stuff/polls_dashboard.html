@@ -1,0 +1,363 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Member Dashboard</title>
+    <link rel="stylesheet" href="./frontend_stuff/general_style.css">
+
+    <style>
+        /* Side Navigation Bar */
+        .sidenav {
+            width: 14%;
+            float: left;
+            z-index: 1;
+            top: 20px;
+            left: 10px;
+            padding: 15px 0px 15px 25px;
+        }
+        .sidenav a {
+            margin-top: -1px;
+            margin-bottom: -1px;
+            padding: 8px 8px 8px 16px;
+            text-decoration: none;
+            display: block;
+            color: black;
+            border: 1px solid #424242; 
+        }
+        .sidenav a:hover {
+            background-color: #ebebeb;
+        }
+        .sidenav a.active {
+            background-color: #ae0e1d;
+            color: white;
+        }
+        .sidenav a.active:hover{
+            background-color: #ed1b2f;
+        }
+        /* Table */
+        .history-table, 
+        .history-table th, 
+        .history-table td {
+            border: 1px solid #424242;
+            border-collapse: collapse;
+            padding: 8px 16px;
+            text-align: left;
+        }
+
+        /* table buttons */
+        #details-btn {
+            margin: 3px 0px;
+            padding: 6px;
+            font-size: 13px;
+        }
+
+        /* for popup */
+        .poll-details-popup {
+        display: none;
+        position: fixed;
+        z-index: 1000;
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        overflow: auto;
+        background-color: rgba(0, 0, 0, 0.5); 
+        }
+
+        /* popup content */
+        .poll-details-popup-content{
+        background-color: white;
+        margin: 10% auto;
+        padding: 40px 60px 100px 60px;
+        border: 1px solid #888;
+        width: 50%;
+        max-width: 800px;
+        position: relative;
+        border-radius: 5px;
+
+        }
+
+        /* close button */
+        .close {
+        position: absolute;
+        top: 0px;
+        right: 20px;
+        color: black;
+        font-size: 50px;
+        /* font-weight: bold; */
+        cursor: pointer;
+        z-index: 1002;
+        }
+
+        .close:hover, .close:focus {
+        color: #424242;
+        text-decoration: none;
+        cursor: pointer;
+        }
+
+        .poll-details-table, 
+        .poll-details-table td {
+        padding: 7px 0px;
+        font-size: 17px;
+        border: none;
+        border-collapse: collapse;
+        }
+
+        .popup-buttons {
+        float: right;
+        }
+
+        /* Bar styles */
+        /* Scoped bar container for poll options */
+        .poll-vote-container {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        /* Each poll option's bar container */
+        .poll-vote-bar-container {
+            display: flex;
+            flex-direction: column; /* Stack children vertically */
+            align-items: flex-start; /* Align children to the start of the container */
+            width: 100%;
+            background-color: #e0e0e0; /* Light gray for unfilled portion */
+            border-radius: 15px; /* Rounded corners */
+            overflow: hidden; /* Clip inner elements to the rounded corners */
+            margin-bottom: 10px;
+            padding: 10px; /* Add padding to ensure the name and bar have some space */
+        }
+        
+        /* Name of the option */
+        .poll-vote-name {
+            font-size: 14px;
+            font-weight: bold;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            margin-bottom: 5px; /* Add some space between the name and the bar */
+        }
+        
+        /* Filled part of the bar */
+        .poll-vote-bar {
+            width: 100%; /* Make the bar take the full width of the container */
+            height: 30px;
+            border-radius: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+            font-size: 14px;
+            text-align: center;
+            white-space: nowrap;
+            overflow: hidden;
+        }
+        
+        .poll-vote-bar[data-empty="true"] {
+            background-color: #a0a0a0; /* Gray for empty bars */
+            color: white;
+        }
+        
+        /* Non-empty bars styling */
+        .poll-vote-bar:not([data-empty="true"]) {
+            background-color: #ed1b2f; /* votes */
+        }
+
+    </style>
+
+</head>
+<body>
+    <!-- private navigation bar -->
+    <header>
+        <div class="nav-container">
+            <a href="/" class="logo-link">
+                <img src="./frontend_stuff/png/logo.png" alt="Logo" class="nav-logo-img">
+                <span class="logo-name">SOC-cessful Schedule</span>
+            </a>
+
+            <div class="nav-buttons">
+                <button id="profileLink" type="button" class="secondary profile-btn">
+                    <img src="./frontend_stuff/png/user-icon.png" alt="User" class="user-icon">
+                    <span>Account</span>
+                </button>
+                <div class="dropdown-menu">
+                    <a href="#" class="dropdown-item">History</a>
+                    <a href="#" class="dropdown-item">Preferences</a>
+                    <a href="#" class="dropdown-item">Time Requests</a>
+                    <a href="#" class="dropdown-item" style="color:#ed1b2f;">Log Out</a>
+                </div>
+            </div>
+    </header>
+
+    <div id="background-container">
+        <!-- Welcome message -->
+        <div id="welcome-message">
+            <h1 style="text-align:center">Welcome, <span id="fname"></span>!</h1>
+        </div>
+        <!-- Page content -->
+        <div id="main-container">
+            <!-- Sidebar -->
+            <div class="sidenav">
+                <h2>My Account</h2>
+                <a href="dashboard">Upcoming</a>
+                <a href="history">History</a>
+                <a href="preferences">Preferences</a>
+                <a href="viewTimeRequest">Time Requests</a>
+                <a href="#" class="active">Polls</a>
+            </div>
+            <!-- Main content -->
+            <!-- display all the polls created by this user using the MeetingPolls and PollOptions-->
+            <div id="polls" style="float:right; width:80%; padding: 15px 25px 15px 0px">
+                <h2>Polls</h2>
+                <table id="polls-table" class="history-table" style="width: 100%;">
+                    <colgroup> 
+                        <col style="width: 10%;">
+                        <col style="width: 40%;">
+                        <col style="width: 9%;">
+                    </colgroup>
+                    <tr>
+                        <th>Poll Name</th>
+                        <th>Votes</th>
+                        <th></th>
+                    </tr>
+                </table>
+            </div>
+        </div>
+    </div>
+    <!-- Poll Details Popup -->
+    <div id="poll-details-popup" class="poll-details-popup">
+        <div class="poll-details-popup-content">
+            <span class="close" onclick="closeDetailsPopup()">&times;</span>
+            <h2 id="poll-popup-name"></h2>
+            <h4>Options</h4>
+            <div id="poll-popup-details"></div>
+        </br>
+            <p><h4>URL: </h4><a id="poll-url" href="#" target="_blank"></a></p>
+        </div>
+    </div> 
+
+ 
+    <script>
+        // Close details popup
+        function closeDetailsPopup() {
+            document.getElementById('poll-details-popup').style.display = 'none';
+        }
+
+        // Show details popup
+        function showPollDetails(poll) {
+            document.getElementById('poll-popup-name').textContent = poll.event_name;
+            const detailsContainer = document.getElementById('poll-popup-details');
+            detailsContainer.innerHTML = ''; // Clear previous content
+
+            poll.options.forEach(option => {
+                const optionDetail = document.createElement('p');
+                optionDetail.textContent = `${option.name}: ${option.vote_count} votes`;
+                detailsContainer.appendChild(optionDetail);
+            });
+
+            document.getElementById('poll-url').textContent = poll.url;
+
+            document.getElementById('poll-details-popup').style.display = 'block';
+        }
+    </script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+        fetch('./database_stuff/polls_details.php')
+            .then((response) => response.json())
+            .then((data) => {
+                if (data.success) {
+                    console.log("Response received for polls");
+                    console.log(data.polls);
+
+                    const pollsTable = document.getElementById("polls-table");
+
+                    data.polls.forEach((poll) => {
+                        // Add a row for each poll
+                        const newRow = pollsTable.insertRow();
+                        const pollNameCell = newRow.insertCell(0);
+                        const votesCell = newRow.insertCell(1);
+                        const detailsCell = newRow.insertCell(2);
+
+                        pollNameCell.textContent = poll.event_name;
+
+                        // Render options as vote bars
+                        const optionsContainer = document.createElement("div");
+                        poll.options.forEach((option) => {
+                            const barContainer = document.createElement("div");
+                            barContainer.className = "poll-vote-bar-container";
+
+                            // create a name div for the option
+                            const nameDiv = document.createElement("div");
+                            nameDiv.className = "poll-vote-name";
+                            nameDiv.textContent = option.name;
+
+                            const bar = document.createElement("div");
+                            bar.className = "poll-vote-bar";
+
+                            const percentage = poll.total_votes ? (option.vote_count / poll.total_votes) * 100 : 0;
+                            //const barText = `${option.name}: ${option.vote_count} votes`;
+                            const barText = `${option.vote_count}`;
+
+                            // Ensure minimum width for visibility even if there are no votes
+                            bar.style.width = `${Math.max(percentage, 5)}%`;
+                            bar.setAttribute("data-empty", percentage === 0 ? "true" : "false");
+
+                            // Add the text inside the bar
+                            bar.textContent = barText;
+
+                            // Append to the container
+                            barContainer.appendChild(nameDiv);
+                            // append and line skip!
+                            barContainer.appendChild(bar);
+                            optionsContainer.appendChild(barContainer);
+                        });
+
+
+                        votesCell.appendChild(optionsContainer);
+
+                        // Add a button to view poll details
+                        const detailsButton = document.createElement("button");
+                        detailsButton.textContent = "Details";
+                        detailsButton.className = "secondary";
+                        detailsButton.onclick = () => showPollDetails(poll);
+                        detailsCell.appendChild(detailsButton);
+                    });
+                } else {
+                    alert("Error: " + data.error);
+                }
+            })
+            .catch((error) => {
+                console.error("Error:", error);
+                alert("Failed to load polls. Please try again later.");
+            });
+    });
+
+    </script>
+    
+    
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            fetch('./database_stuff/preferences.php')
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    console.log("Response received");
+                    // populate first name
+                    document.getElementById("fname").innerHTML = data.userDetails.userFname;
+                } else {
+                    console.log(data.error);
+                    alert("An error occurred. Please try again later.");
+                }
+            })
+            .catch((error) => {
+                console.error('Error:', error);
+                alert("An error occurred while fetching. Please try again later.");
+            });
+        });
+    </script>
+
+
+</body>
+</html>

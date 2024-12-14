@@ -19,6 +19,7 @@ $routes = [
     'logout' => 'frontend_stuff/private_pages/logout.php',
     'viewTimeRequest' => 'frontend_stuff/private_pages/viewTimeRequest.php',
     'makeTimeRequest' => 'frontend_stuff/private_pages/makeTimeRequest.php',
+    'viewPoll' => 'frontend_stuff/private_pages/viewPoll.php',
 
     //secret pages
     'booking' => 'frontend_stuff/public_pages/booking.php',
