@@ -42,6 +42,13 @@
             background-color: #ed1b2f;
         }
 
+        /* Upcoming events */
+        .upcoming-container {
+            float: right;
+            width: 80%;
+            padding: 15px 25px 15px 0px;
+        }
+
         /* Export button */
         #export-btn {
             width: auto;
@@ -112,6 +119,9 @@
             padding: 15px 20px;
             text-align: left;
             color: #424242;
+        }
+        .upcoming-list th {
+            color: black;
         }
         /* first column */
         .upcoming-list tr > td:first-child { 
@@ -197,9 +207,58 @@
             border-collapse: collapse;
         }
 
+        .event-details-table tr > td:nth-child(2){
+            padding-left: 15px;
+        }
+
         .popup-buttons {
             float: right;
         }
+
+        /* for mobile phone */
+        @media screen and (max-width: 743px) {
+            .sidenav-container {
+                width: 100%;
+                padding-right: 25px;
+            }
+            .upcoming-container {
+                width: 100%;
+                padding-left: 25px;
+            }
+            /* hide location & host columns */
+            .upcoming-list tr > td:nth-child(3),
+            .upcoming-list tr > th:nth-child(3),
+            .upcoming-list tr > td:nth-child(4),
+            .upcoming-list tr > th:nth-child(4) { 
+                display: none;
+            }
+            .event-details-popup-content{
+                width: 80%;
+                margin-top: 20vw;
+            }
+        }
+
+        /* for tablets */
+        @media screen and (min-width: 743px) and (max-width: 1212px) {
+            .sidenav-container {
+                width: 30%;
+                padding-right: 25px;
+            }
+            .upcoming-container {
+                width: 70%;
+                padding-left: 25px;
+            }
+            /* hide location & host columns */
+            .upcoming-list tr > td:nth-child(4),
+            .upcoming-list tr > th:nth-child(4) { 
+                display: none;
+            }
+            .event-details-popup-content{
+                width: 80%;
+                margin-top: 15vw;
+            }
+        }
+
     </style>
 </head>
 <body>
@@ -244,7 +303,7 @@
                 </div>
             </div>
             <!-- Upcoming -->
-            <div id="upcoming" style="float:right; width:80%; padding: 15px 25px 15px 0px">
+            <div class="upcoming-container">
                 <div>
                     <h2 style="display:inline-block">Upcoming Events</h2>&ensp;
                     <!-- Right side buttons -->
@@ -272,13 +331,6 @@
                 </div>
                 <!-- All Events My Created Events -->
                 <table class="upcoming-list" id="upcoming-list" style="border: none; width:100%">
-                    <colgroup>
-                        <col style="width: 23%;">
-                        <col style="width: 18%;">
-                        <col style="width: 19%;">
-                        <col style="width: 17%;">
-                        <col style="width: 23%;">
-                      </colgroup>
                     <tr>
                         <th>Event Name</th>
                         <th>Date</th>
@@ -286,70 +338,9 @@
                         <th>Location</th>
                         <th></th>
                     </tr>
-                    <!-- YOU MUST DELETE THIS AFTER -->
-                    <tr>
-                        <td>COMP 307 Office Hours</td>
-                        <td>2024-12-20, 11:08:00 - 2024-12-20, 22:23:00</td>
-                        <td>Josephy Vybihal</td>
-                        <td>McConnell 321</td>
-                        <td>                        
-                            <button class="secondary list-view-btn" onclick="showDetailsPopup('event-details-popup')">Details</button>
-                            <div id="event-details-popup" class="event-details-popup">
-                                <div class="event-details-popup-content">
-                                    <span class="close" onclick="closeDetailsPopup('event-details-popup')">&times;</span>
-                                    <h1>${event.eventName}</h1>
-                                    <h3>${event.eventDate}</h3>
-                                    <table class="event-details-table" style="width:50%">
-                                        <colgroup>
-                                            <col style="width: 35%;">
-                                            <col style="width: 65%;">
-                                            </colgroup>
-                                        <tr>
-                                            <td>Booked by</td>
-                                            <td>${event.bookerEmail}</td>
-                                        </tr>
-                                        <tr>
-                                            <td>Location</td>
-                                            <td>${event.eventLocation}</td>
-                                        </tr>
-                                        <tr>
-                                            <td>Notes</td>
-                                            <td>${event.eventNotes}</td>
-                                        </tr>
-                                        <tr>
-                                            <td>Event URL</td>
-                                            <td>${event.eventURL}</td>
-                                        </tr>
-                                    </table>   
-                                </div>
-                            </div>
-                            <button class="secondary list-view-btn" onclick="showCancelPopup('${eventCancelPopupID}')" >Cancel</button>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>COMP 307 Office Hours</td>
-                        <td>2024-12-20, 11:08:00 - 2024-12-20, 22:23:00</td>
-                        <td>Josephy Vybihal</td>
-                        <td>McConnell 321</td>
-                        <td>                        
-                            <button class="secondary list-view-btn" onclick="showDetailsPopup('${eventDetailsPopupID}')">Details</button>
-                            <button class="secondary list-view-btn" onclick="showCancelPopup('${eventCancelPopupID}')" >Cancel</button>
-                        </td>
-                    </tr>
-
-
-
-
                 </table>
                 <!-- Bookings (aka hosted by others) --> 
                 <table class="upcoming-list" id="upcoming-list-bookings" style="display:none; border: none; width:100%">
-                    <colgroup>
-                        <col style="width: 23%;">
-                        <col style="width: 18%;">
-                        <col style="width: 19%;">
-                        <col style="width: 17%;">
-                        <col style="width: 23%;">
-                        </colgroup>
                     <tr>
                         <th>Event Name</th>
                         <th>Date</th>
@@ -360,13 +351,6 @@
                 </table>
                 <!-- Your Events (aka hosted by you that are booked by others) --> 
                 <table class="upcoming-list" id="upcoming-list-events" style="display:none; border: none; width:100%">
-                    <colgroup>
-                        <col style="width: 23%;">
-                        <col style="width: 18%;">
-                        <col style="width: 19%;">
-                        <col style="width: 17%;">
-                        <col style="width: 23%;">
-                        </colgroup>
                     <tr>
                         <th>Event Name</th>
                         <th>Date</th>
@@ -598,7 +582,7 @@
                                     </tr>
                                 </table>  
                                 <div style="text-align: center; margin-top: 20px;">
-                                <button class="primary" onclick="cancelBooking(${event.eventID})">Confirm Cancellation</button>
+                                <button class="primary" onclick="cancelBooking(${event.eventID})" style="float:right">Confirm Cancellation</button>
                             </div>   
                             </div>
                         </div>
@@ -728,7 +712,7 @@
                                     </tr>
                                 </table>  
                                 <div style="text-align: center; margin-top: 20px;">
-                                <button class="primary" onclick="cancelBooking(${event.eventID})">Confirm Cancellation</button>
+                                <button class="primary" onclick="cancelBooking(${event.eventID})" style="float:right">Confirm Cancellation</button>
                             </div>   
                             </div>
                         </div>
