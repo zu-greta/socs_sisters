@@ -7,7 +7,7 @@
     <link rel="stylesheet" href="./frontend_stuff/general_style.css">
     <style>
         /* Side Navigation Bar */
-        .sidenav {
+        .sidenav-container {
             width: 14%;
             float: left;
             z-index: 1;
@@ -15,17 +15,24 @@
             left: 10px;
             padding: 15px 0px 15px 25px;
         }
+        .sidenav {
+            border: solid 3px #ebebeb;
+            border-radius: 5px;
+        }
         .sidenav a {
             margin-top: -1px;
             margin-bottom: -1px;
-            padding: 8px 8px 8px 16px;
+            padding: 10px 30px 10px 20px;
             text-decoration: none;
             display: block;
             color: black;
-            border: 1px solid #424242; 
+            border-radius: 5px;
+            margin: 7px;
+            transition: background-color 0.2s ease;
         }
         .sidenav a:hover {
             background-color: #ebebeb;
+            color: #ed1b2f;
         }
         .sidenav a.active {
             background-color: #ae0e1d;
@@ -43,6 +50,41 @@
             border-radius: 5px;
         }
 
+        .preferences-container  {
+            float: right; 
+            width: 80%; 
+            padding: 15px 25px 15px 0px;
+        }
+
+        .contact-information {
+            max-width: 600px;
+        }
+
+        .contact-information div {
+            padding: 10px 20px;
+            border-bottom: 1px solid #ebebeb;
+            border-radius: 5px;
+        }
+
+        .contact-information div:last-child {
+            border-bottom: none;
+        }
+
+        .contact-information div:hover {
+            background-color: #ebebeba8;
+            transition: background-color 0.2s ease;
+        }
+
+        .contact-information p {
+            font-size: 14px;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+
+        .contact-information span {
+            color: #424242;
+        }
+
         /* change password popup */
         .change-firstname-popup,
         .change-lastname-popup,
@@ -56,7 +98,7 @@
             height: 100%;
             overflow: auto;
             background-color: rgba(0, 0, 0, 0.5); 
-            }
+        }
 
         /* popup content */
         .change-firstname-popup-content,
@@ -122,6 +164,47 @@
             overflow: hidden;
         } 
 
+        /* responsive */
+        @media screen and (max-width: 743px) {
+            .sidenav-container {
+                width: 100%;
+                padding-right: 25px;
+            }
+            .preferences-container {
+                width: 100%;
+                padding-left: 25px;
+            }
+            .contact-information {
+                max-width: 100%;
+            }
+            .change-password-popup-content,
+            .change-lastname-popup-content,
+            .change-firstname-popup-content {
+                width: 80%;
+                margin-top: 20vw;
+            }
+        }
+        /* @media screen and (min-width: 775px) and (max-width: 1269px) { */
+        @media screen and (min-width: 743px) and (max-width: 1212px) {
+        .sidenav-container {
+                width: 30%;
+                padding-right: 25px;
+            }
+            .preferences-container {
+                width: 70%;
+                padding-left: 25px;
+            }
+            .contact-information {
+                max-width: 100%;
+            }
+            .change-password-popup-content,
+            .change-lastname-popup-content,
+            .change-firstname-popup-content {
+                width: 80%;
+                margin-top: 15vw;
+            }
+        }
+
 
     </style>
 </head>
@@ -156,28 +239,39 @@
         <!-- Page content -->
         <div id="main-container">
             <!-- Sidebar -->
-            <div class="sidenav">
+            <div class="sidenav-container">
                 <h2>My Account</h2>
-                <a href="dashboard">Upcoming</a>
-                <a href="history">History</a>
-                <a href="#" class="active">Preferences</a>
-                <a href="viewTimeRequest">Time Requests</a>
+                <div class="sidenav">
+                    <a href="dashboard">Upcoming</a>
+                    <a href="history">History</a>
+                    <a href="#" class="active">Preferences</a>
+                    <a href="viewTimeRequest">Time Requests</a>
+                    <a href="viewPoll">Polls</a>
+                </div>
             </div>
             <!-- Preferences -->
-            <div style="float:right; width:80%; padding: 15px 25px 15px 0px">
-                <!--display the current account info--> <!--TODO MAKE THIS LOOK NICER PLZ-->
+            <div class="preferences-container">
+                <!--display the current account info-->
                 <h2>Account Preferences</h2>
                 <h4>Contact Information</h4>
-                <p style="font-weight: bold;">Email: <span id="email" style="font-weight: lighter;"></span></p>
-                <p style="font-weight: bold;">First Name: <span id="firstname" style="font-weight: lighter;"></span></p>
-                <p style="font-weight: bold;">Last Name: <span id="lastname" style="font-weight: lighter;"></span></p>
+                <div class="contact-information">
+                    <div>
+                        <p>Email</p>
+                        <span id="email"></span>
+                    </div>
+                    <div>
+                        <p>First Name</p>
+                        <span id="firstname"></span>
+                    </div>
+                    <div>
+                        <p>Last Name</p>
+                        <span id="lastname"></span>
+                    </div>
+                </div>
+                </br>
                 <!--button to change the name-->
-            </br>
-                <button type="button" class="primary" onclick="showChangeFirstnamePopup()">Mofidy name</button>
-            </br>
-                
-            </br>
-                <button type="button" class="primary" onclick="showChangePasswordPopup()">Change password</button>
+                <button type="button" class="primary" onclick="showChangeFirstnamePopup()">Change Name</button>
+                <button type="button" class="primary" onclick="showChangePasswordPopup()">Change Password</button>
                 <!-- change password popup -->
                 <div id="change-password-popup" class="change-password-popup">
                     <div class="change-password-popup-content">
@@ -189,12 +283,11 @@
                                 <input type="text" name="new-password"></label>
                             <label for="reenter-new-password">Re-Enter New Password
                                 <input type="text" name="reenter-new-password"></label>
-                            <button type="submit" class="primary">Save password</button>
+                            <button type="submit" class="primary">Save Password</button>
                         </form>
                     </div>
                 </div>
-    </br>
-</br>
+                </br></br>
                 <form id="preferences">
                     <!-- change lastname popup DONT DELETE THIS YET -->
                     <div id="change-lastname-popup" class="change-lastname-popup">
@@ -203,7 +296,7 @@
                             <form id="change-lastname" method="POST" action="./database_stuff/lnamechange.php">
                                 <label for="lname">New Last Name
                                     <input type="text" name="lname"></label>
-                                <button type="submit" class="primary">Save change</button>
+                                <button type="submit" class="primary">Save Name</button>
                             </form>
                         </div>
                     </div>
@@ -216,7 +309,7 @@
                                     <input type="text" id="fn" name="fn"></label>
                                 <label for="ln">New Last Name
                                     <input type="text" id="ln" name="ln"></label>
-                                <button type="submit" class="primary">Save change</button>
+                                <button type="submit" class="primary">Save Name</button>
                             </form>
                         </div>
                     </div>
