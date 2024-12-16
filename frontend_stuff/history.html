@@ -8,7 +8,7 @@
 
     <style>
         /* Side Navigation Bar */
-        .sidenav {
+        .sidenav-container {
             width: 14%;
             float: left;
             z-index: 1;
@@ -16,17 +16,24 @@
             left: 10px;
             padding: 15px 0px 15px 25px;
         }
+        .sidenav {
+            border: solid 3px #ebebeb;
+            border-radius: 5px;
+        }
         .sidenav a {
             margin-top: -1px;
             margin-bottom: -1px;
-            padding: 8px 8px 8px 16px;
+            padding: 10px 30px 10px 20px;
             text-decoration: none;
             display: block;
             color: black;
-            border: 1px solid #424242; 
+            border-radius: 5px;
+            margin: 7px;
+            transition: background-color 0.2s ease;
         }
         .sidenav a:hover {
             background-color: #ebebeb;
+            color: #ed1b2f;
         }
         .sidenav a.active {
             background-color: #ae0e1d;
@@ -35,79 +42,186 @@
         .sidenav a.active:hover{
             background-color: #ed1b2f;
         }
-        /* Table */
-        .history-table, 
-        .history-table th, 
-        .history-table td {
-            border: 1px solid #424242;
-            border-collapse: collapse;
-            padding: 8px 16px;
+
+        /* History */
+        .history-container {
+            float: right;
+            width: 80%;
+            padding: 15px 25px 15px 0px;
+        }
+
+        /* dropdown */
+        .dropdown {
+            position: relative;
+            display: inline-block;
+        }
+        .dropdown-content {
+            display: none;
+            border-radius: 5px;
+            margin-top: 5px;
+            position: absolute;
+            background-color: white;
+            min-width: 200px;
+            overflow: auto;
+            box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+            z-index: 1;
+            padding: 5px;
+            transition: background-color 0.2s ease;
+        }
+        .dropdown-content.show {
+            display: block;
+        }
+        .dropdown-content button {
+            width: 100%;
+            display: block;
+            border: none;
+            color: #424242;
+            background-color: transparent;
             text-align: left;
+        }
+        .dropdown button:hover {
+            background-color: #ddd;
+            color: #ed1b2f;
+        }
+
+        /* history list */
+        .history-list, 
+        .history-list th, 
+        .history-list td {
+            border-collapse: collapse;
+            padding: 15px 20px;
+            text-align: left;
+            color: #424242;
+        }
+        /* first column */
+        .history-list tr > td:first-child { 
+            font-weight: bold;
+        } 
+        /* last row */
+        .history-list tr:last-child { 
+            border-bottom: none;
+        } 
+        .history-list tr {
+            border-bottom: 1px solid #ebebeb;
+            border-radius: 5px;
+        }
+        .history-list tr:hover{
+            background-color: #ebebeba8;
+            border-radius: 5px;
+            transition: background-color 0.2s ease;
+        }
+        .history-list td {
+            vertical-align: top;
         }
 
         /* table buttons */
-        #details-btn {
+        .list-view-btn {
             margin: 3px 0px;
-            padding: 6px;
+            padding: 6px 12px;
             font-size: 13px;
         }
 
         /* for popup */
         .event-details-popup {
-        display: none;
-        position: fixed;
-        z-index: 1000;
-        left: 0;
-        top: 0;
-        width: 100%;
-        height: 100%;
-        overflow: auto;
-        background-color: rgba(0, 0, 0, 0.5); 
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgba(0, 0, 0, 0.5); 
         }
 
         /* popup content */
         .event-details-popup-content{
-        background-color: white;
-        margin: 10% auto;
-        padding: 40px 60px 100px 60px;
-        border: 1px solid #888;
-        width: 50%;
-        max-width: 800px;
-        position: relative;
-        border-radius: 5px;
-
+            background-color: white;
+            margin: 10% auto;
+            padding: 40px 60px 100px 60px;
+            border: 1px solid #888;
+            width: 50%;
+            max-width: 800px;
+            position: relative;
+            border-radius: 5px;
         }
 
         /* close button */
         .close {
-        position: absolute;
-        top: 0px;
-        right: 20px;
-        color: black;
-        font-size: 50px;
-        /* font-weight: bold; */
-        cursor: pointer;
-        z-index: 1002;
+            position: absolute;
+            top: 0px;
+            right: 20px;
+            color: black;
+            font-size: 50px;
+            cursor: pointer;
+            z-index: 1002;
         }
 
         .close:hover, .close:focus {
-        color: #424242;
-        text-decoration: none;
-        cursor: pointer;
+            color: #424242;
+            text-decoration: none;
+            cursor: pointer;
+        }
+
+        /* event details popup information */
+        .event-details-popup-content h3 {
+            margin-bottom: 25px;
         }
 
         .event-details-table, 
+        .event-details-table tr,
         .event-details-table td {
-        padding: 7px 0px;
-        font-size: 17px;
-        border: none;
-        border-collapse: collapse;
+            padding: 7px 0px;
+            font-size: 17px;
+            border: none;
+            border-collapse: collapse;
         }
 
-        .popup-buttons {
-        float: right;
+        .event-details-table tr > td:nth-child(2){
+            padding-left: 15px;
         }
 
+        /* responsive */
+        @media screen and (max-width: 743px) {
+            .sidenav-container {
+                width: 100%;
+                padding-right: 25px;
+            }
+            .history-container {
+                width: 100%;
+                padding-left: 25px;
+            }
+            /* hide location & host columns */
+            .history-list tr > td:nth-child(3),
+            .history-list tr > th:nth-child(3),
+            .history-list tr > td:nth-child(4),
+            .history-list tr > th:nth-child(4) { 
+                display: none;
+            }
+            .event-details-popup-content{
+                width: 80%;
+                margin-top: 20vw;
+            }
+        }
+        @media screen and (min-width: 743px) and (max-width: 1212px) {
+            .sidenav-container {
+                width: 30%;
+                padding-right: 25px;
+            }
+            .history-container {
+                width: 70%;
+                padding-left: 25px;
+            }
+            /* hide host column */
+            .history-list tr > td:nth-child(4),
+            .history-list tr > th:nth-child(4) { 
+                display: none;
+            }
+            .event-details-popup-content{
+                width: 80%;
+                margin-top: 15vw;
+            }
+        }
 
     </style>
 
@@ -143,24 +257,31 @@
         <!-- Page content -->
         <div id="main-container">
             <!-- Sidebar -->
-            <div class="sidenav">
+            <div class="sidenav-container">
                 <h2>My Account</h2>
-                <a href="dashboard">Upcoming</a>
-                <a href="#" class="active">History</a>
-                <a href="preferences">Preferences</a>
+                <div class="sidenav">
+                    <a href="dashboard">Upcoming</a>
+                    <a href="#" class="active">History</a>
+                    <a href="preferences">Preferences</a>
+                    <a href="viewTimeRequest">Time Requests</a>
+                    <a href="viewPoll">Polls</a>
+                </div>
             </div>
             <!-- History -->
-            <div id="history" style="float:right; width:80%; padding: 15px 25px 15px 0px">
-                <h2 style="display:inline-block">Past Bookings by me</h2>
-                <!-- <button class="subscribe-btn">Subscribe to your calendar</button> -->
-                <table class="history-table" id="history-table" style="width:100%">
-                    <colgroup>
-                        <col style="width: 27%;">
-                        <col style="width: 23%;">
-                        <col style="width: 21%;">
-                        <col style="width: 20%;">
-                        <col style="width: 9%;">
-                      </colgroup>
+            <div class="history-container" id="history">
+                <div>
+                    <h2 style="display:inline-block">Past Bookings</h2>
+                </div>
+                <!-- Filter Event Dropdown -->
+                <div class="dropdown" style="margin-bottom: 15px">
+                    <button onclick="showViewDropdown()" class="secondary dropdown-btn" id="filter-events-btn">&#9013;&ensp;Hosted By You</button>
+                    <div id="filter-events-dropdown" class="dropdown-content">
+                        <button onclick="toggleTable('history-list', 'Hosted By You')">Hosted By You</button>
+                        <button onclick="toggleTable('history-list-others', 'Hosted By Others')">Hosted By Others</button>
+                    </div>
+                </div>
+                <!-- Hosted by you -->
+                <table class="history-list" id="history-list" style="width:100%">
                     <tr>
                         <th>Event Name</th>
                         <th>Date</th>
@@ -169,18 +290,8 @@
                         <th></th>
                     </tr>
                 </table>
-            </div>
-            <div id="history-others" style="float:right; width:80%; padding: 15px 25px 15px 0px">
-                <h2 style="display:inline-block">Past Bookings by others</h2>
-                <!-- <button class="subscribe-btn">Subscribe to your calendar</button> -->
-                <table class="history-table" id="history-table-others" style="width:100%">
-                    <colgroup>
-                        <col style="width: 27%;">
-                        <col style="width: 23%;">
-                        <col style="width: 21%;">
-                        <col style="width: 20%;">
-                        <col style="width: 9%;">
-                      </colgroup>
+                <!-- Hosted by others -->
+                <table class="history-list" id="history-list-others" style="display:none; width:100%">
                     <tr>
                         <th>Event Name</th>
                         <th>Date</th>
@@ -189,7 +300,6 @@
                         <th></th>
                     </tr>
                 </table>
-            </div>
         </div>
     </div>
 
@@ -202,6 +312,23 @@
         function closeDetailsPopup(id){
             document.getElementById(id).style.display = 'none';
         }
+
+        function showViewDropdown() {
+            document.getElementById("filter-events-dropdown").classList.toggle("show");
+        }
+
+        window.onclick = function(event) {
+            if (!event.target.matches('.dropdown-btn')) {
+                const dropdowns = document.getElementsByClassName("dropdown-content");
+                for (let i = 0; i < dropdowns.length; i++) {
+                    const openDropdown = dropdowns[i];
+                    if (openDropdown.classList.contains('show')) {
+                        openDropdown.classList.remove('show');
+                    }
+                }
+            }
+        };
+
     </script>
     <script>
         //populate the upcoming table others
@@ -210,7 +337,7 @@
             .then(response => response.json())
             .then(data => {
                 if (data.success) {
-                    const upcomingTable = document.getElementById("history-table-others");
+                    const upcomingTable = document.getElementById("history-list-others");
                     const pastEventsOthers = data.bookedPastEvents;
 
                     //populate the table
@@ -230,7 +357,7 @@
                         // add event action buttons to each entry
                         let eventDetailsPopupID = `event-details-popup-${event.eventID}`;
                         tableButtonsCell.innerHTML = `
-                            <button class="secondary" onclick="showDetailsPopup('${eventDetailsPopupID}')">Details</button>
+                            <button class="secondary list-view-btn" onclick="showDetailsPopup('${eventDetailsPopupID}')">Details</button>
                             <div id="event-details-popup-${event.eventID}" class="event-details-popup">
                                 <div class="event-details-popup-content">
                                     <span class="close" onclick="closeDetailsPopup('${eventDetailsPopupID}')">&times;</span>
@@ -277,7 +404,7 @@
             .then(response => response.json())
             .then(data => {
                 if (data.success) {
-                    const upcomingTable = document.getElementById("history-table");
+                    const upcomingTable = document.getElementById("history-list");
                     const pastEvents = data.pastEvents;
 
                     //populate the table
@@ -297,7 +424,7 @@
                         // add event action buttons to each entry
                         let eventDetailsPopupID = `event-details-popup-${event.eventID}`;
                         tableButtonsCell.innerHTML = `
-                            <button class="secondary" onclick="showDetailsPopup('${eventDetailsPopupID}')">Details</button>
+                            <button class="secondary list-view-btn" onclick="showDetailsPopup('${eventDetailsPopupID}')">Details</button>
                             <div id="event-details-popup-${event.eventID}" class="event-details-popup">
                                 <div class="event-details-popup-content">
                                     <span class="close" onclick="closeDetailsPopup('${eventDetailsPopupID}')">&times;</span>
@@ -338,8 +465,8 @@
         })
     </script>
     <script>
-    // populate that table
-    let historyTable = document.getElementById("history-table");
+    // populate table with dummy values
+    let historyTable = document.getElementById("history-list");
     for(let i = 0; i < 5; i++){
         let newRow = historyTable.insertRow(-1);
         let eventNameCell = newRow.insertCell(0);
@@ -364,7 +491,7 @@
         // add event buttons to each entry
         let eventDetailsPopupID = `event-details-popup-${i}`;
         tableButtonsCell.innerHTML = `
-            <button class="secondary" id="details-btn" onclick="showDetailsPopup('${eventDetailsPopupID}')">Details</button>
+            <button class="secondary list-view-btn" id="details-btn" onclick="showDetailsPopup('${eventDetailsPopupID}')">Details</button>
             <!-- Event Details Popup -->
             <div id="event-details-popup-${i}" class="event-details-popup">
                 <div class="event-details-popup-content">
@@ -417,6 +544,20 @@
                 alert("An error occurred while fetching. Please try again later.");
             });
         });
+    </script>
+    <script>
+        function toggleTable(tableID, buttonText) {
+            const tables = document.querySelectorAll('.history-list');
+            tables.forEach(table => {
+                if (table.id === tableID) {
+                    table.style.display = 'table';
+                    const dropdownButton = document.getElementById('filter-events-btn');
+                    dropdownButton.innerHTML = `&#9013; ${buttonText}`;
+                } else {
+                    table.style.display = 'none';
+                }
+            });
+        }
     </script>
 
 
