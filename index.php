@@ -19,10 +19,11 @@ $routes = [
     'logout' => 'frontend_stuff/private_pages/logout.php',
     'viewTimeRequest' => 'frontend_stuff/private_pages/viewTimeRequest.php',
     'makeTimeRequest' => 'frontend_stuff/private_pages/makeTimeRequest.php',
+    'viewPoll' => 'frontend_stuff/private_pages/viewPoll.php',
 
     //secret pages
     'booking' => 'frontend_stuff/public_pages/booking.php',
-    'resultPoll' => 'frontend_stuff/public_pages/resultPoll.php',
+    'polling' => 'frontend_stuff/public_pages/polling.php',
 
     //TODO: check
 ];
@@ -43,9 +44,7 @@ if (!array_key_exists($route, $routes)) {
 
 // helper functions for auth
 function loggedIn() {
-    //PLACEHOLDER TO BE FIXED
-    //$_SESSION['user_id'] = 1;
-    return isset($_SESSION['user_id']);
+    return isset($_COOKIE['auth_key']);
 }
 
 function requireLogin() {

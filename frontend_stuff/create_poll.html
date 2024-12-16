@@ -154,9 +154,9 @@
     
             dateInput.value = ""; // Reset the date picker
             timeInput.value = ""; // Reset the time picker
-            lengthInput.value = "15"; // Reset the meeting length
+            // lengthInput.value = "15"; // Reset the meeting length
         }
-    
+
         function copyToClipboard() {
             const pollURLField = document.getElementById('poll-url');
             navigator.clipboard.writeText(pollURLField.innerText).then(() => {
@@ -164,7 +164,72 @@
             });
         }
 
+        function generatePollURL() {
+    if (availableSlots.length === 0) {
+        alert("Please add at least one date and time slot before generating the poll URL.");
+        return;
+    }
+
+    const pollTitle = document.getElementById('poll-title').value;
+
+    if (!pollTitle) {
+        alert("Please provide a title for the poll.");
+        return;
+    }
+
+    // Function to generate random bytes
+    function generateRandomBytes(length) {
+        const array = new Uint8Array(length);
+        window.crypto.getRandomValues(array);
+        return array;
+    }
+
+    // Function to convert bytes to hexadecimal
+    function bytesToHex(bytes) {
+        return Array.from(bytes, byte => byte.toString(16).padStart(2, '0')).join('');
+    }
+
+    const token = generateRandomBytes(16);
+    const tokenHex = bytesToHex(token);
+    const pollURL = "http://cs.mcgill.ca/~gzu/socs_sisters/polling?token=" + tokenHex; //small typo fix!
+
+    // Display the poll URL
+    document.getElementById('poll-url').innerText = pollURL;
+    document.getElementById('poll-result').classList.remove('hidden');
+
+    fetch('./database_stuff/create_poll.php', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({
+        token: token,
+        title: pollTitle,
+        url: pollURL,
+        slots: availableSlots
+    })
+})
+    .then(response => {
+        console.log('Response:', response);
+        if (!response.ok) {
+            throw new Error(`HTTP error! Status: ${response.status}`);
+        }
+        return response.json();
+    })
+    .then(data => {
+        console.log('Data:', data);
+        if (data.success) {
+            alert("Poll saved successfully!");
+        } else {
+            alert(data.error || "Failed to save the poll.");
+        }
+    })
+    .catch(error => {
+        console.error('Error:', error);
+        alert('An error occurred while saving the poll.');
+    });
+
+}
+
     </script>
-    <script src="js/create_poll.js"></script>
+
 </body>
 </html>

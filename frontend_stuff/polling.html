@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Poll Voting</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 20px;
+      text-align: center;
+      background-color: #f4f4f9;
+    }
+
+    .container {
+      max-width: 600px;
+      margin: 0 auto;
+      background-color: #fff;
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    }
+
+    h1, h2 {
+      color: #333;
+    }
+
+    .poll-options button {
+      margin: 10px 0;
+      padding: 10px;
+      width: 100%;
+      font-size: 16px;
+      background-color: #007BFF;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      transition: background-color 0.3s, transform 0.2s;
+    }
+
+    .poll-options button:hover {
+      background-color: #0056b3;
+      transform: scale(1.05);
+    }
+
+    .poll-chart {
+      margin-top: 20px;
+      text-align: left;
+    }
+
+    .poll-chart .bar-container {
+      margin: 10px 0;
+    }
+
+    .poll-chart .label {
+      font-weight: bold;
+      margin-bottom: 5px;
+    }
+
+    .poll-chart .bar {
+      background: linear-gradient(90deg, #007BFF, #0056b3);
+      height: 30px;
+      border-radius: 5px;
+      text-align: center;
+      color: white;
+      line-height: 30px;
+      font-size: 14px;
+      transition: width 0.5s ease-in-out;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Poll Voting</h1>
+    <div id="poll-container">
+      <!-- Poll options or results will be dynamically inserted here -->
+    </div>
+  </div>
+
+  <script>
+    let pollData = {}; // Will hold the poll data from the backend
+    let hasVoted = false; // Track if the user has already voted
+
+    // Fetch poll data from the backend
+    const urlParams = new URLSearchParams(window.location.search);
+    const pollId = urlParams.get('poll_id');
+    const event_name = urlParams.get('eventName');
+    const event_location = urlParams.get('eventLocation');
+
+    console.log("Poll ID:", pollId);
+
+    async function fetchPollData() {
+
+      try {
+        const response = await fetch(`./database_stuff/poll_info.php?poll_id=${pollId}`);
+        const data = await response.json();
+
+        if (data.success) {
+          pollData = {
+            pollTitle: data.poll.event_name,
+            eventLocation: data.poll.event_location, // Include event location
+            options: data.options.map(option => ({
+              id: option.option_id,
+              label: `${option.start_date} (${option.start_time} - ${option.end_time})`,
+              votes: option.vote_count,
+            })),
+          };
+          initPoll();
+        } else {
+          document.getElementById("poll-container").innerHTML = `<p>Error: ${data.error}</p>`;
+          console.error(data.error);
+        }
+      } catch (error) {
+        document.getElementById("poll-container").innerHTML = `<p>Error fetching poll data.</p>`;
+        console.error("Fetch error:", error);
+      }
+    }
+
+    function initPoll() {
+      const pollContainer = document.getElementById("poll-container");
+
+      // Add poll title
+      const title = document.createElement("h2");
+      title.textContent = pollData.pollTitle;
+      pollContainer.appendChild(title);
+
+      // Add poll location
+      const location = document.createElement("p");
+      location.textContent = `Location: ${event_location}`;
+      location.style.fontStyle = "italic"; // Optional: style the location text
+      pollContainer.appendChild(location);
+
+      // Add poll options as buttons
+      const optionsDiv = document.createElement("div");
+      optionsDiv.className = "poll-options";
+
+      pollData.options.forEach(option => {
+        const button = document.createElement("button");
+        button.textContent = option.label;
+        button.onclick = () => vote(option.id);
+        optionsDiv.appendChild(button);
+      });
+
+      pollContainer.appendChild(optionsDiv);
+    }
+
+    function vote(optionId) {
+      if (hasVoted) return;
+
+      hasVoted = true;
+
+      const selectedOption = pollData.options.find(option => option.id === optionId);
+      if (selectedOption) {
+        selectedOption.votes++;
+      }
+
+      submitPoll(optionId);
+      showResults();
+    }
+
+    function showResults() {
+      const pollContainer = document.getElementById("poll-container");
+      pollContainer.innerHTML = "";
+
+      const resultsDiv = document.createElement("div");
+      resultsDiv.className = "poll-chart";
+
+      pollData.options.forEach(option => {
+        const barContainer = document.createElement("div");
+        barContainer.className = "bar-container";
+
+        const label = document.createElement("div");
+        label.className = "label";
+        label.textContent = `${option.label} (${option.votes} votes)`;
+        barContainer.appendChild(label);
+
+        const bar = document.createElement("div");
+        bar.className = "bar";
+        bar.style.width = `${option.votes * 10}px`;
+        bar.textContent = option.votes;
+        barContainer.appendChild(bar);
+
+        resultsDiv.appendChild(barContainer);
+      });
+
+      pollContainer.appendChild(resultsDiv);
+    }
+
+    async function submitPoll(optionId) {
+      try {
+        const response = await fetch('./database_stuff/submit_poll.php', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({ poll_id: pollId, option_id: optionId }),
+        });
+
+        const data = await response.json();
+
+        if (data.success) {
+          alert(data.message);
+          console.log('Updated Options:', data.options);
+          showResults(data.options);
+        } else {
+          alert(`Error: ${data.error}`);
+        }
+      } catch (error) {
+        console.error('Error submitting poll:', error);
+        alert('An error occurred while submitting your vote.');
+      }
+    }
+
+    fetchPollData();
+  </script>
+</body>
+</html>

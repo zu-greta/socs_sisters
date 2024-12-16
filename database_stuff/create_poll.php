@@ -1,66 +1,77 @@
 <?php
+session_start();
+
 header('Content-Type: application/json');
 
-
-
 try {
-    $database = new PDO('sqlite:ssDB.sq3');
-    $database->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-} catch (PDOException $e) {
-    echo json_encode(['status' => 'error', 'message' => 'Database connection failed']);
-    exit;
-}
+    // Check user authentication
+    if (!isset($_SESSION['user_id'])) {
+        throw new Exception('User not authenticated.');
+    }
+    $creatorId = $_SESSION['user_id'];
 
-// Input data from the frontend
-$data = json_decode(file_get_contents('php://input'), true);
-$pollTitle = $data['pollTitle'] ?? null;
-$availableSlots = $data['availableSlots'] ?? null;
+    // Get JSON input
+    $input = json_decode(file_get_contents('php://input'), true);
 
-if (!$pollTitle || !$availableSlots || !is_array($availableSlots)) {
-    echo json_encode(['status' => 'error', 'message' => 'Invalid input data']);
-    exit;
-}
+    // Validate input
+    $pollTitle = $input['title'] ?? '';
+    $pollURL = $input['url'] ?? '';
+    $slots = $input['slots'] ?? [];
+    $token = parse_url($pollURL, PHP_URL_QUERY);
+    $token = str_replace('token=', '', $token);
 
-// Hardcoded creator_id for now
-$creatorId = 1;
 
-try {
-    // Start a transaction
-    $database->beginTransaction();
-
-    // Insert into MeetingPolls table
-    $pollURL = 'https://example.com/poll/' . uniqid();
-    $stmt = $database->prepare("INSERT INTO MeetingPolls (creator_id, event_name, url) VALUES (:creator_id, :event_name, :url)");
-    $stmt->execute([
-        ':creator_id' => $creatorId,
-        ':event_name' => $pollTitle,
-        ':url' => $pollURL
-    ]);
-
-    // Get the last inserted poll_id
-    $pollId = $database->lastInsertId();
-
-    // Insert into PollOptions table
-    $stmt = $database->prepare("INSERT INTO PollOptions (poll_id, start_date, end_date, duration, start_time, end_time) 
-                           VALUES (:poll_id, :start_date, :end_date, :duration, :start_time, :end_time)");
-
-    foreach ($availableSlots as $slot) {
-        $stmt->execute([
-            ':poll_id' => $pollId,
-            ':start_date' => $slot['start_date'],
-            ':end_date' => $slot['end_date'],
-            ':duration' => $slot['duration'],
-            ':start_time' => $slot['start_time'],
-            ':end_time' => $slot['end_time']
-        ]);
+    if (empty($pollTitle) || empty($pollURL) || empty($slots) || empty($token)) {
+        throw new Exception('Invalid input: title, URL, slots, and token are required.');
     }
 
-    // Commit the transaction
+    // Database connection
+    $database = new PDO('sqlite:ssDB.sq3');
+    $database->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+
+    // Start transaction
+    $database->beginTransaction();
+
+    // Insert token into Tokens table
+    $stmt = $database->prepare("
+        INSERT INTO Tokens (token, creator_id, eventName, eventDuration, eventLocation)
+        VALUES (?, ?, ?, ?, ?)
+    ");
+    $stmt->execute([$token, $creatorId, $pollTitle, -1, 'TBD']);
+
+    // Insert poll into MeetingPolls
+    $stmt = $database->prepare("INSERT INTO MeetingPolls (creator_id, event_name, url) VALUES (?, ?, ?)");
+    $stmt->execute([$creatorId, $pollTitle, $pollURL]);
+    $pollId = $database->lastInsertId();
+
+    // Insert slots into PollOptions
+    $stmt = $database->prepare("
+        INSERT INTO PollOptions (poll_id, start_date, end_date, duration, start_time, end_time)
+        VALUES (?, ?, ?, ?, ?, ?)
+    ");
+
+    foreach ($slots as $slot) {
+        if (preg_match('/^(\d{4}-\d{2}-\d{2}): (\d{1,2}:\d{2} [APM]{2}) - (\d{1,2}:\d{2} [APM]{2})$/', $slot, $matches)) {
+            $startDate = $matches[1];
+            $startTime = date("H:i:s", strtotime($matches[2]));
+            $endTime = date("H:i:s", strtotime($matches[3]));
+            $endDate = $startDate; // Assuming single-day slots
+            $duration = (strtotime($endTime) - strtotime($startTime)) / 60;
+
+            $stmt->execute([$pollId, $startDate, $endDate, $duration, $startTime, $endTime]);
+        } else {
+            throw new Exception('Invalid slot format: ' . $slot);
+        }
+    }
+
+    // Commit transaction
     $database->commit();
 
-    echo json_encode(['status' => 'success', 'message' => 'Poll created successfully', 'poll_url' => $pollURL]);
+    echo json_encode(['success' => true]);
 } catch (Exception $e) {
-    $database->rollBack();
-    echo json_encode(['status' => 'error', 'message' => 'Failed to create poll: ' . $e->getMessage()]);
+    // Rollback transaction on error
+    if (isset($database) && $database->inTransaction()) {
+        $database->rollBack();
+    }
+    echo json_encode(['success' => false, 'error' => $e->getMessage()]);
 }
-?>

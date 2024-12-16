@@ -346,6 +346,7 @@
                         <th>Event Name</th>
                         <th>Date</th>
                         <th>Booked By</th>
+                        <th>Booked By</th>
                         <th>Location</th>
                         <th></th>
                     </tr>
@@ -635,6 +636,7 @@
                     eventNameCell.innerHTML = event.eventName;
                     dateCell.innerHTML = event.eventDate;
                     hostCell.innerHTML = event.bookerEmail;
+                    hostCell.innerHTML = event.bookerEmail;
                     locationCell.innerHTML = event.eventLocation;
 
                     // add event action buttons to each entry
@@ -654,6 +656,8 @@
                                         <col style="width: 65%;">
                                         </colgroup>
                                     <tr>
+                                        <td>Booked by</td>
+                                        <td>${event.bookerEmail}</td>
                                         <td>Booked by</td>
                                         <td>${event.bookerEmail}</td>
                                     </tr>

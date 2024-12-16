@@ -1,9 +1,17 @@
 <?php
 session_start();
-$userID = $_SESSION['user_id'];
+// $userID = $_SESSION['user_id'];
 try {
     $database = new PDO('sqlite:ssDB.sq3');
     $database->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+    // Get userID
+    $stmt = $database->prepare("SELECT user_id FROM Sessions WHERE session_token = ?");
+    $stmt->execute([$_COOKIE['auth_key']]);
+    $session = $stmt->fetch(PDO::FETCH_ASSOC);
+    if (!$session) {
+        header("Location: login");
+    }
+    $userID = $session['user_id'];
     // Get user details
     $stmt = $database->prepare("SELECT * FROM Users WHERE user_id = ?");
     $stmt->execute([$userID]);
@@ -52,6 +60,12 @@ $userDetails = [
 ];
 //event host is me, events that are booked by others
 foreach ($bookedEvents as $key => $event) {
+    //get the email of the one who booked the event
+    $stmt = $database->prepare("SELECT email FROM Users WHERE user_id = (SELECT booked_by_id FROM Bookings WHERE slot_id = ?)");
+    $stmt->execute([$event['slot_id']]);
+    $bookerEmail = $stmt->fetch(PDO::FETCH_ASSOC);
+    $bookerEmail = $bookerEmail['email'];
+
     $bookedEvents[$key] = [
         //give the event id too
         "eventID" => $event['slot_id'],
@@ -65,7 +79,8 @@ foreach ($bookedEvents as $key => $event) {
         "eventLocation" => $event['location'],
         "eventNotes" => $event['notes'],
         "eventURL" => $event['url'],
-        "eventHost" => $userFname . ' ' . $userLname,   
+        "eventHost" => $userFname . ' ' . $userLname,   // instead of host it should be who this event is booked by
+        "bookerEmail" => $bookerEmail,
     ];
 }
 //event host is me
@@ -133,6 +148,11 @@ if (!empty($slot_ids)) {
         $slotId = $event['slot_id'];
         $eventDetails = array_filter($results, fn($res) => $res['slot_id'] == $slotId);
 
+        //get the host information for the event using the creator_id and the User table
+        $stmt = $database->prepare("SELECT * FROM Users WHERE user_id = (SELECT creator_id FROM Events WHERE slot_id = ?)");
+        $stmt->execute([$slotId]);
+        $eventHost = $stmt->fetch(PDO::FETCH_ASSOC);
+
         if (!empty($eventDetails)) {
             $details = reset($eventDetails); // Get the matching result
             $bookedUpcomingEvents[$key] = [
@@ -147,7 +167,7 @@ if (!empty($slot_ids)) {
                 "eventLocation" => $details['location'],
                 "eventNotes" => $details['notes'],
                 "eventURL" => $details['url'],
-                "eventHost" => $details['eventHost'],
+                "eventHost" => $eventHost['fname'] . ' ' . $eventHost['lname'] . ' (' . $eventHost['email'] . ')',
             ];
         }
     }
@@ -181,6 +201,11 @@ if (!empty($slot_ids)) {
         $slotId = $event['slot_id'];
         $eventDetails = array_filter($results, fn($res) => $res['slot_id'] == $slotId);
 
+        //get the host information for the event using the creator_id and the User table
+        $stmt = $database->prepare("SELECT * FROM Users WHERE user_id = (SELECT creator_id FROM Events WHERE slot_id = ?)");
+        $stmt->execute([$slotId]);
+        $eventHost = $stmt->fetch(PDO::FETCH_ASSOC);
+
         if (!empty($eventDetails)) {
             $details = reset($eventDetails); // Get the matching result
             $bookedPastEvents[$key] = [
@@ -195,27 +220,11 @@ if (!empty($slot_ids)) {
                 "eventLocation" => $details['location'],
                 "eventNotes" => $details['notes'],
                 "eventURL" => $details['url'],
-                "eventHost" => $details['eventHost'],
+                "eventHost" => $eventHost['fname'] . ' ' . $eventHost['lname'] . ' (' . $eventHost['email'] . ')',
             ];
         }
     }
 }
-
-// Print out everything as json to debug
-// echo ('user: ');
-// echo json_encode($userDetails);
-// echo ('\n');
-// echo ('upcoming: ');
-// echo json_encode($upcomingEvents);
-// echo ('\n');
-// echo ('past: ');
-// echo json_encode($pastEvents);
-// echo ('\n');
-//  echo ('booked upcoming: ');
-// echo json_encode($bookedUpcomingEvents);
-// echo ('\n');
-// echo ('booked past: ');
-// echo json_encode($bookedPastEvents);
 
 
 $response = [

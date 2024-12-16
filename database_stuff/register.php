@@ -7,6 +7,33 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     $password = trim($_POST["password"]);
     $passwordHash = password_hash($password, PASSWORD_DEFAULT);
 
+    // validate input
+    if (empty($email) || empty($fname) || empty($lname) || empty($password)) {
+        echo "<script>
+            alert('Please fill out all fields.');
+            window.location.href = '../register';
+        </script>";
+        exit();
+    }
+    // Email validation before inserting into the database
+    if (!preg_match('/@(mcgill\.ca|mail\.mcgill\.ca)$/', $email)) {
+        echo "<script>
+            alert('Email must end with @mcgill.ca or @mail.mcgill.ca.');
+            window.location.href = '../register';
+        </script>";
+        exit();
+    }
+
+    // Password validation before inserting into the database
+    if (strlen($password) < 10 || !preg_match('/[a-zA-Z]/', $password) || !preg_match('/\d/', $password)) {
+        echo "<script>
+            alert('Password must be at most 10 characters long, contain at least one letter, and at least one number.');
+            window.location.href = '../register';
+        </script>";
+        exit();
+    }
+
+
     try {
         // Connect to the database
         $database = new PDO('sqlite:ssDB.sq3');

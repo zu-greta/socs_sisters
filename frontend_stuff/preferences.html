@@ -42,7 +42,7 @@
             background-color: #ed1b2f;
         }
 
-        [type=text] {
+        [type=text], [type=password] {
             width: 100%;
             padding: 10px;
             margin: 5px 0px 15px;
@@ -164,6 +164,7 @@
             overflow: hidden;
         } 
 
+<<<<<<< HEAD
         /* responsive */
         @media screen and (max-width: 743px) {
             .sidenav-container {
@@ -205,6 +206,13 @@
             }
         }
 
+=======
+        .checkmark {
+            color: green;
+            visibility: hidden; /* Hidden until the condition is met */
+            margin-left: 5px;
+        }
+>>>>>>> main
 
     </style>
 </head>
@@ -241,6 +249,7 @@
             <!-- Sidebar -->
             <div class="sidenav-container">
                 <h2>My Account</h2>
+<<<<<<< HEAD
                 <div class="sidenav">
                     <a href="dashboard">Upcoming</a>
                     <a href="history">History</a>
@@ -248,6 +257,13 @@
                     <a href="viewTimeRequest">Time Requests</a>
                     <a href="viewPoll">Polls</a>
                 </div>
+=======
+                <a href="dashboard">Upcoming</a>
+                <a href="history">History</a>
+                <a href="#" class="active">Preferences</a>
+                <a href="viewTimeRequest">Time Requests</a>
+                <a href="viewPoll">Polls</a>
+>>>>>>> main
             </div>
             <!-- Preferences -->
             <div class="preferences-container">
@@ -276,14 +292,31 @@
                 <div id="change-password-popup" class="change-password-popup">
                     <div class="change-password-popup-content">
                         <span class="close" onclick="closeChangePasswordPopup()">&times;</span>
-                        <form id="change-password" method="POST" action="./database_stuff/passwordchange.php">
+                        <form id="change-password" method="POST" action="./database_stuff/passwordchange.php" onsubmit="return validateForm()">
                             <label for="current-password">Current Password
-                                <input type="text" name="current-password"></label>
+                                <input type="password" name="current-password" required></label>
                             <label for="new-password">New Password
-                                <input type="text" name="new-password"></label>
+                                <input type="password" name="new-password" id ="new-password" oninput="checkPassword()" required></label>
+                                <div id="password-requirements">
+                                    <p class="subtext">&#8226; Use 10 or more characters
+                                        <span id="password-check-length" class="checkmark">&#10004;</span>
+                                    </p>
+                                    <p class="subtext">&#8226; At least one number
+                                        <span id="password-check-number" class="checkmark">&#10004;</span>
+                                    </p>
+                                    <p class="subtext">&#8226; At least one alphabetical character
+                                        <span id="password-check-alpha" class="checkmark">&#10004;</span>
+                                    </p>
+                                </div>
+                            </br>
                             <label for="reenter-new-password">Re-Enter New Password
+<<<<<<< HEAD
                                 <input type="text" name="reenter-new-password"></label>
                             <button type="submit" class="primary">Save Password</button>
+=======
+                                <input type="password" name="reenter-new-password" id="reenter-new-password" required></label>
+                            <button type="submit" class="primary" id="save-btn">Save password</button>
+>>>>>>> main
                         </form>
                     </div>
                 </div>
@@ -314,21 +347,6 @@
                         </div>
                     </div>
                     
-                    <!-- change password popup -->
-                    <div id="change-password-popup" class="change-password-popup">
-                        <div class="change-password-popup-content">
-                            <span class="close" onclick="closeChangePasswordPopup()">&times;</span>
-                            <form id="change-password" method="POST" action="./database_stuff/passwordchange.php">
-                                <label for="current-password">Current Password
-                                    <input type="text" name="current-password"></label>
-                                <label for="new-password">New Password
-                                    <input type="text" name="new-password"></label>
-                                <label for="reenter-new-password">Re-Enter New Password
-                                    <input type="text" name="reenter-new-password"></label>
-                                <button type="submit" class="primary">Save password</button>
-                            </form>
-                        </div>
-                    </div>
                     <!-- <h4>Notifications & Reminders</h4>
                     <input type="checkbox" id="event-notifs" name="event-notifs" value="" >
                     <label for="event-notifs" > Email notifications of cancelled and rescheduled events</label><br><br>
@@ -396,6 +414,73 @@
                 alert("An error occurred while fetching. Please try again later.");
             });
         });
+    </script>
+    <script>
+        function checkPassword() {
+            //const currentPasswordField = document.getElementById('current-password');
+            const passwordField = document.getElementById('new-password');
+            const passwordCheckLength = document.getElementById('password-check-length');
+            const passwordCheckNumber = document.getElementById('password-check-number');
+            const passwordCheckAlpha = document.getElementById('password-check-alpha');
+            const registerButton = document.getElementById('save-btn');
+            //const confirmPasswordField = document.getElementById('reenter-new-password');
+
+            const value = passwordField.value; // Get the value of the password field
+
+            let lengthValid = false;
+            let numberValid = false;
+            let alphaValid = false;
+
+            // Check for length of 10 or more
+            if (value.length >= 10) {
+                passwordCheckLength.style.visibility = 'visible';
+                lengthValid = true;
+            } else {
+                passwordCheckLength.style.visibility = 'hidden';
+            }
+
+            // Check for at least one number
+            if (/\d/.test(value)) {
+                passwordCheckNumber.style.visibility = 'visible';
+                numberValid = true;
+            } else {
+                passwordCheckNumber.style.visibility = 'hidden';
+            }
+
+            // Check for at least one alphabetical character
+            if (/[a-zA-Z]/.test(value)) {
+                passwordCheckAlpha.style.visibility = 'visible';
+                alphaValid = true;
+            } else {
+                passwordCheckAlpha.style.visibility = 'hidden';
+            }
+
+            // Enable or disable the register button based on password validity
+            if (lengthValid && numberValid && alphaValid) {
+                registerButton.disabled = false;
+                registerButton.classList.add('primary');  // Add the primary class for styling
+            } else {
+                registerButton.disabled = true;
+                registerButton.classList.remove('primary');  // Remove the primary class
+            }
+
+            return lengthValid && numberValid && alphaValid;
+
+        }
+        function validateForm() {
+            const errors = [];
+            const password = document.getElementById('new-password').value;
+            const confirmPassword = document.getElementById('reenter-new-password').value;
+
+            const registerButton = document.getElementById('save-btn');
+
+            // Ensure passwords match
+            if (password !== confirmPassword) {
+                errors.push('Passwords do not match.');
+                registerButton.disabled = true;
+            }
+            return errors; // Allow form submission
+        }
     </script>
 
 
