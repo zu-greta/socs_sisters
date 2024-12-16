@@ -7,7 +7,7 @@
     <link rel="stylesheet" href="./frontend_stuff/general_style.css?v=1.0">
     <style>
         /* Side Navigation Bar */
-        .sidenav {
+        .sidenav-container {
             width: 14%;
             float: left;
             z-index: 1;
@@ -15,17 +15,24 @@
             left: 10px;
             padding: 15px 0px 15px 25px;
         }
+        .sidenav {
+            border: solid 3px #ebebeb;
+            border-radius: 5px;
+        }
         .sidenav a {
             margin-top: -1px;
             margin-bottom: -1px;
-            padding: 8px 8px 8px 16px;
+            padding: 10px 30px 10px 20px;
             text-decoration: none;
             display: block;
             color: black;
-            border: 1px solid #424242; 
+            border-radius: 5px;
+            margin: 7px;
+            transition: background-color 0.2s ease;
         }
         .sidenav a:hover {
             background-color: #ebebeb;
+            color: #ed1b2f;
         }
         .sidenav a.active {
             background-color: #ae0e1d;
@@ -40,44 +47,30 @@
             width: auto;
             float: right;
             margin-right: 0px;
-            margin-top: 15px
+            /* margin-top: 15px */
         }
 
-        /* View Toggle Buttons */
-        #view-toggle button {
-            background-color: transparent;
-            border: none;
-            text-align: left;
+        /* Dropdown Menus */
+        /* .dropdown-btn {
         }
-        #view-toggle div {
-            padding-bottom: 5px;
-        }
-        #view-toggle div.active{
-            border-bottom: 2px solid #424242;
-        }
-        #view-toggle button:hover {
-            background-color: #ebebeb;
-        }
-
-        /* Event Filter Dropdown */
-        .dropdown-btn {
-            background-color: transparent;
-            border: none;
-        }
-
         .dropdown-btn:hover, .dropdown-btn:focus {
-            background-color: #ebebeb;
-        }
+        } */
 
         .dropdown {
             position: relative;
             display: inline-block;
         }
 
+        #plus-btn {
+            padding: 4px 12px;
+            font-size: 25px;
+            /* margin-top: 15px; */
+        }
+
         .dropdown-content {
+            display: none;
             border-radius: 5px;
             margin-top: 5px;
-            display: none;
             position: absolute;
             background-color: white;
             min-width: 160px;
@@ -85,6 +78,11 @@
             box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
             z-index: 1;
             padding: 5px;
+            transition: background-color 0.2s ease;
+        }
+
+        #plus-dropdown {
+            right: 0;
         }
 
         .dropdown-content.show {
@@ -95,52 +93,53 @@
             width: 100%;
             display: block;
             border: none;
+            color: #424242;
             background-color: transparent;
             text-align: left;
         }
 
-        .dropdown button:hover {background-color: #ddd;}
+        .dropdown button:hover {
+            background-color: #ddd;
+            color: #ed1b2f;
+        }
 
-        /* List View */
+        /* upcoming list */
         .upcoming-list, 
         .upcoming-list th, 
         .upcoming-list td {
-            border: 1px solid #888;
+            /* border: 1px solid #888; */
             border-collapse: collapse;
-            padding: 15px;
+            padding: 15px 20px;
             text-align: left;
+            color: #424242;
         }
-        .upcoming-list tr:hover{
-            background-color: #ebebeb3c;
+        /* first column */
+        .upcoming-list tr > td:first-child { 
+            font-weight: bold;
+        } 
+        /* last row */
+        .upcoming-list tr:last-child { 
+            border-bottom: none;
+        } 
+        .upcoming-list tr {
+            border-bottom: 1px solid #ebebeb;
             border-radius: 5px;
         }
 
-        #details-btn,
-        #modify-btn,
-        #cancel-btn {
+        .upcoming-list tr:hover{
+            background-color: #ebebeba8;
+            border-radius: 5px;
+            transition: background-color 0.2s ease;
+        }
+
+        .upcoming-list td {
+            vertical-align: top;
+        }
+
+        .list-view-btn {
             margin: 3px 0px;
-            padding: 6px;
+            padding: 6px 12px;
             font-size: 13px;
-        }
-
-        /* Calendar View */
-        #calendar {
-            display: grid;
-            grid-template-columns: repeat(7, 1fr);
-            gap: 10px;
-            text-align: center;
-        }
-
-        .day-header {
-            font-weight: bold;
-            border-bottom: 1px solid #ccc;
-            padding: 10px;
-        }
-
-        .day {
-            min-height: 100px;
-            border: 1px solid #ddd;
-            padding: 5px;
         }
 
         /* for popup */
@@ -185,7 +184,12 @@
             cursor: pointer;
         }
 
+        .event-details-popup-content h3 {
+            margin-bottom: 25px;
+        }
+
         .event-details-table, 
+        .event-details-table tr,
         .event-details-table td {
             padding: 7px 0px;
             font-size: 17px;
@@ -229,35 +233,43 @@
         <!-- Page content -->
         <div id="main-container">
             <!-- Sidebar -->
-            <div class="sidenav">
+            <div class="sidenav-container">
                 <h2>My Account</h2>
-                <a href="#" class="active">Upcoming</a>
-                <a href="history">History</a>
-                <a href="preferences">Preferences</a>
+                <div class="sidenav">
+                    <a href="#" class="active">Upcoming</a>
+                    <a href="history">History</a>
+                    <a href="preferences">Preferences</a>
+                    <a href="viewTimeRequest">Time Requests</a>
+                    <a href="viewPoll">Polls</a>
+                </div>
             </div>
             <!-- Upcoming -->
             <div id="upcoming" style="float:right; width:80%; padding: 15px 25px 15px 0px">
-                <h2 style="display:inline-block">Upcoming Events</h2>
-                <button class="primary" id="scheduling-btn">Add new booking</button> <!--move this how u want-->
-                <button class="primary" id="export-btn">Export to your calendar</button><br>
-                <div id="view-toggle" style="width:100%; border-bottom: 2px solid #ebebeb; margin-bottom: 15px;">
-                    <div id="list-view-toggle" style="display:inline-block" class="active">
-                        <button onclick="showListView()">List view</button>
-                    </div>
-                    <div id="weekly-view-toggle" style="display:inline-block">
-                        <button onclick="showWeeklyView()">Weekly view</button>
+                <div>
+                    <h2 style="display:inline-block">Upcoming Events</h2>&ensp;
+                    <!-- Right side buttons -->
+                    <div style="float:right; margin-top:15px;">
+                        <!-- Plus Button Dropdown -->
+                        <div class="dropdown" style="margin-bottom:15px">
+                            <button onclick="showPlusDropdown()" class="secondary dropdown-btn" id="plus-btn">&#43;</button>
+                            <div id="plus-dropdown" class="dropdown-content">
+                                <button id="scheduling-btn">Add new booking</button> 
+                                <button id="create-poll-btn">Create meeting poll</button>
+                            </div>
+                        </div> &ensp;
+                        <!-- Export button -->
+                        <button class="primary" id="export-btn">Export as .ics File</button><br>                
                     </div>
                 </div>
                 <!-- Filter Event Dropdown -->
                 <div class="dropdown" style="margin-bottom: 15px">
-                    <button onclick="showViewDropdown()" class="dropdown-btn">&#9013; All My Created Events</button>
+                    <button onclick="showViewDropdown()" class="secondary dropdown-btn" id="filter-events-btn">&#9013;&ensp;All My Created Events</button>
                     <div id="filter-events-dropdown" class="dropdown-content">
                         <button onclick="toggleTable('upcoming-list', 'All Your Created Events')">All Your Created Events</button>
                         <button onclick="toggleTable('upcoming-list-bookings', 'Your Bookings')">Your Bookings</button>
                         <button onclick="toggleTable('upcoming-list-events', 'Your Events with a Booking')">Your Events with a Booking</button>
                     </div>
                 </div>
-                <!-- List View -->
                 <!-- All Events My Created Events -->
                 <table class="upcoming-list" id="upcoming-list" style="border: none; width:100%">
                     <colgroup>
@@ -274,6 +286,60 @@
                         <th>Location</th>
                         <th></th>
                     </tr>
+                    <!-- YOU MUST DELETE THIS AFTER -->
+                    <tr>
+                        <td>COMP 307 Office Hours</td>
+                        <td>2024-12-20, 11:08:00 - 2024-12-20, 22:23:00</td>
+                        <td>Josephy Vybihal</td>
+                        <td>McConnell 321</td>
+                        <td>                        
+                            <button class="secondary list-view-btn" onclick="showDetailsPopup('event-details-popup')">Details</button>
+                            <div id="event-details-popup" class="event-details-popup">
+                                <div class="event-details-popup-content">
+                                    <span class="close" onclick="closeDetailsPopup('event-details-popup')">&times;</span>
+                                    <h1>${event.eventName}</h1>
+                                    <h3>${event.eventDate}</h3>
+                                    <table class="event-details-table" style="width:50%">
+                                        <colgroup>
+                                            <col style="width: 35%;">
+                                            <col style="width: 65%;">
+                                            </colgroup>
+                                        <tr>
+                                            <td>Booked by</td>
+                                            <td>${event.bookerEmail}</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Location</td>
+                                            <td>${event.eventLocation}</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Notes</td>
+                                            <td>${event.eventNotes}</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Event URL</td>
+                                            <td>${event.eventURL}</td>
+                                        </tr>
+                                    </table>   
+                                </div>
+                            </div>
+                            <button class="secondary list-view-btn" onclick="showCancelPopup('${eventCancelPopupID}')" >Cancel</button>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>COMP 307 Office Hours</td>
+                        <td>2024-12-20, 11:08:00 - 2024-12-20, 22:23:00</td>
+                        <td>Josephy Vybihal</td>
+                        <td>McConnell 321</td>
+                        <td>                        
+                            <button class="secondary list-view-btn" onclick="showDetailsPopup('${eventDetailsPopupID}')">Details</button>
+                            <button class="secondary list-view-btn" onclick="showCancelPopup('${eventCancelPopupID}')" >Cancel</button>
+                        </td>
+                    </tr>
+
+
+
+
                 </table>
                 <!-- Bookings (aka hosted by others) --> 
                 <table class="upcoming-list" id="upcoming-list-bookings" style="display:none; border: none; width:100%">
@@ -304,38 +370,11 @@
                     <tr>
                         <th>Event Name</th>
                         <th>Date</th>
-                        <th>Host</th>
+                        <th>Booked By</th>
                         <th>Location</th>
                         <th></th>
                     </tr>
                 </table>
-                <!-- Weekly View -->
-                <div id="upcoming-weekly" style="display:none; font-size:12px; width:100%">
-                    <div id="calendar-controls">
-                        <button class="secondary" id="prev-week">Previous Week</button>
-                        <span id="current-week"></span>
-                        <button class="secondary" id="today">Today</button>
-                        <button class="secondary" id="next-week">Next Week</button>
-                      </div>
-                      
-                      <div id="calendar">
-                        <div class="day-header"></div>
-                        <div class="day-header"></div>
-                        <div class="day-header"></div>
-                        <div class="day-header"></div>
-                        <div class="day-header"></div>
-                        <div class="day-header"></div>
-                        <div class="day-header"></div>
-                      
-                        <div class="day"></div>
-                        <div class="day"></div>
-                        <div class="day"></div>
-                        <div class="day"></div>
-                        <div class="day"></div>
-                        <div class="day"></div>
-                        <div class="day"></div>
-                      </div>                      
-                </div>
             </div>
         </div>
     </div>
@@ -362,6 +401,10 @@
             document.getElementById("filter-events-dropdown").classList.toggle("show");
             // const dropdown = document.getElementById("filter-events-dropdown");
             // dropdown.style.display = dropdown.style.display === 'block' ? 'none' : 'block';
+        }
+
+        function showPlusDropdown() {
+            document.getElementById("plus-dropdown").classList.toggle("show");
         }
 
         // window.onclick = function(event) {
@@ -394,102 +437,11 @@
             window.location.href = "scheduling";
         }
 
-        function showListView(){
-            // hide weekly view
-            document.getElementById('upcoming-weekly').style.display = 'none';
-            document.getElementById("weekly-view-toggle").classList.remove('active');
-            // show list view
-            document.getElementById("upcoming-list").style.display = 'block';
-            document.getElementById('upcoming-list').style.padding = '0px';
-            document.getElementById("list-view-toggle").classList.add('active');
+        // redirects to the create poll page
+        document.getElementById("create-poll-btn").onclick = function(){
+            window.location.href = "createPoll";
         }
         
-        function showWeeklyView(){
-            // hide list view
-            document.getElementById("upcoming-list").style.display = 'none';
-            document.getElementById("list-view-toggle").classList.remove('active');
-            // show weekly view
-            document.getElementById('upcoming-weekly').style.display = 'block';
-            document.getElementById('upcoming-weekly').style.padding = '0px';
-            document.getElementById("weekly-view-toggle").classList.add('active');
-        }
-    </script>
-
-    <script>
-        // populate upcoming events calendar (in progress ignore this for now) 
-        document.addEventListener('DOMContentLoaded', () => {
-        const calendar = document.getElementById('calendar');
-        const weekDisplay = document.getElementById('current-week');
-        const prevWeekButton = document.getElementById('prev-week');
-        const todayButton = document.getElementById('today');
-        const nextWeekButton = document.getElementById('next-week');
-
-        let currentDate = new Date();
-        let displayedDate = new Date();
-
-        function getWeekRange(date) {
-            const startOfWeek = new Date(date);
-            startOfWeek.setDate(date.getDate() - date.getDay()); // Start on Sunday
-            const days = Array.from({ length: 7 }, (_, i) => {
-                const d = new Date(startOfWeek);
-                d.setDate(startOfWeek.getDate() + i);
-                return d;
-            });
-            return days;
-        }
-
-        // async function loadSchedule(weekDates) {
-        //     const response = await fetch('/api/schedule?startDate=' + weekDates[0].toISOString());
-        //     const data = await response.json();
-
-        //     // Clear previous data
-        //     calendar.querySelectorAll('.day').forEach(day => (day.innerHTML = ''));
-
-        //     // Populate new data
-        //     data.forEach(event => {
-        //     const eventDate = new Date(event.date);
-        //     const dayIndex = weekDates.findIndex(d => d.toDateString() === eventDate.toDateString());
-        //     if (dayIndex >= 0) {
-        //         const dayElement = calendar.querySelectorAll('.day')[dayIndex];
-        //         const eventDiv = document.createElement('div');
-        //         eventDiv.textContent = `${event.time}: ${event.title}`;
-        //         dayElement.appendChild(eventDiv);
-        //     }
-        //     });
-        // }
-
-        function updateCalendar(date) {
-            const weekDates = getWeekRange(date);
-            weekDisplay.textContent = `${weekDates[0].toLocaleDateString()} - ${weekDates[6].toLocaleDateString()}`;
-
-            // Update headers
-            const headers = calendar.querySelectorAll('.day-header');
-            weekDates.forEach((date, index) => {
-                headers[index].textContent = date.toLocaleDateString('en-US', { month: 'short', weekday: 'long', day: 'numeric' });
-            });
-
-            // Load schedule
-            loadSchedule(weekDates);
-        }
-
-        prevWeekButton.addEventListener('click', () => {
-            displayedDate.setDate(displayedDate.getDate() - 7);
-            updateCalendar(displayedDate);
-        });
-
-        todayButton.addEventListener('click', () => {
-            displayedDate.setDate(currentDate.getDate());
-            updateCalendar(displayedDate);
-        });
-
-        nextWeekButton.addEventListener('click', () => {
-            displayedDate.setDate(displayedDate.getDate() + 7);
-            updateCalendar(displayedDate);
-        });
-
-        // Initialize
-        updateCalendar(displayedDate);
-        });
     </script>
 
 <script> 
@@ -519,7 +471,7 @@
                     // add event action buttons to each entry
                     let eventDetailsPopupID = `event-details-popup-${event.eventID}`;
                     tableButtonsCell.innerHTML = `
-                        <button class="secondary" onclick="showDetailsPopup('${eventDetailsPopupID}')">Details</button>
+                        <button class="secondary list-view-btn" onclick="showDetailsPopup('${eventDetailsPopupID}')">Details</button>
                         <div id="event-details-popup-${event.eventID}" class="event-details-popup">
                             <div class="event-details-popup-content">
                                 <span class="close" onclick="closeDetailsPopup('${eventDetailsPopupID}')">&times;</span>
@@ -585,7 +537,7 @@
                     let eventModificationPopupID = `event-modification-popup-${event.eventID}`;
                     let eventCancelPopupID = `event-cancel-popup-${event.eventID}`;
                     tableButtonsCell.innerHTML = `
-                        <button class="secondary" onclick="showDetailsPopup('${eventDetailsPopupID}')">Details</button>
+                        <button class="secondary list-view-btn" onclick="showDetailsPopup('${eventDetailsPopupID}')">Details</button>
                         <div id="event-details-popup-${event.eventID}" class="event-details-popup">
                             <div class="event-details-popup-content">
                                 <span class="close" onclick="closeDetailsPopup('${eventDetailsPopupID}')">&times;</span>
@@ -617,7 +569,7 @@
                         </div>
                         </div>
 
-                        <button class="secondary" onclick="showCancelPopup('${eventCancelPopupID}')" >Cancel</button>
+                        <button class="secondary list-view-btn" onclick="showCancelPopup('${eventCancelPopupID}')" >Cancel</button>
                         <div id="event-cancel-popup-${event.eventID}" class="event-details-popup">
                             <div class="event-details-popup-content">
                                 <span class="close" onclick="closeDetailsPopup('${eventCancelPopupID}')">&times;</span>
@@ -707,7 +659,7 @@
 
                     eventNameCell.innerHTML = event.eventName;
                     dateCell.innerHTML = event.eventDate;
-                    hostCell.innerHTML = event.eventHost;
+                    hostCell.innerHTML = event.bookerEmail;
                     locationCell.innerHTML = event.eventLocation;
 
                     // add event action buttons to each entry
@@ -727,8 +679,8 @@
                                         <col style="width: 65%;">
                                         </colgroup>
                                     <tr>
-                                        <td>Host</td>
-                                        <td>${event.eventHost}</td>
+                                        <td>Booked by</td>
+                                        <td>${event.bookerEmail}</td>
                                     </tr>
                                     <tr>
                                         <td>Location</td>
@@ -841,7 +793,7 @@
         tables.forEach(table => {
             if (table.id === tableID) {
                 table.style.display = 'table';
-                const dropdownButton = document.querySelector('.dropdown-btn');
+                const dropdownButton = document.getElementById('filter-events-btn');
                 dropdownButton.innerHTML = `&#9013; ${buttonText}`;
             } else {
                 table.style.display = 'none';
