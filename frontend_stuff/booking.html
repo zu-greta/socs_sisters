@@ -852,7 +852,7 @@
               const matchingRow = calendar.querySelector(`.row .time[data-time="${roundedTime}"]`);
       
               if (matchingRow) {
-                const dayIndex = [...calendar.querySelectorAll(".day")].findIndex(day => day.dataset.date === slotDate.toISOString().split('T')[0]) + 2;
+                const dayIndex = [...calendar.querySelectorAll(".day")].findIndex(day => day.dataset.date === slotDate.toISOString().split('T')[0]) + 1;
                 const targetCell = matchingRow.parentElement.children[dayIndex];
       
                 if (targetCell) {
