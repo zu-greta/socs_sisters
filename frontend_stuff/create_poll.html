@@ -302,8 +302,8 @@
         // Populate the time dropdown with values ending in 0 or 5 between 8:00 AM and 9:00 PM
         function populateTimeDropdown() {
             const timeDropdown = document.getElementById('poll-times');
-            const startTime = new Date(0, 0, 0, 8, 0); // Start at 8:00 AM
-            const endTime = new Date(0, 0, 0, 21, 0); // End at 9:00 PM
+            const startTime = new Date(0, 0, 0, 0, 0); // Start at 0:00 AM
+            const endTime = new Date(0, 0, 0, 23, 55); // End at 24:00 PM
 
             while (startTime <= endTime) {
                 const hours = startTime.getHours().toString().padStart(2, "0");
@@ -363,7 +363,6 @@
 
             dateInput.value = ""; // Reset the date picker
             timeInput.value = ""; // Reset the time picker
-            // lengthInput.value = "15"; // Reset the meeting length
         }
 
         function copyToClipboard() {
