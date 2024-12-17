@@ -7,6 +7,6 @@ hamburger.addEventListener("click", () => {
 
 document.addEventListener("click", (event) => {
   if (!hamburger.contains(event.target) && !hamburgerMenu.contains(event.target)) {
-    hamburgerMenu.classList.remove("open");
+    hamburgerMenu.classList.remove("open");Z
   }
 });
