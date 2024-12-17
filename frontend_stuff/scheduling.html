@@ -354,6 +354,41 @@
     .close-btn:hover {
       color: #ed1b2f;
     }
+    /* pop-alert styles */
+    .pop-alert {
+        display: none;
+        position: fixed;
+        z-index: 1001;
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        overflow: auto;
+        background-color: rgba(0, 0, 0, 0.4);
+        }
+        .pop-alert-content {
+        background-color: #fff;
+        margin: 15% auto;
+        padding: 20px;
+        border: 1px solid #888;
+        width: 80%;
+        max-width: 400px;
+        border-radius: 8px;
+        text-align: center;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+        }
+        .pop-alert-close {
+        margin-top: 10px;
+        padding: 10px 20px;
+        background-color: #ed1b2f;
+        color: white;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        }
+        .pop-alert-close:hover {
+        background-color: #ed1b2f;
+        }
   </style>
 </head>
 
@@ -380,6 +415,14 @@
       </div>
     </div>
   </header>
+
+      <!-- Modal popup -->
+      <div id="pop-alert" class="pop-alert">
+        <div class="pop-alert-content">
+            <p id="pop-alert-message"></p>
+            <button class="pop-alert-close" onclick="closepopalert()">Close</button>
+        </div>
+    </div>
 
   <div class="container">
     <div class="card tabs">
@@ -551,6 +594,16 @@
   </div>
 
   <script>
+        function showpopalert(message) {
+            document.getElementById('pop-alert-message').innerText = message;
+            document.getElementById('pop-alert').style.display = 'block';
+        }
+
+        function closepopalert() {
+            document.getElementById('pop-alert').style.display = 'none';
+        }       
+  </script>
+  <script>
     document.forms['recurring-form'].addEventListener('submit', (event) => {
       event.preventDefault();
       // Get all the checkboxes for the days
@@ -564,45 +617,12 @@
       });
       if (!isDaySelected) {
         event.preventDefault(); // Prevent form submission
-        alert("Please select at least one day for the recurring event.");
+        showpopalert("Please select at least one day for the recurring event.");
+//        alert("Please select at least one day for the recurring event.");
         // should not reset the form , only reset the checkboxes
         event.target.reset();
         return;
-      }
-      //also check that the day of the week is included in the start and end date time interval at least once
-      // Get the start and end dates from the form
-      const startDate = new Date(event.target.start_date.value);
-      const endDate = new Date(event.target.end_date.value);
-      const startTime = new Date("1970-01-01T" + event.target.start_time.value + "Z");
-      const endTime = new Date("1970-01-01T" + event.target.end_time.value + "Z");
-
-      // Combine the start and end dates with their respective times
-      const startDateTime = new Date(startDate.getFullYear(), startDate.getMonth(), startDate.getDate(), startTime.getHours(), startTime.getMinutes());
-      const endDateTime = new Date(endDate.getFullYear(), endDate.getMonth(), endDate.getDate(), endTime.getHours(), endTime.getMinutes());
-
-      let isDayIncluded = false;
-      // Check if any selected day falls within the start and end date time interval
-      dayCheckboxes.forEach(function(checkbox) {
-          if (checkbox.checked) {
-              const day = checkbox.value;
-              const dayIndex = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"].indexOf(day);
-              
-              // Set the date for the selected day of the week
-              let dayDate = new Date(startDate);
-              dayDate.setDate(startDate.getDate() + ((dayIndex + 7 - startDate.getDay()) % 7));  // Calculate the next occurrence of the day
-
-              // Check if this day is within the start and end date range
-              if (dayDate >= startDateTime && dayDate <= endDateTime) {
-                  isDayIncluded = true;
-              }
-          }
-      });
-      if (!isDayIncluded) {
-        event.preventDefault(); // Prevent form submission
-        alert("Please select at least one day of the week that is included in the start and end date time interval.");
-        event.target.reset(); //TODO should not reset the form , only reset the checkboxes
-        return;
-      }
+      }  const form = event.target;
       
       // Show loading message or disable form to indicate submission
       document.getElementById('recurring-form').querySelector('.save-btn').innerText = 'Submitting...';
@@ -617,8 +637,9 @@
         }
         return response.json(); // or response.text() or whatever the server sends
       }).then((body) => {
-        console.log("Response received");
+        console.log("Response received from recurring form submission");
         if (body.success) {
+          console.log(body);
           // Populate the modal with the event details
           const event = body.eventDetails;
           document.getElementById("popup-info").innerText = `
@@ -636,11 +657,15 @@
           document.getElementById("link-display").innerText = body.eventDetails.link;
           // Show the modal
           document.getElementById("confirmation-popup").style.display = "block";
+        } else {
+          alert(body.error);
+          return;
         }
       }).catch((error) => {
         // TODO handle error
         console.log("Error:", error);
-        alert('An error occurred while scheduling the event.');
+        showpopalert("An error occurred while scheduling the event.");
+//        alert('An error occurred while scheduling the event.');
       }).finally(() => {
         // Re-enable the button after submission is complete
         document.getElementById('recurring-form').querySelector('.save-btn').innerText = 'Save';
@@ -650,6 +675,20 @@
 
     document.forms['one-time-form'].addEventListener('submit', (event) => {
       event.preventDefault();
+
+
+      const form = event.target;
+      // Check if the start time is before the end time
+      const startTime = new Date(form.start_time.value);
+      const endTime = new Date(form.end_time.value);
+      if (startTime >= endTime) {
+        event.preventDefault(); // Prevent form submission
+        showpopalert("End time must be after start time.");
+//        alert("End time must be after start time.");
+        event.target.reset();
+        return;
+      }
+
       // Show loading message or disable form to indicate submission
       document.getElementById('one-time-form').querySelector('.save-btn').innerText = 'Submitting...';
       document.getElementById('one-time-form').querySelector('.save-btn').disabled = true;
@@ -703,7 +742,8 @@
       //copyText.select();
       //copyText.setSelectionRange(0, 99999);
       document.execCommand("copy");
-      alert("Link Copied");
+      showpopalert("Link Copied");
+//      alert("Link Copied");
     });
 
     // Return Home Button
@@ -719,13 +759,24 @@
 
       navigator.clipboard.writeText(linkText).then(() => {
         //alert("Event URL copied to clipboard!");
+        document.getElementById("confirmation-popup").style.display = "none";
+        showpopalert("Event URL copied to clipboard!");
         console.log("Event URL copied to clipboard!");
       }).catch((error) => {
         console.error("Error copying text: ", error);
-        alert("Failed to copy event URL to clipboard.");
+        document.getElementById("confirmation-popup").style.display = "none";
+        showpopalert("Failed to copy event URL to clipboard.");
+//        alert("Failed to copy event URL to clipboard.");
       });
     }
     document.getElementById("copy-link").addEventListener("click", copyToClipboard);
+
+    // Function to reset only checkboxes
+    function resetCheckboxes(checkboxes) {
+      checkboxes.forEach(checkbox => {
+        checkbox.checked = false;
+      });
+    }
   </script>
   <script>
     // sanitize all inputs to prevent < > and other injections
@@ -734,12 +785,14 @@
         input.addEventListener('input', () => {
             if (input.value.includes('<') || input.value.includes('>')) {
                 input.value = input.value.replace(/[<>]/g, '');
-                alert('Please do not enter any special characters like < or >');
+                showpopalert('Please do not enter any special characters like < or >');
+//                alert('Please do not enter any special characters like < or >');
             }
             // inputs cannot be a single 0
             else if (input.value === '0') {
                 input.value = '';
-                alert('0 is not a valid name. Please enter a valid input');
+                showpopalert('0 is not a valid name. Please enter a valid input');
+//                alert('0 is not a valid name. Please enter a valid input');
             }
         });
     });
@@ -750,7 +803,8 @@
         textarea.addEventListener('input', () => {
             if (textarea.value.includes('<') || textarea.value.includes('>')) {
                 textarea.value = textarea.value.replace(/[<>]/g, '');
-                alert('Please do not enter any special characters like < or >');
+                showpopalert('Please do not enter any special characters like < or >');
+                //alert('Please do not enter any special characters like < or >');
             }
         });
     });
@@ -760,7 +814,8 @@
     participantsInput.addEventListener('input', () => {
         if (participantsInput.value <= 0) {
             participantsInput.value = 1;
-            alert('Please enter a valid number of participants');
+            showpopalert('Please enter a valid number of participants');
+//            alert('Please enter a valid number of participants');
         }
     });
 
@@ -776,7 +831,8 @@
 
         // Check if the end date time is after the start date time
         if (startDateTime >= endDateTime) {
-            alert('End date and time must be after start date and time');
+          showpopalert('End date and time must be after start date and time');
+//            alert('End date and time must be after start date and time');
             endDateInput.value = '';
             endTimeInput.value = '';
         }

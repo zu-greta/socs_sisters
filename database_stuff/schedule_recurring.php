@@ -218,6 +218,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             "days" => $days,
         ];
 
+        //if link is empty, then the event is not happening
+        if (empty($link)) {
+            echo json_encode(['success' => false, 'error' => 'No event to schedule']);
+            exit;
+        }
+
         $response = [
             "success" => true,
             "eventDetails" => $eventDetails,

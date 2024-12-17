@@ -212,6 +212,41 @@
         .popup-buttons {
             float: right;
         }
+        /* pop-alert styles */
+        .pop-alert {
+        display: none;
+        position: fixed;
+        z-index: 1001;
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        overflow: auto;
+        background-color: rgba(0, 0, 0, 0.4);
+        }
+        .pop-alert-content {
+        background-color: #fff;
+        margin: 15% auto;
+        padding: 20px;
+        border: 1px solid #888;
+        width: 80%;
+        max-width: 400px;
+        border-radius: 8px;
+        text-align: center;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+        }
+        .pop-alert-close {
+        margin-top: 10px;
+        padding: 10px 20px;
+        background-color: #ed1b2f;
+        color: white;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        }
+        .pop-alert-close:hover {
+        background-color: #ed1b2f;
+        }
 
         /* responsive */
         @media screen and (max-width: 743px) {
@@ -281,6 +316,14 @@
             </div>
         </div>
     </header>
+
+            <!-- Modal popup -->
+            <div id="pop-alert" class="pop-alert">
+                <div class="pop-alert-content">
+                    <p id="pop-alert-message"></p>
+                    <button class="pop-alert-close" onclick="closepopalert()">Close</button>
+                </div>
+            </div>
 
     <div id="background-container">
         <!-- Welcome message -->
@@ -367,6 +410,27 @@
     </div>
 
     <script>
+        function showpopalert(message, eventID=null) {
+            document.getElementById('pop-alert-message').innerText = message;
+            document.getElementById('pop-alert').style.display = 'block';
+            //close the details popup
+                // Close event details popup if eventID is provided
+            if (eventID) {
+                const eventPopup = document.getElementById(`event-details-popup-${eventID}`);
+                if (eventPopup) {
+                    eventPopup.style.display = 'none';
+                    console.log(`Event details popup with ID: event-details-popup-${eventID} closed.`);
+                } else {
+                    console.log(`No event popup found with ID: event-details-popup-${eventID}`);
+                }
+            }
+        }
+
+        function closepopalert() {
+            document.getElementById('pop-alert').style.display = 'none';
+            location.reload();
+        }
+
         /* show event details popup */
         function showDetailsPopup(id) {
             document.getElementById(id).style.display = 'block';
@@ -588,7 +652,9 @@
     // Confirm before proceeding
     if (!confirm("Are you sure you want to cancel this booking?")) {
         // print out the eventID in the alert
-        alert(`Booking with eventID ${eventID} was not cancelled.`);
+        showpopalert(`Booking with eventID ${eventID} was not cancelled.`);
+
+        //alert(`Booking with eventID ${eventID} was not cancelled.`);
         return;
     }
     console.log(`Cancelling booking with eventID ${eventID}`);
@@ -599,17 +665,20 @@
     .then(response => response.json())
     .then(data => {
         if (data.success) {
-            alert('Booking cancelled successfully.');
+            showpopalert('Booking cancelled successfully.');
+//            alert('Booking cancelled successfully.');
             // Optionally refresh the page or update the table dynamically
-            location.reload();
+            //location.reload();
         } else {
-            alert(`Error here cancelling booking: ${data.message}`);
+            showpopalert(`Error cancelling booking: ${data.message}`);
+//            alert(`Error here cancelling booking: ${data.message}`);
         }
     })
     .catch(error => {
         console.error('Error cancelling booking:', error);
         console.log(data);
-        alert('An error occurred while cancelling the booking.');
+        showpopalert('An error occurred while cancelling the booking.');
+//        alert('An error occurred while cancelling the booking.');
     });
 }
 </script>
@@ -718,8 +787,11 @@
     function cancelBooking(eventID) {
     // Confirm before proceeding
     if (!confirm("Are you sure you want to cancel this booking?")) {
+        //close the details popup
+        //document.getElementById(`event-details-popup-3-${eventID}`).style.display = 'none';
+        showpopalert(`Booking with eventID ${eventID} was not cancelled.`);
         // print out the eventID in the alert
-        alert(`Booking with eventID ${eventID} was not cancelled.`);
+        //alert(`Booking with eventID ${eventID} was not cancelled.`);
         return;
     }
     console.log(`Cancelling booking with eventID ${eventID}`);
@@ -730,16 +802,19 @@
     .then(response => response.json())
     .then(data => {
         if (data.success) {
-            alert('Booking cancelled successfully.');
+            showpopalert('Booking cancelled successfully.');
+//            alert('Booking cancelled successfully.');
             // Optionally refresh the page or update the table dynamically
-            location.reload();
+            //location.reload();
         } else {
-            alert(`Error cancelling booking: ${data.message}`);
+            showpopalert(`Error cancelling booking: ${data.message}`);
+//            alert(`Error cancelling booking: ${data.message}`);
         }
     })
     .catch(error => {
         console.error('Error cancelling booking:', error);
-        alert('An error occurred while cancelling the booking.');
+        showpopalert('An error occurred while cancelling the booking.');
+        //        alert('An error occurred while cancelling the booking.');
     });
 }
 </script>
@@ -754,12 +829,14 @@
                 document.getElementById("fname").innerHTML = data.userDetails.userFname;
             } else {
                 console.log(data.error);
-                alert("An error occurred. Please try again later.");
+                showpopalert("An error occurred. Please try again later.");
+//                alert("An error occurred. Please try again later.");
             }
         })
         .catch((error) => {
             console.error('Error:', error);
-            alert("An error occurred while fetching. Please try again later.");
+            showpopalert("An error occurred while fetching. Please try again later.");
+//            alert("An error occurred while fetching. Please try again later.");
         });
     });
 </script>
