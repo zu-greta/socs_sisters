@@ -8,7 +8,6 @@ if (strpos($redirect, 'makeTimeRequest') !== false) {
     //$re = "makeTimeRequest?token=";
     $re = str_replace('makeTimeRequest#', 'makeTimeRequest?', $redirect);
 }
-$re = "makeTimeRequest?token=";
 echo "Redirect: $redirect";
 //echo urldecode($redirect);
 echo $re;
