@@ -133,6 +133,14 @@
             visibility: hidden; /* Hidden until the condition is met */
             margin-left: 5px;
         }
+
+        .error-message {
+            color: red;
+            font-size: 0.8rem;
+            margin-bottom: 15px;
+            display: none; /* Hidden by default */
+        }
+
     </style>
 </head>
 <body>
@@ -154,15 +162,18 @@
                         <div class="half-width">
                             <label for="firstname">First Name:</label>
                             <input type="text" id="firstname" name="firstname" required>
+                            <span class="error-message" id="firstname-error"></span> <!-- First name error -->
                         </div>
                         <div class="half-width" style="margin-left: 10px;">
                             <label for="lastname">Last Name:</label>
                             <input type="text" id="lastname" name="lastname" required>
+                            <span class="error-message" id="lastname-error"></span> <!-- Last name error -->
                         </div>
                     </div>
                 
                     <label for="password">Password:</label>
                     <input type="password" id="password" name="password" oninput="checkPassword()" required>
+                    <span class="error-message" id="password-error"></span> <!-- Password error -->
                     <p class="subtext">&#8226;  Use 10 or more characters
                         <span id="password-check-length" class="checkmark">&#10004;</span>
                     </p>
@@ -175,6 +186,7 @@
                     
                     <label for="confirmpassword">Confirm Password:</label>
                     <input type="password" id="confirmpassword" name="confirmpassword" required>
+                    <span class="error-message" id="confirmpassword-error"></span> <!-- Confirm password error -->
                 
                     <p class="subtext">
                         By creating an account, you agree to the 
@@ -198,83 +210,201 @@
             </p>
         </div>
     </div>
-    <script>
+
+    <!-- <script>
+    // Display error message below a specific input
+        function displayError(inputId, message) {
+            const errorElement = document.getElementById(`${inputId}-error`);
+            errorElement.innerText = message;
+        }
+
+        function clearError(inputId) {
+            const errorElement = document.getElementById(`${inputId}-error`);
+            errorElement.innerText = "";
+        }
+
+        // Validate that inputs do not contain '<' or '>'
+        function sanitizeInput(input) {
+            return !/[<>]/.test(input.value);
+        }
+
+        // Password validation
         function checkPassword() {
             const passwordField = document.getElementById('password');
             const passwordCheckLength = document.getElementById('password-check-length');
             const passwordCheckNumber = document.getElementById('password-check-number');
             const passwordCheckAlpha = document.getElementById('password-check-alpha');
             const registerButton = document.getElementById('register-button');
-            const confirmPasswordField = document.getElementById('confirmpassword');
 
             const value = passwordField.value;
 
-            let lengthValid = false;
-            let numberValid = false;
-            let alphaValid = false;
+            let lengthValid = value.length >= 10;
+            let numberValid = /\d/.test(value);
+            let alphaValid = /[a-zA-Z]/.test(value);
 
-            // Check for length of 10 or more
-            if (value.length >= 10) {
-                passwordCheckLength.style.visibility = 'visible';
-                lengthValid = true;
+            passwordCheckLength.style.visibility = lengthValid ? 'visible' : 'hidden';
+            passwordCheckNumber.style.visibility = numberValid ? 'visible' : 'hidden';
+            passwordCheckAlpha.style.visibility = alphaValid ? 'visible' : 'hidden';
+
+            if (lengthValid && numberValid && alphaValid) {
+                clearError('password');
+                registerButton.disabled = false;
             } else {
-                passwordCheckLength.style.visibility = 'hidden';
+                displayError('password', 'Password does not meet all requirements.');
+                registerButton.disabled = true;
+            }
+        }
+
+        // Form validation
+        function validateForm() {
+            let valid = true;
+
+            const email = document.getElementById('email').value;
+            const password = document.getElementById('password').value;
+            const confirmPassword = document.getElementById('confirmpassword').value;
+
+            // Clear previous errors
+            clearError('email');
+            clearError('password');
+            clearError('confirmpassword');
+
+            // Email validation
+            if (!/@(mcgill\.ca|mail\.mcgill\.ca)$/.test(email)) {
+                displayError('email', 'Email must be a McGill email.');
+                valid = false;
             }
 
-            // Check for at least one number
-            if (/\d/.test(value)) {
-                passwordCheckNumber.style.visibility = 'visible';
-                numberValid = true;
-            } else {
-                passwordCheckNumber.style.visibility = 'hidden';
+            // Password confirmation validation
+            if (password !== confirmPassword) {
+                displayError('confirmpassword', 'Passwords do not match.');
+                valid = false;
             }
 
-            // Check for at least one alphabetical character
-            if (/[a-zA-Z]/.test(value)) {
-                passwordCheckAlpha.style.visibility = 'visible';
-                alphaValid = true;
-            } else {
-                passwordCheckAlpha.style.visibility = 'hidden';
-            }
+            // Input sanitization
+            document.querySelectorAll("input").forEach(input => {
+                if (!sanitizeInput(input)) {
+                    displayError(input.id, "Invalid character '<' or '>' found.");
+                    valid = false;
+                }
+            });
 
-            // Enable or disable the register button based on password validity
+            return valid;
+        }
+
+        // Sanitize input while typing
+        document.querySelectorAll("input").forEach(input => {
+            input.addEventListener("input", () => {
+                clearError(input.id); // Clear previous errors
+                if (!sanitizeInput(input)) {
+                    displayError(input.id, "Invalid character '<' or '>' found.");
+                    input.value = input.value.replace(/[<>]/g, ""); // Remove invalid characters
+                }
+            });
+        });
+</script> -->
+    <script>
+        // Display error message below a specific input
+        displayError = (inputId, message) => {
+            const errorElement = document.getElementById(`${inputId}-error`);
+            errorElement.innerText = message;
+        }
+        clearError = (inputId) => {
+            const errorElement = document.getElementById(`${inputId}-error`);
+            errorElement.innerText = "";
+        }
+
+        // Function to validate that inputs do not contain '<' or '>'
+        function sanitizeInput(input) {
+            return !/[<>]/.test(input.value);
+        }
+    
+        // Validate all input fields
+        function validateInputs() {
+            const inputs = document.querySelectorAll("input");
+            for (const input of inputs) {
+                if (!sanitizeInput(input)) {
+                    // display the error message in the form instead of an alert
+                    //displayError(input.id, `Invalid character '<' or '>' in input: ${input.name}`);
+
+                    alert(`Invalid character '<' or '>' in input: ${input.name}`);
+                    input.focus();
+                    return false;
+                }
+            }
+            return true;
+        }
+    
+        // Password validation
+        function checkPassword() {
+            const passwordField = document.getElementById('password');
+            const passwordCheckLength = document.getElementById('password-check-length');
+            const passwordCheckNumber = document.getElementById('password-check-number');
+            const passwordCheckAlpha = document.getElementById('password-check-alpha');
+            const registerButton = document.getElementById('register-button');
+    
+            const value = passwordField.value;
+    
+            let lengthValid = value.length >= 10;
+            let numberValid = /\d/.test(value);
+            let alphaValid = /[a-zA-Z]/.test(value);
+    
+            passwordCheckLength.style.visibility = lengthValid ? 'visible' : 'hidden';
+            passwordCheckNumber.style.visibility = numberValid ? 'visible' : 'hidden';
+            passwordCheckAlpha.style.visibility = alphaValid ? 'visible' : 'hidden';
+    
             if (lengthValid && numberValid && alphaValid) {
                 registerButton.disabled = false;
-                registerButton.classList.add('primary');  // Add the primary class for styling
+                registerButton.classList.add('primary');
             } else {
                 registerButton.disabled = true;
-                registerButton.classList.remove('primary');  // Remove the primary class
+                registerButton.classList.remove('primary');
             }
-
-            return lengthValid && numberValid && alphaValid;
-
         }
+    
+        // Form validation
         function validateForm() {
             const errors = [];
             const password = document.getElementById('password').value;
             const confirmPassword = document.getElementById('confirmpassword').value;
             const email = document.getElementById('email').value;
-
-            if (!/@(mcgill\.ca|mail\.mcgill\.ca)$/.test(email)){
+    
+            if (!/@(mcgill\.ca|mail\.mcgill\.ca)$/.test(email)) {
                 errors.push('Email must be a McGill email.');
             }
-            // Ensure passwords match
             if (password !== confirmPassword) {
                 errors.push('Passwords do not match.');
             }
-            return errors; // Allow form submission
+            if (!validateInputs()) {
+                errors.push("Inputs cannot contain '<' or '>'.");
+            }
+            return errors;
         }
+    
+        // Add input sanitization as the user types
+        document.querySelectorAll("input").forEach(input => {
+            input.addEventListener("input", () => {
+                if (!sanitizeInput(input)) {
+                    //displayError(input.id, "Invalid character '<' or '>' found.");
 
+                    alert(`Invalid character '<' or '>' in input: ${input.name}`);
+                    input.value = input.value.replace(/[<>]/g, ""); // Remove invalid characters
+                }
+            });
+        });
+    
         // Handle form submission
         document.querySelector("form").addEventListener("submit", function (event) {
             const errors = validateForm();
-
+    
             if (errors.length > 0) {
                 event.preventDefault(); // Prevent form submission
+                //displayError("email", errors.join("\n"));
+
                 alert("The following errors were found:\n\n" + errors.join("\n"));
             }
         });
     </script>
+    
     
 </body>
 </html>

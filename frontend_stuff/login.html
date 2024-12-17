@@ -204,7 +204,9 @@
 
         function validateEmail() {
             const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/; // Basic email validation regex
-            return emailPattern.test(emailInput.value);
+            // add email validation for McGill emails. the email has to have patter of @mcgill.ca or @mail.mcill.ca
+            const mcgillEmailPattern = /@(mcgill\.ca|mail\.mcgill\.ca)$/;
+            return emailPattern.test(emailInput.value) && mcgillEmailPattern.test(emailInput.value);
         }
 
         function validateInput(input, errorElement, validator = null) {
@@ -226,6 +228,18 @@
         validateInput(emailInput, emailError, validateEmail);
         validateInput(passwordInput, passwordError);
 
+    </script>
+    <script>
+        // sanitize all inputs to prevent < > and other injections
+        const inputs = document.querySelectorAll('input');
+        inputs.forEach(input => {
+            input.addEventListener('input', () => {
+                if (input.value.includes('<') || input.value.includes('>')) {
+                    input.value = input.value.replace(/[<>]/g, '');
+                    alert('Please do not enter any special characters like < or >');
+                }
+            });
+        });
     </script>
 
 </body>

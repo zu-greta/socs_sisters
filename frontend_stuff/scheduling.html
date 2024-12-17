@@ -553,6 +553,55 @@
   <script>
     document.forms['recurring-form'].addEventListener('submit', (event) => {
       event.preventDefault();
+      // Get all the checkboxes for the days
+      const dayCheckboxes = document.querySelectorAll('input[name="day[]"]');
+      let isDaySelected = false;
+      // Loop through the checkboxes to see if any are checked
+      dayCheckboxes.forEach(function(checkbox) {
+        if (checkbox.checked) {
+          isDaySelected = true;
+        }
+      });
+      if (!isDaySelected) {
+        event.preventDefault(); // Prevent form submission
+        alert("Please select at least one day for the recurring event.");
+        event.target.reset();
+        return;
+      }
+      //also check that the day of the week is included in the start and end date time interval at least once
+      // Get the start and end dates from the form
+      const startDate = new Date(event.target.start_date.value);
+      const endDate = new Date(event.target.end_date.value);
+      const startTime = new Date("1970-01-01T" + event.target.start_time.value + "Z");
+      const endTime = new Date("1970-01-01T" + event.target.end_time.value + "Z");
+
+      // Combine the start and end dates with their respective times
+      const startDateTime = new Date(startDate.getFullYear(), startDate.getMonth(), startDate.getDate(), startTime.getHours(), startTime.getMinutes());
+      const endDateTime = new Date(endDate.getFullYear(), endDate.getMonth(), endDate.getDate(), endTime.getHours(), endTime.getMinutes());
+
+      let isDayIncluded = false;
+      // Check if any selected day falls within the start and end date time interval
+      dayCheckboxes.forEach(function(checkbox) {
+          if (checkbox.checked) {
+              const day = checkbox.value;
+              const dayIndex = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"].indexOf(day);
+              
+              // Set the date for the selected day of the week
+              let dayDate = new Date(startDate);
+              dayDate.setDate(startDate.getDate() + ((dayIndex + 7 - startDate.getDay()) % 7));  // Calculate the next occurrence of the day
+
+              // Check if this day is within the start and end date range
+              if (dayDate >= startDateTime && dayDate <= endDateTime) {
+                  isDayIncluded = true;
+              }
+          }
+      });
+      if (!isDayIncluded) {
+        event.preventDefault(); // Prevent form submission
+        alert("Please select at least one day of the week that is included in the start and end date time interval.");
+        return;
+      }
+      
       // Show loading message or disable form to indicate submission
       document.getElementById('recurring-form').querySelector('.save-btn').innerText = 'Submitting...';
       document.getElementById('recurring-form').querySelector('.save-btn').disabled = true;
@@ -675,6 +724,69 @@
       });
     }
     document.getElementById("copy-link").addEventListener("click", copyToClipboard);
+  </script>
+  <script>
+    // sanitize all inputs to prevent < > and other injections
+    const inputs = document.querySelectorAll('input');
+    inputs.forEach(input => {
+        input.addEventListener('input', () => {
+            if (input.value.includes('<') || input.value.includes('>')) {
+                input.value = input.value.replace(/[<>]/g, '');
+                alert('Please do not enter any special characters like < or >');
+            }
+            // inputs cannot be a single 0
+            else if (input.value === '0') {
+                input.value = '';
+                alert('0 is not a valid name. Please enter a valid input');
+            }
+        });
+    });
+
+    //sanitize all textareas to prevent < > and other injections
+    const textareas = document.querySelectorAll('textarea');
+    textareas.forEach(textarea => {
+        textarea.addEventListener('input', () => {
+            if (textarea.value.includes('<') || textarea.value.includes('>')) {
+                textarea.value = textarea.value.replace(/[<>]/g, '');
+                alert('Please do not enter any special characters like < or >');
+            }
+        });
+    });
+
+    //dont allow input for participants to be negative or 0
+    const participantsInput = document.querySelector('input[name="participants"]');
+    participantsInput.addEventListener('input', () => {
+        if (participantsInput.value <= 0) {
+            participantsInput.value = 1;
+            alert('Please enter a valid number of participants');
+        }
+    });
+
+    const startDateInput = document.querySelector('input[name="start_date"]');
+    const endDateInput = document.querySelector('input[name="end_date"]');
+    const startTimeInput = document.querySelector('input[name="start_time"]');
+    const endTimeInput = document.querySelector('input[name="end_time"]');
+
+    // Function to compare the full start and end datetime
+    function compareDateTime() {
+        const startDateTime = new Date(`${startDateInput.value}T${startTimeInput.value}`);
+        const endDateTime = new Date(`${endDateInput.value}T${endTimeInput.value}`);
+
+        // Check if the end date time is after the start date time
+        if (startDateTime >= endDateTime) {
+            alert('End date and time must be after start date and time');
+            endDateInput.value = '';
+            endTimeInput.value = '';
+        }
+    }
+
+    // Event listener for the start and end date and time fields
+    startDateInput.addEventListener('input', compareDateTime);
+    endDateInput.addEventListener('input', compareDateTime);
+    startTimeInput.addEventListener('input', compareDateTime);
+    endTimeInput.addEventListener('input', compareDateTime);
+
+
   </script>
 </body>
 
