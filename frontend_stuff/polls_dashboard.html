@@ -208,10 +208,16 @@
         }
 
         #plus-btn {
-            padding: 4px 12px;
-            font-size: 25px;
+            padding: 0.5px 9px 2px;
+            font-size: 24px;
             /* margin-top: 15px; */
         }
+
+        #plus-dropdown {
+            left: 0; /* Position the dropdown on the left side of the button */
+            right: auto; /* Ensure it doesn't align to the right */
+        }
+
 
         .dropdown-content {
             display: none;
@@ -328,16 +334,17 @@
             <!-- display all the polls created by this user using the MeetingPolls and PollOptions-->
             <div class="polls-container" id="polls">
                 <h2 style="display:inline-block">Polls</h2>&ensp;
+                <!-- Plus Button Dropdown -->
+                <div class="dropdown" style="margin-bottom:15px">
+                    <button onclick="showPlusDropdown()" class="secondary dropdown-btn" id="plus-btn">&#43;</button>
+                    <div id="plus-dropdown" class="dropdown-content">
+                        <button id="scheduling-btn">Create new event schedule</button> 
+                        <button id="create-poll-btn">Create meeting poll</button>
+                    </div>
+                </div> 
                 <!-- Right side buttons -->
                 <div style="float:right; margin-top:15px;">
-                    <!-- Plus Button Dropdown -->
-                    <div class="dropdown" style="margin-bottom:15px">
-                        <button onclick="showPlusDropdown()" class="secondary dropdown-btn" id="plus-btn">&#43;</button>
-                        <div id="plus-dropdown" class="dropdown-content">
-                            <button id="scheduling-btn">Create new event schedule</button> 
-                            <button id="create-poll-btn">Create meeting poll</button>
-                        </div>
-                    </div> &ensp;               
+                               
                 </div>
                 <table id="polls-table" class="polls-list" style="width: 100%;">
                     <tr>
