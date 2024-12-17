@@ -4,12 +4,7 @@ session_start();
 header('Content-Type: application/json');
 
 try {
-    // Check user authentication
-    // if (!isset($_SESSION['user_id'])) {
-    //     throw new Exception('User not authenticated.');
-    // }
-    // $creatorId = $_SESSION['user_id'];
-    // Get userID
+    // Check if user is logged in & get creator ID
     $database = new PDO('sqlite:ssDB.sq3');
     $database->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
     $stmt = $database->prepare("SELECT user_id FROM Sessions WHERE session_token = ?");
@@ -19,8 +14,6 @@ try {
         header("Location: login");
     }
     $creatorId = $session['user_id'];
-
-    // Get JSON input
     $input = json_decode(file_get_contents('php://input'), true);
 
     // Validate input
@@ -35,11 +28,6 @@ try {
         throw new Exception('Invalid input: title, URL, slots, and token are required.');
     }
 
-    // // Database connection
-    // $database = new PDO('sqlite:ssDB.sq3');
-    // $database->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-
-    // Start transaction
     $database->beginTransaction();
 
     // Insert token into Tokens table
@@ -59,7 +47,6 @@ try {
         INSERT INTO PollOptions (poll_id, start_date, end_date, duration, start_time, end_time)
         VALUES (?, ?, ?, ?, ?, ?)
     ");
-
     foreach ($slots as $slot) {
         if (preg_match('/^(\d{4}-\d{2}-\d{2}): (\d{1,2}:\d{2} [APM]{2}) - (\d{1,2}:\d{2} [APM]{2})$/', $slot, $matches)) {
             $startDate = $matches[1];
@@ -73,8 +60,6 @@ try {
             throw new Exception('Invalid slot format: ' . $slot);
         }
     }
-
-    // Commit transaction
     $database->commit();
 
     echo json_encode(['success' => true]);
