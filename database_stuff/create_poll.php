@@ -10,6 +10,8 @@ try {
     // }
     // $creatorId = $_SESSION['user_id'];
     // Get userID
+    $database = new PDO('sqlite:ssDB.sq3');
+    $database->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
     $stmt = $database->prepare("SELECT user_id FROM Sessions WHERE session_token = ?");
     $stmt->execute([$_COOKIE['auth_key']]);
     $session = $stmt->fetch(PDO::FETCH_ASSOC);
@@ -33,9 +35,9 @@ try {
         throw new Exception('Invalid input: title, URL, slots, and token are required.');
     }
 
-    // Database connection
-    $database = new PDO('sqlite:ssDB.sq3');
-    $database->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+    // // Database connection
+    // $database = new PDO('sqlite:ssDB.sq3');
+    // $database->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
     // Start transaction
     $database->beginTransaction();
