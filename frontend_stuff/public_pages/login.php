@@ -11,6 +11,10 @@ if (strpos($redirect, 'makeTimeRequest') !== false) {
 //echo "Redirect: $redirect";
 //echo urldecode($redirect);
 //echo $re;
+//if nothing in redirect, set it to dashboard
+if ($redirect == '') {
+    $redirect = 'dashboard';
+}
 if ($_SERVER["REQUEST_METHOD"] === "POST") {
     $email = $_POST['email'];
     $password = $_POST['password'];
