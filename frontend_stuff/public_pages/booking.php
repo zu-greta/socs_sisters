@@ -16,7 +16,8 @@ function validateToken($token) {
             'creator_id' => $event['creator_id'],
             'eventName' => $event['eventName'],
             'eventDuration' => $event['eventDuration'],
-            'eventLocation' => $event['eventLocation']
+            'eventLocation' => $event['eventLocation'], 
+            'eventCreation' => $event['eventCreation']
         ];
     } else {
         return ['error' => 'Invalid token'];
@@ -41,16 +42,12 @@ if (isset($_GET['token'])) {
 
     $htmlFile = './frontend_stuff/booking.html';
 
-    // if token valid pass it to the booking.html
-    // $creatorId = $data['creator_id'];
-    // $eventName = $data['eventName'];
-    // $eventDuration = $data['eventDuration'];
-    // $eventLocation = $data['eventLocation'];
     
     $creatorId = htmlspecialchars($data['creator_id'], ENT_QUOTES, 'UTF-8');
     $eventName = htmlspecialchars($data['eventName'], ENT_QUOTES, 'UTF-8');
     $eventDuration = htmlspecialchars($data['eventDuration'], ENT_QUOTES, 'UTF-8');
     $eventLocation = htmlspecialchars($data['eventLocation'], ENT_QUOTES, 'UTF-8');
+    $eventCreation = htmlspecialchars($data['eventCreation'], ENT_QUOTES, 'UTF-8');
 
     //NOT THE MOST SECURE
     $redirectURL = "booking?" . http_build_query([
@@ -58,14 +55,13 @@ if (isset($_GET['token'])) {
         'creator_id' => $creatorId,
         'eventName' => $eventName,
         'eventDuration' => $eventDuration,
-        'eventLocation' => $eventLocation
+        'eventLocation' => $eventLocation, 
+        'eventCreation' => $eventCreation
     ]);
 
     //echo $redirectURL;
     header("Location: $redirectURL");
 
-    //echo json_encode(['success' => true, 'creator_id' => $creatorId, 'eventName' => $eventName, 'eventDuration' => $eventDuration, 'eventLocation' => $eventLocation]);
-    //include './frontend_stuff/booking.html';
     exit;
 } else {
     var_dump($_GET); // Debug output

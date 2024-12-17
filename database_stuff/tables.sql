@@ -97,5 +97,6 @@ CREATE TABLE Tokens (
     creator_id INTEGER NOT NULL, -- Foreign Key referencing Users(user_id)
     eventName TEXT NOT NULL,
     eventDuration INTEGER DEFAULT -1,
-    eventLocation TEXT DEFAULT 'TBD'
+    eventLocation TEXT DEFAULT 'TBD', 
+    eventCreation TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );

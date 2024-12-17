@@ -52,6 +52,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $endDate = $_POST['end_date'] ?? '';
     //$days = isset($_POST['days']) ? explode(',', $_POST['days']) : []; 
     $days = isset($_POST['day']) ? $_POST['day'] : [];
+
+    $creationTime = date('Y-m-d H:i:s');
     
     // Validate required fields
     if (empty($name) || empty($location) || empty($startDate) || empty($endDate) || empty($participants) || empty($days)) {
@@ -59,14 +61,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         exit;
     }
 
-    function generateToken($creatorId, $name, $location, $slotDuration) {
+    function generateToken($creatorId, $name, $location, $slotDuration, $creationTime) {
         $token = bin2hex(random_bytes(32));
         //save into database
         try {
             $database = new PDO('sqlite:ssDB.sq3');
             $database->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-            $stmt = $database->prepare("INSERT INTO Tokens (token, creator_id, eventName, eventDuration, eventLocation) VALUES (?, ?, ?, ?, ?)");
-            $stmt->execute([$token, $creatorId, $name, $slotDuration, $location]);
+            $stmt = $database->prepare("INSERT INTO Tokens (token, creator_id, eventName, eventDuration, eventLocation, eventCreation) VALUES (?, ?, ?, ?, ?, ?)");
+            $stmt->execute([$token, $creatorId, $name, $slotDuration, $location, $creationTime]);
         } catch (PDOException $e) {
             echo json_encode(['success' => false, 'error' => 'Database error: ' . $e->getMessage()]);
             exit;
@@ -121,7 +123,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     $extraSlot = $dayStart->diff($dayEnd)->h * 60 + $dayStart->diff($dayEnd)->i % $slotDuration; // the extra time that is not a full slot
                 }
             }
-            $tokengen = generateToken($creatorId, $name, $location, $slotDuration);
+            $tokengen = generateToken($creatorId, $name, $location, $slotDuration, $creationTime);
             $link = "http://cs.mcgill.ca/~gzu/socs_sisters/booking?token=" . urlencode($tokengen); 
             // Generate slots for the current day
             for ($i = 0; $i < $numSlots; $i++) {
@@ -169,8 +171,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         
         // Prepare the insert statement
         $stmt = $database->prepare(
-            "INSERT INTO Events (creator_id, start_date, end_date, duration, start_time, end_time, event_name, note, location, max_people, url)
-            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)"
+            "INSERT INTO Events (creator_id, start_date, end_date, duration, start_time, end_time, event_name, note, location, max_people, url, created_at)
+            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)"
         );
 
         //Insert each slot
@@ -186,7 +188,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 $slot['note'], 
                 $slot['location'], 
                 $slot['max_people'],
-                $slot['url']
+                $slot['url'], 
+                $creationTime
             ]);
         }
 

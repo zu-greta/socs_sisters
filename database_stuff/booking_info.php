@@ -8,6 +8,7 @@ try {
     $eventName = $_GET['eventName'];
     $eventDuration = $_GET['eventDuration'];
     $eventLocation = $_GET['eventLocation'];
+    $eventCreation = $_GET['eventCreation'];
     $stmt = $database->prepare("SELECT * FROM Users WHERE user_id = ?");
     $stmt->execute([$creatorID]);
     $creatorinfo = $stmt->fetchAll(PDO::FETCH_ASSOC);
@@ -20,8 +21,8 @@ try {
     $creatorLname = $creatorinfo[0]['lname'];
 
     // Get all the time slots by the creator for now
-    $stmt = $database->prepare("SELECT * FROM Events WHERE creator_id = ? AND event_name = ? AND duration = ? AND location = ?");
-    $stmt->execute([$creatorID, $eventName, $eventDuration, $eventLocation]);
+    $stmt = $database->prepare("SELECT * FROM Events WHERE creator_id = ? AND event_name = ? AND created_at = ? AND location = ?");
+    $stmt->execute([$creatorID, $eventName, $eventCreation, $eventLocation]);
     $events = $stmt->fetchAll(PDO::FETCH_ASSOC);
 } catch (PDOException $e) {
     echo json_encode(['success' => false, 'error' => 'Database error: ' . $e->getMessage()]);
@@ -66,6 +67,7 @@ $response = [
 
     "eventName" => $eventName,
     "eventDuration" => $eventDuration,
+    "eventCreation" => $eventCreation,
     "eventLocation" => $eventLocation,
     "date" => $event['start_date'],
     "day" => $dayOfWeek,

@@ -697,12 +697,14 @@
       const eventDuration = decodeURIComponent(urlParams.get('eventDuration'));
       const eventLocation = decodeURIComponent(urlParams.get('eventLocation'));
       const token = decodeURIComponent(urlParams.get('token'));
+      const eventCreation = decodeURIComponent(urlParams.get('eventCreation'));
 
       document.addEventListener('DOMContentLoaded', () => {
         const creatorIdInput = document.getElementById('creator_id');
         const eventNameInput = document.getElementById('eventName');
         const eventDurationInput = document.getElementById('eventDuration');
         const eventLocationInput = document.getElementById('eventLocation');
+        const eventCreationInput = document.getElementById('eventCreation');
         if (creatorIdInput) {
           creatorIdInput.value = creator_id;
         }
@@ -714,6 +716,9 @@
         }
         if (eventLocationInput) {
           eventLocationInput.value = eventLocation;
+        }
+        if (eventCreationInput) {
+          eventCreationInput.value = token;
         }
       });
     </script>
@@ -791,8 +796,9 @@
         const eventName = urlParams.get('eventName');
         const eventDuration = urlParams.get('eventDuration');
         const eventLocation = urlParams.get('eventLocation');
+        const eventCreation = urlParams.get('eventCreation');
       
-        fetch(`./database_stuff/booking_info.php?creator_id=${creator_id}&eventName=${eventName}&eventDuration=${eventDuration}&eventLocation=${eventLocation}&start_date=${weekStart.toISOString().split('T')[0]}&end_date=${weekEnd.toISOString().split('T')[0]}`, {
+        fetch(`./database_stuff/booking_info.php?creator_id=${creator_id}&eventName=${eventName}&eventDuration=${eventDuration}&eventLocation=${eventLocation}&eventCreation=${eventCreation}&start_date=${weekStart.toISOString().split('T')[0]}&end_date=${weekEnd.toISOString().split('T')[0]}`, {
           method: 'GET',
         })
         .then(response => response.json())
@@ -853,8 +859,9 @@
         const eventName = urlParams.get('eventName');
         const eventDuration = urlParams.get('eventDuration');
         const eventLocation = urlParams.get('eventLocation');
+        const eventCreation = urlParams.get('eventCreation');
       
-        fetch(`./database_stuff/booking_info.php?creator_id=${creator_id}&eventName=${eventName}&eventDuration=${eventDuration}&eventLocation=${eventLocation}`, {
+        fetch(`./database_stuff/booking_info.php?creator_id=${creator_id}&eventName=${eventName}&eventDuration=${eventDuration}&eventLocation=${eventLocation}&eventCreation=${eventCreation}`, {
           method: 'GET',
         })
         .then(response => response.json())
@@ -867,6 +874,7 @@
             document.getElementById("eventName").innerHTML = eventName;
             document.getElementById("eventDuration").innerHTML = eventDuration;
             document.getElementById("eventLocation").innerHTML = eventLocation;
+            //document.getElementById("eventCreation").innerHTML = eventCreation;
       
             const slotList = document.getElementById("time-slots");
             slotList.innerHTML = '';
@@ -969,8 +977,9 @@
         const eeventName = encodeURIComponent(eventName);
         const eeventDuration = encodeURIComponent(eventDuration);
         const eeventLocation = encodeURIComponent(eventLocation);
+        const eeventCreation = encodeURIComponent(eventCreation);
         const etoken = encodeURIComponent(token);
-        const targetURL = `makeTimeRequest?token=${etoken}&creator_id=${ecreator_id}&eventName=${eeventName}&eventDuration=${eeventDuration}&eventLocation=${eeventLocation}`;
+        const targetURL = `makeTimeRequest?token=${etoken}&creator_id=${ecreator_id}&eventName=${eeventName}&eventDuration=${eeventDuration}&eventLocation=${eeventLocation}&eventCreation=${eeventCreation}`;
         //check if user is logged in
         if (document.cookie.includes("auth_key")) {
           window.location.href = targetURL;
@@ -985,129 +994,6 @@
           location.reload();
       };
 
-      // document.addEventListener('DOMContentLoaded', function() {
-      //       fetch(`../database_stuff/booking_info.php?creator_id=${creator_id}&eventName=${eventName}&eventDuration=${eventDuration}&eventLocation=${eventLocation}`, {
-      //           method: 'GET',
-      //       })
-      //       .then(response => response.json())
-      //       .then(data => {
-      //           if (data.success) {
-      //               console.log("Response received");
-      //               console.log(data);
-      //               // populate first name
-      //               document.getElementById("creator_name").innerHTML = data.creator_info.creator_name;
-      //               document.getElementById("eventName").innerHTML = eventName;
-      //               document.getElementById("eventDuration").innerHTML = eventDuration;
-      //               document.getElementById("eventLocation").innerHTML = eventLocation;
-
-      //               const calendar = document.querySelector(".calendar");
-      //               const daysOfWeek = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"];
-                    
-      //               calendar.querySelectorAll(".time-slot").forEach(slot => slot.remove());
-      //               data.time_slots.forEach(slot => {
-      //               const dayColumn = calendar.querySelector(`.day[data-day="${slot.day}"]`);
-      //               if (!dayColumn) {
-      //                   console.warn(`No column found for day: ${slot.day}`);
-      //                   return;
-      //               }
-
-      //               const roundedTime = roundToNearestHour(slot.start_time); // Round time to the nearest hour
-      //               const matchingRow = calendar.querySelector(`.row .time[data-time="${roundedTime}"]`);
-
-      //               if (matchingRow) {
-      //                   // Find the specific cell within the same row and correct day column
-      //                   const dayIndex = [...calendar.querySelectorAll(".day")].findIndex(day => day.dataset.day === slot.day) + 1;
-      //                   const targetCell = matchingRow.parentElement.children[dayIndex]; // Get the correct cell
-
-      //                   if (targetCell) {
-      //                       const timeSlot = document.createElement("div");
-      //                       timeSlot.classList.add("time-slot");
-      //                       timeSlot.textContent = convertTo12HourFormat(slot.start_time); // Display the original time in 12-hour format
-      //                       //also display the end time and date
-      //                       timeSlot.textContent += " - " + convertTo12HourFormat(slot.end_time) + " on " + slot.date;
-      //                       timeSlot.classList.add(slot.type || "unknown"); // Add type-specific styles
-                            
-
-      //                       timeSlot.addEventListener("click", () => {
-      //                           const rightBar = document.querySelector(".right-bar");
-      //                           const closeButton = document.querySelector(".close-button");
-      //                           const displayDay = document.getElementById("display-day");
-      //                           const displayDatetime = document.getElementById("display-datetime");
-      //                           const eventInfo = document.getElementById("event-info");
-
-      //                           // Retrieve data from the clicked slot
-      //                           displayDay.textContent = slot.day;
-      //                           displayDatetime.textContent = `${slot.date} at ${convertTo12HourFormat(slot.start_time)}-${convertTo12HourFormat(slot.end_time)}`;
-      //                           eventInfo.innerHTML = `
-      //                             Name: ${eventName}<br>
-      //                             Date: ${slot.date}<br>
-      //                             Start time: ${convertTo12HourFormat(slot.start_time)}<br>
-      //                             End time: ${convertTo12HourFormat(slot.end_time)}<br>
-      //                             Location: ${slot.location}<br>
-      //                             Description: ${slot.description}<br>
-      //                             Host: ${slot.host}
-      //                         `;
-
-      //                           // Display the right-bar
-      //                           rightBar.style.display = "block";
-      //                           closeButton.style.display = "block";
-
-      //                           closeButton.addEventListener("click", () => {
-      //                             rightBar.style.display = "none";
-      //                             closeButton.style.display = "none";
-      //                           });
-
-      //                           // if slot.type === full, disable the button
-      //                           if (slot.type === "full") {
-      //                             document.querySelector(".submit").disabled = true;
-      //                             document.querySelector(".submit").textContent = "Slot Full";
-      //                           } else {
-      //                             document.querySelector(".submit").disabled = false;
-      //                           }
-
-      //                           document.forms['booking_form'].addEventListener('submit', (event) => {
-      //                             event.preventDefault();
-      //                             document.getElementById("slot_id").value = slot.event_id;
-
-      //                             fetch(event.target.action, {
-      //                                 method: 'POST',
-      //                                 body: new URLSearchParams(new FormData(event.target)) // event.target is the form
-      //                             }).then((response) => {
-      //                                 if (!response.ok) {
-      //                                   throw new Error(`HTTP error! Status: ${response.status}`);
-      //                                 }
-      //                                 return response.json(); 
-      //                             }).then((body) => {
-      //                                 console.log("Form Response received");
-      //                                 console.log(body);
-      //                                 if (body.success) {
-      //                                     // Show the modal
-      //                                     document.getElementById("confirmation-popup").style.display = "block";
-      //                                 }
-      //                             }).catch((error) => {
-      //                                 console.log("Error:", error); 
-      //                                 alert(error);
-      //                             });
-      //                         });
-      //                       });
-      //                       targetCell.appendChild(timeSlot); // Append to the correct cell
-      //                   } else {
-      //                       console.warn(`No cell found for day: ${slot.day}, time: ${roundedTime}`);
-      //                   }
-      //               } else {
-      //                   console.warn(`No row found for rounded time: ${roundedTime}`);
-      //               }
-      //           });
-      //           } else {
-      //               console.log(data.error);
-      //               alert("An error occurred. Please try again later.");
-      //           }
-      //       })
-      //       .catch((error) => {
-      //           console.error('Error:', error);
-      //           alert("An error occurred while fetching. Please try again later.");
-      //       });
-      //   });
     </script>
 
     <!--alt buttons + iframe-->
