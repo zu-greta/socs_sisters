@@ -2,6 +2,11 @@
 session_start();
 
 $redirect = isset($_GET['redirect']) ? $_GET['redirect'] : 'dashboard';
+//if redirect is from makeTimeRequest, change the url from makeTimeRequest?token= to makeTimeRequest#token=
+if (strpos($redirect, 'makeTimeRequest') !== false) {
+    $redirect = str_replace('makeTimeRequest#', 'makeTimeRequest?', $redirect);
+}
+//echo "Redirect: $redirect";
 if ($_SERVER["REQUEST_METHOD"] === "POST") {
     $email = $_POST['email'];
     $password = $_POST['password'];

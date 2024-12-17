@@ -49,6 +49,7 @@ if (isset($_GET['token'])) {
     $eventCreation = htmlspecialchars($data['eventCreation'], ENT_QUOTES, 'UTF-8');
 
     //NOT THE MOST SECURE
+    //$baseURL = 'makeTimeRequest';
     $redirectURL = "booking?" . http_build_query([
         'token' => $token,
         'creator_id' => $creatorId,
@@ -57,6 +58,11 @@ if (isset($_GET['token'])) {
         'eventLocation' => $eventLocation, 
         'eventCreation' => $eventCreation
     ]);
+    // if (strpos($baseURL, '?') !== false) {
+    //     $redirectURL = $baseURL . '&' . $redirectURL;
+    // } else {
+    //     $redirectURL = $baseURL . '?' . $redirectURL;
+    // }
 
     //echo $redirectURL;
     header("Location: $redirectURL");

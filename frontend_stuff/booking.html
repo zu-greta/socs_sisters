@@ -1032,7 +1032,7 @@
         const eeventLocation = eventLocation;
         const eeventCreation = eventCreation;
         const etoken = token;
-        const targetURL = `makeTimeRequest&token=${etoken}&creator_id=${ecreator_id}&eventName=${eeventName}&eventDuration=${eeventDuration}&eventLocation=${eeventLocation}&eventCreation=${eeventCreation}`;
+        const targetURL = `makeTimeRequest#token=${etoken}&creator_id=${ecreator_id}&eventName=${eeventName}&eventDuration=${eeventDuration}&eventLocation=${eeventLocation}&eventCreation=${eeventCreation}`;
         //check if user is logged in
         if (document.cookie.includes("auth_key")) {
           window.location.href = `makeTimeRequest?token=${etoken}&creator_id=${ecreator_id}&eventName=${eeventName}&eventDuration=${eeventDuration}&eventLocation=${eeventLocation}&eventCreation=${eeventCreation}`;
