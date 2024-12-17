@@ -9,18 +9,17 @@
     body {
       margin: 0;
       padding: 0;
-      background-color: #f9f9f9;
+      background-color: #e4e4e4;
     }
     
     .container {
-    width: 87%;
-    margin: 50px auto;
-    border: 1px solid #ccc;
-    border-radius: 8px;
-    background-color: #fff;
-    display: flex;
-    position: relative;
-    min-height: 500px; /* Ensures the container has a predictable height */
+      background-color: white;
+      width: 87%;
+      margin: 9vh auto;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+      display: flex;
+      position: relative;
     }
 
     /* Left Side */
@@ -31,7 +30,6 @@
       border-right: 1px solid #ccc;
       text-align: center;
       overflow-y: auto; /* Change to auto to allow scroll only when necessary */
-      line-height: 30px;
 
       /* Flexbox centering */
       display: flex;
@@ -44,9 +42,17 @@
       width: 100px;
       height: 100px;
       border-radius: 50%;
-      margin: 20px auto 10px;
+      margin: 35px auto 20px;
       background-color: #ddd;
     }
+
+    .event_details p{
+      text-align: left;
+      line-height: 1.2rem;
+      font-size: 0.9rem;
+      overflow-wrap: break-word;
+    }
+
 
     /* Time Slots View */
 
@@ -57,7 +63,7 @@
     }
 
     .schedule {
-      height: 500px;
+      height: 70vh;
       border: none;
       border-radius: 8px;
       padding-top: 10px;
@@ -95,7 +101,7 @@
       grid-auto-rows: 50px; /* Uniform height for rows */
       gap: 1px; /* Creates spacing between grid cells */
       background-color: white;
-      max-height: 50vh; /* Set a maximum height to control the calendar size */
+      max-height: 61vh; /* Set a maximum height to control the calendar size */
       overflow: auto; /* Enable scrolling when content exceeds container size */
       padding-bottom: 10px;
     }
@@ -161,20 +167,13 @@
 
 
     /* View Buttons */
-    .view-tabs {
-      display: flex;      /* Flexbox for horizontal layout */
-      gap: 5px;           /* Space between buttons */
-      padding: 2px;       /* Padding around the container */
-      flex-wrap: nowrap;  /* Prevent wrapping onto multiple lines */
-      justify-content: flex-start; /* Align to the left */
-    }
-
     .tab-button {
       white-space: nowrap; /* Prevent text within buttons from wrapping */
       flex-shrink: 0;      /* Prevent buttons from shrinking too much */
     }
     
     .tab-button {
+      margin-top: 4px;
       padding: 0.3vw 0.8vw; 
       border: 1px solid #424242; /* Red border for consistency */
       border-radius: 4px;
@@ -205,26 +204,6 @@
       width: 20%;
       padding: 20px;
       border-left: 1px solid #ccc;
-    }
-    .form-section {
-      width:87%;
-      margin-left: 75px; /* THIS IS A TEMPORARY FIZ*/
-      display: flex;
-      flex-direction: column;
-      padding: 20px;
-    }
-    .form-section .input-container {
-      display: flex;
-      width: 100%;
-      justify-content: space-between;
-      gap: 10px; 
-      margin-bottom: 10px;
-    }
-    .form-section input {
-      flex: 1; 
-      padding: 10px;
-      border: 1px solid #ccc;
-      border-radius: 4px;
     }
 
     .buttons {
@@ -326,24 +305,23 @@
   <body>
     <div class="container">
       <div class="left-bar">
-        <h3 style="margin-top: 10px;"><span id="eventName"></span></h3>
+        <h3 style="margin-top: 15px; font-size:1.5rem;"><span id="eventName"></span></h3>
         <img src="./frontend_stuff/png/user-icon.png" class="profile-pic">
-        <p>Hosted BY: <span id="creator_name"></span></p>
-        <p>Meeting Duration: <span id="eventDuration"></span> min</p>
-        <p>Event Location: <span id="eventLocation"></span></p>
-
-        <div class="form-section">
+        <p style="color: black; margin-bottom: 20px;">Meet with <span id="creator_name"></span></p>
+        <div class="event_details">
+          <p>Meeting Duration: <span id="eventDuration"></span> min</p>
+          <p style="margin-bottom: 20px;">Event Location: <span id="eventLocation"></span></p>
+        </div>
           <div class="buttons">
             <button class="secondary alternative">Request a Time</button>
           </div>
-        </div>  
       </div>
       
       <div class="middle-section">
         <div class="schedule">
           <div class="calendar-view">
             <div class="schedule-header">
-              <h3>Month Day - Month Day, Year</h3>
+              <h3 style="font-weight: normal;">Month Day - Month Day, Year</h3>
               <div class="week-navigation">
                 <button class="prev-week">&lt</button>
                 <button class="next-week">&gt</button>
