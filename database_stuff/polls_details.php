@@ -1,5 +1,6 @@
 <?php
 session_start();
+// GRETA ZU
 //display all polls made by the user
 try {
     $database = new PDO('sqlite:ssDB.sq3');

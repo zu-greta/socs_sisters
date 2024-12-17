@@ -1,4 +1,5 @@
 <?php
+// GRETA ZU
 if ($_SERVER["REQUEST_METHOD"] === "POST") {
     $requesterEmail = $_POST["requesterEmail"];
     $slot_id = $_POST["slot_id"];

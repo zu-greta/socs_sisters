@@ -1,5 +1,6 @@
 <?php
 session_start();
+// GRETA ZU
 try {
     $database = new PDO('sqlite:ssDB.sq3');
     $database->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
@@ -201,6 +202,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             "start_date" => $startDate,
             "end_date" => $endDate,
             "days" => $days,
+
+            "slots" => $slots
         ];
 
         //if link is empty, then the event is not happening

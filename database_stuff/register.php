@@ -1,4 +1,5 @@
 <?php
+//Author: Keyu Wang
 
 if ($_SERVER["REQUEST_METHOD"] === "POST") {
     $email = trim($_POST["email"]);

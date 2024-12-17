@@ -1,5 +1,6 @@
 <?php
 session_start();
+// GRETA ZU
 //getting user info to display
 try {
     $database = new PDO('sqlite:ssDB.sq3');

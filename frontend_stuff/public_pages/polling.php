@@ -1,5 +1,6 @@
 <?php
-// Start a session
+//Author: Keyu Wang
+
 session_start();
 
 // Function to validate the token
