@@ -43,7 +43,9 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
                 'samesite' => 'Strict',     // Prevent cross-site request forgery
             ]);
 
-            $re = html_entity_decode($redirect, ENT_QUOTES, 'UTF-8');
+            //$re = html_entity_decode($redirect, ENT_QUOTES, 'UTF-8'); 
+            //$re = htmlspecialchars_decode($redirect, ENT_QUOTES); 
+            $re = $redirect;
             header("Location: " . $re);
             //header("Location: " . $redirect);
             exit;
