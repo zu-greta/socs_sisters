@@ -3,6 +3,7 @@
 
 <head>
     <title>Landing Page</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="./frontend_stuff/general_style.css?v=1.0">
     <style>
         main {
@@ -78,6 +79,79 @@
             line-height: 1.4;
             color: #555;
         }
+
+    /* Media query for medium screens */
+    @media screen and (max-width: 820px) {
+        header {
+            padding: 15px;
+        }
+
+        .main-container {
+            max-width: 60vw;
+            width: 100%;
+            margin: 85px 400px 70px auto;
+        }
+
+        .main-container p{
+            font-size: 1.2rem;
+        }
+
+        .features-container {
+            height: 30vh;
+        }
+    }
+
+    /* Media query for small screens */
+    @media screen and (max-width: 541px) {
+        header {
+            padding: 15px;
+        }
+
+        .logo-name{
+            display: none;
+        }
+
+        main {
+            box-sizing: border-box;
+            width: 100%;
+            text-align: left;
+            padding: 5px 50px;
+        }
+
+        .main-container {
+            max-width: 80vw;
+            width: 100%;
+            margin: 60px 500px 50px auto;
+        }
+
+        main h2 {
+            font-size: 2.4rem;
+        }
+
+        .main-container p {
+            font-size: 0.9rem;
+        }
+
+        .features-container{
+            height: 100%;
+        }
+
+        /* Stack feature icons in a column */
+        .features-icons {
+            flex-direction: column;
+            align-items: center; /* Center-aligns column items */
+        }
+
+        .icon-container {
+            max-width: 100%; /* Take full width in a column */
+            margin-bottom: 90px; /* Adds spacing between items */
+            text-align: center; /* Optional: center-align the text in smaller screens */
+        }
+
+        .icon-container img {
+            margin: 0 auto; /* Centers the image within the container */
+        }
+    }
     </style>
 </head>
 
