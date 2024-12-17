@@ -10,12 +10,3 @@ document.addEventListener("click", (event) => {
     hamburgerMenu.classList.remove("open");
   }
 });
-
-function showpopalert(message) {
-  document.getElementById('pop-alert-message').innerText = message;
-  document.getElementById('pop-alert').style.display = 'block';
-}
-
-function closepopalert() {
-  document.getElementById('pop-alert').style.display = 'none';
-}
