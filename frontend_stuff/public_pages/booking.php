@@ -43,11 +43,17 @@ if (isset($_GET['token'])) {
     $htmlFile = './frontend_stuff/booking.html';
 
     
-    $creatorId = htmlspecialchars($data['creator_id'], ENT_QUOTES, 'UTF-8');
-    $eventName = htmlspecialchars($data['eventName'], ENT_QUOTES, 'UTF-8');
-    $eventDuration = htmlspecialchars($data['eventDuration'], ENT_QUOTES, 'UTF-8');
-    $eventLocation = htmlspecialchars($data['eventLocation'], ENT_QUOTES, 'UTF-8');
-    $eventCreation = htmlspecialchars($data['eventCreation'], ENT_QUOTES, 'UTF-8');
+    // $creatorId = htmlspecialchars($data['creator_id'], ENT_QUOTES, 'UTF-8');
+    // $eventName = htmlspecialchars($data['eventName'], ENT_QUOTES, 'UTF-8');
+    // $eventDuration = htmlspecialchars($data['eventDuration'], ENT_QUOTES, 'UTF-8');
+    // $eventLocation = htmlspecialchars($data['eventLocation'], ENT_QUOTES, 'UTF-8');
+    // $eventCreation = htmlspecialchars($data['eventCreation'], ENT_QUOTES, 'UTF-8');
+    //dont encode
+    $creatorId = $data['creator_id'];
+    $eventName = $data['eventName'];
+    $eventDuration = $data['eventDuration'];
+    $eventLocation = $data['eventLocation'];
+    $eventCreation = $data['eventCreation'];
 
     //NOT THE MOST SECURE
     $redirectURL = "booking?" . http_build_query([

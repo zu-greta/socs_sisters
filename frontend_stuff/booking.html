@@ -1037,7 +1037,7 @@
         if (document.cookie.includes("auth_key")) {
           window.location.href = targetURL;
         } else {
-          window.location.href = `login?redirect=${encodeURIComponent(targetURL)}`;
+          //window.location.href = `login?redirect=${encodeURIComponent(targetURL)}`;
           window.location.href = `login?redirect=${targetURL}`;
         }
       });
