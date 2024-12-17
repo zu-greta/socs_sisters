@@ -4,6 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Booking Page</title>
+  <link rel="stylesheet" href="./frontend_stuff/general_style.css?v=1.0" >
   <style>
     body {
       margin: 0;
@@ -37,6 +38,7 @@
 
     .middle-section {
       flex: 1;
+      overflow-y: scroll;
       padding: 20px;
     }
     .schedule {
@@ -78,6 +80,7 @@
       background-color: white;
       max-height: 50vh; /* Set a maximum height to control the calendar size */
       overflow: auto; /* Enable scrolling when content exceeds container size */
+      padding-bottom: 10px;
     }
     .calendar .row {
       display: contents; /* Preserve grid structure */
@@ -152,6 +155,13 @@
       border: 3px solid #ed1b2f;
       color: white;
     }
+
+    .buttons .book:hover {
+      background-color: #ae0e1d;
+      border: 3px solid #ae0e1d;
+      transition: 0.2s;
+    }
+
     .buttons .book:hover {
       background-color: #ae0e1d;
       border: 3px solid #ae0e1d;
@@ -178,51 +188,6 @@
       cursor: pointer;
     }
 
-    /* .iframe-modal {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background-color: rgba(0, 0, 0, 0.7);
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      z-index: 100;
-    }
-
-    .iframe-frame {
-      background-color: #fff;
-      border-radius: 8px;
-      width: 400px;
-      height: 300px;
-      position: relative;
-      overflow: hidden;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-    }
-
-    .iframe-content {
-      width: 100%;
-      height: 100%;
-      border: none;
-    }
-
-    .iframe-done-button {
-      background-color: #ed1b2f;
-      color: white;
-      border: none;
-      padding: 10px 20px;
-      cursor: pointer;
-      border-radius: 4px;
-      position: absolute;
-      bottom: 10px;
-    }
-
-    .iframe-done-button:hover {
-      background-color: #ae0e1d;
-    } */
 
     /* Modal Background */
     .modal {
@@ -234,6 +199,7 @@
         width: 100%;
         height: 100%;
         background-color: rgba(0, 0, 0, 0.6); /* Semi-transparent background */
+
     }
 
     /* Modal Content Box */
@@ -282,23 +248,29 @@
     }
     
     .tab-button {
-      padding: 5px 10px;
-      border: none;
+      padding: 0.3vw 0.8vw; 
+      border: 1px solid #424242; /* Red border for consistency */
       border-radius: 4px;
-      background-color: white;
-      color: #424242;
+      background-color: #e4e4e4; /* Default background */
+      color: #424242; /* Default text color */
       cursor: pointer;
       font-size: 14px;
     }
-    
+
     .tab-button:hover {
       color: #ed1b2f;
     }
     
     .tab-button-active {
+      border: none;
       background-color: #ed1b2f;
       color: white;
     }
+
+    .tab-button-active:hover {
+      color: white;
+    }
+
     .list-view ul {
       list-style-type: none;
       padding: 0;
@@ -329,16 +301,39 @@
   </style>
   </head>
   <body>
+    <!--navigation bar with logo and etc-->
+    <header>
+      <div class="nav-container">
+          <a href="/" class="logo-link">
+              <img src="./frontend_stuff/png/logo.png" alt="Logo" class="nav-logo-img">
+              <span class="logo-name">SOC-cessful Schedule</span>
+          </a>
+
+          <div class="nav-buttons">
+              <button id="profileLink" type="button" class="secondary profile-btn">
+                  <img src="./frontend_stuff/png/user-icon.png" alt="User" class="user-icon">
+                  <span>Account</span>
+              </button>
+              <div class="dropdown-menu">
+                  <a href="#" class="dropdown-item">History</a>
+                  <a href="#" class="dropdown-item">Preferences</a>
+                  <a href="#" class="dropdown-item">Time Requests</a>
+                  <a href="#" class="dropdown-item" style="color:#ed1b2f;">Log Out</a>
+              </div>
+          </div>
+      </div>
+  </header>
+
     <div class="container">
       <div class="left-bar">
         <h3>Event Name: <span id="eventName"></span></h3>
-        <div class="profile-pic"></div>
+        <img src="./frontend_stuff/png/user-icon.png" class="profile-pic">
         <p>Host Name: <span id="creator_name"></span></p>
         <p>Event Duration: <span id="eventDuration"></span> min</p>
         <p>Event Location: <span id="eventLocation"></span></p>
 
         <div class="view-tabs">
-          <button id="calendar-tab" class="tab-button-active">Calendar View</button>
+          <button id="calendar-tab" class="tab-button tab-button-active">Calendar View</button>
           <button id="list-tab" class="tab-button">List View</button>
         </div>
       </div>
@@ -628,7 +623,7 @@
             <input type="hidden" id="slot_id" name="slot_id"> <!--give the slot_id-->
           </div>
           <div class="buttons">
-            <button class="submit" type="submit">Book</button>
+            <button class="submit" type="primary submit">Book</button>
           </div>
           <p>*Note: you must make an account with your @mail.mcgill.ca or @mcgill.ca to be able to view your bookings</p>
         </form>
@@ -653,6 +648,29 @@
     </div>
 
     <!--toggle-->
+    <script>
+      // Get the buttons
+      const calendarTab = document.getElementById('calendar-tab');
+      const listTab = document.getElementById('list-tab');
+    
+      // Function to activate the clicked tab
+      function activateTab(clickedTab, otherTab) {
+        clickedTab.classList.add('tab-button-active');
+        otherTab.classList.remove('tab-button-active');
+      }
+    
+      // Add event listeners
+      calendarTab.addEventListener('click', () => {
+        activateTab(calendarTab, listTab);
+        // Additional logic to show calendar view can go here
+      });
+    
+      listTab.addEventListener('click', () => {
+        activateTab(listTab, calendarTab);
+        // Additional logic to show list view can go here
+      });
+    </script>
+    
     <script>
       document.addEventListener('DOMContentLoaded', () => {
         const calendarTab = document.getElementById('calendar-tab');
