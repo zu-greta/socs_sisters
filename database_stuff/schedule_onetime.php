@@ -115,6 +115,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             } else {
                 if ($timediff % $slotDuration != 0) {
                     $extraSlot = $timediff % $slotDuration; // the extra time that is not a full slot
+                    // remove the extra time from the last slot
+                    $numSlots -= 1;
                 }
             }
         } else {
@@ -127,6 +129,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             } else {
                 if ($startDateObj->diff($endDateObj)->days * 24 * 60 % $slotDuration != 0) {
                     $extraSlot = $startDateObj->diff($endDateObj)->days * 24 * 60 % $slotDuration; // the extra time that is not a full slot
+                    $numSlots -= 1;
                 }
             }
         }

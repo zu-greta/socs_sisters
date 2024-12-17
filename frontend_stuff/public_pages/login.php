@@ -8,9 +8,9 @@ if (strpos($redirect, 'makeTimeRequest') !== false) {
     //$re = "makeTimeRequest?token=";
     $re = str_replace('makeTimeRequest#', 'makeTimeRequest?', $redirect);
 }
-echo "Redirect: $redirect";
+//echo "Redirect: $redirect";
 //echo urldecode($redirect);
-echo $re;
+//echo $re;
 if ($_SERVER["REQUEST_METHOD"] === "POST") {
     $email = $_POST['email'];
     $password = $_POST['password'];
