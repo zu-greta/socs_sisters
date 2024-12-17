@@ -5,10 +5,18 @@ header('Content-Type: application/json');
 
 try {
     // Check user authentication
-    if (!isset($_SESSION['user_id'])) {
-        throw new Exception('User not authenticated.');
+    // if (!isset($_SESSION['user_id'])) {
+    //     throw new Exception('User not authenticated.');
+    // }
+    // $creatorId = $_SESSION['user_id'];
+    // Get userID
+    $stmt = $database->prepare("SELECT user_id FROM Sessions WHERE session_token = ?");
+    $stmt->execute([$_COOKIE['auth_key']]);
+    $session = $stmt->fetch(PDO::FETCH_ASSOC);
+    if (!$session) {
+        header("Location: login");
     }
-    $creatorId = $_SESSION['user_id'];
+    $creatorId = $session['user_id'];
 
     // Get JSON input
     $input = json_decode(file_get_contents('php://input'), true);
