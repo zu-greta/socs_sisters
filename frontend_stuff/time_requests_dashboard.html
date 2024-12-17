@@ -316,6 +316,68 @@
         background-color: #ed1b2f;
         }
 
+        /* Hamburger menu */
+        .hamburger {
+            display: none;
+            font-size: 24px;
+            background: none;
+            border: none;
+            cursor: pointer;
+            color: #333;
+            padding: 10px;
+        }
+
+        .hamburger-menu {
+            display: flex;
+            position: fixed;
+            flex-direction: column;
+            top: 0;
+            right: -100%;
+            height: 100%;
+            width: 85%;
+            background-color: #fff;
+            box-shadow: -2px 0 5px rgba(0, 0, 0, 0.2);
+            transition: right 0.3s ease-in-out;
+            z-index: 1001;
+            /* Above content but below modal */
+        }
+
+        .hamburger-menu.open {
+            right: 0;
+        }
+
+        .hamburger-menu .menu-header {
+            padding: 15px;
+            font-size: 18px;
+            font-weight: bold;
+            background-color: #f9f9f9;
+            border-bottom: 1px solid #ccc;
+        }
+
+        .hamburger-menu a {
+            display: block;
+            padding: 10px 15px;
+            font-size: 16px;
+            color: #333;
+            text-decoration: none;
+            border-bottom: 1px solid #f1f1f1;
+        }
+
+        .hamburger-menu a:hover {
+            background-color: #f1f1f1;
+        }
+
+        /* Media query for medium screens */
+        @media screen and (max-width: 820px) {
+            .hamburger {
+                display: block;
+            }
+
+            .nav-buttons {
+                display: none;
+            }
+
+        }
 
     </style>
 
@@ -329,8 +391,24 @@
                 <span class="logo-name">SOC-cessful Schedule</span>
             </a>
 
+            <!-- Hamburger Menu Button -->
+            <button class="hamburger" id="hamburger">
+                &#9776;
+            </button>
+
+            <!-- Hamburger Menu -->
+            <div class="hamburger-menu" id="hamburger-menu">
+                <div class="menu-header">My Account</div>
+                <a href="dashboard">Dashboard</a>
+                <a href="history">History</a>
+                <a href="preferences">Preferences</a>
+                <a href="viewPoll">Poll</a>
+                <a href="logout" style="color:#ed1b2f;">Log Out</a>
+            </div>
+
             <div class="nav-buttons">
-                <button id="profileLink" type="button" class="secondary profile-btn">
+                <button onclick="window.location.href = 'dashboard'" id="profileLink" type="button"
+                    class="secondary profile-btn">
                     <img src="./frontend_stuff/png/user-icon.png" alt="User" class="user-icon">
                     <span>Account</span>
                 </button>
@@ -338,12 +416,37 @@
                     <a href="dashboard" class="dropdown-item">Dashboard</a>
                     <a href="history" class="dropdown-item">History</a>
                     <a href="preferences" class="dropdown-item">Preferences</a>
-                    <a href="viewPoll" class="dropdown-item">Polls</a>
+                    <a href="viewPoll" class="dropdown-item">Poll</a>
                     <a href="logout" class="dropdown-item" style="color:#ed1b2f;">Log Out</a>
                 </div>
             </div>
         </div>
     </header>
+
+    <!-- Hamburger Script -->
+    <script>
+        const hamburger = document.getElementById("hamburger");
+        const hamburgerMenu = document.getElementById("hamburger-menu");
+
+        hamburger.addEventListener("click", () => {
+            hamburgerMenu.classList.toggle("open");
+        });
+
+        document.addEventListener("click", (event) => {
+            if (!hamburger.contains(event.target) && !hamburgerMenu.contains(event.target)) {
+                hamburgerMenu.classList.remove("open");
+            }
+        });
+
+        function showpopalert(message) {
+            document.getElementById('pop-alert-message').innerText = message;
+            document.getElementById('pop-alert').style.display = 'block';
+        }
+
+        function closepopalert() {
+            document.getElementById('pop-alert').style.display = 'none';
+        }
+    </script>
 
         <!-- Modal popup -->
         <div id="pop-alert" class="pop-alert">
