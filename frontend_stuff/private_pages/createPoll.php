@@ -1,5 +1,6 @@
 <?php
 //create poll
+//Author: Keyu Wang
 session_start();
 
 if(!isset($_COOKIE['auth_key'])){

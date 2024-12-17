@@ -1,6 +1,7 @@
 <?php
-session_start();
+//Author: Keyu Wang
 
+session_start();
 header('Content-Type: application/json');
 
 try {
