@@ -1,7 +1,7 @@
 <?php
 session_start();
 
-// echo "Hello, World!";
+// GRETA ZU
 // Get requested route
 $route = $_GET['route'] ?? 'landing';
 $routes = [
@@ -25,7 +25,6 @@ $routes = [
     'booking' => 'frontend_stuff/public_pages/booking.php',
     'polling' => 'frontend_stuff/public_pages/polling.php',
 
-    //TODO: check
 ];
 
 // Check if route exists

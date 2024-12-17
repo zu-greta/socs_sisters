@@ -1,5 +1,6 @@
 <?php
 //booking.php
+//GRETA ZU
 session_start();
 
 function validateToken($token) {
@@ -32,7 +33,7 @@ if (isset($_GET['creator_id'])) {
 if (isset($_GET['token'])) {    
     $token = $_GET['token'];
 
-    var_dump($_GET['token']); // Debug output
+    //var_dump($_GET['token']); // Debug output
 
     $data = validateToken($token);
     if (isset($data['error'])) {
@@ -48,8 +49,6 @@ if (isset($_GET['token'])) {
     $eventLocation = htmlspecialchars($data['eventLocation'], ENT_QUOTES, 'UTF-8');
     $eventCreation = htmlspecialchars($data['eventCreation'], ENT_QUOTES, 'UTF-8');
 
-    //NOT THE MOST SECURE
-    //$baseURL = 'makeTimeRequest';
     $redirectURL = "booking?" . http_build_query([
         'token' => $token,
         'creator_id' => $creatorId,
@@ -58,13 +57,7 @@ if (isset($_GET['token'])) {
         'eventLocation' => $eventLocation, 
         'eventCreation' => $eventCreation
     ]);
-    // if (strpos($baseURL, '?') !== false) {
-    //     $redirectURL = $baseURL . '&' . $redirectURL;
-    // } else {
-    //     $redirectURL = $baseURL . '?' . $redirectURL;
-    // }
 
-    //echo $redirectURL;
     header("Location: $redirectURL");
 
     exit;

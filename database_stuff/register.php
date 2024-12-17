@@ -11,7 +11,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     // validate input
     if (empty($email) || empty($fname) || empty($lname) || empty($password)) {
         // modal for empty fields
-        echo json_encode(['success' => false, 'error' => 'Please fill out all fields']);
+        //echo json_encode(['success' => false, 'error' => 'Please fill out all fields']);
         $errorMessage = "Please fill out all fields";
         echo "
             <html>
@@ -131,7 +131,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     // Email validation before inserting into the database
     if (!preg_match('/@(mcgill\.ca|mail\.mcgill\.ca)$/', $email)) {
         // modal for email validation
-        echo json_encode(['success' => false, 'error' => 'Email must end with @mcgill.ca or @mail.mcgill.ca']);
+        //echo json_encode(['success' => false, 'error' => 'Email must end with @mcgill.ca or @mail.mcgill.ca']);
         $errorMessage = "Email must end with @mcgill.ca or @mail.mcgill.ca";
         echo "
             <html>
@@ -252,7 +252,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     // Password validation before inserting into the database
     if (strlen($password) < 10 || !preg_match('/[a-zA-Z]/', $password) || !preg_match('/\d/', $password)) {
         // modal for password validation
-        echo json_encode(['success' => false, 'error' => 'Password must be at most 10 characters long, contain at least one letter, and at least one number']);
+        //echo json_encode(['success' => false, 'error' => 'Password must be at most 10 characters long, contain at least one letter, and at least one number']);
         $errorMessage = "Password must be at most 10 characters long, contain at least one letter, and at least one number";
         echo "
             <html>
@@ -382,7 +382,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
         if ($emailExists) {
             // modal for email already registered
-            echo json_encode(['success' => false, 'error' => 'The email is already registered. Please use a different email']);
+            //echo json_encode(['success' => false, 'error' => 'The email is already registered. Please use a different email']);
             $errorMessage = "The email is already registered. Please use a different email";
             echo "
             <html>
@@ -509,7 +509,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
             ':password_hash' => $passwordHash
         ]);
         //modal for success
-        echo json_encode(['success' => true]);
+        //echo json_encode(['success' => true]);
         echo "
             <html>
             <head>
