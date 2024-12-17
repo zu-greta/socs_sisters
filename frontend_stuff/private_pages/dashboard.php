@@ -1,5 +1,6 @@
 <?php
 //dashboard
+//GRETA ZU
 session_start();
 
 if(!isset($_COOKIE['auth_key'])){

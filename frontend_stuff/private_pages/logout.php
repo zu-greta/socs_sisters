@@ -1,6 +1,6 @@
 <?php
 session_start();
-
+//GRETA ZU
 try {
     if (isset($_COOKIE['auth_key'])) {
         $secretKey = $_COOKIE['auth_key'];

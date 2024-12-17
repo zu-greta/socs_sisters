@@ -1,5 +1,6 @@
 <?php
 //history
+//GRETA ZU
 session_start();
 if(!isset($_COOKIE['auth_key'])){
     header("Location: login");
