@@ -258,6 +258,18 @@
 }
 
     </script>
+    <script>
+        // sanitize all inputs to prevent < > and other injections
+        const inputs = document.querySelectorAll('input');
+        inputs.forEach(input => {
+            input.addEventListener('input', () => {
+                if (input.value.includes('<') || input.value.includes('>')) {
+                    input.value = input.value.replace(/[<>]/g, '');
+                    alert('Please do not enter any special characters like < or >');
+                }
+            });
+        });
+    </script>
 
 </body>
 </html>

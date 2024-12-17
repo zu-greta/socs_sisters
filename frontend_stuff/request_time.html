@@ -376,6 +376,13 @@
   <script>
     document.forms['request_time_form'].addEventListener('submit', (event) => {
       event.preventDefault();
+        //make sure the end time is after the start time
+        const startTime = document.getElementById('start-time').value;
+        const endTime = document.getElementById('end-time').value;
+        if (startTime >= endTime) {
+          alert("End time must be after start time.");
+          return;
+        }
 
       fetch(event.target.action, {
         method: 'POST',

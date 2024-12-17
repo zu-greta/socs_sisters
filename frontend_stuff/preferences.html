@@ -460,6 +460,9 @@
                 errors.push('Passwords do not match.');
                 registerButton.disabled = true;
             }
+            if (!validateInputs()) {
+                errors.push("Inputs cannot contain '<' or '>'.");
+            }
             return errors; // Allow form submission
         }
     </script>

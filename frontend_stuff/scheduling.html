@@ -565,6 +565,7 @@
       if (!isDaySelected) {
         event.preventDefault(); // Prevent form submission
         alert("Please select at least one day for the recurring event.");
+        // should not reset the form , only reset the checkboxes
         event.target.reset();
         return;
       }
@@ -599,6 +600,7 @@
       if (!isDayIncluded) {
         event.preventDefault(); // Prevent form submission
         alert("Please select at least one day of the week that is included in the start and end date time interval.");
+        event.target.reset(); //TODO should not reset the form , only reset the checkboxes
         return;
       }
       

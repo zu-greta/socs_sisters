@@ -935,6 +935,13 @@
       
         document.forms['booking_form'].addEventListener('submit', (event) => {
           event.preventDefault();
+          //check if the email is valid before submitting
+          const email = document.getElementById('input-email').value;
+          if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+            alert('Please enter a valid email address');
+            return;
+          }
+
           document.getElementById("slot_id").value = slot.event_id;
       
           fetch(event.target.action, {
@@ -996,101 +1003,18 @@
 
     </script>
 
-    <!--alt buttons + iframe-->
-    <!-- <script>
-      // Placeholder JavaScript for the Booking Page
-      document.addEventListener("DOMContentLoaded", function () {
-        // Handle week navigation
-        const prevWeekButton = document.querySelector(".prev-week");
-        const nextWeekButton = document.querySelector(".next-week");
-        const scheduleHeader = document.querySelector(".schedule-header h3");
-
-        prevWeekButton.addEventListener("click", () => {
-          alert("Navigate to the previous week");
-          // Placeholder: Update the scheduleHeader text or fetch new data.
-        });
-
-        nextWeekButton.addEventListener("click", () => {
-          alert("Navigate to the next week");
-          // Placeholder: Update the scheduleHeader text or fetch new data.
-        });
-
-        // Handle booking confirmation
-        const bookButton = document.querySelector(".buttons .book");
-
-        function showConfirmationIframe(appointmentDetails) {
-          // Check if the iframe modal already exists
-          let iframeModal = document.querySelector(".iframe-modal");
-          if (!iframeModal) {
-            // Create the iframe modal element
-            iframeModal = document.createElement("div");
-            iframeModal.classList.add("iframe-modal");
-            iframeModal.innerHTML = `
-              <div class="iframe-frame">
-                <iframe src="booking-confirmation.html" frameborder="0" class="iframe-content"></iframe>
-                <button class="iframe-done-button">Done</button>
-              </div>
-            `;
-            document.body.appendChild(iframeModal);
-
-            // Add event listener for the Done button
-            iframeModal.querySelector(".iframe-done-button").addEventListener("click", () => {
-              iframeModal.style.display = "none";
+    <script>
+      // sanitize all inputs to prevent < > and other injections and make sure the email is a valid email
+      const inputs = document.querySelectorAll('input');
+        inputs.forEach(input => {
+            input.addEventListener('input', () => {
+                if (input.value.includes('<') || input.value.includes('>')) {
+                    input.value = input.value.replace(/[<>]/g, '');
+                    alert('Please do not enter any special characters like < or >');
+                }
             });
-          }
-
-          // Show the iframe modal
-          iframeModal.style.display = "block";
-
-          // Optionally pass data to the iframe via URL parameters
-          const iframe = iframeModal.querySelector(".iframe-content");
-          const urlParams = new URLSearchParams({
-            person: appointmentDetails.person,
-            time: appointmentDetails.time,
-            date: appointmentDetails.date,
-          });
-          iframe.src = `booking-confirmation.html?${urlParams.toString()}`;
-        }
-
-        // Example usage
-        document.querySelector(".buttons .book").addEventListener("click", () => {
-          const appointmentDetails = {
-            person: "Dr. Smith",
-            time: "10:00 AM to 11:00 AM",
-            date: "December 10, 2024"
-          };
-          showConfirmationIframe(appointmentDetails);
         });
-
-
-        // Handle alternative button
-        const alternativeButton = document.querySelector(".buttons .alternative");
-
-        alternativeButton.addEventListener("click", () => {
-          window.location.href = `request_time.html?creator_id=${creator_id}&eventName=${eventName}&eventDuration=${eventDuration}&eventLocation=${eventLocation}`; // Replace with the actual URL.
-          //private_pages_redirection/requesttime_sessioncheck.php -> ADD THIS WHEN REDIRECTING ^FOR TESTING RN
-        });
-
-        // // Handle the dropdown selection
-        // const peopleDropdown = document.querySelector("select");
-
-        // peopleDropdown.addEventListener("change", (event) => {
-        //   alert(`You selected ${event.target.value} people`);
-        //   // Placeholder: Update logic based on the selected number of people.
-        // });
-
-        // // Handle available times button clicks
-        // const availableTimeButtons = document.querySelectorAll(".right-bar button");
-
-        // availableTimeButtons.forEach((button) => {
-        //   button.addEventListener("click", () => {
-        //     alert(`You selected the time: ${button.textContent}`);
-        //     // Placeholder: Highlight selected time or process booking.
-        //   });
-        // });
-      });
-
-    </script> -->
+    </script>
     
   </body>
 </html>
