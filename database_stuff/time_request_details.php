@@ -1,5 +1,6 @@
 <?php
 session_start();
+// GRETA ZU
 // display all the time requests others have made to me that have status pending 
 try {
     $database = new PDO('sqlite:ssDB.sq3');

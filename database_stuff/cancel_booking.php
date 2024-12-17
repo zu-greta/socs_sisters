@@ -1,6 +1,6 @@
 <?php
 session_start();
-
+// GRETA ZU
 if ($_SERVER['REQUEST_METHOD'] === 'GET') {
     $eventID = $_GET['eventID'] ?? null;
     if (!$eventID) {
