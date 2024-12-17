@@ -127,6 +127,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     //TODO: the last slot should end at the end time. if the end time is before the end of the slot, the slot should be shorter
                     if ($dayStart->diff($dayEnd)->h * 60 + $dayStart->diff($dayEnd)->i % $slotDuration != 0) { //if the end time is not a multiple of the slot duration
                         $extraSlot = $dayStart->diff($dayEnd)->h * 60 + $dayStart->diff($dayEnd)->i % $slotDuration; // the extra time that is not a full slot
+                        $numSlots -= 1; // the number of slots should be reduced by 1
                     }
                 }
             }
