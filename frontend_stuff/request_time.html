@@ -3,6 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="./frontend_stuff/general_style.css?v=1.0" >
   <title>Request a Different Time</title>
   <style>
     body {
@@ -14,7 +15,7 @@
 
     .container {
       width: 70%;
-      margin: 80px auto;
+      margin: 10% auto;
       border: 1px solid #ccc;
       border-radius: 8px;
       background-color: #fff;
@@ -53,36 +54,6 @@
       gap: 10px;
     }
 
-    .form-section .buttons button {
-      padding: 8px 20px;
-      border-radius: 4px;
-      cursor: pointer;
-    }
-
-    .form-section .buttons .submit {
-      background-color: #ed1b2f;
-      color: white;
-      border: none;
-    }
-
-    .form-section .buttons .submit:hover {
-      background-color: #ae0e1d;
-      transition: 0.2s;
-    }
-
-    .form-section .buttons .cancel {
-      background-color: white;
-      border: 3px solid #e4e4e4;
-      color: #424242;
-    }
-
-    .form-section .buttons .cancel:hover {
-      background-color: #e4e4e4;
-      border: 3px solid #e4e4e4;
-      color: #424242;
-      transition: 0.2s;
-    }
-
     .input-container {
       display: flex;
       flex-direction: column;
@@ -99,7 +70,7 @@
     }
 
     .date-time-container input {
-      width: 30%;
+      width: 33%;
     }
 
     /* Modal Background */
@@ -176,12 +147,12 @@
 
         <div class="input-container">
           <label for="reason">Reason for Requesting a Different Time:</label>
-          <textarea id="reason" name="reason" placeholder="Describe why you'd like a different time slot..." required></textarea>
+          <textarea id="reason" name="reason" style="box-sizing: border-box;" placeholder="Describe why you'd like a different time slot..." required></textarea>
         </div>
 
         <div class="buttons">
-          <button class="cancel" onclick="window.location.href='booking.html';">Cancel</button>
-          <button class="submit" type="submit">Submit Request</button>
+          <button class="secondary" onclick="window.location.href='booking.html';">Cancel</button>
+          <button class="primary" type="submit">Submit Request</button>
         </div>
       </div>
     </form>
