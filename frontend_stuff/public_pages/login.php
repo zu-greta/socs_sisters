@@ -45,7 +45,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
             //$re = html_entity_decode($redirect, ENT_QUOTES, 'UTF-8'); 
             //$re = htmlspecialchars_decode($redirect, ENT_QUOTES); 
-            $re = $redirect;
+            $re = urldecode($redirect);
             header("Location: " . $re);
             //header("Location: " . $redirect);
             exit;
