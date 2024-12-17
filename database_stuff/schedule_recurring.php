@@ -110,6 +110,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
         // Check if the current day matches one of the selected days
         if (in_array($dayOfWeek, $days)) {
+            $currentDate->setTime($startTimeObj->format('H'), $startTimeObj->format('i'));
             // Calculate the number of slots for the current day
             $dayStart = clone $startTimeObj; // Use the provided start time
             $dayEnd = clone $endTimeObj; // Use the provided end time
@@ -151,10 +152,16 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             }
             if ($extraSlot > 0) {
                 //create an extra slot with the remaining time
+                //extra slot - 1 hour
+                //$endDateClone = clone $currentDate; // Clone currentDate to avoid modifying it
+                //$endDateClone->sub(new DateInterval('PT' . $extraSlot . 'M')); // Add extra slot duration to get the end time
+            
                 $slots[] = [
                     'start_date' => $currentDate->format('Y-m-d'), // Use the current date
                     'start_time' => $currentDate->format('H:i:s'), 
                     'end_date' => $currentDate->format('Y-m-d'), // Same day as start
+                    // hard code the end time to be one hour less
+                    //'end_time' => $endDateClone->format('H:i:s'), // Add duration to start time
                     'end_time' => $currentDate->add(new DateInterval('PT' . $extraSlot . 'M'))->format('H:i:s'), // Add duration to start time
                     'duration' => $extraSlot, // Duration in minutes
                     'event_name' => $name, // Event name
