@@ -99,13 +99,15 @@
             </select>
 
             <div class="button-container">
-                <button type="button" onclick="addDateAndTime()" class="secondary" style="margin-bottom: 2%;">Add Date & Time</button>
+                <button type="button" onclick="addDateAndTime()" class="secondary" style="margin-bottom: 2%; display: block; margin-left: auto; margin-right: 0;">Add Date & Time</button>
             </div>
 
             <label for="poll-summary">Available Slots</label>
             <textarea id="poll-summary" rows="5" readonly></textarea>
 
-            <button type="button" onclick="generatePollURL()" class="primary">Generate Poll URL</button>
+            <button type="button" onclick="generatePollURL()" class="primary" style="display: block; margin-left: auto; margin-right: 0;">
+                Generate Poll URL
+            </button>
         </form>
 
         <div id="poll-result" class="hidden">
