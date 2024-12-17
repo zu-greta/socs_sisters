@@ -1,7 +1,7 @@
 # SOC-cessful Schedule 📅  
-A user-friendly scheduling platform that allows members from McGill School of Computer Science to **Create, Share, and Book** appointments with ease. Built using **XAMPP** as the web stack.
+**Create, Share, Book — Scheduling Made Easy**  
 
----
+A user-friendly platform that simplifies appointment scheduling for users. Built using the **XAMPP** web stack, it provides tools to **create meetings, book slots, and manage preferences** seamlessly.
 
 ## Table of Contents
 - [Project Overview](#project-overview) 
@@ -15,14 +15,14 @@ A user-friendly scheduling platform that allows members from McGill School of Co
 **SOC-cessful Schedule** simplifies scheduling and booking by providing an interactive dashboard for managing meetings, polls, and alternative requests. The design reflects the identity of McGill's **School of Computer Science (SOCS)** while maintaining modern aesthetics.
 
 Some sample features are:
-- **User Authentication**: Secure login and registration system.  
-- **Member Dashboard**: Centralized hub for users to manage:  
-   - **History**: View previous bookings.  
-   - **Preferences**: Update user settings, including password and names.
-   - **Meeting & Poll Creation**: Schedule and manage meetings or gather poll responses.  
-- **Booking System**: Allow authenticated users to book time slots.  
-- **Alternate Time Requests**: Propose new times for meetings when necessary.  
-
+- 🔒 **User Authentication**: Secure login and registration.  
+- 🗂 **Member Dashboard**: Central hub for managing:  
+   - 📜 **Booking History**: View past bookings.  
+   - ⚙️ **Preferences**: Update personal settings.  
+   - 🗓 **Meeting Management**: Create and organize meetings.  
+   - 📊 **Polls**: Gather user inputs through polls.  
+- 📆 **Booking System**: Share links for others to book time slots.  
+- 🔄 **Alternate Time Requests**: Propose or modify meeting schedules.  
 ---
 
 ## Tech Stack  
