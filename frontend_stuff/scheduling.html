@@ -88,6 +88,7 @@
     /* Glider */
     .glider {
       width: 16vw;
+      min-width: 110px;
       height: 3px;
       position: absolute;
       background: #ed1b2f;
@@ -263,6 +264,19 @@
       font-size: 10px;
       color: grey;
     }
+    
+    #location-label-1,
+    #location-label-2 {
+      display: inline-block; 
+      width: 36vw; 
+      margin-right: 0.05vw;
+    }
+
+    #participants-label-1,
+    #participants-label-2 {
+      display: inline-block; 
+      width:18.6vw;
+    }
 
     .reset-btn {
       position: absolute;
@@ -279,6 +293,23 @@
     .form-datetime {
       font-family: 'Inter', 'Helvetica Neue', sans-serif;
       font-size: 1rem;
+    }
+
+    .form-start-times, 
+    .form-end-times {
+      display: inline-block;
+    }
+
+    #start-time-label,
+    #end-time-label {
+      width: 7vw;
+      min-width: 70px;
+    }
+
+    #start-date-label,
+    #end-date-label {
+      width: 10vw;
+      min-width: 120px;
     }
 
     /* Modal Background Styling */
@@ -394,6 +425,55 @@
       background-color: #ed1b2f;
     }
 
+    /* media query for page content (small screens) */
+    @media screen and (max-width: 611px) {
+      .container,
+      .container .card {
+        margin: 0;
+      }
+      .container .card {
+        border-radius: 0px;
+      }
+      .card{
+        width: 100vw;
+      }
+      .content {
+        width: 100vw;
+        border-radius: 0px;
+      }
+      div.card.tabs{
+        width: 100vw;
+      }
+      #tab-2:checked~.glider {
+        left: 110px;
+      }
+    }
+
+    /* Media query for page content (medium screens) */
+    @media screen and (max-width: 1278px) {
+      .container .card {
+        max-width: 85vw;
+      }
+      .content {
+        min-height: 700px;
+      }
+      .content .item {
+        width: 90%;
+      }
+      .schedule-form {
+        width: 75vw;
+      }
+      #location-label-1,
+      #participants-label-1,
+      #location-label-2,
+      #participants-label-2 {
+        width: 100%;
+      }
+      .form-times{
+        width: 100%;
+      }
+    }
+
     /* Hamburger menu */
     .hamburger {
       display: none;
@@ -444,7 +524,7 @@
     .hamburger-menu a:hover {
       background-color: #f1f1f1;
     }
-
+    
     /* Media query for medium screens */
     @media screen and (max-width: 820px) {
       .hamburger {
@@ -558,12 +638,12 @@
             </label>
 
             <div class="form-location-ppl">
-              <label style="display: inline-block; width: 36vw; margin-right: 0.05vw; ">
+              <label id="location-label-1">
                 <input type="text"
                   style="background-color: #e4e4e4; border: none; border-radius: 6px; padding: 10px 8px;"
                   name="location" required placeholder="Location/Video Call URL:">
               </label>
-              <label style="display: inline-block; width:18.6vw;">
+              <label id="participants-label-1">
                 <input type="number"
                   style="background-color: #e4e4e4; border: none; border-radius: 6px; padding: 10px 8px;"
                   name="participants" required placeholder="Number of Participants Allowed: ">
@@ -588,27 +668,30 @@
 
             <!-- time of the day for all the days selected -->
             <div class="form-times" style="margin-top: 5px;">
-              <label for="start_time"
-                style="display: inline-block; margin-right: 10px; font-size: 10; color: grey; padding-top: 15px; width: 7vw;">Start
+              <div class="form-start-times">
+                <label for="start_time" id="start-time-label"
+                style="display: inline-block; margin-right: 10px; font-size: 10; color: grey; padding-top: 15px;">Start
                 Time:
                 <input type="time" name="start_time" style="display: inline-block; padding: 4px;" required></label>
 
-              <label for="start_date"
-                style="display: inline-block; margin-right: 10px; font-size: 10; color: grey; margin-right: 1vw; width: 10vw;">Start
-                Date:
-                <input type="date" name="start_date" style="display: inline-block; padding: 5px;" required></label>
+                <label for="start_date" id="start-date-label"
+                  style="display: inline-block; margin-right: 10px; font-size: 10; color: grey; margin-right: 1vw;">Start
+                  Date:
+                  <input type="date" name="start_date" style="display: inline-block; padding: 5px;" required></label>
 
-              <text> to</text>
-
-              <label for="end_time"
-                style="display: inline-block; margin-right: 5px; font-size: 10; color: grey; width: 7vw; margin-left: 1vw;">End
+                <text> to &ensp;</text>
+              </div>
+              <div class="form-end-times">
+                <label for="end_time" id="end-time-label"
+                style="display: inline-block; margin-right: 10px; font-size: 10; color: grey;">End
                 Time:
                 <input type="time" name="end_time" style="display: inline-block; padding: 4px;" required></label>
 
-              <label for="end_date"
-                style="display: inline-block; margin-right: 10px; font-size: 10; color: grey; width: 10vw">End
-                Date:
-                <input type="date" name="end_date" style="display: inline-block; padding: 5px;" required></label>
+                <label for="end_date" id="end-date-label"
+                  style="display: inline-block; margin-right: 10px; font-size: 10; color: grey;">End
+                  Date:
+                  <input type="date" name="end_date" style="display: inline-block; padding: 5px;" required></label>  
+              </div>
             </div>
 
 
@@ -640,12 +723,12 @@
             </label>
 
             <div class="form-location-ppl">
-              <label style="display: inline-block; width: 36vw; margin-right: 0.05vw; ">
+              <label id="location-label-2">
                 <input type="text"
                   style="background-color: #e4e4e4; border: none; border-radius: 6px; padding: 10px 8px;"
                   name="location" required placeholder="Location/Video Call URL:">
               </label>
-              <label style="display: inline-block; width:18.6vw;">
+              <label id="participants-label-2">
                 <input type="number"
                   style="background-color: #e4e4e4; border: none; border-radius: 6px; padding: 10px 8px;"
                   name="participants" required placeholder="Number of Participants Allowed: ">
@@ -655,14 +738,14 @@
 
             <div class="form-datetime" style="margin-top: 5px;">
               <label for="start_time"
-                style="display: inline-block; margin-right: 10px; font-size: 10; color: grey; padding-top: 15px; width: 15vw;">
+                style="display: inline-block; margin-right: 10px; font-size: 10; color: grey; padding-top: 15px; width: 15vw; min-width: 200px">
                 Start Time:
                 <input type="datetime-local" name="start_time" style="padding: 10px;" required></label>
 
               <text> to &nbsp;</text>
 
               <label for="end_time"
-                style="display: inline-block;  font-size: 10; color: grey; padding-top: 15px; width: 15vw;">
+                style="display: inline-block;  font-size: 10; color: grey; padding-top: 15px; width: 15vw; min-width: 200px">
                 End Time:
                 <input type="datetime-local" name="end_time" style="padding: 10px;" required></label>
             </div>
@@ -731,7 +814,7 @@
         showpopalert("Please select at least one day for the recurring event.");
         //        alert("Please select at least one day for the recurring event.");
         // should not reset the form , only reset the checkboxes
-        event.target.reset();
+        //event.target.reset();
         return;
       } const form = event.target;
 
