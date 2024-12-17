@@ -1,6 +1,5 @@
 <?php
 session_start();
-// $creatorId = $_SESSION['user_id'];
 try {
     $database = new PDO('sqlite:ssDB.sq3');
     $database->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
@@ -24,15 +23,8 @@ try {
     echo json_encode(['success' => false, 'error' => 'Database error: ' . $e->getMessage()]);
     exit;
 }
-// validate everything and then insert into the database
-// first calculate the different slots for the event. if one-time simply (enddate-startdate)/duration for the number of slots and then 
-// create the slots going with startdate + i*duration for i=0 to number of slots. 
-// if recurring, then check the start and end dates, if recurring every monday from startdate to enddate then find all mondays 
-// in that range and then create slots for each monday.
-// for all slots created, insert into the database
 
-
-// Handle POST request to schedule recurring or one-time events
+// Handle POST request to schedule one-time events
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     // Sanitize and validate the form data
     $name = $_POST['name'] ?? '';
@@ -41,15 +33,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $end = $_POST['end_time'] ?? '';
     $participants = $_POST['participants'] ?? '';
     $slotDuration = $_POST['slot'] ?? '';
-    // $calendar = $_POST['calendar'] ?? '';
     $notes = $_POST['notes'] ?? '';
-    
-    //creationTime should be a TIMESTAMP
+
     $creationTime = date('Y-m-d H:i:s');
 
     if (empty($name) || empty($location) || empty($participants)) {
         echo json_encode(['success' => false, 'error' => 'Please fill in all required fields for one-time events', 'slotDuration' => $slotDuration]); 
-        //echo json_encode(['name' => $name, 'location' => $location, 'startTime' => $startTime, 'endTime' => $endTime, 'slotDuration' => $slotDuration, 'participants' => $participants, 'calendar' => $calendar]);   
         exit;
     }
 
@@ -84,7 +73,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         exit;
     }
 
-    // TODO: For one-time events, calculate the slots (duration-based) 
+    // calculate the slots (duration-based) 
     $slots = [];
     $currentDate = clone $startDateObj;
     $duration = new DateInterval('PT' . $slotDuration . 'M');
@@ -103,7 +92,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     } else{
         //if the start and end date are the same, the number of slots is the difference in minutes divided by the slot duration
         //otherwise, the number of slots is the difference in days times 24 hours times 60 minutes divided by the slot duration
-        //TODO: the last slot should end at the end time. if the end time is before the end of the slot, the slot should be shorter
+        //the last slot should end at the end time. if the end time is before the end of the slot, the slot should be shorter
         if ($startDate === $endDate) {
             $timediff = ($endTimeObj->getTimestamp() - $startTimeObj->getTimestamp())/60;
             $numSlots = $timediff / $slotDuration;
@@ -174,8 +163,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $database = new PDO('sqlite:ssDB.sq3');
         $database->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
-        
-        // Prepare the insert statement
         $stmt = $database->prepare(
             "INSERT INTO Events (creator_id, start_date, end_date, duration, start_time, end_time, event_name, note, location, max_people, url, created_at)
             VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)"
@@ -186,7 +173,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $stmt->execute([
                 $slot['creator_id'], 
                 $slot['start_date'], 
-                $slot['end_date'], // Same date for start and end TODO when past midnight its the next day!
+                $slot['end_date'], 
                 $slot['duration'], 
                 $slot['start_time'], 
                 $slot['end_time'], 
@@ -199,7 +186,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             ]);
         }
 
-        // the pop up message modal should be displayed now over the schedule page
         $eventDetails = [
             "name" => $name,
             "location" => $location,
@@ -222,7 +208,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             "eventDetails" => $eventDetails,
         ];
 
-        // Send JSON response
         echo json_encode($response);
         exit;
     } catch (PDOException $e) {

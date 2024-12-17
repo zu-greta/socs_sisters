@@ -1,10 +1,9 @@
 <?php
 session_start();
-// $creatorId = $_SESSION['user_id'];
 try {
     $database = new PDO('sqlite:ssDB.sq3');
     $database->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-    // Get userID
+    // Get userID from session token (cookies)
     $stmt = $database->prepare("SELECT user_id FROM Sessions WHERE session_token = ?");
     $stmt->execute([$_COOKIE['auth_key']]);
     $session = $stmt->fetch(PDO::FETCH_ASSOC);
@@ -24,17 +23,8 @@ try {
     echo json_encode(['success' => false, 'error' => 'Database error: ' . $e->getMessage()]);
     exit;
 }
-// validate everything and then insert into the database
-// first calculate the different slots for the event. if one-time simply (enddate-startdate)/duration for the number of slots and then 
-// create the slots going with startdate + i*duration for i=0 to number of slots. 
-// if recurring, then check the start and end dates, if recurring every monday from startdate to enddate then find all mondays 
-// in that range and then create slots for each monday.
 
-// for all slots created, insert into the database
-
-//temp code FIGURE OUT CALCULATIONS 
-
-// Handle POST request to schedule recurring or one-time events
+// Handle POST request to schedule recurring events
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     // Sanitize and validate the form data
     $name = $_POST['name'] ?? '';
@@ -43,14 +33,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $endTime = $_POST['end_time'] ?? '';
     $participants = $_POST['participants'] ?? '';
     $slotDuration = $_POST['slot'] ?? '';
-    //$calendar = $_POST['calendar'] ?? '';
     $notes = $_POST['notes'] ?? '';
-    $creatorId = 1; //TODO: Assuming logged-in user, replace with actual user ID !!!!!
 
     // For recurring events, also capture additional details
     $startDate = $_POST['start_date'] ?? '';
     $endDate = $_POST['end_date'] ?? '';
-    //$days = isset($_POST['days']) ? explode(',', $_POST['days']) : []; 
     $days = isset($_POST['day']) ? $_POST['day'] : [];
 
     $creationTime = date('Y-m-d H:i:s');
@@ -61,6 +48,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         exit;
     }
 
+    // tokens table
     function generateToken($creatorId, $name, $location, $slotDuration, $creationTime) {
         $token = bin2hex(random_bytes(32));
         //save into database
@@ -107,25 +95,23 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     while ($currentDate <= $endDateObj) {
         // Get the current day of the week (e.g., Monday, Tuesday)
         $dayOfWeek = $currentDate->format('l');
-
         // Check if the current day matches one of the selected days
         if (in_array($dayOfWeek, $days)) {
             $currentDate->setTime($startTimeObj->format('H'), $startTimeObj->format('i'));
             // Calculate the number of slots for the current day
-            $dayStart = clone $startTimeObj; // Use the provided start time
-            $dayEnd = clone $endTimeObj; // Use the provided end time
+            $dayStart = clone $startTimeObj;
+            $dayEnd = clone $endTimeObj; 
             if ($slotDuration < 1) {
                 $numSlots = 1;
             } else {
-                //TODO if the time diff is less than the slot duration, then the number of slots should be 1 and the slotDuration should be the time diff
+                //if the time diff is less than the slot duration, then the number of slots should be 1 and the slotDuration should be the time diff
                 if ($dayStart->diff($dayEnd)->h * 60 + $dayStart->diff($dayEnd)->i < $slotDuration) {
                     $numSlots = 1;
                     $slotDuration = $dayStart->diff($dayEnd)->h * 60 + $dayStart->diff($dayEnd)->i;
                     $duration = new DateInterval('PT' . $slotDuration . 'M');
                 } else {
-                    //numslots = (endDateObj - startDateObj / duration)
                     $numSlots = ($dayStart->diff($dayEnd)->h * 60 + $dayStart->diff($dayEnd)->i) / $slotDuration;
-                    //TODO: the last slot should end at the end time. if the end time is before the end of the slot, the slot should be shorter
+                    //the last slot should end at the end time. if the end time is before the end of the slot, the slot should be shorter
                     if ($dayStart->diff($dayEnd)->h * 60 + $dayStart->diff($dayEnd)->i % $slotDuration != 0) { //if the end time is not a multiple of the slot duration
                         $extraSlot = $dayStart->diff($dayEnd)->h * 60 + $dayStart->diff($dayEnd)->i % $slotDuration; // the extra time that is not a full slot
                         $numSlots -= 1; // the number of slots should be reduced by 1
@@ -137,39 +123,35 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             // Generate slots for the current day
             for ($i = 0; $i < $numSlots; $i++) {
                 $slots[] = [
-                    'start_date' => $currentDate->format('Y-m-d'), // Use the current date
+                    'start_date' => $currentDate->format('Y-m-d'), 
                     'start_time' => $currentDate->format('H:i:s'), 
-                    'end_date' => $currentDate->format('Y-m-d'), // Same day as start
+                    'end_date' => $currentDate->format('Y-m-d'), 
                     'end_time' => $currentDate->add($duration)->format('H:i:s'), // Add duration to start time
-                    'duration' => $slotDuration, // Duration in minutes
-                    'event_name' => $name, // Event name
-                    'note' => $notes, // Event notes
-                    'location' => $location, // Event location
-                    'max_people' => $participants, // Max people allowed
-                    'creator_id' => $creatorId, // Creator ID
-                    'url' => $link // Event link
+                    'duration' => $slotDuration, 
+                    'event_name' => $name,
+                    'note' => $notes, 
+                    'location' => $location, 
+                    'max_people' => $participants, 
+                    'creator_id' => $creatorId, 
+                    'url' => $link 
                 ];
             }
             if ($extraSlot > 0) {
                 //create an extra slot with the remaining time
-                //extra slot - 1 hour
-                //$endDateClone = clone $currentDate; // Clone currentDate to avoid modifying it
-                //$endDateClone->sub(new DateInterval('PT' . $extraSlot . 'M')); // Add extra slot duration to get the end time
-            
+                //extra slot is one hour too much, so we need to reduce it by one hour
+                $extraSlot = $extraSlot - 60;
                 $slots[] = [
-                    'start_date' => $currentDate->format('Y-m-d'), // Use the current date
+                    'start_date' => $currentDate->format('Y-m-d'), 
                     'start_time' => $currentDate->format('H:i:s'), 
-                    'end_date' => $currentDate->format('Y-m-d'), // Same day as start
-                    // hard code the end time to be one hour less
-                    //'end_time' => $endDateClone->format('H:i:s'), // Add duration to start time
+                    'end_date' => $currentDate->format('Y-m-d'), 
                     'end_time' => $currentDate->add(new DateInterval('PT' . $extraSlot . 'M'))->format('H:i:s'), // Add duration to start time
-                    'duration' => $extraSlot, // Duration in minutes
-                    'event_name' => $name, // Event name
-                    'note' => $notes, // Event notes
-                    'location' => $location, // Event location
-                    'max_people' => $participants, // Max people allowed
-                    'creator_id' => $creatorId, // Creator ID
-                    'url' => $link // Event link
+                    'duration' => $extraSlot, 
+                    'event_name' => $name,
+                    'note' => $notes, 
+                    'location' => $location, 
+                    'max_people' => $participants, 
+                    'creator_id' => $creatorId, 
+                    'url' => $link 
                 ];
             }
         }
@@ -183,19 +165,16 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $database = new PDO('sqlite:ssDB.sq3');
         $database->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
-        
-        // Prepare the insert statement
         $stmt = $database->prepare(
             "INSERT INTO Events (creator_id, start_date, end_date, duration, start_time, end_time, event_name, note, location, max_people, url, created_at)
             VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)"
         );
 
-        //Insert each slot
         foreach ($slots as $slot) {
             $stmt->execute([
                 $slot['creator_id'], 
                 $slot['start_date'], 
-                $slot['end_date'], // Same date for start and end
+                $slot['end_date'], 
                 $slot['duration'], 
                 $slot['start_time'], 
                 $slot['end_time'], 
@@ -208,8 +187,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             ]);
         }
 
-
-        // the pop up message modal should be displayed now over the schedule page
         $eventDetails = [
             "name" => $name,
             "location" => $location,
@@ -228,7 +205,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
         //if link is empty, then the event is not happening
         if (empty($link)) {
-            echo json_encode(['success' => false, 'error' => 'No event to schedule']);
+            echo json_encode(['success' => false, 'error' => 'Please check your input, for recurring events, the days selected need to be included in the time interval!']);
             exit;
         }
 
@@ -237,7 +214,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             "eventDetails" => $eventDetails,
         ];
 
-        // Send JSON response
         echo json_encode($response);
         exit;
     } catch (PDOException $e) {

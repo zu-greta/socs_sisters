@@ -2,7 +2,6 @@
 try {
     $database = new PDO('sqlite:ssDB.sq3');
     $database->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-
     // Get the creator's info using the creator_id in the URL params)
     $creatorID = $_GET['creator_id'];
     $eventName = $_GET['eventName'];
@@ -19,7 +18,6 @@ try {
     $creatorEmail = $creatorinfo[0]['email'];
     $creatorFname = $creatorinfo[0]['fname'];
     $creatorLname = $creatorinfo[0]['lname'];
-
     // Get all the time slots by the creator for now
     $stmt = $database->prepare("SELECT * FROM Events WHERE creator_id = ? AND event_name = ? AND created_at = ? AND location = ?");
     $stmt->execute([$creatorID, $eventName, $eventCreation, $eventLocation]);
@@ -33,10 +31,10 @@ $creator_info = [
     "creatorEmail" => $creatorEmail,
     "creator_name" => $creatorFname . " " . $creatorLname,
 ];
-// Get the time slots TODO: i need the type and the day + other info to be returned
+// Get the time slots 
 $time_slots = [];
 foreach ($events as $event) {
-    //TODO get the number of people booked for this event. check the bookings table for all the bookings with this slot_id.
+    //get the number of people booked for this event. check the bookings table for all the bookings with this slot_id.
     // if the number of people booked is equal to the max_people, then the type is full. 
     $stmt = $database->prepare("SELECT COUNT(*) FROM Bookings WHERE slot_id = ?");
     $stmt->execute([$event['slot_id']]);
@@ -73,7 +71,6 @@ $response = [
     "day" => $dayOfWeek,
 ];
 
-// Send JSON response
 echo json_encode($response);
 exit;
 

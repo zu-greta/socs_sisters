@@ -1,6 +1,5 @@
 <?php
 session_start();
-// $userID = $_SESSION['user_id'];
 
 if ($_SERVER['REQUEST_METHOD'] === 'GET') {
     $eventID = $_GET['eventID'] ?? null;
@@ -13,7 +12,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
 try {
     $database = new PDO('sqlite:ssDB.sq3');
     $database->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-    
     // Check if the event exists
     $stmt = $database->prepare("SELECT * FROM TimeRequests WHERE request_id = ?");
     $stmt->execute([$eventID]);

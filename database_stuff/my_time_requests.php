@@ -1,6 +1,5 @@
 <?php
 session_start();
-// $userID = $_SESSION['user_id'];
 try {
     $database = new PDO('sqlite:ssDB.sq3');
     $database->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
@@ -34,14 +33,13 @@ try {
     exit;
 }
 
-$requestDetails = []; // Initialize as an array
+$requestDetails = []; 
 foreach ($Requests as $key => $event) {
     $stmt = $database->prepare("SELECT * FROM Users WHERE user_id = ?");
     $stmt->execute([$event['receiver_id']]);
     $receiverDetails = $stmt->fetchAll(PDO::FETCH_ASSOC);
     $Requests[$key]['receiverDetails'] = $receiverDetails[0];
 
-    // Add each request's details to the $requestDetails array
     $requestDetails[] = [
         "requestName" => $event['eventName'],
         "requestDateTime" => $event['start_date'] . ' at ' . $event['start_time'] . '-' . $event['end_time'],
@@ -57,7 +55,6 @@ $response = [
     "requestDetails" => $requestDetails,
 ];
 
-// Send JSON response
 echo json_encode($response);
 exit;
 ?>

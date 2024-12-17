@@ -1,6 +1,5 @@
 <?php
 session_start();
-// $userID = $_SESSION['user_id'];
 try {
     $database = new PDO('sqlite:ssDB.sq3');
     $database->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
@@ -31,6 +30,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $newPassword = $_POST['new-password'] ?? '';
     $confirmPassword = $_POST['reenter-new-password'] ?? '';
 
+    //empty field check + modal error message
     if (empty($currentPassword) || empty($newPassword) || empty($confirmPassword)) {
         echo json_encode(['success' => false, 'error' => 'Please fill in all required fields']);
         $errorMessage = "Please fill in all required fields";
@@ -150,15 +150,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         exit;
     }
     
-    // if (empty($currentPassword) || empty($newPassword) || empty($confirmPassword)) {
-    //     echo json_encode(['success' => false, 'error' => 'Please fill in all required fields']);
-    //     echo "<script>
-    //         alert('Please fill in all required fields');
-            
-    //         window.location.href = '../preferences';
-    //     </script>";
-    //     exit;
-    // }
     if ($newPassword !== $confirmPassword) {
         echo json_encode(['success' => false, 'error' => 'Passwords do not match']);
         // modal error message
@@ -401,11 +392,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     // Password validation before inserting into the database
     if (strlen($newPassword) < 10 || !preg_match('/[a-zA-Z]/', $newPassword) || !preg_match('/\d/', $newPassword)) {
-        // echo "<script>
-        //     alert('Password must be at most 10 characters long, contain at least one letter, and at least one number.');
-            
-        //     window.location.href = '../preferences';
-        // </script>";
+        // modal error message
         echo json_encode(['success' => false, 'error' => 'Password must be at most 10 characters long, contain at least one letter, and at least one number.']);
         $errorMessage = "Password must be at most 10 characters long, contain at least one letter, and at least one number.";
         echo "
@@ -529,20 +516,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $database = new PDO('sqlite:ssDB.sq3');
         $database->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
-        
-        // Prepare the insert statement
         $stmt = $database->prepare(
             "UPDATE Users SET password_hash = ? WHERE user_id = ?"
         );
-
-        // Execute the statement
         $stmt->execute([password_hash($newPassword, PASSWORD_DEFAULT), $userID]);
 
         $response = [
             "success" => true,
         ];
 
-        // Send JSON response
         echo json_encode($response);
         header('Location: ../preferences');
     } catch (PDOException $e) {

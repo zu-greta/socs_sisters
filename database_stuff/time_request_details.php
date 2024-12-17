@@ -1,15 +1,6 @@
 <?php
 session_start();
-// $userID = $_SESSION['user_id'];
-
 // display all the time requests others have made to me that have status pending 
-// with a button to see details popup.
-// the popup should give the option to reject it or accept it. reject will set the status to declined
-// and remove the display form the table. accept will change the status to accepted, allow the user to 
-// create the event in the events table by giving it a name and notes (the other informations are provided)
-// and create a booking in the bookings table with booked_by the id of the sender_id. for the accepted
-// requests, it will also disappear from this page (it will show up in the upcoming events)
-
 try {
     $database = new PDO('sqlite:ssDB.sq3');
     $database->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
@@ -65,7 +56,6 @@ $userDetails = [
     "userFname" => $userFname,
     "userLname" => $userLname,
 ];
-// pendingEvents 
 foreach ($pendingEvents as $key => $event) {
     $pendingEvents[$key] = [
         "requestID" => $event['request_id'],
@@ -86,7 +76,6 @@ $response = [
     "pendingEvents" => $pendingEvents,
 ];
 
-// Send JSON response
 echo json_encode($response);
 exit;
 ?>

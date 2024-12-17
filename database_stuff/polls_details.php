@@ -1,8 +1,6 @@
 <?php
 session_start();
-// TODO: display all the polls that the user has created and the polls results
-
-//TEMPORARY
+//display all polls made by the user
 try {
     $database = new PDO('sqlite:ssDB.sq3');
     $database->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
@@ -33,14 +31,13 @@ try {
         $stmt = $database->prepare("SELECT * FROM PollOptions WHERE poll_id = ?");
         $stmt->execute([$poll['poll_id']]);
         $options = $stmt->fetchAll(PDO::FETCH_ASSOC);
-        // for each option in the PollOptions table, get the number of votes (vote_count) and the name is the start_date . " : " . $start_time . " - " . $end_time
         $polls[$key]['options'] = $options;
         foreach ($options as $key2 => $option) {
-            // start_time and end_time in the format HH:MM
             $startTime = new DateTime($option['start_time']);
             $endTime = new DateTime($option['end_time']);
             $formattedStartTime = $startTime->format('H:i');
             $formattedEndTime = $endTime->format('H:i');
+            // used as the name of the option in the frontend
             $polls[$key]['options'][$key2]['name'] = $option['start_date'] . " (" . $formattedStartTime . " - " . $formattedEndTime . ")";
         }
         $polls[$key]['total_votes'] = array_sum(array_column($options, 'vote_count'));
@@ -50,13 +47,11 @@ try {
     exit;
 }
 
-// $response
 $response = [
     'success' => true,
     'polls' => $polls,
 ];
 
-// Send JSON response
 echo json_encode($response);
 exit;
 ?>

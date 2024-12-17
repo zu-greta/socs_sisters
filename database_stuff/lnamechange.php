@@ -1,7 +1,6 @@
 <?php
 session_start();
-// $userID = $_SESSION['user_id'];
-//THIS IS NOT USED BUT LEAVE IT HERE FOR NOW CZ IT FIXES MY BUG BY EXISTING
+// IGNORE THIS FILE!
 try {
     $database = new PDO('sqlite:ssDB.sq3');
     $database->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
@@ -26,7 +25,6 @@ try {
     exit;
 }
 
-// NO IDEA IF THIS WORKS
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     // Sanitize and validate the form data

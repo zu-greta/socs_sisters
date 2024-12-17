@@ -1,6 +1,5 @@
 <?php
 session_start();
-// $creatorId = $_SESSION['user_id'];
 try {
     $database = new PDO('sqlite:ssDB.sq3');
     $database->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
@@ -44,12 +43,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $database = new PDO('sqlite:ssDB.sq3');
         $database->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
         
-        // Prepare the insert statement
         $stmt = $database->prepare(
             "INSERT INTO Events (creator_id, start_date, end_date, duration, start_time, end_time, event_name, note, location, max_people, url)
             VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)"
         );
-        // creator_id = creator_id, start_date = end_date = eventDate, duration = eventEndTime - eventStartTime, start_time = eventStartTime, end_time = eventEndTime, event_name = eventName, note = '', location = eventLocation, max_people = 1, url = 'REQUESTED'
         $stmt->execute([$creatorId, $eventDate, $eventDate, $eventEndTime - $eventStartTime, $eventStartTime, $eventEndTime, $eventName, '', $eventLocation, 1, 'REQUESTED']);
         
         //get the slot id of the event
@@ -62,16 +59,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $stmt->execute([$eventSenderID]);
         $sender_email = $stmt->fetch(PDO::FETCH_ASSOC);
         $sender_email = $sender_email['email'];
-        // Prepare the insert statement
         $stmt  = $database->prepare(
             "INSERT INTO Bookings (slot_id, booked_by_id, booked_by_email, num_people)
             VALUES (?, ?, ?, ?)"
         );
-        // slot_id = slot_id, booked_by_id = eventSenderID, booked_by_email = eventSenderID, num_people = 1
         $stmt->execute([$slot_id, $eventSenderID, $sender_email, 1]);
 
         echo json_encode(['success' => true, 'slot_id' => $slot_id, 'eventSenderID' => $eventSenderID, 'sender_email' => $sender_email]);
-        //header('Location: ../frontend/temp_timeaccept.html');
     } catch (Exception $e) {
         echo json_encode(['success' => false, 'message' => $e->getMessage()]);
     }
