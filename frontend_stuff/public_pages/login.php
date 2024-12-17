@@ -6,7 +6,7 @@ $redirect = isset($_GET['redirect']) ? urldecode($_GET['redirect']) : 'dashboard
 if (strpos($redirect, 'makeTimeRequest') !== false) {
     $redirect = str_replace('makeTimeRequest#', 'makeTimeRequest?', $redirect);
 }
-//echo "Redirect: $redirect";
+echo "Redirect: $redirect";
 if ($_SERVER["REQUEST_METHOD"] === "POST") {
     $email = $_POST['email'];
     $password = $_POST['password'];
@@ -46,6 +46,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
             //$re = html_entity_decode($redirect, ENT_QUOTES, 'UTF-8'); 
             //$re = htmlspecialchars_decode($redirect, ENT_QUOTES); 
             $re = urldecode($redirect);
+            echo "Redirect: $re";
             header("Location: " . $re);
             //header("Location: " . $redirect);
             exit;
