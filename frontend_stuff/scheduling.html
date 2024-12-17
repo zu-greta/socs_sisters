@@ -407,10 +407,12 @@
           <span>Account</span>
         </button>
         <div class="dropdown-menu">
-          <a href="#" class="dropdown-item">History</a>
-          <a href="#" class="dropdown-item">Preferences</a>
-          <a href="#" class="dropdown-item">Time Requests</a>
-          <a href="#" class="dropdown-item" style="color:#ed1b2f;">Log Out</a>
+          <a href="dashboard" class="dropdown-item">Dashboard</a>
+          <a href="history" class="dropdown-item">History</a>
+          <a href="preferences" class="dropdown-item">Preferences</a>
+          <a href="viewTimeRequest" class="dropdown-item">Time Requests</a>
+          <a href="viewPoll" class="dropdown-item">Poll</a>
+          <a href="logout" class="dropdown-item" style="color:#ed1b2f;">Log Out</a>
         </div>
       </div>
     </div>
@@ -658,7 +660,10 @@
           // Show the modal
           document.getElementById("confirmation-popup").style.display = "block";
         } else {
-          alert(body.error);
+          //alert(body.error);
+          showpopalert(`An error occurred while scheduling the event: ${body.error}`);
+          //reset the form
+          event.target.reset();
           return;
         }
       }).catch((error) => {

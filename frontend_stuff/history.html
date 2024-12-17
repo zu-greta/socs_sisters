@@ -249,7 +249,7 @@
                     <span>Account</span>
                 </button>
                 <div class="dropdown-menu">
-                    <a href="dashboard" class="dropdown-item">Upcoming</a>
+                    <a href="dashboard" class="dropdown-item">Dashboard</a>
                     <a href="preferences" class="dropdown-item">Preferences</a>
                     <a href="viewTimeRequest" class="dropdown-item">Time Requests</a>
                     <a href="viewPoll" class="dropdown-item">Polls</a>
@@ -270,7 +270,7 @@
             <div class="sidenav-container">
                 <h2>My Account</h2>
                 <div class="sidenav">
-                    <a href="dashboard">Upcoming</a>
+                    <a href="dashboard">Dashboard</a>
                     <a href="#" class="active">History</a>
                     <a href="preferences">Preferences</a>
                     <a href="viewTimeRequest">Time Requests</a>
@@ -280,16 +280,16 @@
             <!-- History -->
             <div class="history-container" id="history">
                 <div>
-                    <h2 style="display:inline-block">Past Bookings</h2>
+                    <h2 style="display:inline-block">Past Events Hosted by You</h2>
                 </div>
                 <!-- Filter Event Dropdown -->
-                <div class="dropdown" style="margin-bottom: 15px">
+                <!-- <div class="dropdown" style="margin-bottom: 15px">
                     <button onclick="showViewDropdown()" class="secondary dropdown-btn" id="filter-events-btn">&#9013;&ensp;Hosted By You</button>
                     <div id="filter-events-dropdown" class="dropdown-content">
                         <button onclick="toggleTable('history-list', 'Hosted By You')">Hosted By You</button>
                         <button onclick="toggleTable('history-list-others', 'Hosted By Others')">Hosted By Others</button>
                     </div>
-                </div>
+                </div> -->
                 <!-- Hosted by you -->
                 <table class="history-list" id="history-list" style="width:100%">
                     <tr>
@@ -347,6 +347,9 @@
             .then(response => response.json())
             .then(data => {
                 if (data.success) {
+                    console.log("Response received for others");
+                    console.log(data.bookedPastEvents);
+
                     const upcomingTable = document.getElementById("history-list-others");
                     const pastEventsOthers = data.bookedPastEvents;
 

@@ -308,7 +308,7 @@
                     <span>Account</span>
                 </button>
                 <div class="dropdown-menu">
-                    <a href="dashboard" class="dropdown-item">Upcoming</a>
+                    <a href="dashboard" class="dropdown-item">Dashboard</a>
                     <a href="history" class="dropdown-item">History</a>
                     <a href="preferences" class="dropdown-item">Preferences</a>
                     <a href="viewTimeRequest" class="dropdown-item">Time Requests</a>
@@ -328,7 +328,7 @@
             <div class="sidenav-container">
                 <h2>My Account</h2>
                 <div class="sidenav">
-                    <a href="dashboard">Upcoming</a>
+                    <a href="dashboard">Dashboard</a>
                     <a href="history">History</a>
                     <a href="preferences">Preferences</a>
                     <a href="viewTimeRequest">Time Requests</a>
@@ -465,12 +465,13 @@
                         detailsCell.appendChild(detailsButton);
                     });
                 } else {
-                    alert("Error: " + data.error);
+                    //alert("Error: " + data.error);
+                    console.error("Error:", data.error);
                 }
             })
             .catch((error) => {
                 console.error("Error:", error);
-                alert("Failed to load polls. Please try again later.");
+                //alert("Failed to load polls. Please try again later.");
             });
     });
 

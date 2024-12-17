@@ -284,10 +284,11 @@
           <span>Account</span>
         </button>
         <div class="dropdown-menu">
-          <a href="dashboard" class="dropdown-item">Upcoming</a>
+          <a href="dashboard" class="dropdown-item">Dashboard</a>
           <a href="history" class="dropdown-item">History</a>
           <a href="preferences" class="dropdown-item">Preferences</a>
           <a href="viewTimeRequest" class="dropdown-item">Time Requests</a>
+          <a href="viewPoll" class="dropdown-item">Poll</a>
           <a href="logout" class="dropdown-item" style="color:#ed1b2f;">Log Out</a>
         </div>
       </div>
@@ -304,7 +305,6 @@
 
   <div class="container">
     <h2>Request a Different Time Slot</h2>
-    <!-- form format for the backend (GRETA)-->
     <form action="./database_stuff/request_time.php" method="POST" id="request_time_form">
       <div class="form-section">
         <input type="hidden" name="creator_id" id="creator_id"> <!--get the person ur submitting to-->

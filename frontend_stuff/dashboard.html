@@ -336,7 +336,8 @@
             <div class="sidenav-container">
                 <h2>My Account</h2>
                 <div class="sidenav">
-                    <a href="#" class="active">Upcoming</a>
+                    <!-- <a href="#" class="active">Upcoming</a> -->
+                    <a href="#" class="active">Dashboard</a>
                     <a href="history">History</a>
                     <a href="preferences">Preferences</a>
                     <a href="viewTimeRequest">Time Requests</a>
@@ -346,7 +347,8 @@
             <!-- Upcoming -->
             <div class="upcoming-container">
                 <div>
-                    <h2 style="display:inline-block">Upcoming Events</h2>&ensp;
+                    <!-- <h2 style="display:inline-block">Upcoming Events</h2>&ensp; -->
+                    <h2 style="display:inline-block">Dashboard</h2>&ensp;
                         <!-- Plus Button Dropdown -->
                         <div class="dropdown" style="margin-bottom:15px">
                             <button onclick="showPlusDropdown()" class="secondary dropdown-btn" id="plus-btn">&#43;</button>
@@ -368,11 +370,11 @@
                 </div>
                 <!-- Filter Event Dropdown -->
                 <div class="dropdown" style="margin-bottom: 15px">
-                    <button onclick="showViewDropdown()" class="secondary dropdown-btn" id="filter-events-btn">&#9013;&ensp;All Your Created Events</button>
+                    <button onclick="showViewDropdown()" class="secondary dropdown-btn" id="filter-events-btn">&#9013;&ensp;All Your Upcoming Created Events</button>
                     <div id="filter-events-dropdown" class="dropdown-content">
-                        <button onclick="toggleTable('upcoming-list', 'All Your Created Events')">All Your Created Events</button>
-                        <button onclick="toggleTable('upcoming-list-bookings', 'Your Bookings')">Your Bookings</button>
-                        <button onclick="toggleTable('upcoming-list-events', 'Your Events with a Booking')">Your Events with a Booking</button>
+                        <button onclick="toggleTable('upcoming-list', 'All Your Upcoming Created Events')">All Your Upcoming Created Events</button>
+                        <button onclick="toggleTable('upcoming-list-bookings', 'All Your Bookings (all time)')">All Your Bookings (all time) </button>
+                        <button onclick="toggleTable('upcoming-list-events', 'All Your Events with a Booking (all time)')">All Your Events with a Booking (all time)</button>
                     </div>
                 </div>
                 <!-- All Events My Created Events -->
