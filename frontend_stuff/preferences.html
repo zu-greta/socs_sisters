@@ -133,6 +133,12 @@
             cursor: pointer;
         }
 
+        .checkmark {
+            color: green;
+            visibility: hidden; /* Hidden until the condition is met */
+            margin-left: 5px;
+        }
+
         /* Modal Background */
         .modal {
             display: none; /* Hidden by default */
@@ -327,13 +333,6 @@
                             </form>
                         </div>
                     </div>
-                    
-                    <!-- <h4>Notifications & Reminders</h4>
-                    <input type="checkbox" id="event-notifs" name="event-notifs" value="" >
-                    <label for="event-notifs" > Email notifications of cancelled and rescheduled events</label><br><br>
-                    <input type="checkbox" id="event-reminder" name="event-reminder" value="">
-                    <label for="event-reminder"> Email reminder 2 days before event</label><br><br>
-                    <button type="submit" class="primary">Save preferences</button> -->
                 </form>
             </div>
         </div>
@@ -404,40 +403,28 @@
             const passwordCheckNumber = document.getElementById('password-check-number');
             const passwordCheckAlpha = document.getElementById('password-check-alpha');
             const registerButton = document.getElementById('save-btn');
-            //const confirmPasswordField = document.getElementById('reenter-new-password');
 
             const value = passwordField.value; // Get the value of the password field
 
-            let lengthValid = false;
-            let numberValid = false;
-            let alphaValid = false;
+            let lengthValid = value.length >= 10;
+            let numberValid = /\d/.test(value);
+            let alphaValid = /[a-zA-Z]/.test(value);
 
-            // Check for length of 10 or more
-            if (value.length >= 10) {
-                passwordCheckLength.style.visibility = 'visible';
-                lengthValid = true;
-            } else {
-                passwordCheckLength.style.visibility = 'hidden';
-            }
+            passwordCheckLength.style.visibility = lengthValid ? 'visible' : 'hidden';
+            passwordCheckNumber.style.visibility = numberValid ? 'visible' : 'hidden';
+            passwordCheckAlpha.style.visibility = alphaValid ? 'visible' : 'hidden';
 
-            // Check for at least one number
-            if (/\d/.test(value)) {
-                passwordCheckNumber.style.visibility = 'visible';
-                numberValid = true;
-            } else {
-                passwordCheckNumber.style.visibility = 'hidden';
-            }
-
-            // Check for at least one alphabetical character
-            if (/[a-zA-Z]/.test(value)) {
-                passwordCheckAlpha.style.visibility = 'visible';
-                alphaValid = true;
-            } else {
-                passwordCheckAlpha.style.visibility = 'hidden';
+            //if any < > in the password, disable the register button
+            if (!sanitizeInput(passwordField)) {
+                registerButton.disabled = true;
+                registerButton.classList.remove('primary');  // Remove the primary class
+                alert("Password cannot contain '<' or '>'.");
+                //erase the password field
+                passwordField.value = "";
             }
 
             // Enable or disable the register button based on password validity
-            if (lengthValid && numberValid && alphaValid) {
+            if (lengthValid && numberValid && alphaValid && sanitizeInput(passwordField)) {
                 registerButton.disabled = false;
                 registerButton.classList.add('primary');  // Add the primary class for styling
             } else {
@@ -464,6 +451,24 @@
                 errors.push("Inputs cannot contain '<' or '>'.");
             }
             return errors; // Allow form submission
+        }
+
+        // Function to validate that inputs do not contain '<' or '>'
+        function sanitizeInput(input) {
+            return !/[<>]/.test(input.value);
+        }
+    
+        // Validate all input fields
+        function validateInputs() {
+            const inputs = document.querySelectorAll("input");
+            for (const input of inputs) {
+                if (!sanitizeInput(input)) {
+                    alert(`Invalid character '<' or '>' in input: ${input.name}`);
+                    input.focus();
+                    return false;
+                }
+            }
+            return true;
         }
     </script>
 

@@ -116,11 +116,18 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             if ($slotDuration < 1) {
                 $numSlots = 1;
             } else {
-                //numslots = (endDateObj - startDateObj / duration)
-                $numSlots = ($dayStart->diff($dayEnd)->h * 60 + $dayStart->diff($dayEnd)->i) / $slotDuration;
-                //TODO: the last slot should end at the end time. if the end time is before the end of the slot, the slot should be shorter
-                if ($dayStart->diff($dayEnd)->h * 60 + $dayStart->diff($dayEnd)->i % $slotDuration != 0) { //if the end time is not a multiple of the slot duration
-                    $extraSlot = $dayStart->diff($dayEnd)->h * 60 + $dayStart->diff($dayEnd)->i % $slotDuration; // the extra time that is not a full slot
+                //TODO if the time diff is less than the slot duration, then the number of slots should be 1 and the slotDuration should be the time diff
+                if ($dayStart->diff($dayEnd)->h * 60 + $dayStart->diff($dayEnd)->i < $slotDuration) {
+                    $numSlots = 1;
+                    $slotDuration = $dayStart->diff($dayEnd)->h * 60 + $dayStart->diff($dayEnd)->i;
+                    $duration = new DateInterval('PT' . $slotDuration . 'M');
+                } else {
+                    //numslots = (endDateObj - startDateObj / duration)
+                    $numSlots = ($dayStart->diff($dayEnd)->h * 60 + $dayStart->diff($dayEnd)->i) / $slotDuration;
+                    //TODO: the last slot should end at the end time. if the end time is before the end of the slot, the slot should be shorter
+                    if ($dayStart->diff($dayEnd)->h * 60 + $dayStart->diff($dayEnd)->i % $slotDuration != 0) { //if the end time is not a multiple of the slot duration
+                        $extraSlot = $dayStart->diff($dayEnd)->h * 60 + $dayStart->diff($dayEnd)->i % $slotDuration; // the extra time that is not a full slot
+                    }
                 }
             }
             $tokengen = generateToken($creatorId, $name, $location, $slotDuration, $creationTime);

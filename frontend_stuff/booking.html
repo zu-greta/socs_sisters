@@ -136,6 +136,12 @@
     }
 
     /* List View */
+    .time-slots {
+      background-color: white;
+      max-height: 61vh; /* Set a maximum height to control the calendar size */
+      overflow: auto; /* Enable scrolling when content exceeds container size */
+      padding-bottom: 10px;
+    }
 
     .list-view ul {
       list-style-type: none;
@@ -582,10 +588,12 @@
           </div>  
           </div>
           <!--list view-->
-          <div class="list-view" style="display: none;">
-            
+          <div class="list-view" style="display: none;"> 
+            <div class="schedule-header">
+              <h3 style="font-weight: normal;">Time Slots</h3>
+            </div>
             <div class="time-slots">
-              <h3>Time Slots</h3>
+              
               <!-- <ul id="time-slots"></ul> -->
                <div class="list" id="time-slots"></div>
             </div>
@@ -600,7 +608,7 @@
         
       </div>
       <div class="right-bar">
-        <h3><span id="display-day"></span>, <span id="display-datetime"></span></h3>
+        <h3 style="margin-top: 10px;"><span id="display-day"></span>, <span id="display-datetime"></span></h3>
         <h4>Event info: </br></h4><p id="event-info"></p>
         </br>
         <form action="./database_stuff/booking.php" method="POST" id="booking_form">
@@ -665,6 +673,7 @@
           listView.style.display = 'none';
           //close the right tab if it is open
           document.querySelector('.right-bar').style.display = 'none';
+          document.querySelector('.close-button').style.display = "none";
         });
       
         listTab.addEventListener('click', () => {
@@ -672,6 +681,7 @@
           listView.style.display = 'block';
           //close the right tab if it is open
           document.querySelector('.right-bar').style.display = 'none';
+          document.querySelector('.close-button').style.display = "none";
         });
       
         // Initialize the calendar with the current week
@@ -732,11 +742,13 @@
         calendarTab.addEventListener('click', () => {
           calendarView.style.display = 'block';
           listView.style.display = 'none';
+          closeButton.style.display = "none";
         });
       
         listTab.addEventListener('click', () => {
           calendarView.style.display = 'none';
           listView.style.display = 'block';
+          closeButton.style.display = "none";
         });
       
         // Initialize the calendar with the current week

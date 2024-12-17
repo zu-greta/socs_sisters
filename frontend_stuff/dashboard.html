@@ -305,7 +305,7 @@
                         <div class="dropdown" style="margin-bottom:15px">
                             <button onclick="showPlusDropdown()" class="secondary dropdown-btn" id="plus-btn">&#43;</button>
                             <div id="plus-dropdown" class="dropdown-content">
-                                <button id="scheduling-btn">Add new booking</button> 
+                                <button id="scheduling-btn">Create new event schedule</button> 
                                 <button id="create-poll-btn">Create meeting poll</button>
                             </div>
                         </div> &ensp;
@@ -384,18 +384,6 @@
             document.getElementById("plus-dropdown").classList.toggle("show");
         }
 
-        // window.onclick = function(event) {
-        //     if (!event.target.matches('.dropdown-btn')) {
-        //         var dropdowns = document.getElementsByClassName("dropdown-content");
-        //         var i;
-        //         for (i = 0; i < dropdowns.length; i++) {
-        //             var openDropdown = dropdowns[i];
-        //             if (openDropdown.classList.contains('show')) {
-        //                     openDropdown.classList.remove('show');
-        //             }
-        //         }
-        //     }
-        // }
         window.onclick = function(event) {
             if (!event.target.matches('.dropdown-btn')) {
                 const dropdowns = document.getElementsByClassName("dropdown-content");

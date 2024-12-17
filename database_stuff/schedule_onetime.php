@@ -107,13 +107,27 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         if ($startDate === $endDate) {
             $timediff = ($endTimeObj->getTimestamp() - $startTimeObj->getTimestamp())/60;
             $numSlots = $timediff / $slotDuration;
-            if ($timediff % $slotDuration != 0) {
-                $extraSlot = $timediff % $slotDuration; // the extra time that is not a full slot
+            //if the time diff is less than the slot duration, the number of slots is 1
+            if ($timediff < $slotDuration) {
+                $numSlots = 1;
+                $slotDuration = $timediff;
+                $duration = new DateInterval('PT' . $timediff . 'M');
+            } else {
+                if ($timediff % $slotDuration != 0) {
+                    $extraSlot = $timediff % $slotDuration; // the extra time that is not a full slot
+                }
             }
         } else {
             $numSlots = $startDateObj->diff($endDateObj)->days * 24 * 60 / $slotDuration;
-            if ($startDateObj->diff($endDateObj)->days * 24 * 60 % $slotDuration != 0) {
-                $extraSlot = $startDateObj->diff($endDateObj)->days * 24 * 60 % $slotDuration; // the extra time that is not a full slot
+            //if the time diff is less than the slot duration, the number of slots is 1
+            if ($startDateObj->diff($endDateObj)->days * 24 * 60 < $slotDuration) {
+                $numSlots = 1;
+                $slotDuration = $startDateObj->diff($endDateObj)->days * 24 * 60;
+                $duration = new DateInterval('PT' . $startDateObj->diff($endDateObj)->days * 24 * 60 . 'M');
+            } else {
+                if ($startDateObj->diff($endDateObj)->days * 24 * 60 % $slotDuration != 0) {
+                    $extraSlot = $startDateObj->diff($endDateObj)->days * 24 * 60 % $slotDuration; // the extra time that is not a full slot
+                }
             }
         }
     }
