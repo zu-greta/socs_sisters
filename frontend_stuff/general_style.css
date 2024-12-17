@@ -140,7 +140,7 @@ header {
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   border-bottom-left-radius: 6px;
   border-bottom-right-radius: 6px;
-  z-index: 100;
+  z-index: 1000;
   margin-right: 20px;
 }
 
@@ -149,6 +149,7 @@ header {
   padding: 15px 20px;
   text-decoration: none;
   color: #424242;
+  z-index: 1001;
   font-size: 0.9em;
   transition: background-color 0.2s ease;
 }
