@@ -127,14 +127,10 @@
   <div class="container">
     <h2>Request a Different Time Slot</h2>
     <!-- form format for the backend (GRETA)-->
-    <form action="../database_stuff/request_time.php" method="POST" id="request_time_form">
+    <form action="./database_stuff/request_time.php" method="POST" id="request_time_form">
       <div class="form-section">
         <input type="hidden" name="creator_id" id="creator_id"> <!--get the person ur submitting to-->
         <input type="hidden" name="eventName" id="eventName"> <!--get the event name-->
-        <!-- <div class="input-container">
-          <input type="text" placeholder="Your Name *" id="name" name="name" required>
-          <input type="email" placeholder="Your Email *" id="email" name="email" required>
-        </div> -->
 
         <div class="input-container">
           <label for="date">Requested Date and Time Slot:</label>
@@ -151,7 +147,7 @@
         </div>
 
         <div class="buttons">
-          <button class="secondary" onclick="window.location.href='booking.html';">Cancel</button>
+          <button class="secondary cancel">Cancel</button>
           <button class="primary" type="submit">Submit Request</button>
         </div>
       </div>
@@ -167,28 +163,6 @@
     </div>
 </div> 
 
-  <!-- <script>
-    function submitRequest() {
-      const name = document.getElementById('name').value;
-      const email = document.getElementById('email').value;
-      const date = document.getElementById('date').value;
-      const startTime = document.getElementById('start-time').value;
-      const endTime = document.getElementById('end-time').value;
-      const reason = document.getElementById('reason').value;
-
-      if (!name || !email || !date || !startTime || !endTime || !reason) {
-        alert("Please fill in all required fields.");
-        return;
-      }
-
-      alert(`Your request has been submitted:\n\nName: ${name}\nEmail: ${email}\nRequested Date: ${date}\nStart Time: ${startTime}\nEnd Time: ${endTime}\nReason: ${reason}`);
-      
-      // After submission, redirect back to the booking page
-      window.location.href = "booking.html";
-      
-      // Add with actual submission logic
-    }
-  </script> -->
   <script>
     const cancelButton = document.querySelector(" .cancel");
 
