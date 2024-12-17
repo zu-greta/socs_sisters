@@ -6,14 +6,23 @@
   <title>Booking Page</title>
   <link rel="stylesheet" href="./frontend_stuff/general_style.css?v=1.0" >
   <style>
-    body {
+    /* body {
       margin: 0;
       padding: 0;
       background-color: #e4e4e4;
+    } */
+    body, html {
+        height: 100%;
+        margin: 0;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        background-color: #e4e4e4;
     }
     
     .container {
       background-color: white;
+      min-width: 90vw; 
       width: 87%;
       margin: 9vh auto;
       border: 1px solid #ccc;
@@ -97,17 +106,19 @@
     /* Calendar View */
     .calendar {
       display: grid;
-      grid-template-columns: 100px repeat(7, 1fr); /* Fixed width for the time column */
-      grid-auto-rows: 50px; /* Uniform height for rows */
+      grid-template-columns: 100px repeat(7, 2fr); /* Fixed width for the time column */
+      grid-auto-rows: 60px; /* Uniform height for rows */
       gap: 1px; /* Creates spacing between grid cells */
       background-color: white;
       max-height: 61vh; /* Set a maximum height to control the calendar size */
       overflow: auto; /* Enable scrolling when content exceeds container size */
       padding-bottom: 10px;
     }
+
     .calendar .row {
       display: contents; /* Preserve grid structure */
     }
+
     .calendar div {
       background-color: #fff;
       display: flex;
@@ -116,23 +127,34 @@
       border: 0.5px solid #ccc;
       font-size: 14px;
     }
-    .calendar .day, .calendar .time {
+
+    .calendar .day,
+    .calendar .time {
       background-color: #e9ecef;
       font-weight: bold;
       border: 1px solid #ccc;
       text-align: center;
     }
+
     .calendar .time-slot {
       cursor: pointer;
       border-radius: 4px;
+      display: flex;  /* Ensures that items are arranged horizontally */
+      flex-direction: column; /* Arrange items in a row */
+      justify-content: center;
+      gap: 10px; /* Optional, adds spacing between slots */
+      width: 100%; /* Ensures slots take the full width of the cell */
+      font-size: 0.7rem;
     }
     .calendar .available {
       background-color: #ed1b2f;
       color: #fff;
     }
     .calendar .full {
-      background: repeating-linear-gradient(45deg, #ed1b2f, #ed1b2f 5px, transparent 3px, transparent 8px);
-      color: #000000;
+      /* background: repeating-linear-gradient(45deg, #ed1b2f, #ed1b2f 5px, transparent 3px, transparent 8px);
+      color: #000000; */
+      background-color: #e4e4e4;
+      color: #424242;
     }
 
     /* List View */
@@ -152,23 +174,15 @@
       padding: 10px;
       border-bottom: 1px solid #ccc;
       cursor: pointer;
-      background-color: #ed1b2f;
-      color: #fff;;
+      background-color: #e4e4e4;
+      color: #424242;;
       margin-bottom: 5px;
       border-radius: 4px;
     }
     
     .list-view li:hover {
-      background-color: #f1f1f1;
-    }
-
-    .list-view .time-slot .available {
       background-color: #ed1b2f;
-      color: #fff;
-    }
-    .list-view .time-slot .full {
-      background: repeating-linear-gradient(45deg, #ed1b2f, #ed1b2f 5px, transparent 3px, transparent 8px);
-      color: #000000;
+      color: white;
     }
 
 
@@ -619,7 +633,8 @@
           <div class="buttons">
             <button class="submit" type="primary submit">Book</button>
           </div>
-          <p>*Note: you must make an account with your @mail.mcgill.ca or @mcgill.ca to be able to view your bookings</p>
+          <p style="margin-top: 10px;">*Note: you must make an account with your @mail.mcgill.ca or @mcgill.ca to be able to view your bookings</p>
+          <p style="margin-top: 10px;">*Note: you cannot cancel a booking once the slot has been confirmed.</p>
         </form>
       </div>
       <span class="close-button">&times;</span>
@@ -674,6 +689,7 @@
           //close the right tab if it is open
           document.querySelector('.right-bar').style.display = 'none';
           document.querySelector('.close-button').style.display = "none";
+          document.querySelector('.left-bar').style.display = 'block';
         });
       
         listTab.addEventListener('click', () => {
@@ -682,6 +698,7 @@
           //close the right tab if it is open
           document.querySelector('.right-bar').style.display = 'none';
           document.querySelector('.close-button').style.display = "none";
+          document.querySelector('.left-bar').style.display = 'block';
         });
       
         // Initialize the calendar with the current week
@@ -838,10 +855,12 @@
                 const targetCell = matchingRow.parentElement.children[dayIndex];
       
                 if (targetCell) {
+                  targetCell.style.display = 'flex';
+                  targetCell.style.flexDirection = 'column';  // Stack time slots vertically
+
                   const timeSlot = document.createElement("div");
                   timeSlot.classList.add("time-slot");
-                  timeSlot.textContent = convertTo12HourFormat(slot.start_time);
-                  timeSlot.textContent += " - " + convertTo12HourFormat(slot.end_time) + " on " + slot.date;
+                  timeSlot.textContent = convertTo12HourFormat(slot.start_time) + " - " + convertTo12HourFormat(slot.end_time);
                   timeSlot.classList.add(slot.type || "unknown");
       
                   timeSlot.addEventListener("click", () => {
@@ -886,7 +905,6 @@
             document.getElementById("eventName").innerHTML = eventName;
             document.getElementById("eventDuration").innerHTML = eventDuration;
             document.getElementById("eventLocation").innerHTML = eventLocation;
-            //document.getElementById("eventCreation").innerHTML = eventCreation;
       
             const slotList = document.getElementById("time-slots");
             slotList.innerHTML = '';
@@ -894,7 +912,7 @@
             data.time_slots.forEach(slot => {
               const listItem = document.createElement("li");
               listItem.classList.add("time-slot");
-              listItem.textContent = `${slot.date} ${convertTo12HourFormat(slot.start_time)} - ${convertTo12HourFormat(slot.end_time)}: ${slot.description}`;
+              listItem.textContent = `${slot.date} from ${convertTo12HourFormat(slot.start_time)} to ${convertTo12HourFormat(slot.end_time)}`;
               listItem.addEventListener("click", () => {
                 showSlotDetails(slot, eventName);
               });
@@ -917,6 +935,8 @@
         const displayDay = document.getElementById("display-day");
         const displayDatetime = document.getElementById("display-datetime");
         const eventInfo = document.getElementById("event-info");
+
+        const leftBar = document.querySelector(".left-bar");
       
         displayDay.textContent = slot.day;
         displayDatetime.textContent = `${slot.date} at ${convertTo12HourFormat(slot.start_time)}-${convertTo12HourFormat(slot.end_time)}`;
@@ -932,17 +952,24 @@
       
         rightBar.style.display = "block";
         closeButton.style.display = "block";
+        leftBar.style.display = "none";
       
         closeButton.addEventListener("click", () => {
           rightBar.style.display = "none";
           closeButton.style.display = "none";
+          leftBar.style.display = "block";
         });
       
         if (slot.type === "full") {
           document.querySelector(".submit").disabled = true;
-          document.querySelector(".submit").textContent = "Slot Full";
+          document.querySelector(".submit").style.display = "none";
+          //take out the email input field display
+          document.querySelector(".input-container").style.display = "none";
         } else {
           document.querySelector(".submit").disabled = false;
+          document.querySelector(".submit").style.display = "block";
+          //put in the email input field display
+          document.querySelector(".input-container").style.display = "block";
         }
       
         document.forms['booking_form'].addEventListener('submit', (event) => {
