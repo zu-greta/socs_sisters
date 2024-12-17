@@ -1,8 +1,10 @@
 <!-- TODO: Redirect you to the login page PRIVATE -->
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <title>Register Page</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="./frontend_stuff/general_style.css">
     <style>
         /* Common Styles */
@@ -10,21 +12,27 @@
             margin: 0;
             font-family: Arial, sans-serif;
         }
+
         .container {
             display: flex;
             height: 100vh;
         }
-        .left-section, .right-section {
+
+        .left-section,
+        .right-section {
             flex: 1;
         }
+
         .left-section {
             display: flex;
             flex-direction: column;
             justify-content: center;
             padding: 40px;
-            margin-top: -40px; /* Move the left section's content higher */
+            margin-top: -40px;
+            /* Move the left section's content higher */
 
         }
+
         .right-section {
             display: flex;
             flex-direction: column;
@@ -33,31 +41,34 @@
             background-color: #ae0e1d;
             color: white;
         }
-        
+
         .header-container {
             justify-content: center;
-            width: 70%; /* Ensures it scales properly */
-            margin: 0 auto; /* Centers the container within the parent */
+            width: 70%;
+            /* Ensures it scales properly */
+            margin: 0 auto;
+            /* Centers the container within the parent */
 
         }
 
         .header-container h1 {
-            font-size: 1.8rem; 
+            font-size: 1.8rem;
             line-height: 1.2;
             margin-bottom: 8px;
             text-align: center;
         }
 
         .header-container .center-text {
-            font-size: 0.8rem; 
+            font-size: 0.8rem;
             color: #424242;
-            text-align: center; 
+            text-align: center;
             margin-bottom: 20px;
         }
 
         .form-container {
             justify-content: left;
-            max-width: 400px; /* Same width as .header-container for alignment */
+            max-width: 400px;
+            /* Same width as .header-container for alignment */
             width: 100%;
             margin: 0 auto;
         }
@@ -65,37 +76,49 @@
         .form-container {
             max-width: 400px;
         }
+
         label {
             display: block;
             margin-bottom: 5px;
         }
+
         input {
             width: 100%;
             padding: 12px;
             margin-bottom: 15px;
             border: 1px solid #ccc;
             border-radius: 5px;
-            box-sizing: border-box;  
+            box-sizing: border-box;
         }
+
         .half-width {
-            width: calc(50% - 10px); /* Adjusts for spacing */
+            width: calc(50% - 10px);
+            /* Adjusts for spacing */
             margin-right: 10px;
         }
+
         .half-width:last-child {
-            margin-right: 0; /* Removes margin for the last input */
+            margin-right: 0;
+            /* Removes margin for the last input */
         }
+
         .flex-row {
             display: flex;
             justify-content: space-between;
-            gap: 10px; /* Adds consistent spacing between fields */
+            gap: 10px;
+            /* Adds consistent spacing between fields */
         }
+
         .subtext {
             font-size: 0.7rem;
             color: #555;
-            margin-top: -10px; /* Adjusts spacing closer to the previous field */
-            margin-bottom: 15px; /* Keeps consistent spacing below */
+            margin-top: -10px;
+            /* Adjusts spacing closer to the previous field */
+            margin-bottom: 15px;
+            /* Keeps consistent spacing below */
             line-height: 0.6rem;
         }
+
         .terms-link {
             color: #ae0e1d;
             text-decoration: none;
@@ -107,7 +130,7 @@
             text-decoration: none;
         }
 
-        button{
+        button {
             width: 100%;
             border: none;
         }
@@ -117,10 +140,12 @@
             margin-bottom: -5px;
             margin-top: -65px;
         }
+
         .right-section h2 {
             font-size: 2rem;
             margin-bottom: 20px;
         }
+
         .right-section p {
             text-align: center;
             line-height: 1.6rem;
@@ -128,9 +153,11 @@
             color: #555;
             max-width: 70%;
         }
+
         .checkmark {
             color: green;
-            visibility: hidden; /* Hidden until the condition is met */
+            visibility: hidden;
+            /* Hidden until the condition is met */
             margin-left: 5px;
         }
 
@@ -138,11 +165,43 @@
             color: red;
             font-size: 0.8rem;
             margin-bottom: 15px;
-            display: none; /* Hidden by default */
+            display: none;
+            /* Hidden by default */
         }
 
+        /* Media query for medium screens */
+        @media screen and (max-width: 913px) {
+            .container {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .left-section {
+                flex: 0 1 auto;
+                margin: 0 auto;
+                padding-bottom: 50px;
+            }
+
+            .header-container {
+                width: 100%;
+            }
+        }
+
+        /* Media query for small screens */
+        @media screen and (max-width: 600px) {
+            .container {
+                margin-top: 20%;
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .right-section {
+                display: none;
+            }
+        }
     </style>
 </head>
+
 <body>
 
     <div class="container">
@@ -151,13 +210,15 @@
             <div class="header-container">
                 <h1>Create your account</h1>
                 <p class="center-text">
-                    Already have an account? 
+                    Already have an account?
                     <a onclick="window.location.href='login'" class="terms-link">Log in</a>
                 </p>
-                <form class="form-container" action="./database_stuff/register.php" method="POST" onsubmit="return validateForm()">
+                <form class="form-container" action="./database_stuff/register.php" method="POST"
+                    onsubmit="return validateForm()">
                     <label for="email">Email:</label>
-                    <input type="email" id="email" name="email" placeholder="user@mcgill.ca or user@mail.mcgill.ca" required>
-                
+                    <input type="email" id="email" name="email" placeholder="user@mcgill.ca or user@mail.mcgill.ca"
+                        required>
+
                     <div class="flex-row">
                         <div class="half-width">
                             <label for="firstname">First Name:</label>
@@ -170,27 +231,27 @@
                             <span class="error-message" id="lastname-error"></span> <!-- Last name error -->
                         </div>
                     </div>
-                
+
                     <label for="password">Password:</label>
                     <input type="password" id="password" name="password" oninput="checkPassword()" required>
                     <span class="error-message" id="password-error"></span> <!-- Password error -->
-                    <p class="subtext">&#8226;  Use 10 or more characters
+                    <p class="subtext">&#8226; Use 10 or more characters
                         <span id="password-check-length" class="checkmark">&#10004;</span>
                     </p>
-                    <p class="subtext">&#8226;  At least one number
+                    <p class="subtext">&#8226; At least one number
                         <span id="password-check-number" class="checkmark">&#10004;</span>
                     </p>
-                    <p class="subtext">&#8226;  At least one alphabetical character
+                    <p class="subtext">&#8226; At least one alphabetical character
                         <span id="password-check-alpha" class="checkmark">&#10004;</span>
                     </p>
-                    
+
                     <label for="confirmpassword">Confirm Password:</label>
                     <input type="password" id="confirmpassword" name="confirmpassword" required>
                     <span class="error-message" id="confirmpassword-error"></span> <!-- Confirm password error -->
-                
+
                     <p class="subtext">
-                        By creating an account, you agree to the 
-                        <a href="terms.html" class="terms-link">Terms of Use</a> and 
+                        By creating an account, you agree to the
+                        <a href="terms.html" class="terms-link">Terms of Use</a> and
                         <a href="privacy.html" class="terms-link">Privacy Policy</a>.
                     </p>
 
@@ -206,7 +267,8 @@
             <img src="./frontend_stuff/png/logo.png" alt="SOC-cessful Schedule Logo">
             <h2>SOC-cessful Schedule</h2>
             <p style="color:white;">
-                Only members can create availability slots, check upcoming and past bookings, and request alternative time slots. Sign up now to make scheduling easier and more efficient!
+                Only members can create availability slots, check upcoming and past bookings, and request alternative
+                time slots. Sign up now to make scheduling easier and more efficient!
             </p>
         </div>
     </div>
@@ -226,7 +288,7 @@
         function sanitizeInput(input) {
             return !/[<>]/.test(input.value);
         }
-    
+
         // Validate all input fields
         function validateInputs() {
             const inputs = document.querySelectorAll("input");
@@ -242,7 +304,7 @@
             }
             return true;
         }
-    
+
         // Password validation
         function checkPassword() {
             const passwordField = document.getElementById('password');
@@ -250,17 +312,17 @@
             const passwordCheckNumber = document.getElementById('password-check-number');
             const passwordCheckAlpha = document.getElementById('password-check-alpha');
             const registerButton = document.getElementById('register-button');
-    
+
             const value = passwordField.value;
-    
+
             let lengthValid = value.length >= 10;
             let numberValid = /\d/.test(value);
             let alphaValid = /[a-zA-Z]/.test(value);
-    
+
             passwordCheckLength.style.visibility = lengthValid ? 'visible' : 'hidden';
             passwordCheckNumber.style.visibility = numberValid ? 'visible' : 'hidden';
             passwordCheckAlpha.style.visibility = alphaValid ? 'visible' : 'hidden';
-    
+
             if (lengthValid && numberValid && alphaValid) {
                 registerButton.disabled = false;
                 registerButton.classList.add('primary');
@@ -269,14 +331,14 @@
                 registerButton.classList.remove('primary');
             }
         }
-    
+
         // Form validation
         function validateForm() {
             const errors = [];
             const password = document.getElementById('password').value;
             const confirmPassword = document.getElementById('confirmpassword').value;
             const email = document.getElementById('email').value;
-    
+
             if (!/@(mcgill\.ca|mail\.mcgill\.ca)$/.test(email)) {
                 errors.push('Email must be a McGill email.');
             }
@@ -288,7 +350,7 @@
             }
             return errors;
         }
-    
+
         // Add input sanitization as the user types
         document.querySelectorAll("input").forEach(input => {
             input.addEventListener("input", () => {
@@ -300,11 +362,11 @@
                 }
             });
         });
-    
+
         // Handle form submission
         document.querySelector("form").addEventListener("submit", function (event) {
             const errors = validateForm();
-    
+
             if (errors.length > 0) {
                 event.preventDefault(); // Prevent form submission
                 //displayError("email", errors.join("\n"));
@@ -313,7 +375,8 @@
             }
         });
     </script>
-    
-    
+
+
 </body>
+
 </html>
