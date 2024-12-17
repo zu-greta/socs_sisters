@@ -267,7 +267,7 @@
 
     /* Modal Background */
     .modal {
-        display: none; /* Hidden by default */
+        display: none; 
         position: fixed;
         z-index: 1001; /* Higher than the overlay */
         left: 0;
@@ -291,6 +291,7 @@
         max-width: 400px;
         text-align: center;
         box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+        padding-bottom: 3%;
     }
 
     body.modal-open {
@@ -646,9 +647,9 @@
     <div id="confirmation-popup" class="modal">
       <div class="modal-content">
           <span class="modal-close-btn" id="close-popup">&times;</span>
-          <p>Slot Booked!</p>
+          <h2 style="margin-bottom: 10%;">Slot Booked!</h2>
           <!--button to the landing page-->
-          <button class="primary-btn" onclick="window.location.href = 'landing';">Landing page</button>
+          <button class="primary" onclick="window.location.href = 'landing';">Landing page</button>
       </div>
     </div>
 
