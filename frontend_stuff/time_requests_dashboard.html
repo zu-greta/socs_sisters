@@ -128,6 +128,8 @@
         /* for popup */
         .event-details-popup {
             display: none;
+            justify-content: center;
+            align-items: center;
             position: fixed;
             z-index: 1000;
             left: 0;
@@ -236,6 +238,49 @@
             }
         }
 
+        /* General form container styling */
+        .form-group {
+            margin-bottom: 20px;
+            display: flex;
+            flex-direction: column;
+            font-size: 16px;
+        }
+
+        /* Input fields styling */
+        .event-details-popup-content input[type="text"],
+        .event-details-popup-content input[type="time"],
+        .event-details-popup-content input[type="date"] {
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            font-size: 16px;
+            color: #333;
+            background-color: #f8f8f8;
+            outline: none;
+            transition: all 0.3s ease;
+        }
+
+        .event-details-popup-content input[type="text"]:focus,
+        .event-details-popup-content input[type="time"]:focus,
+        .event-details-popup-content input[type="date"]:focus {
+            border-color: #ed1b2f;
+            box-shadow: 0 0 5px rgba(0, 123, 255, 0.3);
+        }
+
+        /* Popup button styling */
+        .popup-buttons {
+            display: flex;
+            justify-content: flex-end;
+        }
+
+        /* Form labels */
+        .event-details-popup-content label {
+            margin-bottom: 8px;
+            color: #333;
+            font-weight: bold;
+        }
+
+
 
 
     </style>
@@ -331,22 +376,42 @@
     <div id="create-event-popup" class="event-details-popup">
         <div class="event-details-popup-content">
             <span class="close" onclick="closeDetailsPopup('create-event-popup')">&times;</span>
-            <h2>Create Event</h2> 
+            <h1>Create Event</h1> 
             <form id="event-form">
-                <label for="eventName">Event Name:</label>
-                <input type="text" id="eventName" name="eventName" required>
+                <div class="form-group">
+                    <label for="eventName">Event Name:</label>
+                    <input type="text" id="eventName" name="eventName" required>
+                </div>
+                <!-- <label for="eventName">Event Name:</label>
+                <input type="text" id="eventName" name="eventName" required> -->
             </br>
-                <label for="eventLocation">Location:</label>
-                <input type="text" id="eventLocation" name="eventLocation" required>
+                <div class="form-group">
+                    <label for="eventLocation">Location:</label>
+                    <input type="text" id="eventLocation" name="eventLocation" required>
+                </div>
+                <!-- <label for="eventLocation">Location:</label>
+                <input type="text" id="eventLocation" name="eventLocation" required> -->
             </br>
-                <label for="eventStartTime">Start Time:</label>
-                <input type="time" id="eventStartTime" name="eventStartTime" required>
+                <div class="form-group">
+                    <label for="eventStartTime">Start Time:</label>
+                    <input type="time" id="eventStartTime" name="eventStartTime" required>
+                </div>
+                <!-- <label for="eventStartTime">Start Time:</label>
+                <input type="time" id="eventStartTime" name="eventStartTime" required> -->
             </br>
-                <label for="eventEndTime">End Time:</label>
-                <input type="time" id="eventEndTime" name="eventEndTime" required>
+                <div class="form-group">
+                    <label for="eventEndTime">End Time:</label>
+                    <input type="time" id="eventEndTime" name="eventEndTime" required>
+                </div>
+                <!-- <label for="eventEndTime">End Time:</label>
+                <input type="time" id="eventEndTime" name="eventEndTime" required> -->
             </br>
-                <label for="eventDate">Date:</label>
-                <input type="date" id="eventDate" name="eventDate" required>
+                <div class="form-group">
+                    <label for="eventDate">Date:</label>
+                    <input type="date" id="eventDate" name="eventDate" required>
+                </div>
+                <!-- <label for="eventDate">Date:</label>
+                <input type="date" id="eventDate" name="eventDate" required> -->
             </br>
                 <input type="hidden" id="eventRequestID" name="eventRequestID">
                 <input type="hidden" id="sender_id" name="sender_id">
@@ -356,6 +421,7 @@
             </form>
         </div>
     </div>  
+
 
     <script>
         /* show event details popup */
@@ -449,6 +515,26 @@
     function submitEvent() {
         const formData = new FormData(document.getElementById('event-form'));
 
+        // Validate form data
+        if (!validateEventForm()) {
+            return;
+        }
+        //check that start time is before end time
+        const eventStartTime = document.getElementById('eventStartTime').value;
+        const eventEndTime = document.getElementById('eventEndTime').value;
+        const eventDate = document.getElementById('eventDate').value;
+        const eventName = document.getElementById('eventName').value;
+        const eventLocation = document.getElementById('eventLocation').value;
+        if (eventStartTime >= eventEndTime) {
+            alert('End time must be after start time.');
+            return;
+        }
+        //check that none of the inputs are empty
+        if (eventStartTime === "" || eventEndTime === "" || eventDate === "" || eventName === "" || eventLocation === "") {
+            alert('All fields must be filled out.');
+            return;
+        }
+
         fetch('./database_stuff/save_event.php', {
             method: 'POST',
             body: formData
@@ -457,7 +543,7 @@
         .then(data => {
             console.log(data);
             if (data.success) {
-                alert('Event Created Successfully');
+                //alert('Event Created Successfully');
                 //console.log(data);
                 location.reload();
             } else {
@@ -610,7 +696,20 @@
             });
         }
     </script>
+    <script>
+        function validateEventForm() {
+            const eventName = document.getElementById('eventName').value;
+            const eventLocation = document.getElementById('eventLocation').value;
+            const regex = /[<>]/; // Regex to match '<' or '>'
 
+            if (regex.test(eventName) || regex.test(eventLocation)) {
+                alert("Input cannot contain '<' or '>' characters.");
+                return false; // Prevent form submission
+            }
+
+            return true; // Allow form submission
+        }
+    </script>
 
 </body>
 </html>

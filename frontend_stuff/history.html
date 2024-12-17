@@ -142,12 +142,16 @@
         .event-details-popup-content{
             background-color: white;
             margin: 10% auto;
-            padding: 40px 60px 100px 60px;
+            padding: 40px 60px 50px 60px;
             border: 1px solid #888;
-            width: 50%;
             max-width: 800px;
             position: relative;
             border-radius: 5px;
+            word-break: break-word; 
+            overflow-wrap: break-word; 
+            white-space: normal;
+            box-sizing: content-box;
+            width: 100%;
         }
 
         /* close button */
@@ -369,7 +373,7 @@
                                     <span class="close" onclick="closeDetailsPopup('${eventDetailsPopupID}')">&times;</span>
                                     <h1>${event.eventName}</h1>
                                     <h3>${event.eventDate}</h3>
-                                    <table class="event-details-table" style="width:50%">
+                                    <table class="event-details-table" style="width:100%">
                                         <colgroup>
                                             <col style="width: 35%;">
                                             <col style="width: 65%;">
@@ -391,10 +395,6 @@
                                             <td>${event.eventURL}</td>
                                         </tr>
                                     </table>   
-                                    <div>
-                                        <button class="primary">Modify booking</button>   
-                                        <button class="primary">Cancel booking</button>    
-                                    </div>
                                 </div>
                             </div>
                         `
@@ -436,7 +436,7 @@
                                     <span class="close" onclick="closeDetailsPopup('${eventDetailsPopupID}')">&times;</span>
                                     <h1>${event.eventName}</h1>
                                     <h3>${event.eventDate}</h3>
-                                    <table class="event-details-table" style="width:50%">
+                                    <table class="event-details-table" style="width:100%">
                                         <colgroup>
                                             <col style="width: 35%;">
                                             <col style="width: 65%;">
@@ -458,10 +458,6 @@
                                             <td>${event.eventURL}</td>
                                         </tr>
                                     </table>   
-                                    <div>
-                                        <button class="primary">Modify booking</button>   
-                                        <button class="primary">Cancel booking</button>    
-                                    </div>
                                 </div>
                             </div>
                         `

@@ -113,6 +113,11 @@
             max-width: 800px;
             position: relative;
             border-radius: 5px;
+            word-break: break-word; 
+            overflow-wrap: break-word; 
+            white-space: normal;
+            box-sizing: content-box;
+            width: 100%;
         }
 
         /* close button */
@@ -360,11 +365,11 @@
     <div id="poll-details-popup" class="poll-details-popup">
         <div class="poll-details-popup-content">
             <span class="close" onclick="closeDetailsPopup()">&times;</span>
-            <h2 id="poll-popup-name"></h2>
-            <h4>Options</h4>
+            <h1 id="poll-popup-name"></h1>
+            <h2>Options</h2>
             <div id="poll-popup-details"></div>
         </br>
-            <p><h4>URL: </h4><a id="poll-url" href="#" target="_blank"></a></p>
+            <p><h2>URL: </h2><a id="poll-url" href="#" target="_blank"></a></p>
         </div>
     </div> 
 
@@ -383,6 +388,9 @@
 
             poll.options.forEach(option => {
                 const optionDetail = document.createElement('p');
+                // add the name in bold and the votes in normal
+                optionDetail.style.margin = "0px";
+
                 optionDetail.textContent = `${option.name}: ${option.vote_count} votes`;
                 detailsContainer.appendChild(optionDetail);
             });

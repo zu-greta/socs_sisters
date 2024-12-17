@@ -161,13 +161,18 @@
         .event-details-popup-content{
             background-color: white;
             margin: 10% auto;
-            padding: 40px 60px 100px 60px;
+            padding: 40px 60px 80px 60px;
             border: 1px solid #888;
-            width: 50%;
             max-width: 800px;
             position: relative;
             border-radius: 5px;
+            word-break: break-word; 
+            overflow-wrap: break-word; 
+            white-space: normal;
+            box-sizing: content-box;
+            width: 100%;
         }
+
 
         /* close button */
         .close {
@@ -299,8 +304,6 @@
             <div class="upcoming-container">
                 <div>
                     <h2 style="display:inline-block">Upcoming Events</h2>&ensp;
-                    <!-- Right side buttons -->
-                    <div style="float:right; margin-top:15px;">
                         <!-- Plus Button Dropdown -->
                         <div class="dropdown" style="margin-bottom:15px">
                             <button onclick="showPlusDropdown()" class="secondary dropdown-btn" id="plus-btn">&#43;</button>
@@ -308,10 +311,17 @@
                                 <button id="scheduling-btn">Create new event schedule</button> 
                                 <button id="create-poll-btn">Create meeting poll</button>
                             </div>
-                        </div> &ensp;
+                        </div> 
+                        <!-- Plus Button Dropdown -->
+                        <!-- <div class="dropdown" style="margin-bottom:15px">
+                            <button onclick="showPlusDropdown()" class="secondary dropdown-btn" id="plus-btn">&#43;</button>
+                            <div id="plus-dropdown" class="dropdown-content">
+                                <button id="scheduling-btn">Create new event schedule</button> 
+                                <button id="create-poll-btn">Create meeting poll</button>
+                            </div>
+                        </div> &ensp; -->
                         <!-- Export button -->
-                        <button class="primary" id="export-btn">Export as .ics File</button><br>                
-                    </div>
+                        <!-- <button class="primary" id="export-btn">Export as .ics File</button><br>                 -->
                 </div>
                 <!-- Filter Event Dropdown -->
                 <div class="dropdown" style="margin-bottom: 15px">
@@ -442,10 +452,10 @@
                                 <span class="close" onclick="closeDetailsPopup('${eventDetailsPopupID}')">&times;</span>
                                 <h1>${event.eventName}</h1>
                                 <h3>${event.eventDate}</h3>
-                                <table class="event-details-table" style="width:50%">
+                                <table class="event-details-table" style="width:100%">
                                     <colgroup>
                                         <col style="width: 35%;">
-                                        <col style="width: 65%;">
+                                        <col style="width: 85%;">
                                         </colgroup>
                                     <tr>
                                         <td>Host</td>
@@ -508,10 +518,10 @@
                                 <span class="close" onclick="closeDetailsPopup('${eventDetailsPopupID}')">&times;</span>
                                 <h1>${event.eventName}</h1>
                                 <h3>${event.eventDate}</h3>
-                                <table class="event-details-table" style="width:50%">
+                                <table class="event-details-table" style="width:100%">
                                     <colgroup>
                                         <col style="width: 35%;">
-                                        <col style="width: 65%;">
+                                        <col style="width: 85%;">
                                         </colgroup>
                                     <tr>
                                         <td>Host</td>
@@ -540,8 +550,8 @@
                                 <span class="close" onclick="closeDetailsPopup('${eventCancelPopupID}')">&times;</span>
                                 <h1>Cancel Booking?</h1>
                                 <h3>${event.eventName} on ${event.eventDate}</h3>
-                                <table class="event-details-table" style="width:50%">
-                                    <colgroup>
+                                <table class="event-details-table" style="width:100%">
+                                    <colgroup >
                                         <col style="width: 35%;">
                                         <col style="width: 65%;">
                                         </colgroup>
@@ -639,10 +649,10 @@
                                 <span class="close" onclick="closeDetailsPopup('${eventDetailsPopupID}')">&times;</span>
                                 <h1>${event.eventName}</h1>
                                 <h3>${event.eventDate}</h3>
-                                <table class="event-details-table" style="width:50%">
-                                    <colgroup>
+                                <table class="event-details-table" style="width:100%">
+                                    <colgroup >
                                         <col style="width: 35%;">
-                                        <col style="width: 65%;">
+                                        <col style="width: 85%;">
                                         </colgroup>
                                     <tr>
                                         <td>Booked by</td>
@@ -671,7 +681,7 @@
                                 <span class="close" onclick="closeDetailsPopup('${eventCancelPopupID}')">&times;</span>
                                 <h1>Cancel Booking?</h1>
                                 <h3>${event.eventName} on ${event.eventDate}</h3>
-                                <table class="event-details-table" style="width:50%">
+                                <table class="event-details-table" style="width:100%">
                                     <colgroup>
                                         <col style="width: 35%;">
                                         <col style="width: 65%;">
