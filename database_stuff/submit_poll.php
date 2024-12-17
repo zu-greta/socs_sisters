@@ -2,14 +2,8 @@
 header('Content-Type: application/json');
 session_start();
 
-// Enable error reporting for debugging
-ini_set('display_errors', 1);
-ini_set('display_startup_errors', 1);
-error_reporting(E_ALL);
-
-// Database connection setup
 try {
-    $db = new PDO('sqlite:ssDB.sq3'); // Adjust path if necessary
+    $db = new PDO('sqlite:ssDB.sq3'); 
     $db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 } catch (Exception $e) {
     echo json_encode(['success' => false, 'error' => 'Database connection failed: ' . $e->getMessage()]);

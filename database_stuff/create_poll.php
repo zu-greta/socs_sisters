@@ -15,14 +15,12 @@ try {
     }
     $creatorId = $session['user_id'];
     $input = json_decode(file_get_contents('php://input'), true);
-
     // Validate input
     $pollTitle = $input['title'] ?? '';
     $pollURL = $input['url'] ?? '';
     $slots = $input['slots'] ?? [];
     $token = parse_url($pollURL, PHP_URL_QUERY);
     $token = str_replace('token=', '', $token);
-
 
     if (empty($pollTitle) || empty($pollURL) || empty($slots) || empty($token)) {
         throw new Exception('Invalid input: title, URL, slots, and token are required.');

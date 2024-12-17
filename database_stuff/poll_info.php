@@ -6,10 +6,8 @@ ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
 
 try {
-    // Database connection
-    $db = new PDO('sqlite:ssDB.sq3'); // Replace with actual path
+    $db = new PDO('sqlite:ssDB.sq3'); 
     $db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-
     // Validate poll_id
     if (isset($_GET['poll_id'])) {
         $pollId = $_GET['poll_id'];

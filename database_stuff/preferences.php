@@ -1,6 +1,6 @@
 <?php
 session_start();
-// $userID = $_SESSION['user_id'];
+//getting user info to display
 try {
     $database = new PDO('sqlite:ssDB.sq3');
     $database->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
@@ -20,16 +20,13 @@ try {
         exit;
     }
     $userEmail = $userinfo[0]['email'];
-    // $username = $userinfo[0]['username'];
     $userFname = $userinfo[0]['fname'];
     $userLname = $userinfo[0]['lname'];
 } catch (PDOException $e) {
     echo json_encode(['success' => false, 'error' => 'Database error: ' . $e->getMessage()]);
     exit;
 }
-// the pop up message modal should be displayed now over the schedule page
 $userDetails = [
-    // "username" => $username,
     "userEmail" => $userEmail,
     "userFname" => $userFname,
     "userLname" => $userLname,
@@ -40,7 +37,6 @@ $response = [
     "userDetails" => $userDetails,
 ];
 
-// Send JSON response
 echo json_encode($response);
 exit;
 

@@ -1,6 +1,5 @@
 <?php
 session_start();
-// $requesterID = $_SESSION['user_id'];
 try {
     $database = new PDO('sqlite:ssDB.sq3');
     $database->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
@@ -47,8 +46,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     try {
         $database = new PDO('sqlite:ssDB.sq3');
         $database->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-
-        // Check if the creator_id is valid
         $stmt = $database->prepare("SELECT * FROM Users WHERE user_id = ?");
         $stmt->execute([$creator_id]);
         $creatorInfo = $stmt->fetchAll(PDO::FETCH_ASSOC);
@@ -57,12 +54,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             exit;
         }
         $creator_email = $creatorInfo[0]['email'];
-
-        // insert the request into the database
+        //add the timerequest to the database with the requester's id and the creator's id
         $stmt = $database->prepare("INSERT INTO TimeRequests (sender_id, receiver_id, start_date, end_date, duration, start_time, end_time, description, eventName) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)");
         $stmt->execute([$requesterID, $creator_id, $date, $date, $duration, $start_time, $end_time, $reason, $eventName]);
         
-        // the pop up message modal should be displayed now over the schedule page
         $eventDetails = [
             "date" => $date,
             "start_time" => $start_time,
@@ -78,7 +73,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             "eventDetails" => $eventDetails,
         ];
 
-        // Send JSON response
         echo json_encode($response);
         exit;
     } catch (PDOException $e) {

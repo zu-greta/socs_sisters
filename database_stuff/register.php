@@ -9,10 +9,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
     // validate input
     if (empty($email) || empty($fname) || empty($lname) || empty($password)) {
-        // echo "<script>
-        //     alert('Please fill out all fields.');
-        //     window.location.href = '../register';
-        // </script>";
+        // modal for empty fields
         echo json_encode(['success' => false, 'error' => 'Please fill out all fields']);
         $errorMessage = "Please fill out all fields";
         echo "
@@ -132,10 +129,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     }
     // Email validation before inserting into the database
     if (!preg_match('/@(mcgill\.ca|mail\.mcgill\.ca)$/', $email)) {
-        // echo "<script>
-        //     alert('Email must end with @mcgill.ca or @mail.mcgill.ca.');
-        //     window.location.href = '../register';
-        // </script>";
+        // modal for email validation
         echo json_encode(['success' => false, 'error' => 'Email must end with @mcgill.ca or @mail.mcgill.ca']);
         $errorMessage = "Email must end with @mcgill.ca or @mail.mcgill.ca";
         echo "
@@ -256,10 +250,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
     // Password validation before inserting into the database
     if (strlen($password) < 10 || !preg_match('/[a-zA-Z]/', $password) || !preg_match('/\d/', $password)) {
-        // echo "<script>
-        //     alert('Password must be at most 10 characters long, contain at least one letter, and at least one number.');
-        //     window.location.href = '../register';
-        // </script>";
+        // modal for password validation
         echo json_encode(['success' => false, 'error' => 'Password must be at most 10 characters long, contain at least one letter, and at least one number']);
         $errorMessage = "Password must be at most 10 characters long, contain at least one letter, and at least one number";
         echo "
@@ -380,7 +371,6 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
 
     try {
-        // Connect to the database
         $database = new PDO('sqlite:ssDB.sq3');
         $database->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
@@ -390,11 +380,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         $emailExists = $checkStmt->fetchColumn() > 0;
 
         if ($emailExists) {
-            // Redirect back to the registration page with a pop-up
-            // echo "<script>
-            //     alert('The email is already registered. Please use a different email.');
-            //     window.location.href = '../register';
-            // </script>";
+            // modal for email already registered
             echo json_encode(['success' => false, 'error' => 'The email is already registered. Please use a different email']);
             $errorMessage = "The email is already registered. Please use a different email";
             echo "
@@ -521,12 +507,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
             ':email' => $email,
             ':password_hash' => $passwordHash
         ]);
-
-        // Registration successful, redirect to login page
-        // echo "<script>
-        //     alert('Registration successful! Please log in.');
-        //     window.location.href = '../login';
-        // </script>";
+        //modal for success
         echo json_encode(['success' => true]);
         echo "
             <html>

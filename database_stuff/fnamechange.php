@@ -8,11 +8,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     
     if (empty($fn) || empty($ln)) {
         echo json_encode(['success' => false, 'error' => 'Please fill in all required fields']);
-        // echo "<script>
-        //     alert('Please fill in all required fields');
-            
-        //     window.location.href = '../preferences';
-        // </script>";
+        // modal error message for empty fields
         $errorMessage = "Please fill in all required fields";
         echo "
             <html>
@@ -130,7 +126,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         exit;
     }
 
-    // Insert each slot into the database
     try {
         $database = new PDO('sqlite:ssDB.sq3');
         $database->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
@@ -158,9 +153,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             "success" => true,
         ];
 
-        // Send JSON response
         echo json_encode($response);
-        //redirect back to the dashboard
         header('Location: ../preferences');
         exit;
     } catch (PDOException $e) {
