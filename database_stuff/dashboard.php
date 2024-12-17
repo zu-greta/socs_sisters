@@ -61,10 +61,12 @@ $userDetails = [
 //event host is me, events that are booked by others
 foreach ($bookedEvents as $key => $event) {
     //get the email of the one who booked the event
-    $stmt = $database->prepare("SELECT email FROM Users WHERE user_id = (SELECT booked_by_id FROM Bookings WHERE slot_id = ?)");
+    //$stmt = $database->prepare("SELECT email FROM Users WHERE user_id = (SELECT booked_by_id FROM Bookings WHERE slot_id = ?)");
+    // get the email of the person who booked the event from the Booking table. they might not be a user
+    $stmt = $database->prepare("SELECT booked_by_email FROM Bookings WHERE slot_id = ?");
     $stmt->execute([$event['slot_id']]);
     $bookerEmail = $stmt->fetch(PDO::FETCH_ASSOC);
-    $bookerEmail = $bookerEmail['email'];
+    $bookerEmail = $bookerEmail['booked_by_email'];
 
     $bookedEvents[$key] = [
         //give the event id too
