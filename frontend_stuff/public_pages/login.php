@@ -4,7 +4,8 @@ session_start();
 $redirect = isset($_GET['redirect']) ? urldecode($_GET['redirect']) : 'dashboard';
 //if redirect is from makeTimeRequest, change the url from makeTimeRequest?token= to makeTimeRequest#token=
 if (strpos($redirect, 'makeTimeRequest') !== false) {
-    $redirect = str_replace('makeTimeRequest#', 'makeTimeRequest?', $redirect);
+    // $redirect = str_replace('makeTimeRequest#', 'makeTimeRequest?', $redirect);
+    $redirect = "makeTimeRequest?token=";
 }
 $re = "makeTimeRequest?token=";
 echo "Redirect: $redirect";
