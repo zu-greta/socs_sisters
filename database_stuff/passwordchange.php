@@ -33,15 +33,30 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     
     if (empty($currentPassword) || empty($newPassword) || empty($confirmPassword)) {
         echo json_encode(['success' => false, 'error' => 'Please fill in all required fields']);
+        echo "<script>
+            alert('Please fill in all required fields');
+            
+            window.location.href = '../preferences';
+        </script>";
         exit;
     }
     if ($newPassword !== $confirmPassword) {
         echo json_encode(['success' => false, 'error' => 'Passwords do not match']);
+        echo "<script>
+            alert('Passwords do not match');
+            
+            window.location.href = '../preferences';
+        </script>";
         exit;
     }
 
     if (!password_verify($currentPassword, $userPassword)) {
         echo json_encode(['success' => false, 'error' => 'Current password is incorrect']);
+        echo "<script>
+            alert('Current password is incorrect');
+            
+            window.location.href = '../preferences';
+        </script>";
         exit;
     }
 

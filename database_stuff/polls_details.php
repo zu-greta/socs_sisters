@@ -41,7 +41,7 @@ try {
             $endTime = new DateTime($option['end_time']);
             $formattedStartTime = $startTime->format('H:i');
             $formattedEndTime = $endTime->format('H:i');
-            $polls[$key]['options'][$key2]['name'] = $option['start_date'] . " : " . $formattedStartTime . " - " . $formattedEndTime;
+            $polls[$key]['options'][$key2]['name'] = $option['start_date'] . " (" . $formattedStartTime . " - " . $formattedEndTime . ")";
         }
         $polls[$key]['total_votes'] = array_sum(array_column($options, 'vote_count'));
     }

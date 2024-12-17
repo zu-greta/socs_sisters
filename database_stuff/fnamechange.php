@@ -8,6 +8,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     
     if (empty($fn) || empty($ln)) {
         echo json_encode(['success' => false, 'error' => 'Please fill in all required fields']);
+        echo "<script>
+            alert('Please fill in all required fields');
+            
+            window.location.href = '../preferences';
+        </script>";
         exit;
     }
 

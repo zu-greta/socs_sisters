@@ -4,22 +4,27 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Poll Voting</title>
+  <link rel="stylesheet" href="./frontend_stuff/general_style.css?v=1.0">
   <style>
-    body {
-      font-family: Arial, sans-serif;
-      margin: 20px;
-      text-align: center;
-      background-color: #f4f4f9;
+    body, html {
+        height: 100%;
+        margin: 0;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        background-color: #e4e4e4;
     }
 
     .container {
-      max-width: 600px;
-      margin: 0 auto;
+      max-width: 60vw;
+      width: 100%;
       background-color: #fff;
       padding: 20px;
       border-radius: 10px;
       box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+      text-align: center;
     }
+
 
     h1, h2 {
       color: #333;
@@ -30,16 +35,16 @@
       padding: 10px;
       width: 100%;
       font-size: 16px;
-      background-color: #007BFF;
+      background-color: #ae0e1d;
       color: white;
       border: none;
-      border-radius: 5px;
+      border-radius: 15px;
       cursor: pointer;
       transition: background-color 0.3s, transform 0.2s;
     }
 
     .poll-options button:hover {
-      background-color: #0056b3;
+      background-color: #ed1b2f;
       transform: scale(1.05);
     }
 
@@ -67,11 +72,65 @@
       font-size: 14px;
       transition: width 0.5s ease-in-out;
     }
+
+    .poll-vote-container {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+    }
+
+    /* Each poll option's bar container */
+    .poll-vote-bar-container {
+        display: flex;
+        flex-direction: column; /* Stack children vertically */
+        align-items: flex-start; /* Align children to the start of the container */
+        width: 100%;
+        background-color: white; /* Light gray for unfilled portion */
+        outline: 1px solid #ccc; /* Add a light gray outline */
+        border-radius: 15px; /* Rounded corners */
+        overflow: hidden; /* Clip inner elements to the rounded corners */
+        margin-bottom: 10px;
+        padding: 10px; /* Add padding to ensure the name and bar have some space */
+    }
+    .poll-vote-bar {
+          width: 100%; /* Make the bar take the full width of the container */
+          height: 30px;
+          border-radius: 15px;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          color: white;
+          font-weight: bold;
+          font-size: 14px;
+          text-align: center;
+          white-space: nowrap;
+          overflow: hidden;
+      }
+      /* Name of the option */
+      .poll-vote-name {
+          font-size: 14px;
+          font-weight: bold;
+          white-space: nowrap;
+          overflow: hidden;
+          text-overflow: ellipsis;
+          margin-bottom: 5px; /* Add some space between the name and the bar */
+      }
+      
+      .poll-vote-bar[data-empty="true"] {
+          background-color: #a0a0a0; /* Gray for empty bars */
+          color: white;
+      }
+      
+      /* Non-empty bars styling */
+      .poll-vote-bar:not([data-empty="true"]) {
+          background-color: #ed1b2f; /* votes */
+      }
   </style>
 </head>
+
 <body>
-  <div class="container">
-    <h1>Poll Voting</h1>
+  <div class="container" style="width: 100%; min-width: 50vw; padding: 10vh 3vw 12vh;">
+    <h1 style="margin-bottom: 5vh;">Poll Voting</h1>
     <div id="poll-container">
       <!-- Poll options or results will be dynamically inserted here -->
     </div>
@@ -165,26 +224,40 @@
       const resultsDiv = document.createElement("div");
       resultsDiv.className = "poll-chart";
 
+      // Calculate total votes
+      const totalVotes = pollData.options.reduce((sum, option) => sum + option.votes, 0);
+
       pollData.options.forEach(option => {
         const barContainer = document.createElement("div");
-        barContainer.className = "bar-container";
+        barContainer.className = "poll-vote-bar-container";
 
         const label = document.createElement("div");
-        label.className = "label";
-        label.textContent = `${option.label} (${option.votes} votes)`;
+        label.className = "poll-vote-name";
+        label.textContent = `${option.label} [${option.votes} votes]`;
         barContainer.appendChild(label);
 
         const bar = document.createElement("div");
-        bar.className = "bar";
-        bar.style.width = `${option.votes * 10}px`;
-        bar.textContent = option.votes;
-        barContainer.appendChild(bar);
+        bar.className = "poll-vote-bar";
+        
+        // If there are no votes, mark as empty
+        if (totalVotes === 0) {
+          bar.setAttribute("data-empty", "true");
+          bar.style.width = "100%";
+          bar.textContent = "No votes yet";
+        } else {
+          // Calculate the percentage width of the bar
+          const percentage = (option.votes / totalVotes) * 100;
+          bar.style.width = `${percentage}%`;
+          bar.textContent = `${Math.round(percentage)}%`;
+        }
 
+        barContainer.appendChild(bar);
         resultsDiv.appendChild(barContainer);
       });
 
       pollContainer.appendChild(resultsDiv);
     }
+
 
     async function submitPoll(optionId) {
       try {
@@ -199,7 +272,6 @@
         const data = await response.json();
 
         if (data.success) {
-          alert(data.message);
           console.log('Updated Options:', data.options);
           showResults(data.options);
         } else {

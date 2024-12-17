@@ -93,6 +93,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     $slots = [];
     $currentDate = clone $startDateObj;
+    $extraSlot = 0; //TODO
     if ($slotDuration < 1) {
         $timediff = ($endTimeObj->getTimestamp() - $startTimeObj->getTimestamp())/60; 
         $duration = new DateInterval('PT' . $timediff . 'M');
@@ -115,10 +116,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             } else {
                 //numslots = (endDateObj - startDateObj / duration)
                 $numSlots = ($dayStart->diff($dayEnd)->h * 60 + $dayStart->diff($dayEnd)->i) / $slotDuration;
+                //TODO: the last slot should end at the end time. if the end time is before the end of the slot, the slot should be shorter
+                if ($dayStart->diff($dayEnd)->h * 60 + $dayStart->diff($dayEnd)->i % $slotDuration != 0) { //if the end time is not a multiple of the slot duration
+                    $extraSlot = $dayStart->diff($dayEnd)->h * 60 + $dayStart->diff($dayEnd)->i % $slotDuration; // the extra time that is not a full slot
+                }
             }
             $tokengen = generateToken($creatorId, $name, $location, $slotDuration);
             $link = "http://cs.mcgill.ca/~gzu/socs_sisters/booking?token=" . urlencode($tokengen); 
-            //$link = "http://cs.mcgill.ca/~gzu/socs_sisters/booking/event?creator_id=" . urlencode($creatorId) . "&eventName=" . urlencode($name) . "&eventDuration=" . urlencode($slotDuration) . "&eventLocation=" . urlencode($location); // TODO replace with actual link
             // Generate slots for the current day
             for ($i = 0; $i < $numSlots; $i++) {
                 $slots[] = [
@@ -127,6 +131,22 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     'end_date' => $currentDate->format('Y-m-d'), // Same day as start
                     'end_time' => $currentDate->add($duration)->format('H:i:s'), // Add duration to start time
                     'duration' => $slotDuration, // Duration in minutes
+                    'event_name' => $name, // Event name
+                    'note' => $notes, // Event notes
+                    'location' => $location, // Event location
+                    'max_people' => $participants, // Max people allowed
+                    'creator_id' => $creatorId, // Creator ID
+                    'url' => $link // Event link
+                ];
+            }
+            if ($extraSlot > 0) {
+                //create an extra slot with the remaining time
+                $slots[] = [
+                    'start_date' => $currentDate->format('Y-m-d'), // Use the current date
+                    'start_time' => $currentDate->format('H:i:s'), 
+                    'end_date' => $currentDate->format('Y-m-d'), // Same day as start
+                    'end_time' => $currentDate->add(new DateInterval('PT' . $extraSlot . 'M'))->format('H:i:s'), // Add duration to start time
+                    'duration' => $extraSlot, // Duration in minutes
                     'event_name' => $name, // Event name
                     'note' => $notes, // Event notes
                     'location' => $location, // Event location

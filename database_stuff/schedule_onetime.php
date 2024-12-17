@@ -45,7 +45,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $notes = $_POST['notes'] ?? '';
     
 
-    //TODO: CHECK Y TIME CANNOT BE VALIDATED
     if (empty($name) || empty($location) || empty($participants)) {
         echo json_encode(['success' => false, 'error' => 'Please fill in all required fields for one-time events', 'slotDuration' => $slotDuration]); 
         //echo json_encode(['name' => $name, 'location' => $location, 'startTime' => $startTime, 'endTime' => $endTime, 'slotDuration' => $slotDuration, 'participants' => $participants, 'calendar' => $calendar]);   
@@ -87,6 +86,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $slots = [];
     $currentDate = clone $startDateObj;
     $duration = new DateInterval('PT' . $slotDuration . 'M');
+    $extraSlot = 0;
     if ($slotDuration < 1) {
         $numSlots = 1;
         // slotDuration = 0 means the slot is the entire event. the duration should be the entire event time
@@ -101,16 +101,22 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     } else{
         //if the start and end date are the same, the number of slots is the difference in minutes divided by the slot duration
         //otherwise, the number of slots is the difference in days times 24 hours times 60 minutes divided by the slot duration
+        //TODO: the last slot should end at the end time. if the end time is before the end of the slot, the slot should be shorter
         if ($startDate === $endDate) {
             $timediff = ($endTimeObj->getTimestamp() - $startTimeObj->getTimestamp())/60;
             $numSlots = $timediff / $slotDuration;
+            if ($timediff % $slotDuration != 0) {
+                $extraSlot = $timediff % $slotDuration; // the extra time that is not a full slot
+            }
         } else {
             $numSlots = $startDateObj->diff($endDateObj)->days * 24 * 60 / $slotDuration;
+            if ($startDateObj->diff($endDateObj)->days * 24 * 60 % $slotDuration != 0) {
+                $extraSlot = $startDateObj->diff($endDateObj)->days * 24 * 60 % $slotDuration; // the extra time that is not a full slot
+            }
         }
     }
     $tokengen = generateToken($creatorId, $name, $location, $slotDuration);
     $link = "http://cs.mcgill.ca/~gzu/socs_sisters/booking?token=" . urlencode($tokengen); 
-    //$link = "http://cs.mcgill.ca/~gzu/socs_sisters/booking/event?creator_id=" . urlencode($creatorId) . "&eventName=" . urlencode($name) . "&eventDuration=" . urlencode($slotDuration) . "&eventLocation=" . urlencode($location); // TODO replace with actual link
     for ($i = 0; $i < $numSlots; $i++) {
         $slots[] = [
             'start_date' => $currentDate->format('Y-m-d'),
@@ -118,6 +124,22 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             'end_date' => $currentDate->format('Y-m-d'),
             'end_time' => $currentDate->add($duration)->format('H:i:s'),
             'duration' => $slotDuration,
+            'event_name' => $name,
+            'note' => $notes,
+            'location' => $location,
+            'max_people' => $participants,
+            'creator_id' => $creatorId, 
+            'url' => $link,
+        ];
+    }
+    // add the extra slot if it exists
+    if ($extraSlot != 0) {
+        $slots[] = [
+            'start_date' => $currentDate->format('Y-m-d'),
+            'start_time' => $currentDate->format('H:i:s'),
+            'end_date' => $currentDate->format('Y-m-d'),
+            'end_time' => $currentDate->add(new DateInterval('PT' . $extraSlot . 'M'))->format('H:i:s'),
+            'duration' => $extraSlot,
             'event_name' => $name,
             'note' => $notes,
             'location' => $location,

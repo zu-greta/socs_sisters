@@ -43,7 +43,6 @@
             background-color: #ed1b2f;
         }
 
-        /* History */
         .polls-container {
             float: right;
             width: 80%;
@@ -159,7 +158,8 @@
             flex-direction: column; /* Stack children vertically */
             align-items: flex-start; /* Align children to the start of the container */
             width: 100%;
-            background-color: #e0e0e0; /* Light gray for unfilled portion */
+            background-color: white; /* Light gray for unfilled portion */
+            outline: 1px solid #ccc; /* Add a light gray outline */
             border-radius: 15px; /* Rounded corners */
             overflow: hidden; /* Clip inner elements to the rounded corners */
             margin-bottom: 10px;
@@ -200,6 +200,53 @@
         /* Non-empty bars styling */
         .poll-vote-bar:not([data-empty="true"]) {
             background-color: #ed1b2f; /* votes */
+        }
+
+        .dropdown {
+            position: relative;
+            display: inline-block;
+        }
+
+        #plus-btn {
+            padding: 4px 12px;
+            font-size: 25px;
+            /* margin-top: 15px; */
+        }
+
+        .dropdown-content {
+            display: none;
+            border-radius: 5px;
+            margin-top: 5px;
+            position: absolute;
+            background-color: white;
+            min-width: 200px;
+            overflow: auto;
+            box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+            z-index: 1;
+            padding: 5px;
+            transition: background-color 0.2s ease;
+        }
+
+        #plus-dropdown {
+            right: 0;
+        }
+
+        .dropdown-content.show {
+            display: block;
+        }
+
+        .dropdown-content button {
+            width: 100%;
+            display: block;
+            border: none;
+            color: #424242;
+            background-color: transparent;
+            text-align: left;
+        }
+
+        .dropdown button:hover {
+            background-color: #ddd;
+            color: #ed1b2f;
         }
 
         /* responsive */
@@ -279,16 +326,23 @@
             <!-- Main content -->
             <!-- display all the polls created by this user using the MeetingPolls and PollOptions-->
             <div class="polls-container" id="polls">
-                <h2>Polls</h2>
+                <h2 style="display:inline-block">Polls</h2>&ensp;
+                <!-- Right side buttons -->
+                <div style="float:right; margin-top:15px;">
+                    <!-- Plus Button Dropdown -->
+                    <div class="dropdown" style="margin-bottom:15px">
+                        <button onclick="showPlusDropdown()" class="secondary dropdown-btn" id="plus-btn">&#43;</button>
+                        <div id="plus-dropdown" class="dropdown-content">
+                            <button id="scheduling-btn">Add new booking</button> 
+                            <button id="create-poll-btn">Create meeting poll</button>
+                        </div>
+                    </div> &ensp;               
+                </div>
                 <table id="polls-table" class="polls-list" style="width: 100%;">
                     <tr>
-                        <th>Poll Name</th>
-                        <th>Votes</th>
-                        <th></th>
-                    </tr>
-                    <tr>
-                        <td>Team Meeting</td>
-                        <td> sfjsdkfsdf <br> dkfjgkdfgj <br> rekthdfkj </td>
+                        <th style="width: 10%;">Poll Name</th>
+                        <th style="width: 40%;">Votes</th>
+                        <th style="width: 5%;">Details</th>
                     </tr>
                 </table>
             </div>
@@ -359,14 +413,16 @@
                             // create a name div for the option
                             const nameDiv = document.createElement("div");
                             nameDiv.className = "poll-vote-name";
-                            nameDiv.textContent = option.name;
+                            // have the name as label.textContent = `${option.label} (${option.votes} votes)`;
+                            nameDiv.textContent = `${option.name} [${option.vote_count} votes]`;
+                            //nameDiv.textContent = option.name;
 
                             const bar = document.createElement("div");
                             bar.className = "poll-vote-bar";
 
                             const percentage = poll.total_votes ? (option.vote_count / poll.total_votes) * 100 : 0;
-                            //const barText = `${option.name}: ${option.vote_count} votes`;
-                            const barText = `${option.vote_count}`;
+                            //const barText = `${option.vote_count}`;
+                            const barText = `${Math.round(percentage)}%`;
 
                             // Ensure minimum width for visibility even if there are no votes
                             bar.style.width = `${Math.max(percentage, 5)}%`;
@@ -424,6 +480,20 @@
                 alert("An error occurred while fetching. Please try again later.");
             });
         });
+    </script>
+    <script>
+        function showPlusDropdown() {
+            document.getElementById("plus-dropdown").classList.toggle("show");
+        }
+                // redirects to the scheduling page
+                document.getElementById("scheduling-btn").onclick = function(){
+            window.location.href = "scheduling";
+        }
+
+        // redirects to the create poll page
+        document.getElementById("create-poll-btn").onclick = function(){
+            window.location.href = "createPoll";
+        }
     </script>
 
 

@@ -273,6 +273,7 @@
                     <a href="#" class="dropdown-item" style="color:#ed1b2f;">Log Out</a>
                 </div>
             </div>
+        </div>
     </header>
 
     <div id="background-container">
@@ -327,7 +328,7 @@
                         <th>Date</th>
                         <th>Host</th>
                         <th>Location</th>
-                        <th></th>
+                        <th>Details</th>
                     </tr>
                 </table>
                 <!-- Bookings (aka hosted by others) --> 
@@ -337,7 +338,7 @@
                         <th>Date</th>
                         <th>Host</th>
                         <th>Location</th>
-                        <th></th>
+                        <th>Details</th>
                     </tr>
                 </table>
                 <!-- Your Events (aka hosted by you that are booked by others) --> 
@@ -346,9 +347,8 @@
                         <th>Event Name</th>
                         <th>Date</th>
                         <th>Booked By</th>
-                        <th>Booked By</th>
                         <th>Location</th>
-                        <th></th>
+                        <th>Details</th>
                     </tr>
                 </table>
             </div>
@@ -445,10 +445,10 @@
                     locationCell.innerHTML = event.eventLocation;
 
                     // add event action buttons to each entry
-                    let eventDetailsPopupID = `event-details-popup-${event.eventID}`;
+                    let eventDetailsPopupID = `event-details-popup-1-${event.eventID}`;
                     tableButtonsCell.innerHTML = `
                         <button class="secondary list-view-btn" onclick="showDetailsPopup('${eventDetailsPopupID}')">Details</button>
-                        <div id="event-details-popup-${event.eventID}" class="event-details-popup">
+                        <div id="event-details-popup-1-${event.eventID}" class="event-details-popup">
                             <div class="event-details-popup-content">
                                 <span class="close" onclick="closeDetailsPopup('${eventDetailsPopupID}')">&times;</span>
                                 <h1>${event.eventName}</h1>
@@ -509,12 +509,12 @@
                     locationCell.innerHTML = event.eventLocation;
 
                     // add event action buttons to each entry
-                    let eventDetailsPopupID = `event-details-popup-${event.eventID}`;
+                    let eventDetailsPopupID = `event-details-popup-2-${event.eventID}`;
                     let eventModificationPopupID = `event-modification-popup-${event.eventID}`;
                     let eventCancelPopupID = `event-cancel-popup-${event.eventID}`;
                     tableButtonsCell.innerHTML = `
                         <button class="secondary list-view-btn" onclick="showDetailsPopup('${eventDetailsPopupID}')">Details</button>
-                        <div id="event-details-popup-${event.eventID}" class="event-details-popup">
+                        <div id="event-details-popup-2-${event.eventID}" class="event-details-popup">
                             <div class="event-details-popup-content">
                                 <span class="close" onclick="closeDetailsPopup('${eventDetailsPopupID}')">&times;</span>
                                 <h1>${event.eventName}</h1>
@@ -640,12 +640,12 @@
                     locationCell.innerHTML = event.eventLocation;
 
                     // add event action buttons to each entry
-                    let eventDetailsPopupID = `event-details-popup-${event.eventID}`;
+                    let eventDetailsPopupID = `event-details-popup-3-${event.eventID}`;
                     let eventModificationPopupID = `event-modification-popup-${event.eventID}`;
-                    let eventCancelPopupID = `event-cancel-popup-${event.eventID}`;
+                    let eventCancelPopupID = `event-cancel-popup-2-${event.eventID}`;
                     tableButtonsCell.innerHTML = `
                         <button class="secondary" onclick="showDetailsPopup('${eventDetailsPopupID}')">Details</button>
-                        <div id="event-details-popup-${event.eventID}" class="event-details-popup">
+                        <div id="event-details-popup-3-${event.eventID}" class="event-details-popup">
                             <div class="event-details-popup-content">
                                 <span class="close" onclick="closeDetailsPopup('${eventDetailsPopupID}')">&times;</span>
                                 <h1>${event.eventName}</h1>
@@ -656,8 +656,6 @@
                                         <col style="width: 65%;">
                                         </colgroup>
                                     <tr>
-                                        <td>Booked by</td>
-                                        <td>${event.bookerEmail}</td>
                                         <td>Booked by</td>
                                         <td>${event.bookerEmail}</td>
                                     </tr>
@@ -679,7 +677,7 @@
                         </div>
 
                         <button class="secondary" onclick="showCancelPopup('${eventCancelPopupID}')" >Cancel</button>
-                        <div id="event-cancel-popup-${event.eventID}" class="event-details-popup">
+                        <div id="event-cancel-popup-2-${event.eventID}" class="event-details-popup">
                             <div class="event-details-popup-content">
                                 <span class="close" onclick="closeDetailsPopup('${eventCancelPopupID}')">&times;</span>
                                 <h1>Cancel Booking?</h1>
@@ -780,75 +778,5 @@
         });
     }
 </script>
-<!-- <script>
-        // populate upcoming event list
-        let upcomingTable = document.getElementById("upcoming-list");
-        for(let i = 0; i < 5; i++){
-            let newRow = upcomingTable.insertRow(-1);
-            let eventNameCell = newRow.insertCell(0);
-            let dateCell = newRow.insertCell(1);
-            let hostCell = newRow.insertCell(2);
-            let locationCell = newRow.insertCell(3);
-            let tableButtonsCell = newRow.insertCell(4);
-
-            // get these values from db
-            let eventName = "Placeholder event ".concat(i.toString());
-            let date = "December ".concat(i.toString(), ", 2024 2:00 PM - 3:00 PM");
-            let host = "Placeholder host ".concat(i.toString());
-            let location = "Placeholder location ".concat(i.toString());
-            let notes = "Notes ".concat(i.toString());
-            let eventURL = "https://randomurl".concat(i.toString());
-
-            eventNameCell.innerHTML = eventName;
-            dateCell.innerHTML = date;
-            hostCell.innerHTML = host;
-            locationCell.innerHTML = location;
-
-            // add event action buttons to each entry
-            let eventDetailsPopupID = `event-details-popup-${i}`;
-            tableButtonsCell.innerHTML = `
-                <button class="secondary" id="details-btn" onclick="showDetailsPopup('${eventDetailsPopupID}')">Details</button>
-                <div id="event-details-popup-${i}" class="event-details-popup">
-                    <div class="event-details-popup-content">
-                        <span class="close" onclick="closeDetailsPopup('${eventDetailsPopupID}')">&times;</span>
-                        <h1>${eventName}</h1>
-                        <h3>${date}</h3>
-                        <table class="event-details-table" style="width:50%">
-                            <colgroup>
-                                <col style="width: 35%;">
-                                <col style="width: 65%;">
-                                </colgroup>
-                            <tr>
-                                <td>Host</td>
-                                <td>${host}</td>
-                            </tr>
-                            <tr>
-                                <td>Location</td>
-                                <td>${location}</td>
-                            </tr>
-                            <tr>
-                                <td>Notes</td>
-                                <td>${notes}</td>
-                            </tr>
-                            <tr>
-                                <td>Event URL</td>
-                                <td>${eventURL}</td>
-                            </tr>
-                        </table>   
-                        <div style="float:right; margin-top:15px">
-                            <button class="primary">Modify booking</button>   
-                            <button class="primary">Cancel booking</button>    
-                        </div>
-                    </div>
-                </div>
-
-                <button class="secondary" id="modify-btn">Modify</button>
-
-                <button class="secondary" id="cancel-btn">Cancel</button>
-            `
-        }
-    </script> -->
-
-
 </body>
 </html>

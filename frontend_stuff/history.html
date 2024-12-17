@@ -291,7 +291,7 @@
                         <th>Date</th>
                         <th>Host</th>
                         <th>Location</th>
-                        <th></th>
+                        <th>Details</th>
                     </tr>
                 </table>
                 <!-- Hosted by others -->
@@ -301,7 +301,7 @@
                         <th>Date</th>
                         <th>Host</th>
                         <th>Location</th>
-                        <th></th>
+                        <th>Details</th>
                     </tr>
                 </table>
         </div>
@@ -359,10 +359,10 @@
                         locationCell.innerHTML = event.eventLocation;
 
                         // add event action buttons to each entry
-                        let eventDetailsPopupID = `event-details-popup-${event.eventID}`;
+                        let eventDetailsPopupID = `event-details-popup-others-${event.eventID}`;
                         tableButtonsCell.innerHTML = `
                             <button class="secondary list-view-btn" onclick="showDetailsPopup('${eventDetailsPopupID}')">Details</button>
-                            <div id="event-details-popup-${event.eventID}" class="event-details-popup">
+                            <div id="event-details-popup-others-${event.eventID}" class="event-details-popup">
                                 <div class="event-details-popup-content">
                                     <span class="close" onclick="closeDetailsPopup('${eventDetailsPopupID}')">&times;</span>
                                     <h1>${event.eventName}</h1>
@@ -426,10 +426,10 @@
                         locationCell.innerHTML = event.eventLocation;
 
                         // add event action buttons to each entry
-                        let eventDetailsPopupID = `event-details-popup-${event.eventID}`;
+                        let eventDetailsPopupID = `event-details-popup-you-${event.eventID}`;
                         tableButtonsCell.innerHTML = `
                             <button class="secondary list-view-btn" onclick="showDetailsPopup('${eventDetailsPopupID}')">Details</button>
-                            <div id="event-details-popup-${event.eventID}" class="event-details-popup">
+                            <div id="event-details-popup-you-${event.eventID}" class="event-details-popup">
                                 <div class="event-details-popup-content">
                                     <span class="close" onclick="closeDetailsPopup('${eventDetailsPopupID}')">&times;</span>
                                     <h1>${event.eventName}</h1>
@@ -467,67 +467,6 @@
                 }
             })
         })
-    </script>
-    <script>
-    // populate table with dummy values
-    let historyTable = document.getElementById("history-list");
-    for(let i = 0; i < 5; i++){
-        let newRow = historyTable.insertRow(-1);
-        let eventNameCell = newRow.insertCell(0);
-        let dateCell = newRow.insertCell(1);
-        let hostCell = newRow.insertCell(2);;
-        let locationCell = newRow.insertCell(3);
-        let tableButtonsCell = newRow.insertCell(4);
-
-        // get these values from db
-        let eventName = "Placeholder event ".concat(i.toString());
-        let date = "December ".concat(i.toString(), ", 2024 2:00 PM - 3:00 PM");
-        let host = "Placeholder host ".concat(i.toString());
-        let location = "Placeholder location ".concat(i.toString());
-        let notes = "Notes ".concat(i.toString());
-        let eventURL = "https://randomurl".concat(i.toString());
-
-        eventNameCell.innerHTML = eventName;
-        dateCell.innerHTML = date;
-        hostCell.innerHTML = host;
-        locationCell.innerHTML = location;
-
-        // add event buttons to each entry
-        let eventDetailsPopupID = `event-details-popup-${i}`;
-        tableButtonsCell.innerHTML = `
-            <button class="secondary list-view-btn" id="details-btn" onclick="showDetailsPopup('${eventDetailsPopupID}')">Details</button>
-            <!-- Event Details Popup -->
-            <div id="event-details-popup-${i}" class="event-details-popup">
-                <div class="event-details-popup-content">
-                    <span class="close" onclick="closeDetailsPopup('${eventDetailsPopupID}')">&times;</span>
-                    <h1>${eventName}</h1>
-                    <h3>${date}</h3>
-                    <table class="event-details-table" style="width:50%">
-                        <colgroup>
-                            <col style="width: 35%;">
-                            <col style="width: 65%;">
-                            </colgroup>
-                        <tr>
-                            <td>Host</td>
-                            <td>${host}</td>
-                        </tr>
-                        <tr>
-                            <td>Location</td>
-                            <td>${location}</td>
-                        </tr>
-                        <tr>
-                            <td>Notes</td>
-                            <td>${notes}</td>
-                        </tr>
-                        <tr>
-                            <td>Event URL</td>
-                            <td>${eventURL}</td>
-                        </tr>
-                    </table>   
-                </div>
-            </div>
-        `
-        }
     </script>
     <script>
         document.addEventListener('DOMContentLoaded', function() {

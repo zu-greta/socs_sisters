@@ -2,6 +2,10 @@
 <html lang="en">
 <head>
     <title>Poll Creation Page</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="./frontend_stuff/general_style.css?v=1.0">
+    
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -24,7 +28,7 @@
             font-weight: bold;
             margin-top: 10px;
         }
-        select, input, button, textarea {
+        select, input, textarea {
             width: 100%;
             padding: 10px;
             margin: 10px 0;
@@ -32,6 +36,7 @@
             border-radius: 5px;
             box-sizing: border-box;
         }
+
         .button-container {
             display: flex;
             justify-content: space-between;
@@ -48,6 +53,29 @@
     </style>
 </head>
 <body>
+    <!-- private navigation bar -->
+  <header>
+    <div class="nav-container">
+        <a href="/" class="logo-link">
+            <img src="./frontend_stuff/png/logo.png" alt="Logo" class="nav-logo-img">
+            <span class="logo-name">SOC-cessful Schedule</span>
+        </a>
+
+        <div class="nav-buttons">
+            <button id="profileLink" type="button" class="secondary profile-btn">
+                <img src="./frontend_stuff/png/user-icon.png" alt="User" class="user-icon">
+                <span>Account</span>
+            </button>
+            <div class="dropdown-menu">
+                <a href="#" class="dropdown-item">History</a>
+                <a href="#" class="dropdown-item">Preferences</a>
+                <a href="#" class="dropdown-item">Time Requests</a>
+                <a href="#" class="dropdown-item" style="color:#ed1b2f;">Log Out</a>
+            </div>
+        </div>
+    </div>
+</header>
+
     <div class="container">
         <h1>Create a Meeting Poll</h1>
         <form id="pollForm">
@@ -71,13 +99,13 @@
             </select>
 
             <div class="button-container">
-                <button type="button" onclick="addDateAndTime()">Add Date & Time</button>
+                <button type="button" onclick="addDateAndTime()" class="secondary" style="margin-bottom: 2%;">Add Date & Time</button>
             </div>
 
             <label for="poll-summary">Available Slots</label>
             <textarea id="poll-summary" rows="5" readonly></textarea>
 
-            <button type="button" onclick="generatePollURL()">Generate Poll URL</button>
+            <button type="button" onclick="generatePollURL()" class="primary">Generate Poll URL</button>
         </form>
 
         <div id="poll-result" class="hidden">

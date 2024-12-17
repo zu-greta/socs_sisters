@@ -309,7 +309,7 @@
                         <th>Date</th>
                         <th>Requested By</th>
                         <th>Reason</th>
-                        <th></th>
+                        <th>Details</th>
                     </tr>
                 </table>
                 <!-- My Requests -->
@@ -475,7 +475,10 @@
             .then(response => response.json())
             .then(data => {
                 if (data.success) {
-                    const pendingTable = document.getElementById("pending-table");
+                    console.log("Response received here");
+                    console.log(data);
+
+                    const pendingTable = document.getElementById("pending-list");
                     const pendingEvents = data.pendingEvents;
 
                     //populate the table
@@ -539,7 +542,7 @@
             .then(data => {
                 if (data.success) {
                     console.log("Response received");
-                    console.log(data);
+                    //console.log(data);
 
                     const requestTable = document.getElementById("my-requests-list");
                     const requests = data.requestDetails;

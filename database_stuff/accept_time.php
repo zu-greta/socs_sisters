@@ -6,6 +6,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
     $eventID = $_GET['eventID'] ?? null;
     if (!$eventID) {
         echo json_encode(['success' => false, 'message' => 'Event ID missing']);
+        echo "<script>
+            alert('Please select an event to accept');
+            
+            window.location.href = '../viewTimeRequest';
+        </script>";
         exit;
     }
 
@@ -28,6 +33,10 @@ try {
 
     if (!$requestInfo) {
         echo json_encode(['success' => false, 'error' => 'Event not found']);
+        echo "<script>
+            alert('Event not found');
+            window.location.href = '../viewTimeRequest';
+        </script>";
         exit;
     }
 
