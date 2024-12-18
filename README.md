@@ -6,7 +6,7 @@ A user-friendly platform that simplifies appointment scheduling for users. Built
 ## Table of Contents
 - [Project Overview](#project-overview) 
 - [Tech Stack](#tech-stack)
-- [URL to Webstie] (#url-website)
+- [Website] (#website-url)
 - [Team Contribution](#team-contribution)
   
 ---
@@ -33,8 +33,7 @@ Some sample features are:
 
 ---
 
-## URL to Website
-
+## Website URL
 [https://www.cs.mcgill.ca/~gzu/socs_sisters/landing](https://www.cs.mcgill.ca/~gzu/socs_sisters/landing)
 
 ---
