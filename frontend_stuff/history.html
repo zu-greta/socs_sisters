@@ -360,6 +360,20 @@
                 if (data.success) {
                     console.log("Response received for others");
                     console.log(data.bookedPastEvents);
+                        //if array empty display "No upcoming events yet"
+                        if (data.bookedPastEvents.length === 0) {
+                            const upcomingTable = document.getElementById("history-list-others");
+                            let newRow = upcomingTable.insertRow(-1);
+                            let noEventsCell = newRow.insertCell(0);
+                            noEventsCell.colSpan = 5;
+                            noEventsCell.innerHTML = "Nothing in history yet";
+                            //style 
+                            noEventsCell.style.textAlign = "center";
+                            noEventsCell.style.color = "#e4e4e4";
+                            noEventsCell.style.fontSize = "13px";
+                            noEventsCell.style.fontStyle = "italic";
+                            return;
+                        }
 
                     const upcomingTable = document.getElementById("history-list-others");
                     const pastEventsOthers = data.bookedPastEvents;
@@ -424,6 +438,21 @@
             .then(response => response.json())
             .then(data => {
                 if (data.success) {
+                    //if array empty display "No upcoming events yet"
+                    if (data.pastEvents.length === 0) {
+                        const upcomingTable = document.getElementById("history-list");
+                        let newRow = upcomingTable.insertRow(-1);
+                        let noEventsCell = newRow.insertCell(0);
+                        noEventsCell.colSpan = 5;
+                        noEventsCell.innerHTML = "Nothing in history yet";
+                        //style 
+                        noEventsCell.style.textAlign = "center";
+                        noEventsCell.style.color = "#e4e4e4";
+                        noEventsCell.style.fontSize = "13px";
+                        noEventsCell.style.fontStyle = "italic";
+                        return;
+                    }
+
                     const upcomingTable = document.getElementById("history-list");
                     const pastEvents = data.pastEvents;
 

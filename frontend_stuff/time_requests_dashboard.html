@@ -690,6 +690,22 @@
                             </div>
                         `
                         });
+                    } else {
+                        console.log(data.error);
+                        if (data.error === "No pending events") {
+                            console.log("No pending time requests yet");
+                            const pendingTable = document.getElementById("pending-list");
+                            let newRow = pendingTable.insertRow(-1);
+                            let noEventsCell = newRow.insertCell(0);
+                            noEventsCell.colSpan = 5;
+                            noEventsCell.innerHTML = "No pending time requests yet";
+                            //style 
+                            noEventsCell.style.textAlign = "center";
+                            noEventsCell.style.color = "#e4e4e4";
+                            noEventsCell.style.fontSize = "13px";
+                            noEventsCell.style.fontStyle = "italic";
+                            return;
+                        }
                     }
                 })
         })
@@ -701,7 +717,7 @@
                 .then(response => response.json())
                 .then(data => {
                     if (data.success) {
-                        console.log("Response received");
+                        console.log("Response received over here");
                         //console.log(data);
 
                         const requestTable = document.getElementById("my-requests-list");
@@ -724,8 +740,20 @@
                         });
                     } else {
                         console.log(data.error);
-                        //showpopalert("An error occurred. Please try again later.");
-                        //alert("An error occurred. Please try again later.");
+                        if (data.error === "No pending events") {
+                            console.log("No pending time requests yet");
+                            const pendingTable = document.getElementById("my-requests-list");
+                            let newRow = pendingTable.insertRow(-1);
+                            let noEventsCell = newRow.insertCell(0);
+                            noEventsCell.colSpan = 5;
+                            noEventsCell.innerHTML = "No sent time requests yet";
+                            //style 
+                            noEventsCell.style.textAlign = "center";
+                            noEventsCell.style.color = "#e4e4e4";
+                            noEventsCell.style.fontSize = "13px";
+                            noEventsCell.style.fontStyle = "italic";
+                            return;
+                        }
                     }
                 }).catch((error) => {
                     console.error('Error:', error);

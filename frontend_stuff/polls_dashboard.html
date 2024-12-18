@@ -470,8 +470,19 @@
                         detailsCell.appendChild(detailsButton);
                     });
                 } else {
-                    //alert("Error: " + data.error);
-                    console.error("Error:", data.error);
+                    console.log("Error nopolls:", data.error);
+                    if (data.error === "No polls found") {
+                        const pollsTable = document.getElementById("polls-table");
+                        const newRow = pollsTable.insertRow();
+                        const noPollsCell = newRow.insertCell(0);
+                        noPollsCell.colSpan = 3;
+                        noPollsCell.textContent = "No polls yet";
+                        // style
+                        noPollsCell.style.textAlign = "center";
+                        noPollsCell.style.color = "#e4e4e4";
+                        noPollsCell.style.fontSize = "13px";
+                        noPollsCell.style.fontStyle = "italic";
+                    }
                 }
             })
             .catch((error) => {
