@@ -3,7 +3,7 @@
 try {
     $database = new PDO('sqlite:ssDB.sq3');
     $database->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-    // Get the creator's info using the creator_id in the URL params)
+    // Get the creator's info using the creator_id in the URL params
     $creatorID = $_GET['creator_id'];
     $eventName = $_GET['eventName'];
     $eventDuration = $_GET['eventDuration'];
@@ -19,7 +19,7 @@ try {
     $creatorEmail = $creatorinfo[0]['email'];
     $creatorFname = $creatorinfo[0]['fname'];
     $creatorLname = $creatorinfo[0]['lname'];
-    // Get all the time slots by the creator for now
+    // Get all the time slots by the creator 
     $stmt = $database->prepare("SELECT * FROM Events WHERE creator_id = ? AND event_name = ? AND created_at = ? AND location = ?");
     $stmt->execute([$creatorID, $eventName, $eventCreation, $eventLocation]);
     $events = $stmt->fetchAll(PDO::FETCH_ASSOC);
@@ -35,7 +35,7 @@ $creator_info = [
 // Get the time slots 
 $time_slots = [];
 foreach ($events as $event) {
-    //get the number of people booked for this event. check the bookings table for all the bookings with this slot_id.
+    // get the number of people booked for this event. check the bookings table for all the bookings with this slot_id.
     // if the number of people booked is equal to the max_people, then the type is full. 
     $stmt = $database->prepare("SELECT COUNT(*) FROM Bookings WHERE slot_id = ?");
     $stmt->execute([$event['slot_id']]);
@@ -45,7 +45,7 @@ foreach ($events as $event) {
     if ($totalBooked >= $event['max_people']) {
         $type = 'full';
     } 
-    $dayOfWeek = date('l', strtotime($event['start_date'])); // Get day name
+    $dayOfWeek = date('l', strtotime($event['start_date'])); //day of the week
     $time_slots[] = [
         "event_id" => $event['slot_id'],
         "start_time" => $event['start_time'],

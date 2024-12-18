@@ -22,7 +22,7 @@ try {
         exit;
     }
 
-    // Change the status of the request to rejected
+    // change the status of the request to rejected
     $updateRequestStmt = $database->prepare("UPDATE TimeRequests SET status = 'declined' WHERE request_id = ?");
     $updateRequestStmt->execute([$eventID]);
 

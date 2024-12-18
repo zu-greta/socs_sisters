@@ -43,7 +43,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     $creationTime = date('Y-m-d H:i:s');
     
-    // Validate required fields
+    // validate required fields
     if (empty($name) || empty($location) || empty($startDate) || empty($endDate) || empty($participants) || empty($days)) {
         echo json_encode(['success' => false, 'error' => 'Please fill in all required fields for recurring events']);
         exit;
@@ -161,7 +161,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 
 
-    // Insert each slot into the database
+    // insert each slot into the database
     try {
         $database = new PDO('sqlite:ssDB.sq3');
         $database->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);

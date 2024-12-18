@@ -512,7 +512,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         exit();
     }
 
-    // Insert each slot into the database
+    // insert to db if no problems
     try {
         $database = new PDO('sqlite:ssDB.sq3');
         $database->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);

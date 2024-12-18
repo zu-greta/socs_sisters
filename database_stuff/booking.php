@@ -12,7 +12,6 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     try {
         $database = new PDO('sqlite:ssDB.sq3');
         $database->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-
         // Check if the email already exists. If it does, get the user_id
         $stmt = $database->prepare("SELECT * FROM Users WHERE email = ?");
         $stmt->execute([$requesterEmail]);
@@ -22,8 +21,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         } else {
             $requesterID = $requesterInfo[0]['user_id'];
         }
-
-        // Insert the booking into the database
+        // Insert the booking
         $stmt = $database->prepare("INSERT INTO Bookings (slot_id, booked_by_id, booked_by_email) VALUES (?, ?, ?)");
         $stmt->execute([$slot_id, $requesterID, $requesterEmail]);
     

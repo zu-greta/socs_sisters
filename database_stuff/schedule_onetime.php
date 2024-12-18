@@ -38,6 +38,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     $creationTime = date('Y-m-d H:i:s');
 
+    //validations
     if (empty($name) || empty($location) || empty($participants)) {
         echo json_encode(['success' => false, 'error' => 'Please fill in all required fields for one-time events', 'slotDuration' => $slotDuration]); 
         exit;
@@ -159,7 +160,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 
 
-    // Insert each slot into the database
+    // insert each slot into the database
     try {
         $database = new PDO('sqlite:ssDB.sq3');
         $database->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
