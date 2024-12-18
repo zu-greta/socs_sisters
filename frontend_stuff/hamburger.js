@@ -1,3 +1,5 @@
+// Coder: Quinn Xiao
+
 const hamburger = document.getElementById("hamburger");
 const hamburgerMenu = document.getElementById("hamburger-menu");
 
