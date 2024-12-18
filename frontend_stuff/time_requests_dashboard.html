@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -17,10 +18,12 @@
             left: 10px;
             padding: 15px 0px 15px 25px;
         }
+
         .sidenav {
             border: solid 3px #ebebeb;
             border-radius: 5px;
         }
+
         .sidenav a {
             margin-top: -1px;
             margin-bottom: -1px;
@@ -32,15 +35,18 @@
             margin: 7px;
             transition: background-color 0.2s ease;
         }
+
         .sidenav a:hover {
             background-color: #ebebeb;
             color: #ed1b2f;
         }
+
         .sidenav a.active {
             background-color: #ae0e1d;
             color: white;
         }
-        .sidenav a.active:hover{
+
+        .sidenav a.active:hover {
             background-color: #ed1b2f;
         }
 
@@ -56,6 +62,7 @@
             position: relative;
             display: inline-block;
         }
+
         .dropdown-content {
             display: none;
             border-radius: 5px;
@@ -64,14 +71,16 @@
             background-color: white;
             min-width: 200px;
             overflow: auto;
-            box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+            box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
             z-index: 1;
             padding: 5px;
             transition: background-color 0.2s ease;
         }
+
         .dropdown-content.show {
             display: block;
         }
+
         .dropdown-content button {
             width: 100%;
             display: block;
@@ -80,41 +89,48 @@
             background-color: transparent;
             text-align: left;
         }
+
         .dropdown button:hover {
             background-color: #ddd;
             color: #ed1b2f;
         }
 
         /* Table */
-        .requests-list, 
-        .requests-list th, 
+        .requests-list,
+        .requests-list th,
         .requests-list td {
             border-collapse: collapse;
             padding: 15px 20px;
             text-align: left;
             color: #424242;
         }
+
         /* header row */
         .requests-list th {
             color: black;
         }
+
         /* first column */
-        .requests-list tr > td:first-child { 
+        .requests-list tr>td:first-child {
             font-weight: bold;
-        } 
+        }
+
         /* last row */
-        .requests-list tr:last-child { 
+        .requests-list tr:last-child {
             border-bottom: none;
-        } 
+        }
+
         .requests-list tr {
             border-bottom: 1px solid #ebebeb;
             border-radius: 5px;
         }
-        .requests-list tr:hover{
+
+        .requests-list tr:hover {
             background-color: #ebebeba8;
             border-radius: 5px;
             transition: background-color 0.2s ease;
         }
+
         .requests-list td {
             vertical-align: top;
         }
@@ -138,11 +154,11 @@
             width: 100%;
             height: 100%;
             overflow: auto;
-            background-color: rgba(0, 0, 0, 0.5); 
+            background-color: rgba(0, 0, 0, 0.5);
         }
 
         /* popup content */
-        .event-details-popup-content{
+        .event-details-popup-content {
             background-color: white;
             margin: 10% auto;
             padding: 40px 60px 100px 60px;
@@ -151,6 +167,7 @@
             max-width: 800px;
             position: relative;
             border-radius: 5px;
+            overflow: auto;
         }
 
         /* close button */
@@ -164,7 +181,8 @@
             z-index: 1002;
         }
 
-        .close:hover, .close:focus {
+        .close:hover,
+        .close:focus {
             color: #424242;
             text-decoration: none;
             cursor: pointer;
@@ -176,10 +194,10 @@
         }
 
         .event-details-table {
-            width: 70%; 
+            width: 70%;
         }
 
-        .event-details-table, 
+        .event-details-table,
         .event-details-table tr,
         .event-details-table td {
             padding: 7px 0px;
@@ -188,7 +206,7 @@
             border-collapse: collapse;
         }
 
-        .event-details-table tr > td:nth-child(2){
+        .event-details-table tr>td:nth-child(2) {
             padding-left: 15px;
         }
 
@@ -203,37 +221,44 @@
                 width: 100%;
                 padding-right: 25px;
             }
+
             .requests-container {
                 width: 100%;
                 padding-left: 25px;
             }
+
             /* hide location & host columns */
-            .requests-list tr > td:nth-child(3),
-            .requests-list tr > th:nth-child(3),
-            .requests-list tr > td:nth-child(4),
-            .requests-list tr > th:nth-child(4) { 
+            .requests-list tr>td:nth-child(3),
+            .requests-list tr>th:nth-child(3),
+            .requests-list tr>td:nth-child(4),
+            .requests-list tr>th:nth-child(4) {
                 display: none;
             }
-            .event-details-popup-content{
+
+            .event-details-popup-content {
                 width: 80%;
                 margin-top: 20vw;
             }
         }
+
         @media screen and (min-width: 743px) and (max-width: 1212px) {
             .sidenav-container {
                 width: 30%;
                 padding-right: 25px;
             }
+
             .requests-container {
                 width: 70%;
                 padding-left: 25px;
             }
+
             /* hide host column */
-            .requests-list tr > td:nth-child(4),
-            .requests-list tr > th:nth-child(4) { 
+            .requests-list tr>td:nth-child(4),
+            .requests-list tr>th:nth-child(4) {
                 display: none;
             }
-            .event-details-popup-content{
+
+            .event-details-popup-content {
                 width: 80%;
                 margin-top: 15vw;
             }
@@ -281,44 +306,48 @@
             font-weight: bold;
         }
 
-/* pop-alert styles */
-.pop-alert {
-        display: none;
-        position: fixed;
-        z-index: 1000;
-        left: 0;
-        top: 0;
-        width: 100%;
-        height: 100%;
-        overflow: auto;
-        background-color: rgba(0, 0, 0, 0.4);
+        /* pop-alert styles */
+        .pop-alert {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgba(0, 0, 0, 0.4);
         }
+
         .pop-alert-content {
-        background-color: #fff;
-        margin: 15% auto;
-        padding: 20px;
-        border: 1px solid #888;
-        width: 80%;
-        max-width: 400px;
-        border-radius: 8px;
-        text-align: center;
-        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+            background-color: #fff;
+            margin: 15% auto;
+            padding: 20px;
+            border: 1px solid #888;
+            width: 80%;
+            max-width: 400px;
+            border-radius: 8px;
+            text-align: center;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
         }
+
         .pop-alert-close {
-        margin-top: 10px;
-        padding: 10px 20px;
-        background-color: #ed1b2f;
-        color: white;
-        border: none;
-        border-radius: 5px;
-        cursor: pointer;
+            margin-top: 10px;
+            padding: 10px 20px;
+            background-color: #ed1b2f;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
         }
+
         .pop-alert-close:hover {
-        background-color: #ed1b2f;
+            background-color: #ed1b2f;
         }
     </style>
 
 </head>
+
 <body>
     <header>
         <div class="nav-container">
@@ -359,13 +388,13 @@
 
     <script src="./frontend_stuff/hamburger.js"></script>
 
-        <!-- Modal popup -->
-        <div id="pop-alert" class="pop-alert">
-            <div class="pop-alert-content">
-                <p id="pop-alert-message"></p>
-                <button class="pop-alert-close" onclick="closepopalert()">Close</button>
-            </div>
+    <!-- Modal popup -->
+    <div id="pop-alert" class="pop-alert">
+        <div class="pop-alert-content">
+            <p id="pop-alert-message"></p>
+            <button class="pop-alert-close" onclick="closepopalert()">Close</button>
         </div>
+    </div>
 
     <div id="background-container">
         <!-- Welcome message -->
@@ -399,10 +428,13 @@
                 </div>
                 <!-- Filter Requests Dropdown -->
                 <div class="dropdown" style="margin-bottom: 15px">
-                    <button onclick="showFilterRequestDropdown()" class="secondary dropdown-btn" id="filter-requests-btn">&#9013;&ensp;Pending Time Requests</button>
+                    <button onclick="showFilterRequestDropdown()" class="secondary dropdown-btn"
+                        id="filter-requests-btn">&#9013;&ensp;Pending Time Requests</button>
                     <div id="filter-requests-dropdown" class="dropdown-content">
-                        <button onclick="toggleTable('pending-list', 'Pending Time Requests')">Pending Time Requests</button>
-                        <button onclick="toggleTable('my-requests-list', 'Your Sent Time Requests')">Your Sent Time Requests</button>
+                        <button onclick="toggleTable('pending-list', 'Pending Time Requests')">Pending Time
+                            Requests</button>
+                        <button onclick="toggleTable('my-requests-list', 'Your Sent Time Requests')">Your Sent Time
+                            Requests</button>
                     </div>
                 </div>
                 <!-- Pending Time Requests -->
@@ -432,7 +464,7 @@
     <div id="create-event-popup" class="event-details-popup">
         <div class="event-details-popup-content">
             <span class="close" onclick="closeDetailsPopup('create-event-popup')">&times;</span>
-            <h1>Create Event</h1> 
+            <h1>Create Event</h1>
             <form id="event-form">
                 <div class="form-group">
                     <label for="eventName">Event Name:</label>
@@ -440,35 +472,35 @@
                 </div>
                 <!-- <label for="eventName">Event Name:</label>
                 <input type="text" id="eventName" name="eventName" required> -->
-            </br>
+                </br>
                 <div class="form-group">
                     <label for="eventLocation">Location:</label>
                     <input type="text" id="eventLocation" name="eventLocation" required>
                 </div>
                 <!-- <label for="eventLocation">Location:</label>
                 <input type="text" id="eventLocation" name="eventLocation" required> -->
-            </br>
+                </br>
                 <div class="form-group">
                     <label for="eventStartTime">Start Time:</label>
                     <input type="time" id="eventStartTime" name="eventStartTime" required>
                 </div>
                 <!-- <label for="eventStartTime">Start Time:</label>
                 <input type="time" id="eventStartTime" name="eventStartTime" required> -->
-            </br>
+                </br>
                 <div class="form-group">
                     <label for="eventEndTime">End Time:</label>
                     <input type="time" id="eventEndTime" name="eventEndTime" required>
                 </div>
                 <!-- <label for="eventEndTime">End Time:</label>
                 <input type="time" id="eventEndTime" name="eventEndTime" required> -->
-            </br>
+                </br>
                 <div class="form-group">
                     <label for="eventDate">Date:</label>
                     <input type="date" id="eventDate" name="eventDate" required>
                 </div>
                 <!-- <label for="eventDate">Date:</label>
                 <input type="date" id="eventDate" name="eventDate" required> -->
-            </br>
+                </br>
                 <input type="hidden" id="eventRequestID" name="eventRequestID">
                 <input type="hidden" id="sender_id" name="sender_id">
                 <div class="popup-buttons">
@@ -476,15 +508,15 @@
                 </div>
             </form>
         </div>
-    </div>  
+    </div>
 
 
     <script>
-        function showpopalert(message, eventID=null) {
+        function showpopalert(message, eventID = null) {
             document.getElementById('pop-alert-message').innerText = message;
             document.getElementById('pop-alert').style.display = 'block';
             //close the details popup
-                // Close event details popup if eventID is provided
+            // Close event details popup if eventID is provided
             if (eventID) {
                 const eventPopup = document.getElementById(`event-details-popup-${eventID}`);
                 if (eventPopup) {
@@ -506,7 +538,7 @@
             document.getElementById(id).style.display = 'block';
         }
 
-        function closeDetailsPopup(id){
+        function closeDetailsPopup(id) {
             document.getElementById(id).style.display = 'none';
         }
 
@@ -514,7 +546,7 @@
             document.getElementById("filter-requests-dropdown").classList.toggle("show");
         }
 
-        window.onclick = function(event) {
+        window.onclick = function (event) {
             if (!event.target.matches('.dropdown-btn')) {
                 const dropdowns = document.getElementsByClassName("dropdown-content");
                 for (let i = 0; i < dropdowns.length; i++) {
@@ -530,150 +562,150 @@
         function RejectRequest(eventID) {
             console.log(`Rejecting request with eventID ${eventID}`);
             fetch(`./database_stuff/reject_time.php?eventID=${eventID}`, {
-            method: 'GET',
+                method: 'GET',
             })
 
-            .then(response => response.json())
-            .then(data => {
-                if (data.success) {
-                    showpopalert('Time Request Rejected', eventID);
-                    //alert('Time Request Rejected');
-                    // Optionally refresh the page or update the table dynamically
-                    //location.reload();
-                } else {
-                    showpopalert(`Error Rejecting Time Request: ${data.message}`);
-                    //alert(`Error Rejecting Time Request: ${data.message}`);
-                }
-            })
-            .catch(error => {
-                console.error('Error Rejecting Time Request:', error);
-                showpopalert('An error occurred while Rejecting the request.');
-                //alert('An error occurred while Rejecting the request.');
-            });
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        showpopalert('Time Request Rejected', eventID);
+                        //alert('Time Request Rejected');
+                        // Optionally refresh the page or update the table dynamically
+                        //location.reload();
+                    } else {
+                        showpopalert(`Error Rejecting Time Request: ${data.message}`);
+                        //alert(`Error Rejecting Time Request: ${data.message}`);
+                    }
+                })
+                .catch(error => {
+                    console.error('Error Rejecting Time Request:', error);
+                    showpopalert('An error occurred while Rejecting the request.');
+                    //alert('An error occurred while Rejecting the request.');
+                });
         }
         function AcceptRequest(eventID) {
             console.log(`Accepting request with eventID ${eventID}`);
             fetch(`./database_stuff/accept_time.php?eventID=${eventID}`, {
-            method: 'GET',
+                method: 'GET',
             })
 
-            .then(response => response.json())
-            .then(data => {
-                if (data.success) {
-                    console.log(data);
-                    console.log(data.requestDetails);
-                    // show event creation popup
-                    const requestName = data.requestDetails.requestName;
-                    const requestStartTime = data.requestDetails.requestStartTime;
-                    const requestEndTime = data.requestDetails.requestEndTime;
-                    const requestDate = data.requestDetails.requestDate;
-                    const sender_id = data.requestDetails.sender_id;
-                    showCreateEventPopup(eventID, requestName, requestStartTime, requestEndTime, requestDate, sender_id);
-                    closeDetailsPopup(`event-details-popup-${eventID}`);
-                } else {
-                    showpopalert(`Error Accepting Time Request: ${data.message}`);
-                    //alert(`Error Accepting Time Request: ${data.message}`);
-                }
-            })
-            .catch(error => {
-                console.error('Error Accepting Time Request:', error);
-                showpopalert('An error occurred while Accepting the request.');
-                //alert('An error occurred while Accepting the request.');
-            });
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        console.log(data);
+                        console.log(data.requestDetails);
+                        // show event creation popup
+                        const requestName = data.requestDetails.requestName;
+                        const requestStartTime = data.requestDetails.requestStartTime;
+                        const requestEndTime = data.requestDetails.requestEndTime;
+                        const requestDate = data.requestDetails.requestDate;
+                        const sender_id = data.requestDetails.sender_id;
+                        showCreateEventPopup(eventID, requestName, requestStartTime, requestEndTime, requestDate, sender_id);
+                        closeDetailsPopup(`event-details-popup-${eventID}`);
+                    } else {
+                        showpopalert(`Error Accepting Time Request: ${data.message}`);
+                        //alert(`Error Accepting Time Request: ${data.message}`);
+                    }
+                })
+                .catch(error => {
+                    console.error('Error Accepting Time Request:', error);
+                    showpopalert('An error occurred while Accepting the request.');
+                    //alert('An error occurred while Accepting the request.');
+                });
         }
     </script>
     <script>
-    // Show event creation popup
-    function showCreateEventPopup(eventID, requestName, requestStartTime, requestEndTime, requestDate, sender_id) {
-        document.getElementById('eventName').value = requestName;
-        document.getElementById('eventStartTime').value = requestStartTime;
-        document.getElementById('eventEndTime').value = requestEndTime;
-        document.getElementById('eventDate').value = requestDate;
-        document.getElementById('eventRequestID').value = eventID;
-        document.getElementById('sender_id').value = sender_id;
-        document.getElementById('create-event-popup').style.display = 'block';
-    }
-
-    function submitEvent() {
-        const formData = new FormData(document.getElementById('event-form'));
-
-        // Validate form data
-        if (!validateEventForm()) {
-            return;
-        }
-        //check that start time is before end time
-        const eventStartTime = document.getElementById('eventStartTime').value;
-        const eventEndTime = document.getElementById('eventEndTime').value;
-        const eventDate = document.getElementById('eventDate').value;
-        const eventName = document.getElementById('eventName').value;
-        const eventLocation = document.getElementById('eventLocation').value;
-        if (eventStartTime >= eventEndTime) {
-            showpopalert('End time must be after start time.');
-            //alert('End time must be after start time.');
-            return;
-        }
-        //check that none of the inputs are empty
-        if (eventStartTime === "" || eventEndTime === "" || eventDate === "" || eventName === "" || eventLocation === "") {
-            //showpopalert('All fields must be filled out.');
-            alert('All fields must be filled out.');
-            return;
+        // Show event creation popup
+        function showCreateEventPopup(eventID, requestName, requestStartTime, requestEndTime, requestDate, sender_id) {
+            document.getElementById('eventName').value = requestName;
+            document.getElementById('eventStartTime').value = requestStartTime;
+            document.getElementById('eventEndTime').value = requestEndTime;
+            document.getElementById('eventDate').value = requestDate;
+            document.getElementById('eventRequestID').value = eventID;
+            document.getElementById('sender_id').value = sender_id;
+            document.getElementById('create-event-popup').style.display = 'block';
         }
 
-        fetch('./database_stuff/save_event.php', {
-            method: 'POST',
-            body: formData
-        })
-        .then(response => response.json())
-        .then(data => {
-            console.log(data);
-            if (data.success) {
-                // Close the popup
-                document.getElementById('create-event-popup').style.display = 'none';
-                showpopalert('Event Created Successfully');
-                //alert('Event Created Successfully');
-                //location.reload();
-            } else {
-                showpopalert(`Error Creating Event: ${data.message}`);
-                //alert(`Error Creating Event: ${data.message}`);
+        function submitEvent() {
+            const formData = new FormData(document.getElementById('event-form'));
+
+            // Validate form data
+            if (!validateEventForm()) {
+                return;
             }
-        })
-        .catch(error => {
-            console.error('Error Creating Event:', error);
-            showpopalert('An error occurred while creating the event.');
-            //alert('An error occurred while creating the event.');
-        });
-    }
+            //check that start time is before end time
+            const eventStartTime = document.getElementById('eventStartTime').value;
+            const eventEndTime = document.getElementById('eventEndTime').value;
+            const eventDate = document.getElementById('eventDate').value;
+            const eventName = document.getElementById('eventName').value;
+            const eventLocation = document.getElementById('eventLocation').value;
+            if (eventStartTime >= eventEndTime) {
+                showpopalert('End time must be after start time.');
+                //alert('End time must be after start time.');
+                return;
+            }
+            //check that none of the inputs are empty
+            if (eventStartTime === "" || eventEndTime === "" || eventDate === "" || eventName === "" || eventLocation === "") {
+                //showpopalert('All fields must be filled out.');
+                alert('All fields must be filled out.');
+                return;
+            }
+
+            fetch('./database_stuff/save_event.php', {
+                method: 'POST',
+                body: formData
+            })
+                .then(response => response.json())
+                .then(data => {
+                    console.log(data);
+                    if (data.success) {
+                        // Close the popup
+                        document.getElementById('create-event-popup').style.display = 'none';
+                        showpopalert('Event Created Successfully');
+                        //alert('Event Created Successfully');
+                        //location.reload();
+                    } else {
+                        showpopalert(`Error Creating Event: ${data.message}`);
+                        //alert(`Error Creating Event: ${data.message}`);
+                    }
+                })
+                .catch(error => {
+                    console.error('Error Creating Event:', error);
+                    showpopalert('An error occurred while creating the event.');
+                    //alert('An error occurred while creating the event.');
+                });
+        }
     </script>
     <script>
         //populate the upcoming table others
-        document.addEventListener('DOMContentLoaded', function() {
+        document.addEventListener('DOMContentLoaded', function () {
             fetch('./database_stuff/time_request_details.php')
-            .then(response => response.json())
-            .then(data => {
-                if (data.success) {
-                    console.log("Response received here");
-                    console.log(data);
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        console.log("Response received here");
+                        console.log(data);
 
-                    const pendingTable = document.getElementById("pending-list");
-                    const pendingEvents = data.pendingEvents;
+                        const pendingTable = document.getElementById("pending-list");
+                        const pendingEvents = data.pendingEvents;
 
-                    //populate the table
-                    pendingEvents.forEach(event => {
-                        let newRow = pendingTable.insertRow(-1);
-                        let TimeRequestCell = newRow.insertCell(0);
-                        let dateCell = newRow.insertCell(1);
-                        let RequesterCell = newRow.insertCell(2);
-                        let ReasonCell = newRow.insertCell(3);
-                        let tableButtonsCell = newRow.insertCell(4);
+                        //populate the table
+                        pendingEvents.forEach(event => {
+                            let newRow = pendingTable.insertRow(-1);
+                            let TimeRequestCell = newRow.insertCell(0);
+                            let dateCell = newRow.insertCell(1);
+                            let RequesterCell = newRow.insertCell(2);
+                            let ReasonCell = newRow.insertCell(3);
+                            let tableButtonsCell = newRow.insertCell(4);
 
-                        TimeRequestCell.innerHTML = event.requestName;
-                        dateCell.innerHTML = event.requestDateTime;
-                        RequesterCell.innerHTML = event.senderName;
-                        ReasonCell.innerHTML = event.requestNotes;
+                            TimeRequestCell.innerHTML = event.requestName;
+                            dateCell.innerHTML = event.requestDateTime;
+                            RequesterCell.innerHTML = event.senderName;
+                            ReasonCell.innerHTML = event.requestNotes;
 
-                        // add event action buttons to each entry
-                        let eventDetailsPopupID = `event-details-popup-${event.requestID}`;
-                        tableButtonsCell.innerHTML = `
+                            // add event action buttons to each entry
+                            let eventDetailsPopupID = `event-details-popup-${event.requestID}`;
+                            tableButtonsCell.innerHTML = `
                             <button class="secondary list-view-btn" onclick="showDetailsPopup('${eventDetailsPopupID}')">Details</button>
                             <div id="event-details-popup-${event.requestID}" class="event-details-popup">
                                 <div class="event-details-popup-content">
@@ -700,78 +732,78 @@
                                     </table>   
                                     <div> 
                                         <button class="primary popup-btn" onclick="AcceptRequest(${event.requestID})">Accept Request</button>
-                                        <button class="primary popup-btn" onclick="RejectRequest(${event.requestID})">Reject Request</button>
+                                        <button class="secondary popup-btn" onclick="RejectRequest(${event.requestID})">Reject Request</button>
                                     </div>
                                 </div>
                             </div>
                         `
-                    });
-                }
-            })
+                        });
+                    }
+                })
         })
     </script>
     <script>
         //populate the upcoming table others
-        document.addEventListener('DOMContentLoaded', function() {
+        document.addEventListener('DOMContentLoaded', function () {
             fetch('./database_stuff/my_time_requests.php')
-            .then(response => response.json())
-            .then(data => {
-                if (data.success) {
-                    console.log("Response received");
-                    //console.log(data);
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        console.log("Response received");
+                        //console.log(data);
 
-                    const requestTable = document.getElementById("my-requests-list");
-                    const requests = data.requestDetails;
+                        const requestTable = document.getElementById("my-requests-list");
+                        const requests = data.requestDetails;
 
-                    //populate the table
-                    requests.forEach(event => {
-                        let newRow = requestTable.insertRow(-1);
-                        let TimeRequestCell = newRow.insertCell(0);
-                        let dateCell = newRow.insertCell(1);
-                        let RequesterCell = newRow.insertCell(2);
-                        let ReasonCell = newRow.insertCell(3);
-                        let tableButtonsCell = newRow.insertCell(4);
+                        //populate the table
+                        requests.forEach(event => {
+                            let newRow = requestTable.insertRow(-1);
+                            let TimeRequestCell = newRow.insertCell(0);
+                            let dateCell = newRow.insertCell(1);
+                            let RequesterCell = newRow.insertCell(2);
+                            let ReasonCell = newRow.insertCell(3);
+                            let tableButtonsCell = newRow.insertCell(4);
 
-                        TimeRequestCell.innerHTML = event.requestName;
-                        dateCell.innerHTML = event.requestDateTime;
-                        RequesterCell.innerHTML = event.receiverName;
-                        ReasonCell.innerHTML = event.requestNotes;
-                        tableButtonsCell.innerHTML = event.requestStatus;
-                    });
-                } else {
-                    console.log(data.error);
-                    //showpopalert("An error occurred. Please try again later.");
-                    //alert("An error occurred. Please try again later.");
-                }
-            }) .catch((error) => {
-                console.error('Error:', error);
-                showpopalert("An error occurred while fetching. Please try again later.");
-                //alert("An error occurred while fetching. Please try again later.");
-            });
+                            TimeRequestCell.innerHTML = event.requestName;
+                            dateCell.innerHTML = event.requestDateTime;
+                            RequesterCell.innerHTML = event.receiverName;
+                            ReasonCell.innerHTML = event.requestNotes;
+                            tableButtonsCell.innerHTML = event.requestStatus;
+                        });
+                    } else {
+                        console.log(data.error);
+                        //showpopalert("An error occurred. Please try again later.");
+                        //alert("An error occurred. Please try again later.");
+                    }
+                }).catch((error) => {
+                    console.error('Error:', error);
+                    showpopalert("An error occurred while fetching. Please try again later.");
+                    //alert("An error occurred while fetching. Please try again later.");
+                });
         })
     </script>
-    
-    
+
+
     <script>
-        document.addEventListener('DOMContentLoaded', function() {
+        document.addEventListener('DOMContentLoaded', function () {
             fetch('./database_stuff/preferences.php')
-            .then(response => response.json())
-            .then(data => {
-                if (data.success) {
-                    console.log("Response received");
-                    // populate first name
-                    document.getElementById("fname").innerHTML = data.userDetails.userFname;
-                } else {
-                    console.log(data.error);
-                    showpopalert("An error occurred. Please try again later.");
-                    //alert("An error occurred. Please try again later.");
-                }
-            })
-            .catch((error) => {
-                console.error('Error:', error);
-                showpopalert("An error occurred while fetching. Please try again later.");
-                //alert("An error occurred while fetching. Please try again later.");
-            });
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        console.log("Response received");
+                        // populate first name
+                        document.getElementById("fname").innerHTML = data.userDetails.userFname;
+                    } else {
+                        console.log(data.error);
+                        showpopalert("An error occurred. Please try again later.");
+                        //alert("An error occurred. Please try again later.");
+                    }
+                })
+                .catch((error) => {
+                    console.error('Error:', error);
+                    showpopalert("An error occurred while fetching. Please try again later.");
+                    //alert("An error occurred while fetching. Please try again later.");
+                });
         });
     </script>
     <script>
@@ -804,4 +836,5 @@
     </script>
 
 </body>
+
 </html>
