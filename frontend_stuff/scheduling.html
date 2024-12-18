@@ -1,3 +1,5 @@
+<!-- Coder: Quinn Xiao -->
+
 <!DOCTYPE html>
 <html>
 
@@ -216,8 +218,6 @@
       gap: 7px;
     }
 
-
-
     input[type="text"],
     input[type="checkbox"],
     input[type="time"],
@@ -248,18 +248,18 @@
       font-size: 10px;
       color: grey;
     }
-    
+
     #location-label-1,
     #location-label-2 {
-      display: inline-block; 
-      width: 36vw; 
+      display: inline-block;
+      width: 36vw;
       margin-right: 0.05vw;
     }
 
     #participants-label-1,
     #participants-label-2 {
-      display: inline-block; 
-      width:18.6vw;
+      display: inline-block;
+      width: 18.6vw;
     }
 
     .reset-btn {
@@ -279,7 +279,7 @@
       font-size: 1rem;
     }
 
-    .form-start-times, 
+    .form-start-times,
     .form-end-times {
       display: inline-block;
     }
@@ -398,26 +398,32 @@
     }
 
     @media screen and (max-width: 611px) {
+
       .container,
       .container .card {
         margin: 0;
         background-color: #ae0e1d;
       }
+
       .container .card {
         border-radius: 0px;
         background: transparent;
         border-right: none;
       }
-      .card{
+
+      .card {
         width: 100vw;
       }
+
       .content {
         width: 100vw;
         border-radius: 0px;
       }
-      div.card.tabs{
+
+      div.card.tabs {
         width: 100vw;
       }
+
       #tab-2:checked~.glider {
         left: 110px;
       }
@@ -427,22 +433,27 @@
       .container .card {
         max-width: 85vw;
       }
+
       .content {
         min-height: 700px;
       }
+
       .content .item {
         width: 90%;
       }
+
       .schedule-form {
         width: 75vw;
       }
+
       #location-label-1,
       #participants-label-1,
       #location-label-2,
       #participants-label-2 {
         width: 100%;
       }
-      .form-times{
+
+      .form-times {
         width: 100%;
       }
     }
@@ -495,7 +506,7 @@
     .hamburger-menu a:hover {
       background-color: #f1f1f1;
     }
-    
+
     @media screen and (max-width: 820px) {
       .hamburger {
         display: block;
@@ -611,9 +622,9 @@
             <div class="form-times" style="margin-top: 5px;">
               <div class="form-start-times">
                 <label for="start_time" id="start-time-label"
-                style="display: inline-block; margin-right: 10px; font-size: 10; color: grey; padding-top: 15px;">Start
-                Time:
-                <input type="time" name="start_time" style="display: inline-block; padding: 4px;" required></label>
+                  style="display: inline-block; margin-right: 10px; font-size: 10; color: grey; padding-top: 15px;">Start
+                  Time:
+                  <input type="time" name="start_time" style="display: inline-block; padding: 4px;" required></label>
 
                 <label for="start_date" id="start-date-label"
                   style="display: inline-block; margin-right: 10px; font-size: 10; color: grey; margin-right: 1vw;">Start
@@ -624,14 +635,14 @@
               </div>
               <div class="form-end-times">
                 <label for="end_time" id="end-time-label"
-                style="display: inline-block; margin-right: 10px; font-size: 10; color: grey;">End
-                Time:
-                <input type="time" name="end_time" style="display: inline-block; padding: 4px;" required></label>
+                  style="display: inline-block; margin-right: 10px; font-size: 10; color: grey;">End
+                  Time:
+                  <input type="time" name="end_time" style="display: inline-block; padding: 4px;" required></label>
 
                 <label for="end_date" id="end-date-label"
                   style="display: inline-block; margin-right: 10px; font-size: 10; color: grey;">End
                   Date:
-                  <input type="date" name="end_date" style="display: inline-block; padding: 5px;" required></label>  
+                  <input type="date" name="end_date" style="display: inline-block; padding: 5px;" required></label>
               </div>
             </div>
 
@@ -697,7 +708,8 @@
                 <option value="30">30 minutes</option>
                 <option value="45">45 minutes</option>
                 <option value="60">1 hour</option>
-                <option value="0">Full Length<option>
+                <option value="0">Full Length
+                <option>
               </select>
             </label>
             <label><textarea name="notes"
@@ -736,7 +748,9 @@
       document.getElementById('pop-alert').style.display = 'none';
     }       
   </script>
+
   <script>
+    // Validates the recurring event form to ensure at least one day is selected
     document.forms['recurring-form'].addEventListener('submit', (event) => {
       event.preventDefault();
       const dayCheckboxes = document.querySelectorAll('input[name="day[]"]');
@@ -747,7 +761,7 @@
         }
       });
       if (!isDaySelected) {
-        event.preventDefault(); 
+        event.preventDefault();
         showpopalert("Please select at least one day for the recurring event.");
         return;
       } const form = event.target;
@@ -757,12 +771,12 @@
 
       fetch(event.target.action, {
         method: 'POST',
-        body: new URLSearchParams(new FormData(event.target)) 
+        body: new URLSearchParams(new FormData(event.target))
       }).then((response) => {
         if (!response.ok) {
           throw new Error(`HTTP error! Status: ${response.status}`);
         }
-        return response.json(); 
+        return response.json();
       }).then((body) => {
         console.log("Response received from recurring form submission");
         if (body.success) {
@@ -788,7 +802,6 @@
           return;
         }
       }).catch((error) => {
-        // TODO handle error
         console.log("Error:", error);
         showpopalert("An error occurred while scheduling the event.");
       }).finally(() => {
@@ -797,9 +810,9 @@
       });
     });
 
+    // Validates time ranges
     document.forms['one-time-form'].addEventListener('submit', (event) => {
       event.preventDefault();
-
 
       const form = event.target;
       const startTime = new Date(form.start_time.value);
@@ -815,12 +828,12 @@
       document.getElementById('one-time-form').querySelector('.save-btn').disabled = true;
       fetch(event.target.action, {
         method: 'POST',
-        body: new URLSearchParams(new FormData(event.target)) 
+        body: new URLSearchParams(new FormData(event.target))
       }).then((response) => {
         if (!response.ok) {
           throw new Error(`HTTP error! Status: ${response.status}`);
         }
-        return response.json(); 
+        return response.json();
       }).then((body) => {
         console.log("Response received");
         console.log(body);
@@ -840,7 +853,6 @@
           document.getElementById("confirmation-popup").style.display = "block";
         }
       }).catch((error) => {
-        // TODO handle error
         console.log("Error:", error);
         alert(error);
       }).finally(() => {
@@ -887,7 +899,9 @@
       });
     }
   </script>
+
   <script>
+    // Sanitize inputs to prevent XSS attacks
     const inputs = document.querySelectorAll('input');
     inputs.forEach(input => {
       input.addEventListener('input', () => {
@@ -940,8 +954,6 @@
     endDateInput.addEventListener('input', compareDateTime);
     startTimeInput.addEventListener('input', compareDateTime);
     endTimeInput.addEventListener('input', compareDateTime);
-
-
   </script>
 </body>
 
