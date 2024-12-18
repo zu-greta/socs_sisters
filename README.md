@@ -6,7 +6,7 @@ A user-friendly platform that simplifies appointment scheduling for users. Built
 ## Table of Contents
 - [Project Overview](#project-overview) 
 - [Tech Stack](#tech-stack)
-- [Website] (#website-url)
+- [Website](#website-url)
 - [Team Contribution](#team-contribution)
   
 ---
