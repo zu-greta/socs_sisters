@@ -1,4 +1,5 @@
-<!-- Coder: Quinn Xiao-->
+<!-- HTML, CSS< Responsiveness: Quinn Xiao-->
+<!-- JS: Keyu Wang -->
 
 <!DOCTYPE html>
 <html lang="en">
@@ -220,20 +221,10 @@
             <label for="password">Password:</label>
             <input type="password" id="password" name="password" placeholder="Enter your password" required>
             <div class="error-message" id="password-error">You must fill out this field.</div>
-
-            <!---
-            <div class="flex-container">
-                <label>
-                    <input type="checkbox" name="remember"> Remember Me
-                </label>
-                <a href="#">Forgot Password?</a>
-            </div>
-            -->
             
-            <button type="submit" class="primary">Login</button> <!--onclick="redirectToDashboard()"-->
+            <button type="submit" class="primary">Login</button> 
         </form>
 
-        <!-- OR Line -->
         <div class="or-line">
             <span>OR</span>
         </div>
@@ -247,7 +238,6 @@
         // Function to redirect user to the dashboard
         function redirectToDashboard() {
             console.log('Redirecting to dashboard...');
-            //window.location.href = "dashboard";
         }
 
         // Add event listeners for validation

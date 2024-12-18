@@ -1,8 +1,7 @@
 <?php
-//Author: Keyu Wang
-
 session_start();
 header('Content-Type: application/json');
+//Author: Keyu Wang
 
 try {
     // Check if user is logged in & get creator ID

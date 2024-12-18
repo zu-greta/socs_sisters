@@ -1,3 +1,6 @@
+<!-- HTML, CSS, Responsiveness: Christine Wu-->
+ <!-- JS: Greta Zu -->
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -389,7 +392,6 @@
             <!-- Upcoming -->
             <div class="upcoming-container">
                 <div>
-                    <!-- <h2 style="display:inline-block">Upcoming Events</h2>&ensp; -->
                     <h2 style="display:inline-block">Dashboard</h2>&ensp;
                     <!-- Plus Button Dropdown -->
                     <div class="dropdown" style="margin-bottom:15px">
@@ -399,16 +401,6 @@
                             <button id="create-poll-btn">Create meeting poll</button>
                         </div>
                     </div>
-                    <!-- Plus Button Dropdown -->
-                    <!-- <div class="dropdown" style="margin-bottom:15px">
-                            <button onclick="showPlusDropdown()" class="secondary dropdown-btn" id="plus-btn">&#43;</button>
-                            <div id="plus-dropdown" class="dropdown-content">
-                                <button id="scheduling-btn">Create new event schedule</button> 
-                                <button id="create-poll-btn">Create meeting poll</button>
-                            </div>
-                        </div> &ensp; -->
-                    <!-- Export button -->
-                    <!-- <button class="primary" id="export-btn">Export as .ics File</button><br>                 -->
                 </div>
                 <!-- Filter Event Dropdown -->
                 <div class="dropdown" style="margin-bottom: 15px">
@@ -463,7 +455,6 @@
             document.getElementById('pop-alert-message').innerText = message;
             document.getElementById('pop-alert').style.display = 'block';
             //close the details popup
-            // Close event details popup if eventID is provided
             if (eventID) {
                 const eventPopup = document.getElementById(`event-details-popup-${eventID}`);
                 if (eventPopup) {
@@ -499,8 +490,6 @@
 
         function showViewDropdown() {
             document.getElementById("filter-events-dropdown").classList.toggle("show");
-            // const dropdown = document.getElementById("filter-events-dropdown");
-            // dropdown.style.display = dropdown.style.display === 'block' ? 'none' : 'block';
         }
 
         function showPlusDropdown() {
@@ -840,10 +829,7 @@
             // Confirm before proceeding
             if (!confirm("Are you sure you want to cancel this booking?")) {
                 //close the details popup
-                //document.getElementById(`event-details-popup-3-${eventID}`).style.display = 'none';
                 showpopalert(`Booking with eventID ${eventID} was not cancelled.`);
-                // print out the eventID in the alert
-                //alert(`Booking with eventID ${eventID} was not cancelled.`);
                 return;
             }
             console.log(`Cancelling booking with eventID ${eventID}`);
@@ -855,18 +841,13 @@
                 .then(data => {
                     if (data.success) {
                         showpopalert('Booking cancelled successfully.');
-                        //            alert('Booking cancelled successfully.');
-                        // Optionally refresh the page or update the table dynamically
-                        //location.reload();
                     } else {
                         showpopalert(`Error cancelling booking: ${data.message}`);
-                        //            alert(`Error cancelling booking: ${data.message}`);
                     }
                 })
                 .catch(error => {
                     console.error('Error cancelling booking:', error);
                     showpopalert('An error occurred while cancelling the booking.');
-                    //        alert('An error occurred while cancelling the booking.');
                 });
         }
     </script>

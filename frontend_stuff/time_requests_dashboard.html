@@ -1,6 +1,8 @@
+<!--HTML, CSS: Greta Zu-->
+<!--Responsiveness: Christine Wu-->
+
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -415,13 +417,6 @@
                 </div>
             </div>
             <!-- Main content -->
-            <!-- display all the time requests others have made to me that have status pending 
-             with a button to see details popup.
-             the popup should give the option to reject it or accept it. reject will set the status to declined
-             and remove the display form the table. accept will change the status to accepted, allow the user to 
-             create the event in the events table by giving it a name and notes (the other informations are provided)
-             and create a booking in the bookings table with booked_by the id of the sender_id. for the accepted
-             requests, it will also disappear from this page (it will show up in the upcoming events)-->
             <div class="requests-container">
                 <div>
                     <h2>Time Requests</h2>
@@ -463,43 +458,32 @@
     <!-- Event Creation Popup -->
     <div id="create-event-popup" class="event-details-popup">
         <div class="event-details-popup-content">
-            <!-- <span class="close" onclick="closeDetailsPopup('create-event-popup')">&times;</span> -->
             <h1>Create Event</h1>
             <form id="event-form">
                 <div class="form-group">
                     <label for="eventName">Event Name:</label>
                     <input type="text" id="eventName" name="eventName" required>
                 </div>
-                <!-- <label for="eventName">Event Name:</label>
-                <input type="text" id="eventName" name="eventName" required> -->
                 </br>
                 <div class="form-group">
                     <label for="eventLocation">Location:</label>
                     <input type="text" id="eventLocation" name="eventLocation" required>
                 </div>
-                <!-- <label for="eventLocation">Location:</label>
-                <input type="text" id="eventLocation" name="eventLocation" required> -->
                 </br>
                 <div class="form-group">
                     <label for="eventStartTime">Start Time:</label>
                     <input type="time" id="eventStartTime" name="eventStartTime" required>
                 </div>
-                <!-- <label for="eventStartTime">Start Time:</label>
-                <input type="time" id="eventStartTime" name="eventStartTime" required> -->
                 </br>
                 <div class="form-group">
                     <label for="eventEndTime">End Time:</label>
                     <input type="time" id="eventEndTime" name="eventEndTime" required>
                 </div>
-                <!-- <label for="eventEndTime">End Time:</label>
-                <input type="time" id="eventEndTime" name="eventEndTime" required> -->
                 </br>
                 <div class="form-group">
                     <label for="eventDate">Date:</label>
                     <input type="date" id="eventDate" name="eventDate" required>
                 </div>
-                <!-- <label for="eventDate">Date:</label>
-                <input type="date" id="eventDate" name="eventDate" required> -->
                 </br>
                 <input type="hidden" id="eventRequestID" name="eventRequestID">
                 <input type="hidden" id="sender_id" name="sender_id">
@@ -516,7 +500,6 @@
             document.getElementById('pop-alert-message').innerText = message;
             document.getElementById('pop-alert').style.display = 'block';
             //close the details popup
-            // Close event details popup if eventID is provided
             if (eventID) {
                 const eventPopup = document.getElementById(`event-details-popup-${eventID}`);
                 if (eventPopup) {
@@ -569,18 +552,13 @@
                 .then(data => {
                     if (data.success) {
                         showpopalert('Time Request Rejected', eventID);
-                        //alert('Time Request Rejected');
-                        // Optionally refresh the page or update the table dynamically
-                        //location.reload();
                     } else {
                         showpopalert(`Error Rejecting Time Request: ${data.message}`);
-                        //alert(`Error Rejecting Time Request: ${data.message}`);
                     }
                 })
                 .catch(error => {
                     console.error('Error Rejecting Time Request:', error);
                     showpopalert('An error occurred while Rejecting the request.');
-                    //alert('An error occurred while Rejecting the request.');
                 });
         }
         function AcceptRequest(eventID) {
@@ -605,13 +583,11 @@
                         closeDetailsPopup(`event-details-popup-${eventID}`);
                     } else {
                         showpopalert(`Error Accepting Time Request: ${data.message}`);
-                        //alert(`Error Accepting Time Request: ${data.message}`);
                     }
                 })
                 .catch(error => {
                     console.error('Error Accepting Time Request:', error);
                     showpopalert('An error occurred while Accepting the request.');
-                    //alert('An error occurred while Accepting the request.');
                 });
         }
     </script>
@@ -663,8 +639,6 @@
                         // Close the popup
                         document.getElementById('create-event-popup').style.display = 'none';
                         showpopalert('Event Created Successfully');
-                        //alert('Event Created Successfully');
-                        //location.reload();
                     } else {
                         showpopalert(`Error Creating Event: ${data.message}`);
                         //alert(`Error Creating Event: ${data.message}`);
@@ -786,6 +760,7 @@
 
 
     <script>
+        //populate the names
         document.addEventListener('DOMContentLoaded', function () {
             fetch('./database_stuff/preferences.php')
                 .then(response => response.json())

@@ -1,4 +1,5 @@
-<!-- Coder: Quinn Xiao-->
+<!-- HTML, CSS, Responsiveness: Quinn Xiao-->
+ <!-- JS: Greta Zu -->
 
 <!DOCTYPE html>
 <html lang="en">
@@ -1154,12 +1155,6 @@
     const alternativeButton = document.querySelector(".buttons .alternative");
 
     alternativeButton.addEventListener("click", () => {
-      // const ecreator_id = encodeURIComponent(creator_id);
-      // const eeventName = encodeURIComponent(eventName);
-      // const eeventDuration = encodeURIComponent(eventDuration);
-      // const eeventLocation = encodeURIComponent(eventLocation);
-      // const eeventCreation = encodeURIComponent(eventCreation);
-      // const etoken = encodeURIComponent(token);
       const ecreator_id = creator_id;
       const eeventName = eventName;
       const eeventDuration = eventDuration;
@@ -1170,10 +1165,8 @@
       //check if user is logged in
       if (document.cookie.includes("auth_key")) {
         window.location.href = `makeTimeRequest?token=${etoken}&creator_id=${ecreator_id}&eventName=${eeventName}&eventDuration=${eeventDuration}&eventLocation=${eeventLocation}&eventCreation=${eeventCreation}`;
-        //window.location.href = targetURL;
       } else {
         window.location.href = `login?redirect=${encodeURIComponent(targetURL)}`;
-        //window.location.href = `login?redirect=${targetURL}`;
       }
     });
     //Close the confirmation popup TODO FIX THIS
