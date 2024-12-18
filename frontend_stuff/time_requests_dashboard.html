@@ -11,7 +11,6 @@
     <link rel="stylesheet" href="./frontend_stuff/general_style.css">
 
     <style>
-        /* Side Navigation Bar */
         .sidenav-container {
             width: 18%;
             float: left;
@@ -52,14 +51,12 @@
             background-color: #ed1b2f;
         }
 
-        /* Requests */
         .requests-container {
             float: right;
             width: 80%;
             padding: 15px 25px 15px 0px;
         }
 
-        /* dropdown */
         .dropdown {
             position: relative;
             display: inline-block;
@@ -97,7 +94,6 @@
             color: #ed1b2f;
         }
 
-        /* Table */
         .requests-list,
         .requests-list th,
         .requests-list td {
@@ -107,17 +103,14 @@
             color: #424242;
         }
 
-        /* header row */
         .requests-list th {
             color: black;
         }
 
-        /* first column */
         .requests-list tr>td:first-child {
             font-weight: bold;
         }
 
-        /* last row */
         .requests-list tr:last-child {
             border-bottom: none;
         }
@@ -137,14 +130,12 @@
             vertical-align: top;
         }
 
-        /* table buttons */
         .list-view-btn {
             margin: 3px 0px;
             padding: 6px 12px;
             font-size: 13px;
         }
 
-        /* for popup */
         .event-details-popup {
             display: none;
             justify-content: center;
@@ -159,7 +150,6 @@
             background-color: rgba(0, 0, 0, 0.5);
         }
 
-        /* popup content */
         .event-details-popup-content {
             background-color: white;
             margin: 10% auto;
@@ -172,7 +162,6 @@
             overflow: auto;
         }
 
-        /* close button */
         .close {
             position: absolute;
             top: 0px;
@@ -190,7 +179,6 @@
             cursor: pointer;
         }
 
-        /* event details popup information */
         .event-details-popup-content h3 {
             margin-bottom: 25px;
         }
@@ -217,7 +205,6 @@
             margin: 15px 5px 0px;
         }
 
-        /* responsive */
         @media screen and (max-width: 743px) {
             .sidenav-container {
                 width: 100%;
@@ -229,7 +216,6 @@
                 padding-left: 25px;
             }
 
-            /* hide location & host columns */
             .requests-list tr>td:nth-child(3),
             .requests-list tr>th:nth-child(3),
             .requests-list tr>td:nth-child(4),
@@ -254,7 +240,6 @@
                 padding-left: 25px;
             }
 
-            /* hide host column */
             .requests-list tr>td:nth-child(4),
             .requests-list tr>th:nth-child(4) {
                 display: none;
@@ -266,7 +251,6 @@
             }
         }
 
-        /* General form container styling */
         .form-group {
             margin-bottom: 20px;
             display: flex;
@@ -274,7 +258,6 @@
             font-size: 16px;
         }
 
-        /* Input fields styling */
         .event-details-popup-content input[type="text"],
         .event-details-popup-content input[type="time"],
         .event-details-popup-content input[type="date"] {
@@ -295,20 +278,17 @@
             box-shadow: 0 0 5px rgba(0, 123, 255, 0.3);
         }
 
-        /* Popup button styling */
         .popup-buttons {
             display: flex;
             justify-content: flex-end;
         }
 
-        /* Form labels */
         .event-details-popup-content label {
             margin-bottom: 8px;
             color: #333;
             font-weight: bold;
         }
 
-        /* pop-alert styles */
         .pop-alert {
             display: none;
             position: fixed;
@@ -399,13 +379,10 @@
     </div>
 
     <div id="background-container">
-        <!-- Welcome message -->
         <div id="welcome-message">
             <h1 style="text-align:center">Welcome, <span id="fname"></span>!</h1>
         </div>
-        <!-- Page content -->
         <div id="main-container">
-            <!-- Sidebar -->
             <div class="sidenav-container">
                 <h2>My Account</h2>
                 <div class="sidenav">
