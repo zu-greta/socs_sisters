@@ -228,8 +228,11 @@
                     </p>
 
                     <label for="confirmpassword">Confirm Password:</label>
-                    <input type="password" id="confirmpassword" name="confirmpassword" required>
+                    <input type="password" id="confirmpassword" name="confirmpassword" oninput="samePassword()" required>
                     <span class="error-message" id="confirmpassword-error"></span>
+                    <p class="subtext">&#8226; Must match the password above
+                        <span id="same-password-check" class="checkmark">&#10004;</span>
+                    </p>
 
                     <button type="submit" class="primary" id="register-button">Register</button>
 
@@ -296,6 +299,24 @@
                 registerButton.disabled = false;
                 registerButton.classList.add('primary');
             } else {
+                registerButton.disabled = true;
+                registerButton.classList.remove('primary');
+            }
+        }
+
+        function samePassword() {
+            const passwordField = document.getElementById('password');
+            const confirmPasswordField = document.getElementById('confirmpassword');
+
+            const samePasswordCheck = document.getElementById('same-password-check');
+            const registerButton = document.getElementById('register-button');
+
+            if (passwordField.value === confirmPasswordField.value) {
+                samePasswordCheck.style.visibility = 'visible';
+                registerButton.disabled = false;
+                registerButton.classList.add('primary');
+            } else {
+                samePasswordCheck.style.visibility = 'hidden';
                 registerButton.disabled = true;
                 registerButton.classList.remove('primary');
             }

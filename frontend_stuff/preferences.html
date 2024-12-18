@@ -320,7 +320,13 @@
                                 </div>
                             </br>
                             <label for="reenter-new-password">Re-Enter New Password
-                                <input type="password" name="reenter-new-password" id="reenter-new-password" required></label>
+                                <input type="password" name="reenter-new-password" id="reenter-new-password" oninput="samePassword()" required></label>
+                                <div id="password-match">
+                                    <p class="subtext">&#8226; Passwords must match
+                                        <span id="password-match-check" class="checkmark">&#10004;</span>
+                                    </br>
+                                    </p>
+                                </br>
                             <button type="submit" class="primary" id="save-btn">Save password</button>
                         </form>
                     </div>
@@ -452,6 +458,26 @@
 
             return lengthValid && numberValid && alphaValid;
 
+        }
+        function samePassword() {
+            const passwordField = document.getElementById('new-password');
+            const confirmPasswordField = document.getElementById('reenter-new-password');
+            const passwordMatchCheck = document.getElementById('password-match-check');
+            const registerButton = document.getElementById('save-btn');
+
+            const password = passwordField.value;
+            const confirmPassword = confirmPasswordField.value;
+
+            // Check if the passwords match
+            if (password === confirmPassword) {
+                passwordMatchCheck.style.visibility = 'visible';
+                registerButton.disabled = false;
+                registerButton.classList.add('primary');  
+            } else {
+                passwordMatchCheck.style.visibility = 'hidden';
+                registerButton.disabled = true;
+                registerButton.classList.remove('primary'); 
+            }
         }
         function validateForm() {
             const errors = [];
