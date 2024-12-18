@@ -600,6 +600,7 @@
                         const requestEndTime = data.requestDetails.requestEndTime;
                         const requestDate = data.requestDetails.requestDate;
                         const sender_id = data.requestDetails.sender_id;
+                        showpopalert('Time Request Accepted', eventID);
                         showCreateEventPopup(eventID, requestName, requestStartTime, requestEndTime, requestDate, sender_id);
                         closeDetailsPopup(`event-details-popup-${eventID}`);
                     } else {
