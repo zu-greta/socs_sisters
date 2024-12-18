@@ -1,6 +1,7 @@
 <?php
 //schedule
 session_start();
+//GRETA ZU
 if(!isset($_COOKIE['auth_key'])){
     header("Location: login");
     exit;
