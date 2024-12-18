@@ -58,7 +58,6 @@
       overflow-wrap: break-word;
     }
 
-
     /* Time Slots View */
 
     .middle-section {
@@ -107,13 +106,13 @@
     /* Calendar View */
     .calendar {
       display: grid;
-      grid-template-columns: 100px repeat(7, 2fr);
-      grid-auto-rows: 60px;
+      grid-template-columns: 100px repeat(7, 3fr);
+      grid-auto-rows: 70px;
       gap: 1px;
       background-color: white;
       max-height: 61vh;
       overflow: auto;
-      padding-bottom: 10px;
+      padding-bottom: 10px 30px;
     }
 
     .calendar .row {
@@ -146,7 +145,9 @@
       justify-content: center;
       gap: 10px;
       width: 100%;
+      height: 25%;
       font-size: 0.7rem;
+      overflow-y: visible;
     }
 
     .calendar .available {
@@ -178,7 +179,6 @@
       cursor: pointer;
       background-color: #e4e4e4;
       color: #424242;
-      ;
       margin-bottom: 5px;
       border-radius: 4px;
     }
@@ -211,8 +211,8 @@
     }
 
     .tab-button-active {
-      border: none;
-      background-color: #ed1b2f;
+      border: 1px solid #ae0e1d;
+      background-color: #ae0e1d;
       color: white;
     }
 
@@ -221,7 +221,6 @@
     }
 
     /* Right Side Details*/
-
     .right-bar {
       display: none;
       width: 22%;
@@ -231,43 +230,35 @@
 
     .buttons {
       display: flex;
-      justify-content: flex-end;
+      justify-content: flex-start;
       gap: 10px;
       margin-top: 20px;
     }
 
-    .buttons button {
-      padding: 8px 20px;
-      border-radius: 4px;
-      cursor: pointer;
-    }
-
-    .buttons .book,
-    .buttons .submit {
-      background-color: #ed1b2f;
-      border: 3px solid #ed1b2f;
-      color: white;
-    }
-
-    .buttons .book:hover {
-      background-color: #ae0e1d;
-      border: 3px solid #ae0e1d;
-      transition: 0.2s;
-    }
-
-    .buttons .book:hover {
-      background-color: #ae0e1d;
-      border: 3px solid #ae0e1d;
-      transition: 0.2s;
+    .left-bar .buttons {
+      display: flex;
+      justify-content: center;
+      gap: 10px;
+      margin-top: 20px;
     }
 
     .close-button {
       display: none;
-      position: absolute;
       top: 10px;
-      right: 15px;
+      right: 10px;
+      margin-left: 93%;
       font-size: 20px;
       cursor: pointer;
+    }
+
+    .first-note,
+    .second-note {
+      font-size: 0.8rem;
+      color: #ed1b2f;
+    }
+
+    .first-note {
+      margin-top: 3vh;
     }
 
 
@@ -327,17 +318,127 @@
       /* or adjust as needed */
     }
 
+    @media (max-width: 1400px) {
+      .calendar .time-slot {
+        font-size: 0.6rem;
+      }
+    }
+
+    @media (max-width: 1024px) {
+      .calendar .time-slot {
+        font-size: 0.55rem;
+      }
+    }
+
     @media (max-width: 921px) {
-    .container {
-      flex-direction: column; /* Stack sections vertically */
+
+      .container {
+        flex-direction: column;
+      }
+
+      .left-bar {
+        border-right: none;
+        width: 16%;
+        padding: 20px;
+        border-bottom: 1px solid #ccc;
+        text-align: center;
+        overflow-y: auto;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        box-sizing: border-box;
+      }
+
+      .left-bar h3 {
+        font-size: 1.3rem;
+      }
+
+      .profile-pic {
+        width: 80px;
+        height: 80px;
+        margin: 25px auto 15px;
+        background-color: #ddd;
+      }
+
+      .event_details p {
+        text-align: center;
+        line-height: 1.2rem;
+        font-size: 0.9rem;
+        overflow-wrap: break-word;
+      }
+
+      .left-bar,
+      .middle-section,
+      .right-bar {
+        flex: none;
+        width: 100%;
+      }
+
+      .middle-section {
+        display: flex;
+        flex-direction: column;
+      }
+
+      .view-tabs {
+        order: -1;
+        margin-bottom: 20px;
+      }
+
+      .tab-button {
+        padding: 0.4vw 0.8vw;
+        font-size: 10px;
+      }
+
+      .calendar .time-slot {
+        font-size: 0.52rem;
+      }
+
+      .list-view li {
+        font-size: 1.2rem;
+      }
+
+      .right-bar {
+        border-left: none;
+        border-top: 1px solid #ccc;
+      }
     }
 
-    .left-side-middle, .middle-section, .right-bar {
-      flex: none; /* Prevent flex shrinking or growing */
-      width: 100%; /* Each section takes full width */
-    }
-  }
+    @media (max-width: 540px) {
 
+      /* TO DO: reduce calendar size*/
+      /* Calendar View */
+      .calendar {
+        width: 180%;
+        display: grid;
+        grid-template-columns: 90px repeat(7, 3fr);
+        grid-auto-rows: 40px;
+        overflow: auto;
+
+      }
+
+      .calendar div {
+        background-color: #fff;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border: 0.3px solid #ccc;
+        font-size: 10px;
+      }
+
+      .week-navigation {
+        display: flex;
+        margin-right: 5vw;
+        gap: 4px;
+      }
+
+      .calendar .time-slot {
+        font-size: 0.4rem;
+      }
+
+      .list-view li {
+        font-size: 0.8rem;
+      }
+    }
   </style>
 </head>
 
@@ -357,7 +458,7 @@
       <p style="color: black; margin-bottom: 20px;">Meet with <span id="creator_name"></span></p>
       <div class="event_details">
         <p>Meeting Duration: <span id="eventDuration"></span> min</p>
-        <p style="margin-bottom: 20px;">Event Location: <span id="eventLocation"></span></p>
+        <p>Event Location: <span id="eventLocation"></span></p>
       </div>
       <div class="buttons">
         <button class="secondary alternative">Request a Time</button>
@@ -649,34 +750,37 @@
 
     </div>
     <div class="right-bar">
+      <span class="close-button">&times;</span>
       <h3 style="margin-top: 10px;"><span id="display-day"></span>, <span id="display-datetime"></span></h3>
       <h4>Event information </br></h4>
       <p id="event-info"></p>
       </br>
       <form action="./database_stuff/booking.php" method="POST" id="booking_form">
         <div class="input-container">
-          <input type="email" id="input-email" name="requesterEmail" placeholder="Your Email *" required>
-          <input type="hidden" id="slot_id" name="slot_id"> 
+          <input type="email" style="padding: 10px 14px; border-radius: 3px; border:none; background-color: #e4e4e4;"
+            id="input-email" name="requesterEmail" placeholder="Your Email *" required>
+          <input type="hidden" id="slot_id" name="slot_id">
         </div>
         <div class="buttons">
-          <button class="submit" type="primary submit">Book</button>
+          <button class="primary submit" type="primary submit">Book</button>
         </div>
-        <p style="margin-top: 10px;">*Note: you must make an account with your @mail.mcgill.ca or @mcgill.ca beforehand
-          to be able to view your bookings</p>
-        <p style="margin-top: 10px;">*Note: you cannot cancel a booking once the slot has been confirmed.</p>
+        <div class="booking-notes">
+          <p class="first-note">*Note: you must make an account with your @mail.mcgill.ca or @mcgill.ca beforehand
+            to be able to view your bookings</p>
+          <p class="second-note" style="margin-top: 10px; font-size: 0.8rem; color: #ed1b2f;">*Note: you cannot cancel a
+            booking once the slot has been confirmed.</p>
       </form>
+
     </div>
-    <span class="close-button">&times;</span>
+
   </div>
 
 
 
-  <!-- Confirmation Pop-Up Modal - MAKE THIS NICER -->
   <div id="confirmation-popup" class="modal">
     <div class="modal-content">
       <span class="modal-close-btn" id="close-popup">&times;</span>
       <h2 style="margin-bottom: 10%;">Slot Booked!</h2>
-      <!--button to the landing page-->
       <button class="primary" onclick="window.location.href = 'landing';">Landing page</button>
     </div>
   </div>
