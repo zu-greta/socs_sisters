@@ -11,7 +11,6 @@
     body {
       background: #e4e4e4;
       height: 100%;
-      /* Ensure parent elements take up full viewport height */
     }
 
     .container {
@@ -19,10 +18,8 @@
       margin: 4vw auto;
       height: 100%;
       flex-direction: column;
-      /* Stack items vertically */
     }
 
-    /* Read section behind form */
     .container .card {
       max-width: 65vw;
       height: 100%;
@@ -37,7 +34,6 @@
       border-right: 1px solid #3b3d3f;
     }
 
-    /* Tabs*/
     .tabs {
       text-align: left;
       position: relative;
@@ -86,7 +82,6 @@
       transition: 0.1s ease;
     }
 
-    /* Glider */
     .glider {
       width: 16vw;
       min-width: 110px;
@@ -102,7 +97,6 @@
       left: 16vw;
     }
 
-    /* Content*/
     #tab-1:checked~section #content-1,
     #tab-2:checked~section #content-2 {
       opacity: 1;
@@ -164,9 +158,6 @@
       font-weight: 300 !important;
     }
 
-    /* Form Styling */
-
-    /* Center the form container */
     .schedule-form {
       width: 55vw;
       display: flex;
@@ -178,7 +169,6 @@
       justify-content: center;
     }
 
-    /* Label styling to ensure they stay on the left */
     .schedule-form label {
       display: block;
       text-align: left;
@@ -190,7 +180,6 @@
     .schedule-form textarea {
       width: 100%;
       padding: 0;
-      /* padding: 8px; */
       margin-bottom: 2px;
     }
 
@@ -216,20 +205,15 @@
     .schedule-form .days-of-week {
       display: flex;
       flex-wrap: wrap;
-      /* Allow wrapping to the next line */
       gap: 10px;
-      /* Space between day options */
       justify-content: left;
-      /* Center all elements */
     }
 
     .schedule-form .day-option {
       margin-right: 10px;
       display: flex;
       align-items: left;
-      /* Keep checkbox and label aligned */
       gap: 7px;
-      /* Space between checkbox and label */
     }
 
 
@@ -240,7 +224,6 @@
     input[type="date"],
     input[type="number"],
     input[type="datetime-local"] {
-      /* ensures checkboxes are visible */
       position: static;
       opacity: 1;
     }
@@ -313,7 +296,6 @@
       min-width: 120px;
     }
 
-    /* Modal Background Styling */
     .modal {
       display: none;
       position: fixed;
@@ -340,22 +322,15 @@
       text-align: left;
       box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
       overflow-wrap: break-word;
-      /* Ensures text wraps inside modal */
     }
 
     .modal-content p,
     .modal-content span {
       word-wrap: break-word;
-      /* Ensures words/links break to fit container */
       word-break: break-all;
-      /* Allows breaking links if necessary */
       overflow-wrap: break-word;
-      ;
-      /* Modern support for wrapping text */
       max-width: 100%;
-      /* Prevents overflowing */
       display: block;
-      /* Ensures proper stacking and alignment */
       margin-bottom: 5px;
     }
 
@@ -366,11 +341,8 @@
     .modal-buttons {
       display: flex;
       justify-content: flex-end;
-      /* Aligns buttons to the right */
       gap: 10px;
-      /* Adds space between buttons */
       margin-top: 20px;
-      /* Adds some spacing above the buttons */
     }
 
     body.modal-open {
@@ -387,7 +359,6 @@
       color: #ed1b2f;
     }
 
-    /* pop-alert styles */
     .pop-alert {
       display: none;
       position: fixed;
@@ -426,7 +397,6 @@
       background-color: #ed1b2f;
     }
 
-    /* media query for page content (small screens) */
     @media screen and (max-width: 611px) {
       .container,
       .container .card {
@@ -453,7 +423,6 @@
       }
     }
 
-    /* Media query for page content (medium screens) */
     @media screen and (max-width: 1278px) {
       .container .card {
         max-width: 85vw;
@@ -478,7 +447,6 @@
       }
     }
 
-    /* Hamburger menu */
     .hamburger {
       display: none;
       font-size: 24px;
@@ -501,7 +469,6 @@
       box-shadow: -2px 0 5px rgba(0, 0, 0, 0.2);
       transition: right 0.3s ease-in-out;
       z-index: 1001;
-      /* Above content but below modal */
     }
 
     .hamburger-menu.open {
@@ -529,7 +496,6 @@
       background-color: #f1f1f1;
     }
     
-    /* Media query for medium screens */
     @media screen and (max-width: 820px) {
       .hamburger {
         display: block;
@@ -544,7 +510,6 @@
 </head>
 
 <body>
-  <!-- private navigation bar -->
   <header>
     <div class="nav-container">
       <a href="dashboard" class="logo-link">
@@ -552,12 +517,10 @@
         <span class="logo-name">SOC-cessful Schedule</span>
       </a>
 
-      <!-- Hamburger Menu Button -->
       <button class="hamburger" id="hamburger">
         &#9776;
       </button>
 
-      <!-- Hamburger Menu -->
       <div class="hamburger-menu" id="hamburger-menu">
         <div class="menu-header">My Account</div>
         <a href="dashboard">Dashboard</a>
@@ -586,32 +549,8 @@
     </div>
   </header>
 
-  <!-- Hamburger Script -->
-  <script>
-    const hamburger = document.getElementById("hamburger");
-    const hamburgerMenu = document.getElementById("hamburger-menu");
+  <script src="./frontend_stuff/hamburger.js"></script>
 
-    hamburger.addEventListener("click", () => {
-      hamburgerMenu.classList.toggle("open");
-    });
-
-    document.addEventListener("click", (event) => {
-      if (!hamburger.contains(event.target) && !hamburgerMenu.contains(event.target)) {
-        hamburgerMenu.classList.remove("open");
-      }
-    });
-
-    function showpopalert(message) {
-      document.getElementById('pop-alert-message').innerText = message;
-      document.getElementById('pop-alert').style.display = 'block';
-    }
-
-    function closepopalert() {
-      document.getElementById('pop-alert').style.display = 'none';
-    }
-  </script>
-
-  <!-- Modal popup -->
   <div id="pop-alert" class="pop-alert">
     <div class="pop-alert-content">
       <p id="pop-alert-message"></p>
@@ -653,7 +592,6 @@
                   name="participants" required placeholder="Number of Participants Allowed: ">
               </label>
             </div>
-            <!-- day of the week: choose from monday to sunday buttons which days of the week it happens on each week -->
             <div class="schedule-form">
               <div class="label-and-days">
                 <label for="days-of-week" style="margin-top: 20px;">Repeats on:</label>
@@ -670,7 +608,6 @@
             </div>
 
 
-            <!-- time of the day for all the days selected -->
             <div class="form-times" style="margin-top: 5px;">
               <div class="form-start-times">
                 <label for="start_time" id="start-time-label"
@@ -739,7 +676,6 @@
               </label>
             </div>
 
-
             <div class="form-datetime" style="margin-top: 5px;">
               <label for="start_time"
                 style="display: inline-block; margin-right: 10px; font-size: 10; color: grey; padding-top: 15px; width: 15vw; min-width: 200px">
@@ -775,7 +711,6 @@
     </div>
   </div>
 
-  <!-- Confirmation Pop-Up Modal-->
   <div id="confirmation-popup" class="modal">
     <div class="modal-content">
       <span class="close-btn" id="close-popup">&times;</span>
@@ -804,41 +739,34 @@
   <script>
     document.forms['recurring-form'].addEventListener('submit', (event) => {
       event.preventDefault();
-      // Get all the checkboxes for the days
       const dayCheckboxes = document.querySelectorAll('input[name="day[]"]');
       let isDaySelected = false;
-      // Loop through the checkboxes to see if any are checked
       dayCheckboxes.forEach(function (checkbox) {
         if (checkbox.checked) {
           isDaySelected = true;
         }
       });
       if (!isDaySelected) {
-        event.preventDefault(); // Prevent form submission
+        event.preventDefault(); 
         showpopalert("Please select at least one day for the recurring event.");
-        //        alert("Please select at least one day for the recurring event.");
-        // should not reset the form , only reset the checkboxes
-        //event.target.reset();
         return;
       } const form = event.target;
 
-      // Show loading message or disable form to indicate submission
       document.getElementById('recurring-form').querySelector('.save-btn').innerText = 'Submitting...';
       document.getElementById('recurring-form').querySelector('.save-btn').disabled = true;
 
       fetch(event.target.action, {
         method: 'POST',
-        body: new URLSearchParams(new FormData(event.target)) // event.target is the form
+        body: new URLSearchParams(new FormData(event.target)) 
       }).then((response) => {
         if (!response.ok) {
           throw new Error(`HTTP error! Status: ${response.status}`);
         }
-        return response.json(); // or response.text() or whatever the server sends
+        return response.json(); 
       }).then((body) => {
         console.log("Response received from recurring form submission");
         if (body.success) {
           console.log(body);
-          // Populate the modal with the event details
           const event = body.eventDetails;
           document.getElementById("popup-info").innerText = `
                     Event: ${event.name}
@@ -853,12 +781,9 @@
                 `;
           document.getElementById("email-display").innerText = event.email;
           document.getElementById("link-display").innerText = body.eventDetails.link;
-          // Show the modal
           document.getElementById("confirmation-popup").style.display = "block";
         } else {
-          //alert(body.error);
           showpopalert(`An error occurred while scheduling the event: ${body.error}`);
-          //reset the form
           event.target.reset();
           return;
         }
@@ -866,9 +791,7 @@
         // TODO handle error
         console.log("Error:", error);
         showpopalert("An error occurred while scheduling the event.");
-        //        alert('An error occurred while scheduling the event.');
       }).finally(() => {
-        // Re-enable the button after submission is complete
         document.getElementById('recurring-form').querySelector('.save-btn').innerText = 'Save';
         document.getElementById('recurring-form').querySelector('.save-btn').disabled = false;
       });
@@ -879,33 +802,29 @@
 
 
       const form = event.target;
-      // Check if the start time is before the end time
       const startTime = new Date(form.start_time.value);
       const endTime = new Date(form.end_time.value);
       if (startTime >= endTime) {
-        event.preventDefault(); // Prevent form submission
+        event.preventDefault();
         showpopalert("End time must be after start time.");
-        //        alert("End time must be after start time.");
         event.target.reset();
         return;
       }
 
-      // Show loading message or disable form to indicate submission
       document.getElementById('one-time-form').querySelector('.save-btn').innerText = 'Submitting...';
       document.getElementById('one-time-form').querySelector('.save-btn').disabled = true;
       fetch(event.target.action, {
         method: 'POST',
-        body: new URLSearchParams(new FormData(event.target)) // event.target is the form
+        body: new URLSearchParams(new FormData(event.target)) 
       }).then((response) => {
         if (!response.ok) {
           throw new Error(`HTTP error! Status: ${response.status}`);
         }
-        return response.json(); // or response.text() or whatever the server sends
+        return response.json(); 
       }).then((body) => {
         console.log("Response received");
         console.log(body);
         if (body.success) {
-          // Populate the modal with the event details
           const event = body.eventDetails;
           document.getElementById("popup-info").innerText = `
                     Event: ${event.name}
@@ -918,7 +837,6 @@
                 `;
           document.getElementById("email-display").innerText = event.email;
           document.getElementById("link-display").innerText = event.link;
-          // Show the modal
           document.getElementById("confirmation-popup").style.display = "block";
         }
       }).catch((error) => {
@@ -926,28 +844,21 @@
         console.log("Error:", error);
         alert(error);
       }).finally(() => {
-        // Re-enable the button after submission is complete
         document.getElementById('one-time-form').querySelector('.save-btn').innerText = 'Save';
         document.getElementById('one-time-form').querySelector('.save-btn').disabled = false;
       });
     });
 
-    //Close the confirmation popup
     document.getElementById("close-popup").onclick = function () {
       document.getElementById("confirmation-popup").style.display = "none";
     };
 
-    // Copy Link Button
     document.getElementById("copy-link").addEventListener("click", function () {
       var copyText = document.getElementById("link-display");
-      //copyText.select();
-      //copyText.setSelectionRange(0, 99999);
       document.execCommand("copy");
       showpopalert("Link Copied");
-      //      alert("Link Copied");
     });
 
-    // Return Home Button
     document.getElementById("return-home").addEventListener("click", function () {
       window.location.href = "dashboard";
     });
@@ -959,7 +870,6 @@
       console.log("Copying text: ", linkText);
 
       navigator.clipboard.writeText(linkText).then(() => {
-        //alert("Event URL copied to clipboard!");
         document.getElementById("confirmation-popup").style.display = "none";
         showpopalert("Event URL copied to clipboard!");
         console.log("Event URL copied to clipboard!");
@@ -967,12 +877,10 @@
         console.error("Error copying text: ", error);
         document.getElementById("confirmation-popup").style.display = "none";
         showpopalert("Failed to copy event URL to clipboard.");
-        //        alert("Failed to copy event URL to clipboard.");
       });
     }
     document.getElementById("copy-link").addEventListener("click", copyToClipboard);
 
-    // Function to reset only checkboxes
     function resetCheckboxes(checkboxes) {
       checkboxes.forEach(checkbox => {
         checkbox.checked = false;
@@ -980,43 +888,35 @@
     }
   </script>
   <script>
-    // sanitize all inputs to prevent < > and other injections
     const inputs = document.querySelectorAll('input');
     inputs.forEach(input => {
       input.addEventListener('input', () => {
         if (input.value.includes('<') || input.value.includes('>')) {
           input.value = input.value.replace(/[<>]/g, '');
           showpopalert('Please do not enter any special characters like < or >');
-          //                alert('Please do not enter any special characters like < or >');
         }
-        // inputs cannot be a single 0
         else if (input.value === '0') {
           input.value = '';
           showpopalert('0 is not a valid name. Please enter a valid input');
-          //                alert('0 is not a valid name. Please enter a valid input');
         }
       });
     });
 
-    //sanitize all textareas to prevent < > and other injections
     const textareas = document.querySelectorAll('textarea');
     textareas.forEach(textarea => {
       textarea.addEventListener('input', () => {
         if (textarea.value.includes('<') || textarea.value.includes('>')) {
           textarea.value = textarea.value.replace(/[<>]/g, '');
           showpopalert('Please do not enter any special characters like < or >');
-          //alert('Please do not enter any special characters like < or >');
         }
       });
     });
 
-    //dont allow input for participants to be negative or 0
     const participantsInput = document.querySelector('input[name="participants"]');
     participantsInput.addEventListener('input', () => {
       if (participantsInput.value <= 0) {
         participantsInput.value = 1;
         showpopalert('Please enter a valid number of participants');
-        //            alert('Please enter a valid number of participants');
       }
     });
 
@@ -1025,21 +925,17 @@
     const startTimeInput = document.querySelector('input[name="start_time"]');
     const endTimeInput = document.querySelector('input[name="end_time"]');
 
-    // Function to compare the full start and end datetime
     function compareDateTime() {
       const startDateTime = new Date(`${startDateInput.value}T${startTimeInput.value}`);
       const endDateTime = new Date(`${endDateInput.value}T${endTimeInput.value}`);
 
-      // Check if the end date time is after the start date time
       if (startDateTime >= endDateTime) {
         showpopalert('End date and time must be after start date and time');
-        //            alert('End date and time must be after start date and time');
         endDateInput.value = '';
         endTimeInput.value = '';
       }
     }
 
-    // Event listener for the start and end date and time fields
     startDateInput.addEventListener('input', compareDateTime);
     endDateInput.addEventListener('input', compareDateTime);
     startTimeInput.addEventListener('input', compareDateTime);
