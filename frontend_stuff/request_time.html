@@ -287,6 +287,16 @@
   </div>
 
   <script>
+    function showpopalert(message) {
+      document.getElementById("pop-alert-message").innerText = message;
+      document.getElementById("pop-alert").style.display = "block";
+    }
+
+    function closepopalert() {
+      document.getElementById("pop-alert").style.display = "none";
+    }
+  </script>
+  <script>
     const cancelButton = document.querySelector(" .cancel");
 
 
