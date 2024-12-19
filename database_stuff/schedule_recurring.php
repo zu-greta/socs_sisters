@@ -140,7 +140,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             if ($extraSlot > 0) {
                 //create an extra slot with the remaining time
                 //extra slot is one hour too much, so we need to reduce it by one hour
-                $extraSlot = $extraSlot - 60;
+                $extraSlot = $extraSlot; // - 60;
                 $slots[] = [
                     'start_date' => $currentDate->format('Y-m-d'), 
                     'start_time' => $currentDate->format('H:i:s'), 

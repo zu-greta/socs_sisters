@@ -977,6 +977,9 @@
 
             data.time_slots.forEach(slot => {
               const slotDate = new Date(slot.date);
+              //const slotDate = new Date(`${slot.date}T00:00:00Z`); // Treat as UTC date
+              //convert the Berlin time to UTC time
+              //const slotDate = new Date(`${slot.date}T00:00:00Z`);
               const dayColumn = calendar.querySelector(`.day[data-date="${slotDate.toISOString().split('T')[0]}"]`);
               if (!dayColumn) {
                 console.warn(`No column found for date: ${slot.date}`);
@@ -987,7 +990,7 @@
               const matchingRow = calendar.querySelector(`.row .time[data-time="${roundedTime}"]`);
 
               if (matchingRow) {
-                const dayIndex = [...calendar.querySelectorAll(".day")].findIndex(day => day.dataset.date === slotDate.toISOString().split('T')[0]) + 2;
+                const dayIndex = [...calendar.querySelectorAll(".day")].findIndex(day => day.dataset.date === slotDate.toISOString().split('T')[0]) + 1; //timezone!
                 const targetCell = matchingRow.parentElement.children[dayIndex];
 
                 if (targetCell) {

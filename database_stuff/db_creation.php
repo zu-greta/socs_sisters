@@ -38,6 +38,9 @@ try {
     // Execute the SQL schema
     $database->exec($sql);
 
+    // set the timezone
+    date_default_timezone_set('America/Toronto');
+
     echo "Database and tables created successfully!";
 
     // //comment out this section if you dont want to load the data
