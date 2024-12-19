@@ -78,7 +78,7 @@ CREATE TABLE PollOptions (
     start_time TIME NOT NULL,
     end_time TIME NOT NULL,
     vote_count INTEGER DEFAULT 0,
-    FOREIGN KEY (poll_id) REFERENCES MeetingPolls(poll_id)
+    FOREIGN KEY (poll_id) REFERENCES MeetingPolls(poll_id) ON DELETE CASCADE
 );
 
 

@@ -40,6 +40,8 @@ try {
             $formattedEndTime = $endTime->format('H:i');
             // used as the name of the option in the frontend
             $polls[$key]['options'][$key2]['name'] = $option['start_date'] . " (" . $formattedStartTime . " - " . $formattedEndTime . ")";
+            //poll_id
+            $polls[$key]['options'][$key2]['poll_id'] = $option['poll_id'];
         }
         $polls[$key]['total_votes'] = array_sum(array_column($options, 'vote_count'));
     }
