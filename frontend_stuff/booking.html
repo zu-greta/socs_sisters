@@ -977,9 +977,8 @@
 
             data.time_slots.forEach(slot => {
               const slotDate = new Date(slot.date);
-              //const slotDate = new Date(`${slot.date}T00:00:00Z`); // Treat as UTC date
-              //convert the Berlin time to UTC time
-              //const slotDate = new Date(`${slot.date}T00:00:00Z`);
+              const slotDay = slot.day;
+              console.log("day: " + slotDay);
               const dayColumn = calendar.querySelector(`.day[data-date="${slotDate.toISOString().split('T')[0]}"]`);
               if (!dayColumn) {
                 console.warn(`No column found for date: ${slot.date}`);
@@ -987,10 +986,15 @@
               }
 
               const roundedTime = roundToNearestHour(slot.start_time);
-              const matchingRow = calendar.querySelector(`.row .time[data-time="${roundedTime}"]`);
-
+              const matchingRow = calendar.querySelector(`.row .time[data-time="${roundedTime}"]`);              
               if (matchingRow) {
-                const dayIndex = [...calendar.querySelectorAll(".day")].findIndex(day => day.dataset.date === slotDate.toISOString().split('T')[0]) + 1; //timezone!
+                // using slotDay, find the index of the day in the daysOfWeek array
+                //define daysOfWeek array
+                const daysOfWeek = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"];
+                const dayIndex = daysOfWeek.indexOf(slotDay) + 1;
+                //const dayIndex = [...calendar.querySelectorAll(".day")].findIndex(day => day.dataset.date === slotDate.toISOString().split('T')[0]) + 1; //timezone!
+                console.log(dayIndex);
+                console.log('localDate: ' + slotDate.toISOString().split('T')[0]);
                 const targetCell = matchingRow.parentElement.children[dayIndex];
 
                 if (targetCell) {
